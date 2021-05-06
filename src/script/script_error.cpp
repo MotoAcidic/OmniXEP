@@ -93,6 +93,10 @@ const char* ScriptErrorString(const ScriptError serror)
             return "Using OP_CODESEPARATOR in non-witness script";
         case SCRIPT_ERR_SIG_FINDANDDELETE:
             return "Signature is found in scriptCode";
+        case SCRIPT_ERR_ARG_SIZE:
+            return "Invalid OP_CHECKBLOCKATHEIGHTVERIFY argument size";
+        case SCRIPT_ERR_NOT_FINAL:
+            return "OP_CHECKBLOCKATHEIGHTVERIFY height is not valid or blockhash did not match";
         case SCRIPT_ERR_UNKNOWN_ERROR:
         case SCRIPT_ERR_ERROR_COUNT:
         default: break;
