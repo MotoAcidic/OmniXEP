@@ -1240,6 +1240,9 @@ public:
  */
 void MaybeResendWalletTxs();
 
+// Called periodically to ensure that no unspendable orphaned coinstakes remain in any wallets
+void AbandonOrphanedCoinStakes();
+
 /** RAII object to check and reserve a wallet rescan */
 class WalletRescanReserver
 {

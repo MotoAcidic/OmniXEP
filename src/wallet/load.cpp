@@ -94,6 +94,7 @@ void StartWallets(CScheduler& scheduler)
     // Schedule periodic wallet flushes and tx rebroadcasts
     scheduler.scheduleEvery(MaybeCompactWalletDB, std::chrono::milliseconds{500});
     scheduler.scheduleEvery(MaybeResendWalletTxs, std::chrono::milliseconds{1000});
+    scheduler.scheduleEvery(AbandonOrphanedCoinStakes, std::chrono::seconds{600});
 }
 
 void FlushWallets()
