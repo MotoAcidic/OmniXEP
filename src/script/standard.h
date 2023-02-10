@@ -27,11 +27,10 @@ public:
 };
 
 /**
- * Default setting for nMaxDatacarrierBytes. 640 bytes of data, +1 for OP_RETURN,
- * +3 for the pushdata opcodes. This is set at 8x the 80 byte limit of bitcoin in
- * order to hold more data than and discourage bogus data carrying multisig outputs.
+ * Default setting for nMaxDatacarrierBytes. 80 bytes of data, +1 for OP_RETURN,
+ * +2 for the pushdata opcodes.
  */
-static const unsigned int MAX_OP_RETURN_RELAY = 644;
+static const unsigned int MAX_OP_RETURN_RELAY = 83;
 
 /**
  * A data carrying output is an unspendable output containing data. The script
@@ -51,14 +50,7 @@ extern unsigned nMaxDatacarrierBytes;
  * Failing one of these tests may trigger a DoS ban - see CheckInputScripts() for
  * details.
  */
-static const unsigned int MANDATORY_SCRIPT_VERIFY_FLAGS = SCRIPT_VERIFY_P2SH |
-                                                          SCRIPT_VERIFY_DERSIG |
-                                                          SCRIPT_VERIFY_STRICTENC |
-                                                          SCRIPT_VERIFY_MINIMALDATA |
-                                                          SCRIPT_VERIFY_NULLDUMMY |
-                                                          SCRIPT_VERIFY_NULLFAIL |
-                                                          SCRIPT_VERIFY_LOW_S |
-                                                          SCRIPT_VERIFY_SIGPUSHONLY;
+static const unsigned int MANDATORY_SCRIPT_VERIFY_FLAGS = SCRIPT_VERIFY_P2SH;
 
 enum txnouttype
 {
