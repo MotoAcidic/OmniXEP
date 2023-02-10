@@ -23,7 +23,7 @@ static const unsigned int DEFAULT_BLOCK_MIN_TX_FEE = 1000;
 /** The maximum weight for transactions we're willing to relay/mine */
 static const unsigned int MAX_STANDARD_TX_WEIGHT = 400000;
 /** The minimum non-witness size for transactions we're willing to relay/mine (1 segwit input + 1 P2WPKH output = 82 bytes) */
-//static const unsigned int MIN_STANDARD_TX_NONWITNESS_SIZE = 82;
+static const unsigned int MIN_STANDARD_TX_NONWITNESS_SIZE = 82;
 /**
  * Biggest 'standard' txin is a 15-of-15 P2SH multisig with compressed
  * keys (remember the 520 byte limit on redeemScript size). That works
