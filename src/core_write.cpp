@@ -144,7 +144,7 @@ void ScriptToUniv(const CScript& script, UniValue& out, bool include_address)
     out.pushKV("type", GetTxnOutputType(type));
 
     CTxDestination address;
-    if (include_address && ExtractDestination(script, address) && type != txnouttype::PUBKEY) {
+    if (include_address && ExtractDestination(script, address) && type != txnouttype::TX_PUBKEY) {
         out.pushKV("address", EncodeDestination(address));
     }
 }
@@ -160,7 +160,7 @@ void ScriptPubKeyToUniv(const CScript& scriptPubKey,
     if (fIncludeHex)
         out.pushKV("hex", HexStr(scriptPubKey.begin(), scriptPubKey.end()));
 
-    if (!ExtractDestinations(scriptPubKey, type, addresses, nRequired) || type == txnouttype::PUBKEY) {
+    if (!ExtractDestinations(scriptPubKey, type, addresses, nRequired) || type == txnouttype::TX_PUBKEY) {
         out.pushKV("type", GetTxnOutputType(type));
         return;
     }
