@@ -103,6 +103,37 @@ static UniValue getnetworkhashps(const JSONRPCRequest& request)
 
 static UniValue generateBlocks(const CTxMemPool& mempool, const CScript& coinbase_script, int nGenerate, uint64_t nMaxTries)
 {
+    block_hash.SetNull();
+
+    {
+        LOCK(cs_main);
+        IncrementExtraNonce(&block, ::ChainActive().Tip(), extra_nonce);
+    }
+
+    CChainParams chainparams(Params());
+
+    while (max_tries > 0 && block.nNonce < std::numeric_limits<uint32_t>::max() && !CheckProofOfWork(block.GetPoWHash(), block.nBits, chainparams.GetConsensus()) && !ShutdownRequested()) {
+        ++block.nNonce;
+        --max_tries;
+    }
+    if (max_tries == 0 || ShutdownRequested()) {
+        return false;
+    }
+    if (block.nNonce == std::numeric_limits<uint32_t>::max()) {
+        return true;
+    }
+
+    std::shared_ptr<const CBlock> shared_pblock = std::make_shared<const CBlock>(block);
+    if (!chainman.ProcessNewBlock(chainparams, shared_pblock, true, nullptr)) {
+        throw JSONRPCError(RPC_INTERNAL_ERROR, "ProcessNewBlock, block not accepted");
+    }
+
+    block_hash = block.GetHash();
+    return true;
+}
+
+static UniValue generateBlocks(ChainstateManager& chainman, const CTxMemPool& mempool, const CScript& coinbase_script, int nGenerate, uint64_t nMaxTries)
+{
     int nHeightEnd = 0;
     int nHeight = 0;
 
