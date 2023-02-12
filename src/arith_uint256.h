@@ -13,7 +13,6 @@
 #include <string>
 
 class uint256;
-class uint160;
 
 class uint_error : public std::runtime_error {
 public:
@@ -24,9 +23,6 @@ public:
 template<unsigned int BITS>
 class base_uint
 {
-    template <unsigned int B>
-    friend class base_uint;
-
 protected:
     static constexpr int WIDTH = BITS / 32;
     uint32_t pn[WIDTH];
@@ -48,35 +44,10 @@ public:
             pn[i] = b.pn[i];
     }
 
-    template<unsigned int B>
-    base_uint(const base_uint<B>& b)
-    {
-        static_assert(BITS/32 > 0 && BITS%32 == 0, "Template parameter BITS must be a positive multiple of 32.");
-
-        for (int i = 0; i < WIDTH; i++) {
-            if (i < b.WIDTH)
-                pn[i] = b.pn[i];
-            else
-                pn[i] = 0;
-        }
-    }
-
     base_uint& operator=(const base_uint& b)
     {
         for (int i = 0; i < WIDTH; i++)
             pn[i] = b.pn[i];
-        return *this;
-    }
-
-    template<unsigned int B>
-    base_uint& operator=(const base_uint<B>& b)
-    {
-        for (int i = 0; i < WIDTH; i++) {
-            if (i < b.WIDTH)
-                pn[i] = b.pn[i];
-            else
-                pn[i] = 0;
-        }
         return *this;
     }
 
@@ -308,27 +279,9 @@ public:
 
     friend uint256 ArithToUint256(const arith_uint256 &);
     friend arith_uint256 UintToArith256(const uint256 &);
-    friend arith_uint256 Uint160ToArith256(const uint160 &);
-};
-
-/** 512-bit unsigned big integer. */
-class arith_uint512 : public base_uint<512> {
-public:
-    arith_uint512() {}
-    arith_uint512(const base_uint<512>& b) : base_uint<512>(b) {}
-    arith_uint512(uint64_t b) : base_uint<512>(b) {}
-    explicit arith_uint512(const std::string& str) : base_uint<512>(str) {}
-
-    arith_uint256 trim256() const
-    {
-        arith_uint256 result;
-        memcpy((void*)&result, (void*)pn, 32);
-        return result;
-    }
 };
 
 uint256 ArithToUint256(const arith_uint256 &);
 arith_uint256 UintToArith256(const uint256 &);
-arith_uint256 Uint160ToArith256(const uint160 &);
 
 #endif // BITCOIN_ARITH_UINT256_H
