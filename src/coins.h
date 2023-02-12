@@ -17,7 +17,6 @@
 #include <assert.h>
 #include <stdint.h>
 
-#include <bitset>
 #include <functional>
 #include <unordered_map>
 
@@ -111,53 +110,39 @@ public:
     unsigned int fCoinBase : 1;
 
     //! at which height this containing transaction was included in the active block chain
-    uint32_t nHeight : 30;
-
-    // peercoin: whether transaction is a coinstake
-    unsigned int fCoinStake : 1;
+    uint32_t nHeight : 31;
 
     //! construct a Coin from a CTxOut and height/coinbase information.
-    Coin(CTxOut&& outIn, int nHeightIn, bool fCoinBaseIn, bool fCoinStakeIn) : out(std::move(outIn)), fCoinBase(fCoinBaseIn), nHeight(nHeightIn), fCoinStake(fCoinStakeIn) {}
-    Coin(const CTxOut& outIn, int nHeightIn, bool fCoinBaseIn, bool fCoinStakeIn) : out(outIn), fCoinBase(fCoinBaseIn), nHeight(nHeightIn), fCoinStake(fCoinStakeIn) {}
+    Coin(CTxOut&& outIn, int nHeightIn, bool fCoinBaseIn) : out(std::move(outIn)), fCoinBase(fCoinBaseIn), nHeight(nHeightIn) {}
+    Coin(const CTxOut& outIn, int nHeightIn, bool fCoinBaseIn) : out(outIn), fCoinBase(fCoinBaseIn),nHeight(nHeightIn) {}
 
     void Clear() {
         out.SetNull();
         fCoinBase = false;
         nHeight = 0;
-        fCoinStake = false;
     }
 
     //! empty constructor
-    Coin() : fCoinBase(false), nHeight(0), fCoinStake(false) { }
+    Coin() : fCoinBase(false), nHeight(0) { }
 
     bool IsCoinBase() const {
         return fCoinBase;
     }
 
-    bool IsCoinStake() const { // peercoin: coinstake
-        return fCoinStake;
-    }
-
     template<typename Stream>
     void Serialize(Stream &s) const {
         assert(!IsSpent());
-        std::bitset<32> nCode(nHeight);
-        nCode[30] = fCoinStake;
-        nCode[31] = fCoinBase;
-        ::Serialize(s, VARINT(nCode.to_ulong()));
+        uint32_t code = nHeight * uint32_t{2} + fCoinBase;
+        ::Serialize(s, VARINT(code));
         ::Serialize(s, Using<TxOutCompression>(out));
     }
 
     template<typename Stream>
     void Unserialize(Stream &s) {
-        unsigned int nCode = 0;
-        ::Unserialize(s, VARINT(nCode));
-        std::bitset<32> bitset(nCode);
-        fCoinStake = bitset[30];
-        fCoinBase = bitset[31];
-        bitset.reset(30);
-        bitset.reset(31);
-        nHeight = bitset.to_ulong();
+        uint32_t code = 0;
+        ::Unserialize(s, VARINT(code));
+        nHeight = code >> 1;
+        fCoinBase = code & 1;
         ::Unserialize(s, Using<TxOutCompression>(out));
     }
 
