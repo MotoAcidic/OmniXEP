@@ -321,7 +321,7 @@ uint256 BlockFilter::GetHash() const
     const std::vector<unsigned char>& data = GetEncodedFilter();
 
     uint256 result;
-    CHash256().Write(data).Finalize(result);
+    CHash256().Write(data.data(), data.size()).Finalize(result.begin());
     return result;
 }
 
@@ -331,8 +331,8 @@ uint256 BlockFilter::ComputeHeader(const uint256& prev_header) const
 
     uint256 result;
     CHash256()
-        .Write(filter_hash)
-        .Write(prev_header)
-        .Finalize(result);
+        .Write(filter_hash.begin(), filter_hash.size())
+        .Write(prev_header.begin(), prev_header.size())
+        .Finalize(result.begin());
     return result;
 }

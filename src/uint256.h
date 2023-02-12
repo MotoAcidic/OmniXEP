@@ -18,11 +18,11 @@ class base_blob
 {
 protected:
     static constexpr int WIDTH = BITS / 8;
-    uint8_t m_data[WIDTH];
+    uint8_t data[WIDTH];
 public:
     base_blob()
     {
-        memset(m_data, 0, sizeof(m_data));
+        memset(data, 0, sizeof(data));
     }
 
     explicit base_blob(const std::vector<unsigned char>& vch);
@@ -30,17 +30,17 @@ public:
     bool IsNull() const
     {
         for (int i = 0; i < WIDTH; i++)
-            if (m_data[i] != 0)
+            if (data[i] != 0)
                 return false;
         return true;
     }
 
     void SetNull()
     {
-        memset(m_data, 0, sizeof(m_data));
+        memset(data, 0, sizeof(data));
     }
 
-    inline int Compare(const base_blob& other) const { return memcmp(m_data, other.m_data, sizeof(m_data)); }
+    inline int Compare(const base_blob& other) const { return memcmp(data, other.data, sizeof(data)); }
 
     friend inline bool operator==(const base_blob& a, const base_blob& b) { return a.Compare(b) == 0; }
     friend inline bool operator!=(const base_blob& a, const base_blob& b) { return a.Compare(b) != 0; }
@@ -51,37 +51,34 @@ public:
     void SetHex(const std::string& str);
     std::string ToString() const;
 
-    const unsigned char* data() const { return m_data; }
-    unsigned char* data() { return m_data; }
-
     unsigned char* begin()
     {
-        return &m_data[0];
+        return &data[0];
     }
 
     unsigned char* end()
     {
-        return &m_data[WIDTH];
+        return &data[WIDTH];
     }
 
     const unsigned char* begin() const
     {
-        return &m_data[0];
+        return &data[0];
     }
 
     const unsigned char* end() const
     {
-        return &m_data[WIDTH];
+        return &data[WIDTH];
     }
 
     unsigned int size() const
     {
-        return sizeof(m_data);
+        return sizeof(data);
     }
 
     uint64_t GetUint64(int pos) const
     {
-        const uint8_t* ptr = m_data + pos * 8;
+        const uint8_t* ptr = data + pos * 8;
         return ((uint64_t)ptr[0]) | \
                ((uint64_t)ptr[1]) << 8 | \
                ((uint64_t)ptr[2]) << 16 | \
@@ -95,13 +92,13 @@ public:
     template<typename Stream>
     void Serialize(Stream& s) const
     {
-        s.write((char*)m_data, sizeof(m_data));
+        s.write((char*)data, sizeof(data));
     }
 
     template<typename Stream>
     void Unserialize(Stream& s)
     {
-        s.read((char*)m_data, sizeof(m_data));
+        s.read((char*)data, sizeof(data));
     }
 };
 

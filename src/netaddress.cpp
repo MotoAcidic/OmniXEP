@@ -545,7 +545,7 @@ std::vector<unsigned char> CNetAddr::GetGroup(const std::vector<bool> &asmap) co
 
 uint64_t CNetAddr::GetHash() const
 {
-    uint256 hash = Hash(ip);
+    uint256 hash = Hash(&ip[0], &ip[16]);
     uint64_t nRet;
     memcpy(&nRet, &hash, sizeof(nRet));
     return nRet;

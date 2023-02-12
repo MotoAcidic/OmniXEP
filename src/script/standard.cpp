@@ -14,11 +14,9 @@ typedef std::vector<unsigned char> valtype;
 bool fAcceptDatacarrier = DEFAULT_ACCEPT_DATACARRIER;
 unsigned nMaxDatacarrierBytes = MAX_OP_RETURN_RELAY;
 
-CScriptID::CScriptID(const CScript& in) : BaseHash(Hash160(in)) {}
-CScriptID::CScriptID(const ScriptHash& in) : BaseHash(static_cast<uint160>(in)) {}
+CScriptID::CScriptID(const CScript& in) : uint160(Hash160(in.begin(), in.end())) {}
 
-ScriptHash::ScriptHash(const CScript& in) : BaseHash(Hash160(in)) {}
-ScriptHash::ScriptHash(const CScriptID& in) : BaseHash(static_cast<uint160>(in)) {}
+ScriptHash::ScriptHash(const CScript& in) : uint160(Hash160(in.begin(), in.end())) {}
 
 PKHash::PKHash(const CPubKey& pubkey) : uint160(pubkey.GetID()) {}
 
@@ -315,11 +313,11 @@ CScript GetScriptForMultisig(int nRequired, const std::vector<CPubKey>& keys)
 CScript GetScriptForWitness(const CScript& redeemscript)
 {
     std::vector<std::vector<unsigned char> > vSolutions;
-    TxoutType typ = Solver(redeemscript, vSolutions);
-    if (typ == TxoutType::PUBKEY) {
-        return GetScriptForDestination(WitnessV0KeyHash(Hash160(vSolutions[0])));
-    } else if (typ == TxoutType::PUBKEYHASH) {
-        return GetScriptForDestination(WitnessV0KeyHash(uint160{vSolutions[0]}));
+    txnouttype typ = Solver(redeemscript, vSolutions);
+    if (typ == TX_PUBKEY) {
+        return GetScriptForDestination(WitnessV0KeyHash(Hash160(vSolutions[0].begin(), vSolutions[0].end())));
+    } else if (typ == TX_PUBKEYHASH) {
+        return GetScriptForDestination(WitnessV0KeyHash(vSolutions[0]));
     }
     return GetScriptForDestination(WitnessV0ScriptHash(redeemscript));
 }
