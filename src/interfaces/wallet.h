@@ -373,6 +373,7 @@ struct WalletTx
     bool is_coinbase;
     uint256 hash_block;
     int64_t order_pos; // position in ordered transaction list
+    bool is_coinstake;
 };
 
 //! Updated transaction status.
@@ -387,6 +388,7 @@ struct WalletTxStatus
     bool is_trusted;
     bool is_abandoned;
     bool is_coinbase;
+    bool is_coinstake;
     bool is_in_main_chain;
 };
 
