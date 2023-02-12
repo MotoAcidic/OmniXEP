@@ -557,7 +557,7 @@ public:
     // copied in and out of the mapWallet map, and fields are updated in the
     // wrong copy.
     //CWalletTx(CWalletTx const &) = delete;
-    //void operator=(CWalletTx const &x) = delete;
+    void operator=(CWalletTx const &x) = delete;
 };
 
 class COutput
