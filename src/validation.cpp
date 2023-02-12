@@ -377,7 +377,7 @@ static void UpdateMempoolForReorg(DisconnectedBlockTransactions& disconnectpool,
     while (it != disconnectpool.queuedTx.get<insertion_order>().rend()) {
         // ignore validation errors in resurrected transactions
         TxValidationState stateDummy;
-        if (!fAddToMempool || (*it)->IsCoinBase() || (*it)->IsCoinStake() ||
+        if (!fAddToMempool || (*it)->IsCoinBase() ||
             !AcceptToMemoryPool(mempool, stateDummy, *it,
                                 nullptr /* plTxnReplaced */, true /* bypass_limits */, 0 /* nAbsurdFee */)) {
             // If the transaction doesn't make it in to the mempool, remove any
@@ -413,7 +413,7 @@ static bool CheckInputsFromMempoolAndCache(const CTransaction& tx, TxValidationS
     // and when we actually call through to CheckInputScripts
     LOCK(pool.cs);
 
-    assert(!tx.IsCoinBase() && !tx.IsCoinStake());
+    assert(!tx.IsCoinBase());
     for (const CTxIn& txin : tx.vin) {
         const Coin& coin = view.AccessCoin(txin.prevout);
 
@@ -569,7 +569,7 @@ bool MemPoolAccept::PreChecks(ATMPArgs& args, Workspace& ws)
         return false; // state filled in by CheckTransaction
 
     // Coinbase is only valid in a block, not as a loose transaction
-    if (tx.IsCoinBase() || tx.IsCoinStake())
+    if (tx.IsCoinBase())
         return state.Invalid(TxValidationResult::TX_CONSENSUS, "coinbase");
 
     // Rather not work on nonstandard transactions (unless -testnet/-regtest)
@@ -699,7 +699,7 @@ bool MemPoolAccept::PreChecks(ATMPArgs& args, Workspace& ws)
     bool fSpendsCoinbase = false;
     for (const CTxIn &txin : tx.vin) {
         const Coin &coin = m_view.AccessCoin(txin.prevout);
-        if (coin.IsCoinBase() || coin.IsCoinStake()) {
+        if (coin.IsCoinBase()) {
             fSpendsCoinbase = true;
             break;
         }
@@ -1692,7 +1692,6 @@ int ApplyTxInUndo(Coin&& undo, CCoinsViewCache& view, const COutPoint& out)
         if (!alternate.IsSpent()) {
             undo.nHeight = alternate.nHeight;
             undo.fCoinBase = alternate.fCoinBase;
-            undo.fCoinStake = alternate.fCoinStake; // peercoin
         } else {
             return DISCONNECT_FAILED; // adding output for transaction without known metadata
         }
@@ -1731,7 +1730,6 @@ DisconnectResult CChainState::DisconnectBlock(const CBlock& block, const CBlockI
         const CTransaction &tx = *(block.vtx[i]);
         uint256 hash = tx.GetHash();
         bool is_coinbase = tx.IsCoinBase();
-        bool is_coinstake = tx.IsCoinStake();
 
         // Check that all outputs are available and match the outputs in the block itself
         // exactly.
@@ -1740,7 +1738,7 @@ DisconnectResult CChainState::DisconnectBlock(const CBlock& block, const CBlockI
                 COutPoint out(hash, o);
                 Coin coin;
                 bool is_spent = view.SpendCoin(out, &coin);
-                if (!is_spent || tx.vout[o] != coin.out || pindex->nHeight != coin.nHeight || is_coinbase != coin.fCoinBase || is_coinstake != coin.fCoinStake) {
+                if (!is_spent || tx.vout[o] != coin.out || pindex->nHeight != coin.nHeight || is_coinbase != coin.fCoinBase) {
                     fClean = false; // transaction output mismatch
                 }
             }
@@ -3735,7 +3733,7 @@ static bool ContextualCheckBlock(const CBlock& block, BlockValidationState& stat
                     //LogPrintf("Transaction %s has witness hash %s which is greater than transaction %s with witness hash %s\n", tx.GetHash().ToString(), txWitHash.ToString(), prevTxHash.ToString(), prevTxWitHash.ToString());
             }
 
-            if (prevTx || (!tx.IsCoinBase() && !tx.IsCoinStake())) {
+            if (prevTx || (!tx.IsCoinBase() /*&& !tx.IsCoinStake()*/)) {
                 prevTx = &tx;
             }
         }
