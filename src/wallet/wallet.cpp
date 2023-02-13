@@ -827,10 +827,6 @@ bool CWallet::AddToWallet(const CWalletTx& wtxIn, bool fFlushOnClose)
             wtx.m_confirm.nIndex = wtxIn.m_confirm.nIndex;
             wtx.m_confirm.hashBlock = wtxIn.m_confirm.hashBlock;
             wtx.m_confirm.block_height = wtxIn.m_confirm.block_height;
-            if (tx->IsCoinStake() && wtx.isUnconfirmed()) {
-                WalletLogPrintf("Abandoning orphaned coinstake %s\n", hash.ToString());
-                AbandonTransaction(hash);
-            }
             fUpdated = true;
         } else {
             assert(wtx.m_confirm.nIndex == wtxIn.m_confirm.nIndex);
