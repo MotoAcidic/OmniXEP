@@ -110,7 +110,7 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
 
     const Consensus::Params &consensusParams = chainparams.GetConsensus();
 
-    pblock->nVersion = ComputeBlockVersion(pindexPrev, CBlockHeader::AlgoType::ALGO_POW_SHA256, consensusParams);
+    pblock->nVersion = ComputeBlockVersion(pindexPrev, consensusParams);
     // -regtest only: allow overriding block.nVersion with
     // -blockversion=N to test forking scenarios
     if (chainparams.MineBlocksOnDemand())
