@@ -253,10 +253,7 @@ BITCOIN_CORE_H = \
   zmq/zmqconfig.h\
   zmq/zmqnotificationinterface.h \
   zmq/zmqpublishnotifier.h \
-  zmq/zmqrpc.h \
-  zmq/zmqutil.h \
-## --- peercoin headers start from this line --- ##
-  kernel.h
+  zmq/zmqrpc.h
 
 
 obj/build.h: FORCE
@@ -319,7 +316,6 @@ libbitcoin_server_a_SOURCES = \
   validation.cpp \
   validationinterface.cpp \
   versionbits.cpp \
-  kernel.cpp \
   $(BITCOIN_CORE_H)
 
 if ENABLE_WALLET
