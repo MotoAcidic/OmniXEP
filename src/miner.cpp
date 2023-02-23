@@ -110,22 +110,7 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
 
     const Consensus::Params &consensusParams = chainparams.GetConsensus();
 
-    // Create coinbase transaction.
-    CMutableTransaction coinbaseTx;
-    coinbaseTx.vin.resize(1);
-    coinbaseTx.vin[0].prevout.SetNull();
-    coinbaseTx.vout.resize(1);
-    coinbaseTx.vout[0].scriptPubKey = scriptPubKeyIn;
-
-    // Add dummy coinbase tx as first transaction
-    pblocktemplate->entries.emplace_back(CTransactionRef(), -1, -1); // updated at end
-
-    // peercoin: if coinstake available add coinstake tx
-    if (fProofOfStake)
-        pblocktemplate->entries.emplace_back(CTransactionRef(), -1, -1); // updated at end
-    static int64_t nLastCoinStakeSearchTime = GetAdjustedTime(); // only initialized at startup
-
-    pblock->nVersion = ComputeBlockVersion(pindexPrev, fProofOfStake ? CBlockHeader::AlgoType::ALGO_POS : CBlockHeader::AlgoType::ALGO_POW_SHA256, consensusParams);
+    pblock->nVersion = ComputeBlockVersion(pindexPrev, CBlockHeader::AlgoType::ALGO_POW_SHA256, consensusParams);
     // -regtest only: allow overriding block.nVersion with
     // -blockversion=N to test forking scenarios
     if (chainparams.MineBlocksOnDemand())
