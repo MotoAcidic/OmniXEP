@@ -1924,7 +1924,7 @@ void ThreadScriptCheck(int worker_num) {
 
 VersionBitsCache versionbitscache GUARDED_BY(cs_main);
 
-int32_t ComputeBlockVersion(const CBlockIndex* pindexPrev, int algo, const Consensus::Params& params)
+int32_t ComputeBlockVersion(const CBlockIndex* pindexPrev, const Consensus::Params& params)
 {
     LOCK(cs_main);
     int32_t nVersion = CBlockHeader::GetAlgoFlag(algo); // VERSIONBITS_TOP_BITS;
@@ -1958,7 +1958,7 @@ public:
     bool Condition(const CBlockIndex* pindex, const Consensus::Params& params) const override
     {
         return pindex->nHeight >= params.MinBIP9WarningHeight &&
-               ((pindex->nVersion & VERSIONBITS_TOP_MASK) != 0) &&
+               ((pindex->nVersion & VERSIONBITS_TOP_MASK) == VERSIONBITS_TOP_BITS) &&
                ((pindex->nVersion >> bit) & 1) != 0 &&
                ((ComputeBlockVersion(pindex->pprev, CBlockHeader::GetAlgoType(pindex->nVersion), params) >> bit) & 1) == 0;
     }
@@ -2803,7 +2803,7 @@ void static UpdateTip(const CBlockIndex* pindexNew, const CChainParams& chainPar
             AppendWarning(warningMessages, strprintf(_("%d of last 100 blocks have unexpected version").translated, nUpgraded));
     }
     LogPrintf("%s: new best=%s height=%d version=0x%08x type=%i log2_work=%f tx=%lu date='%s' progress=%f cache=%.1fMiB(%utxo)%s\n", __func__,
-      pindexNew->GetBlockHash().ToString(), pindexNew->nHeight, pindexNew->nVersion, /*CBlockHeader::GetAlgoType(pindexNew->nVersion) == -1 ? pindexNew->IsProofOfWork() :*/ CBlockHeader::GetAlgoType(pindexNew->nVersion),
+      pindexNew->GetBlockHash().ToString(), pindexNew->nHeight, pindexNew->nVersion, CBlockHeader::GetAlgoType(pindexNew->nVersion) == -1 ? pindexNew->IsProofOfWork() : CBlockHeader::GetAlgoType(pindexNew->nVersion),
       log(pindexNew->nChainWork.getdouble())/log(2.0), (unsigned long)pindexNew->nChainTx,
       FormatISO8601DateTime(pindexNew->GetBlockTime()),
       GuessVerificationProgress(chainParams.TxData(), pindexNew), ::ChainstateActive().CoinsTip().DynamicMemoryUsage() * (1.0 / (1<<20)), ::ChainstateActive().CoinsTip().GetCacheSize(),
@@ -3696,7 +3696,7 @@ static bool CheckBlockHeader(const CBlockHeader& block, BlockValidationState& st
         return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "invalid-type", "block type is invalid");
 
     // Check proof of work matches claimed amount
-    if (block.IsProofOfWork() && fCheckPOW && !CheckProofOfWork(block.GetPoWHash(), block.nBits, consensusParams))
+    if (fCheckPOW && !CheckProofOfWork(block.GetPoWHash(), block.nBits, consensusParams))
         return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "high-hash", "proof of work failed");
 
     return true;
@@ -3931,8 +3931,7 @@ static bool ContextualCheckBlockHeader(const CBlockHeader& block, BlockValidatio
     // check for version 2, 3 and 4 upgrades
     if((block.nVersion < 2 && nHeight >= consensusParams.BIP34Height) ||
        (block.nVersion < 3 && nHeight >= consensusParams.BIP66Height) ||
-       (block.nVersion < 4 && nHeight >= consensusParams.BIP65Height) ||
-       (block.nVersion < CBlockHeader::FIRST_FORK_VERSION && nHeight >= 1))
+       (block.nVersion < 4 && nHeight >= consensusParams.BIP65Height))
             return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, strprintf("bad-version(0x%08x)", block.nVersion),
                                  strprintf("rejected nVersion=0x%08x block", block.nVersion));
 

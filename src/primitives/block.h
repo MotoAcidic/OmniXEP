@@ -23,8 +23,7 @@ class CBlockHeader
 {
 public:
     // header
-    static const uint32_t FIRST_FORK_VERSION = 5;
-    uint32_t nVersion;
+    int32_t nVersion;
     uint256 hashPrevBlock;
     uint256 hashMerkleRoot;
     uint32_t nTime;
