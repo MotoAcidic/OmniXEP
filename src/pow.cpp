@@ -12,7 +12,7 @@
 
 #include <mutex>
 
-Mutex cs_target_cache;
+static Mutex cs_target_cache;
 
 // peercoin: find last block index up to pindex
 static inline const CBlockIndex* GetLastBlockIndex(const CBlockIndex* pindex, const bool fProofOfStake)
@@ -184,7 +184,56 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params&
     if (bnNew512 > arith_uint512(bnPowLimit) || bnNew == arith_uint256())
         return nProofOfWorkLimit;
 
-    return bnNew.GetCompactRounded();
+    return bnNew.GetCompactRoundedBase256();
+}
+
+unsigned int WeightedTargetExponentialMovingAverage(const CBlockIndex* pindexLast, const CBlockHeader* pblock, const Consensus::Params& params)
+{
+    const int algo = CBlockHeader::GetAlgoType(pblock->nVersion);
+    const bool fAlgoMissing = algo == -1;
+    const bool fProofOfStake = pblock->IsProofOfStake();
+    const arith_uint256 bnPowLimit = fAlgoMissing ? UintToArith256(params.powLimit[fProofOfStake ? CBlockHeader::AlgoType::ALGO_POS : CBlockHeader::AlgoType::ALGO_POW_SHA256]) : UintToArith256(params.powLimit[algo]);
+    const uint32_t nProofOfWorkLimit = bnPowLimit.GetCompactBase256();
+    if (pindexLast == nullptr)
+        return nProofOfWorkLimit; // genesis block
+
+    const CBlockIndex* pindexPrev = fAlgoMissing ? GetLastBlockIndex(pindexLast, fProofOfStake) : GetLastBlockIndexForAlgo(pindexLast, algo);
+    if (pindexPrev->pprev == nullptr)
+        return nProofOfWorkLimit; // first block
+
+    const CBlockIndex* pindexPrevPrev = fAlgoMissing ? GetLastBlockIndex(pindexPrev->pprev, fProofOfStake) : GetLastBlockIndexForAlgo(pindexPrev->pprev, algo);
+    if (pindexPrevPrev->pprev == nullptr)
+        return nProofOfWorkLimit; // second block
+
+    int nActualSpacing = pindexPrev->GetBlockTime() - pindexPrevPrev->GetBlockTime(); // Difficulty for PoW and PoS are calculated separately
+
+    arith_uint256 bnNew;
+    bnNew.SetCompactBase256(pindexPrev->nBits);
+    int nTargetSpacing = params.nPowTargetSpacing;
+    const uint32_t nTargetTimespan = params.nPowTargetTimespan;
+    //nTargetSpacing *= 2; // 160 second block time for PoW + 160 second block time for PoS = 80 second effective block time
+    if (!fProofOfStake) {
+        //nTargetSpacing *= (CBlockHeader::AlgoType::ALGO_COUNT - 1); // Multiply by the number of PoW algos
+        nTargetSpacing = 10 * 60; // PoW spacing is 10 minutes
+    }
+    const int nInterval = nTargetTimespan / (nTargetSpacing * 2); // alpha_reciprocal = (N(SMA) + 1) / 2 for same "center of mass" as SMA
+
+    // nActualSpacing must be restricted as to not produce a negative number below
+    // The functionality of this if statement has been moved directly into the calculation of the numerator with the call to std::max
+    //if (nActualSpacing <= -((nInterval - 1) * nTargetSpacing))
+    //nActualSpacing = -((nInterval - 1) * nTargetSpacing) + 1;
+
+    const uint32_t numerator = std::max((nInterval - 1) * nTargetSpacing + nActualSpacing, 1);
+    const uint32_t denominator = nInterval * nTargetSpacing;
+
+    // Keep in mind the order of operations and integer division here - this is why the *= operator cannot be used, as it could cause overflow or integer division to occur
+    arith_uint512 bnNew512 = arith_uint512(bnNew) * numerator / denominator; // For WTEMA: next_target = prev_target * (nInterval - 1 + prev_solvetime/target_solvetime) / nInterval
+    bnNew = bnNew512.trim256();
+
+    if (bnNew512 > arith_uint512(bnPowLimit) || bnNew == arith_uint256())
+        return nProofOfWorkLimit;
+
+    return bnNew.GetCompactRoundedBase256();
 }
 
 unsigned int AverageTargetASERT(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
@@ -360,7 +409,7 @@ unsigned int AverageTargetASERT(const CBlockIndex* pindexLast, const CBlockHeade
     if (bnNew512 > arith_uint512(bnPowLimit) || bnNew == arith_uint256())
         return nProofOfWorkLimit;
 
-    return bnNew.GetCompactRounded();
+    return bnNew.GetCompactRoundedBase256();
 }
 
 bool CheckProofOfWork(const uint256& hash, const unsigned int& nBits, const int& algo, const Consensus::Params& params)
