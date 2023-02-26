@@ -5773,10 +5773,10 @@ bool CheckBlockSignature(const CBlock& block)
     const bool fProofOfStake = block.IsProofOfStake();
     std::vector<std::vector<unsigned char>> vSolutions;
     const CTxOut& txout = fProofOfStake ? block.vtx[1]->vout[1] : block.vtx[0]->vout[0];
-    txnouttype whichType = Solver(txout.scriptPubKey, vSolutions);
+    TxoutType whichType = Solver(txout.scriptPubKey, vSolutions);
     CPubKey pubkey;
 
-    if (whichType == txnouttype::PUBKEY) {
+    if (whichType == TxoutType::PUBKEY) {
         pubkey = CPubKey(vSolutions[0]);
     } else {
         const CTxIn& cbtxin = block.vtx[0]->vin[0];
@@ -5803,11 +5803,11 @@ bool CheckBlockSignature(const CBlock& block)
             //LogPrintf("%s : coinbase cbtxin.scriptSig = %s\n", __func__, HexStr(cbtxin.scriptSig));
             //LogPrintf("%s : cbtxin.scriptSig.size() = %u, vchPubKey = %s\n", __func__, cbtxin.scriptSig.size(), HexStr(vchPubKey));
             pubkey = CPubKey(cbtxin.scriptSig.end()-CPubKey::COMPRESSED_SIZE, cbtxin.scriptSig.end());
-            if (whichType == txnouttype::PUBKEYHASH || whichType == txnouttype::WITNESS_V0_KEYHASH) { // we need to ensure the signing pubkey belongs to the original staker so that the coinstake TX cannot be used by someone else to create a different block
+            if (whichType == TxoutType::PUBKEYHASH || whichType == TxoutType::WITNESS_V0_KEYHASH) { // we need to ensure the signing pubkey belongs to the original staker so that the coinstake TX cannot be used by someone else to create a different block
                 if (Hash160(pubkey) != uint160(vSolutions[0])) {
                     return error("%s : pubkey used for block signature (%s) does not correspond to first output", __func__, HexStr(pubkey));
                 }
-            } else if (whichType == txnouttype::SCRIPTHASH) {
+            } else if (whichType == TxoutType::SCRIPTHASH) {
                 if (Hash160(CScript() << OP_0 << ToByteVector(Hash160(pubkey))) != uint160(vSolutions[0])) { // p2sh-p2wpkh
                     return error("%s : pubkey used for block signature (%s) is not used in first %s output", __func__, HexStr(pubkey), GetTxnOutputType(whichType));
                 }
