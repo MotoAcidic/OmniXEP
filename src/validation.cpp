@@ -5763,72 +5763,31 @@ bool GetCoinAge(const CTransaction& tx, const CCoinsViewCache& view, unsigned in
 // peercoin: check block signature
 bool CheckBlockSignature(const CBlock& block)
 {
-    const uint256& blockHash = block.GetHash();
-    if (blockHash == Params().GetConsensus().hashGenesisBlock)
+    if (block.GetHash() == Params().GetConsensus().hashGenesisBlock)
         return block.vchBlockSig.empty();
 
     if (block.vchBlockSig.empty())
-        return error("%s : vchBlockSig is empty!", __func__);
+        return error("%s: vchBlockSig is empty!", __func__);
 
-    const bool fProofOfStake = block.IsProofOfStake();
     std::vector<std::vector<unsigned char>> vSolutions;
-    const CTxOut& txout = fProofOfStake ? block.vtx[1]->vout[1] : block.vtx[0]->vout[0];
+    const CTxOut& txout = block.IsProofOfStake() ? block.vtx[1]->vout[1] : block.vtx[0]->vout[0];
     txnouttype whichType = Solver(txout.scriptPubKey, vSolutions);
     CPubKey pubkey;
 
     if (whichType == TX_PUBKEY) {
-        pubkey = CPubKey(vSolutions[0]);
-    } else {
-        const CTxIn& cbtxin = block.vtx[0]->vin[0];
-        const CTxIn& txin = fProofOfStake ? block.vtx[1]->vin[0] : cbtxin;
-        if (fProofOfStake && (txin.scriptSig.size() == 0 || txin.scriptSig.size() == 23) && txin.scriptWitness.stack.size() == 2 && txin.scriptWitness.stack.back().size() == CPubKey::COMPRESSED_SIZE) { // p2wpkh or p2sh-p2wpkh input
-            pubkey = CPubKey(txin.scriptWitness.stack.back());
-        } else if (fProofOfStake && txin.scriptWitness.stack.size() == 0 && txin.scriptSig.size() >= 100 && txin.scriptSig.size() <= 140 && txin.scriptSig.IsPushOnly() && txin.scriptSig[0] >= CPubKey::COMPACT_SIGNATURE_SIZE && txin.scriptSig[0] <= (CPubKey::SIGNATURE_SIZE + 1)) { // p2pkh input (sig + pubkey)
-            unsigned int pubkeyStart = txin.scriptSig[0] + 2u; // skip sig and length bytes by reading sig length from pushdata
-            //LogPrintf("%s : p2pkh txin.scriptSig = %s\n", __func__, HexStr(txin.scriptSig));
-            //LogPrintf("%s : txin.scriptSig.size() = %u, txin.scriptSig[0] = %u, pubkeyStart = %u\n", __func__, txin.scriptSig.size(), txin.scriptSig[0], pubkeyStart);
-            if ((pubkeyStart + CPubKey::COMPRESSED_SIZE) > txin.scriptSig.size() || txin.scriptSig[pubkeyStart-1] < CPubKey::COMPRESSED_SIZE) // last pushdata must be large enough to at least hold a compressed pubkey
-                return error("%s : p2pkh txin.scriptSig.size() = %u is too small", __func__, txin.scriptSig.size());
-            pubkey = CPubKey(txin.scriptSig.begin()+pubkeyStart, txin.scriptSig.end());
-        } else if ((fProofOfStake && block.vtx[1]->vout.size() > 2) || (!fProofOfStake && block.vtx[0]->vout.size() > 1)) { // check for pubkey in OP_RETURN output - this can be any arbitrary pubkey as it will be covered by the coinstake TX signature hash
-            for (const CTxOut& out : block.vtx[fProofOfStake]->vout) {
-                if (out.scriptPubKey.size() == 35 && out.scriptPubKey[0] == OP_RETURN && out.scriptPubKey[1] == CPubKey::COMPRESSED_SIZE) { // output of CScript() << OP_RETURN << ToByteVector(signingPubKey)
-                    //LogPrintf("%s : OP_RETURN out.scriptPubKey = %s\n", __func__, HexStr(out.scriptPubKey));
-                    //LogPrintf("%s : out.scriptPubKey.size() = %u\n", __func__, out.scriptPubKey.size());
-                    pubkey = CPubKey(out.scriptPubKey.begin()+2, out.scriptPubKey.end()); // skip OP_RETURN and pushdata length byte
-                }
-            }
-        } else if (cbtxin.scriptSig.size() > CPubKey::COMPRESSED_SIZE && cbtxin.scriptSig[cbtxin.scriptSig.size()-CPubKey::COMPRESSED_SIZE-1] == CPubKey::COMPRESSED_SIZE) { // check for pubkey in coinbase
-            //std::vector<unsigned char> vchPubKey(cbtxin.scriptSig.end()-CPubKey::COMPRESSED_SIZE, cbtxin.scriptSig.end());
-            //LogPrintf("%s : coinbase cbtxin.scriptSig = %s\n", __func__, HexStr(cbtxin.scriptSig));
-            //LogPrintf("%s : cbtxin.scriptSig.size() = %u, vchPubKey = %s\n", __func__, cbtxin.scriptSig.size(), HexStr(vchPubKey));
-            pubkey = CPubKey(cbtxin.scriptSig.end()-CPubKey::COMPRESSED_SIZE, cbtxin.scriptSig.end());
-            if (whichType == TX_PUBKEYHASH || whichType == TX_WITNESS_V0_KEYHASH) { // we need to ensure the signing pubkey belongs to the original staker so that the coinstake TX cannot be used by someone else to create a different block
-                //if (Hash160(pubkey) != uint160(vSolutions[0])) {
-                  //  return error("%s : pubkey used for block signature (%s) does not correspond to first output", __func__, HexStr(pubkey));
-                //}
-            } else if (whichType == TX_SCRIPTHASH) {
-                if (Hash160(CScript() << OP_0 << ToByteVector(Hash160(pubkey))) != uint160(vSolutions[0])) { // p2sh-p2wpkh
-                    return error("%s : pubkey used for block signature (%s) is not used in first %s output", __func__, HexStr(pubkey), GetTxnOutputType(whichType));
-                }
-            } else
-                return error("%s : unable to verify pubkey belongs to first output of type=%s", __func__, GetTxnOutputType(whichType));
-        } else { // we don't know where the pubkey is or how to parse it
-            return error("%s : unable to find pubkey to validate block signature", __func__);
-        }
+        const std::vector<unsigned char>& vchPubKey = vSolutions[0];
+        pubkey = CPubKey(vchPubKey);
+    } else if (whichType == TX_PUBKEYHASH) {
+        const CTxIn& txin = block.vtx[1]->vin[0];
+        int start = 1 + (int)*txin.scriptSig.begin(); // skip sig
+        pubkey = CPubKey(txin.scriptSig.begin() + start + 1, txin.scriptSig.end());
+    } else if (whichType == WITNESS_V0_KEYHASH_SIZE) {
+        const CTxIn& txin = block.vtx[1]->vin[0];
+        pubkey = CPubKey(txin.scriptWitness.stack.back());
     }
-    //LogPrintf("%s : validating signature for %s output using pubkey %s\n", __func__, GetTxnOutputType(whichType), HexStr(pubkey));
 
     if (!pubkey.IsCompressed())
-        return error("%s : invalid pubkey %s", __func__, HexStr(pubkey));
+        return error("%s: invalid pubkey %s", __func__, HexStr(pubkey));
 
-    if (CPubKey::GetSigType(block.vchBlockSig[0]) == CPubKey::SigType::SIG_COMPACT) {
-        CPubKey recoveredPubKey;
-        // Only compressed pubkeys are supported and RecoverCompact already checks sig size
-        return ((block.vchBlockSig[0] & 4) &&
-                recoveredPubKey.RecoverCompact(blockHash, block.vchBlockSig, CPubKey::SigFlag::VERSION_SIG_COMPACT) &&
-                recoveredPubKey == pubkey);
-    } else {
-        return pubkey.Verify(blockHash, block.vchBlockSig);
-    }
+    return pubkey.Verify(block.GetHash(), block.vchBlockSig);
 }
