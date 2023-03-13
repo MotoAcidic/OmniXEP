@@ -103,42 +103,6 @@ static UniValue getnetworkhashps(const JSONRPCRequest& request)
 
 static UniValue generateBlocks(const CTxMemPool& mempool, const CScript& coinbase_script, int nGenerate, uint64_t nMaxTries)
 {
-    block_hash.SetNull();
-
-    {
-        LOCK(cs_main);
-        IncrementExtraNonce(&block, ::ChainActive().Tip(), extra_nonce);
-    }
-
-    CChainParams chainparams(Params());
-    const Consensus::Params &consensusParams = chainparams.GetConsensus();
-
-    while (max_tries > 0 && block.nNonce < std::numeric_limits<uint32_t>::max() && !CheckProofOfWork(block.GetPoWHash(), block.nBits, consensusParams) && !ShutdownRequested()) {
-        ++block.nNonce;
-        --max_tries;
-        if ((block.nNonce & 0x1ffff) == 0)
-            block.nTime = std::max((int64_t)block.nTime, GetAdjustedTime());
-    }
-    if (max_tries == 0 || ShutdownRequested()) {
-        return false;
-    }
-    if (block.nNonce == std::numeric_limits<uint32_t>::max()) {
-        return true;
-    }
-    if (chainparams.NetworkIDString() != CBaseChainParams::REGTEST)
-        LogPrintf("proof-of-work found\n   hash: %s\n target: %s\n   bits: %08x\n  nonce: %u\n", block.GetPoWHash().ToString(), arith_uint256().SetCompact(block.nBits).ToString(), block.nBits, block.nNonce);
-
-    std::shared_ptr<const CBlock> shared_pblock = std::make_shared<const CBlock>(block);
-    if (!chainman.ProcessNewBlock(chainparams, shared_pblock, true, nullptr)) {
-        throw JSONRPCError(RPC_INTERNAL_ERROR, "ProcessNewBlock, block not accepted");
-    }
-
-    block_hash = block.GetHash();
-    return true;
-}
-
-static UniValue generateBlocks(ChainstateManager& chainman, const CTxMemPool& mempool, const CScript& coinbase_script, int nGenerate, uint64_t nMaxTries)
-{
     int nHeightEnd = 0;
     int nHeight = 0;
 
@@ -245,10 +209,7 @@ static UniValue generatetoaddress(const JSONRPCRequest& request)
             + "If you are running the bitcoin core wallet, you can get a new address to send the newly generated bitcoin to with:\n"
             + HelpExampleCli("getnewaddress", "")
                 },
-        [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
-{
-    const int num_blocks{request.params[0].get_int()};
-    const uint64_t max_tries{request.params[2].isNull() ? DEFAULT_MAX_TRIES : request.params[2].get_int64()};
+            }.Check(request);
 
     int nGenerate = request.params[0].get_int();
     uint64_t nMaxTries = 1000000;
