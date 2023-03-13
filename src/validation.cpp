@@ -5717,8 +5717,8 @@ bool GetCoinAge(const CTransaction& tx, const CCoinsViewCache& view, unsigned in
         } else {
             //return error("%s : previous transaction not in main chain", __func__);
             uint256 hashBlock;
-            CTransactionRef txPrev = GetTransaction(pindexFrom, nullptr, prevout.hash, params, hashBlock);
-            if (!txPrev)
+            CTransactionRef txPrev;
+            if (!GetTransaction(prevout.hash, txPrev, params, hashBlock, pindexFrom))
                 return error("%s : tx index not found", __func__);
 
             if (!pindexFrom) {
@@ -5776,7 +5776,7 @@ bool CheckBlockSignature(const CBlock& block)
     txnouttype whichType = Solver(txout.scriptPubKey, vSolutions);
     CPubKey pubkey;
 
-    if (whichType == txnouttype::PUBKEY) {
+    if (whichType == TX_PUBKEY) {
         pubkey = CPubKey(vSolutions[0]);
     } else {
         const CTxIn& cbtxin = block.vtx[0]->vin[0];
@@ -5803,11 +5803,11 @@ bool CheckBlockSignature(const CBlock& block)
             //LogPrintf("%s : coinbase cbtxin.scriptSig = %s\n", __func__, HexStr(cbtxin.scriptSig));
             //LogPrintf("%s : cbtxin.scriptSig.size() = %u, vchPubKey = %s\n", __func__, cbtxin.scriptSig.size(), HexStr(vchPubKey));
             pubkey = CPubKey(cbtxin.scriptSig.end()-CPubKey::COMPRESSED_SIZE, cbtxin.scriptSig.end());
-            if (whichType == txnouttype::PUBKEYHASH || whichType == txnouttype::WITNESS_V0_KEYHASH) { // we need to ensure the signing pubkey belongs to the original staker so that the coinstake TX cannot be used by someone else to create a different block
+            if (whichType == TX_PUBKEYHASH || whichType == TX_WITNESS_V0_KEYHASH) { // we need to ensure the signing pubkey belongs to the original staker so that the coinstake TX cannot be used by someone else to create a different block
                 if (Hash160(pubkey) != uint160(vSolutions[0])) {
                     return error("%s : pubkey used for block signature (%s) does not correspond to first output", __func__, HexStr(pubkey));
                 }
-            } else if (whichType == txnouttype::SCRIPTHASH) {
+            } else if (whichType == TX_SCRIPTHASH) {
                 if (Hash160(CScript() << OP_0 << ToByteVector(Hash160(pubkey))) != uint160(vSolutions[0])) { // p2sh-p2wpkh
                     return error("%s : pubkey used for block signature (%s) is not used in first %s output", __func__, HexStr(pubkey), GetTxnOutputType(whichType));
                 }
