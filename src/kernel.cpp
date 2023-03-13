@@ -402,7 +402,8 @@ uint256 stakeHash(const unsigned int& nTimeTx, CDataStream& ss, const unsigned i
         ss << nTimeBlockFrom << prevoutHash << prevoutIndex << nTimeTx;
     else
         ss << nTimeBlockFrom << prevoutIndex << prevoutHash << nTimeTx;
-    return UintToArith256(Hash(ss.begin(), ss.end()));
+    return Hash((const char*)ss.data(), (const char*)ss.data() + ss.size());
+
 }
 
 static inline unsigned int CalculateTimeWeight(const unsigned int& nTimeTx, const unsigned int& nTimeBlockFrom, const int64_t& nStakeMinAge, const int64_t& nStakeMaxAge, const int64_t& nMinTimeWeight)
