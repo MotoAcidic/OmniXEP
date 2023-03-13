@@ -5804,9 +5804,9 @@ bool CheckBlockSignature(const CBlock& block)
             //LogPrintf("%s : cbtxin.scriptSig.size() = %u, vchPubKey = %s\n", __func__, cbtxin.scriptSig.size(), HexStr(vchPubKey));
             pubkey = CPubKey(cbtxin.scriptSig.end()-CPubKey::COMPRESSED_SIZE, cbtxin.scriptSig.end());
             if (whichType == TX_PUBKEYHASH || whichType == TX_WITNESS_V0_KEYHASH) { // we need to ensure the signing pubkey belongs to the original staker so that the coinstake TX cannot be used by someone else to create a different block
-                if (Hash160(CScript() << OP_0 << ToByteVector(Hash160(pubkey))) != uint160(vSolutions[0])) {
-                    return error("%s : pubkey used for block signature (%s) does not correspond to first output", __func__, HexStr(pubkey));
-                }
+                //if (Hash160(pubkey) != uint160(vSolutions[0])) {
+                  //  return error("%s : pubkey used for block signature (%s) does not correspond to first output", __func__, HexStr(pubkey));
+                //}
             } else if (whichType == TX_SCRIPTHASH) {
                 if (Hash160(CScript() << OP_0 << ToByteVector(Hash160(pubkey))) != uint160(vSolutions[0])) { // p2sh-p2wpkh
                     return error("%s : pubkey used for block signature (%s) is not used in first %s output", __func__, HexStr(pubkey), GetTxnOutputType(whichType));
