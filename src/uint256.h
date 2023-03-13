@@ -58,7 +58,7 @@ public:
 
     const uint32_t* GetDataPtr() const
     {
-        return (const uint32_t*)m_data;
+        return (const uint32_t*)data;
     }
 
     unsigned char* end()
