@@ -81,7 +81,7 @@ static bool SelectBlockFromCandidates(
 
         CDataStream ss(SER_GETHASH, 0);
         ss << hashProof << nStakeModifierPrev;
-        arith_uint256 hashSelection = UintToArith256(Hash(ss));
+        arith_uint256 hashSelection = UintToArith256(Hash(ss.begin(), ss.end()));
         // the selection hash is divided by 2**32 so that proof-of-stake block
         // is always favored over proof-of-work block. this is to preserve
         // the energy efficiency property
@@ -187,8 +187,8 @@ bool ComputeNextStakeModifier(const CBlockIndex* pindexCurrent, uint64_t &nStake
         if (a.first != b.first)
             return a.first < b.first;
         // Timestamp equals - compare block hashes
-        const uint32_t *pa = (const uint32_t*)a.second.data();
-        const uint32_t *pb = (const uint32_t*)b.second.data();
+        const uint32_t* pa = a.second.GetDataPtr();
+        const uint32_t* pb = b.second.GetDataPtr();
         int cnt = 256 / 32;
         do {
             --cnt;
@@ -402,7 +402,7 @@ uint256 stakeHash(const unsigned int& nTimeTx, CDataStream& ss, const unsigned i
         ss << nTimeBlockFrom << prevoutHash << prevoutIndex << nTimeTx;
     else
         ss << nTimeBlockFrom << prevoutIndex << prevoutHash << nTimeTx;
-    return Hash(ss);
+    return UintToArith256(Hash(ss.begin(), ss.end()));
 }
 
 static inline unsigned int CalculateTimeWeight(const unsigned int& nTimeTx, const unsigned int& nTimeBlockFrom, const int64_t& nStakeMinAge, const int64_t& nStakeMaxAge, const int64_t& nMinTimeWeight)
@@ -668,7 +668,7 @@ unsigned int GetStakeModifierChecksum(const CBlockIndex* pindex)
         ss << pindex->nStakeModifierV2;
     else
         ss << pindex->nStakeModifier;
-    arith_uint256 hashChecksum = UintToArith256(Hash(ss));
+    arith_uint256 hashChecksum = UintToArith256(Hash(ss.begin(), ss.end()));
     hashChecksum >>= (256 - 32);
     return hashChecksum.GetLow64();
 }
@@ -718,7 +718,7 @@ unsigned int GetStakeEntropyBit(const CBlock& block)
         uint160 hashSig = Hash160(block.vchBlockSig);
         if (gArgs.GetBoolArg("-printstakemodifier", false))
             LogPrintf("GetStakeEntropyBit(v0.3): nTime=%u hashSig=%s", block.nTime, hashSig.ToString());
-        nEntropyBit = hashSig.data()[19] >> 7; // take the first bit of the hash
+        nEntropyBit = hashSig.GetDataPtr()[4] >> 31; // take the first bit of the hash
         if (gArgs.GetBoolArg("-printstakemodifier", false))
             LogPrintf(" entropybit=%d\n", nEntropyBit);
     }
