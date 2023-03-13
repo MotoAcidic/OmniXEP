@@ -56,6 +56,11 @@ public:
         return &data[0];
     }
 
+    const uint32_t* GetDataPtr() const
+    {
+        return (const uint32_t*)m_data;
+    }
+
     unsigned char* end()
     {
         return &data[WIDTH];
