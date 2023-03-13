@@ -161,3 +161,19 @@ db4/
 osx_volname
 dist/
 *.background.tiff
+
+.vs/CMake Overview
+
+.vs/omnicore/v17/.suo
+
+.vs/omnicore/v17/Browse.VC.db
+
+.vs/omnicore/v17/Browse.VC.db-shm
+
+.vs/omnicore/v17/Browse.VC.db-wal
+
+.vs/omnicore/v17/Browse.VC.opendb
+
+.vs/ProjectSettings.json
+
+.vs/slnx.sqlite
