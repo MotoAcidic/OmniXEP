@@ -101,35 +101,40 @@ static UniValue getnetworkhashps(const JSONRPCRequest& request)
     return GetNetworkHashPS(!request.params[0].isNull() ? request.params[0].get_int() : 120, !request.params[1].isNull() ? request.params[1].get_int() : -1);
 }
 
-static UniValue generateBlocks(ChainstateManager& chainman, const CTxMemPool& mempool, const CScript& coinbase_script, int nGenerate, uint64_t nMaxTries)
+static UniValue generateBlocks(const CTxMemPool& mempool, const CScript& coinbase_script, int nGenerate, uint64_t nMaxTries)
 {
-    int nHeightEnd = 0;
-    int nHeight = 0;
+    BlockMap.SetNull();
 
-    { // Don't keep cs_main locked
+    {
         LOCK(cs_main);
-        nHeight = ::ChainActive().Height();
-        nHeightEnd = nHeight + nGenerate;
+        IncrementExtraNonce(&block, ::ChainActive().Tip(), extra_nonce);
     }
-    unsigned int nExtraNonce = 0;
-    UniValue blockHashes(UniValue::VARR);
-    while (nHeight < nHeightEnd && !ShutdownRequested()) {
-        std::unique_ptr<CBlockTemplate> pblocktemplate(BlockAssembler(mempool, Params()).CreateNewBlock(coinbase_script));
-        if (!pblocktemplate.get())
-            throw JSONRPCError(RPC_INTERNAL_ERROR, "Couldn't create new block");
-        CBlock* pblock = &pblocktemplate->block;
 
-        uint256 block_hash;
-        if (!GenerateBlock(chainman, *pblock, nMaxTries, nExtraNonce, block_hash)) {
-            break;
-        }
+    CChainParams chainparams(Params());
+    const Consensus::Params &consensusParams = chainparams.GetConsensus();
 
-        if (!block_hash.IsNull()) {
-            ++nHeight;
-            blockHashes.push_back(block_hash.GetHex());
-        }
+    while (max_tries > 0 && block.nNonce < std::numeric_limits<uint32_t>::max() && !CheckProofOfWork(block.GetPoWHash(), block.nBits, consensusParams) && !ShutdownRequested()) {
+        ++block.nNonce;
+        --max_tries;
+        if ((block.nNonce & 0x1ffff) == 0)
+            block.nTime = std::max((int64_t)block.nTime, GetAdjustedTime());
     }
-    return blockHashes;
+    if (max_tries == 0 || ShutdownRequested()) {
+        return false;
+    }
+    if (block.nNonce == std::numeric_limits<uint32_t>::max()) {
+        return true;
+    }
+    if (chainparams.NetworkIDString() != CBaseChainParams::REGTEST)
+        LogPrintf("proof-of-work found\n   hash: %s\n target: %s\n   bits: %08x\n  nonce: %u\n", block.GetPoWHash().ToString(), arith_uint256().SetCompact(block.nBits).ToString(), block.nBits, block.nNonce);
+
+    std::shared_ptr<const CBlock> shared_pblock = std::make_shared<const CBlock>(block);
+    if (!chainman.ProcessNewBlock(chainparams, shared_pblock, true, nullptr)) {
+        throw JSONRPCError(RPC_INTERNAL_ERROR, "ProcessNewBlock, block not accepted");
+    }
+
+    block_hash = block.GetHash();
+    return true;
 }
 
 static UniValue generateBlocks(ChainstateManager& chainman, const CTxMemPool& mempool, const CScript& coinbase_script, int nGenerate, uint64_t nMaxTries)
