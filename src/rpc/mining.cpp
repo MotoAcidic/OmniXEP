@@ -228,43 +228,45 @@ static UniValue generatetodescriptor(const JSONRPCRequest& request)
 
 static UniValue generatetoaddress(const JSONRPCRequest& request)
 {
-    RPCHelpMan{
-        "generatetoaddress",
-        "\nMine blocks immediately to a specified address (before the RPC call returns)\n",
-        {
-            {"nblocks", RPCArg::Type::NUM, RPCArg::Optional::NO, "How many blocks are generated immediately."},
-            {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The address to send the newly generated bitcoin to."},
-            {"maxtries", RPCArg::Type::NUM, /* default */ "1000000", "How many iterations to try."},
-        },
-        RPCResult{
-            RPCResult::Type::ARR, "", "hashes of blocks generated",
-            {
-                {RPCResult::Type::STR_HEX, "", "blockhash"},
-            }},
-        RPCExamples{
-            "\nGenerate 11 blocks to myaddress\n" + HelpExampleCli("generatetoaddress", "11 \"myaddress\"") + "If you are running the bitcoin core wallet, you can get a new address to send the newly generated bitcoin to with:\n" + HelpExampleCli("getnewaddress", "")},
-        [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue {
-            const int num_blocks{request.params[0].get_int()};
-            const uint64_t max_tries{request.params[2].isNull() ? DEFAULT_MAX_TRIES : request.params[2].get_int64()};
+            RPCHelpMan{"generatetoaddress",
+                "\nMine blocks immediately to a specified address (before the RPC call returns)\n",
+                {
+                    {"nblocks", RPCArg::Type::NUM, RPCArg::Optional::NO, "How many blocks are generated immediately."},
+                    {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The address to send the newly generated bitcoin to."},
+                    {"maxtries", RPCArg::Type::NUM, /* default */ "1000000", "How many iterations to try."},
+                },
+                RPCResult{
+                    RPCResult::Type::ARR, "", "hashes of blocks generated",
+                    {
+                        {RPCResult::Type::STR_HEX, "", "blockhash"},
+                    }},
+                RPCExamples{
+            "\nGenerate 11 blocks to myaddress\n"
+            + HelpExampleCli("generatetoaddress", "11 \"myaddress\"")
+            + "If you are running the bitcoin core wallet, you can get a new address to send the newly generated bitcoin to with:\n"
+            + HelpExampleCli("getnewaddress", "")
+                },
+        [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
+{
+    const int num_blocks{request.params[0].get_int()};
+    const uint64_t max_tries{request.params[2].isNull() ? DEFAULT_MAX_TRIES : request.params[2].get_int64()};
 
-            int nGenerate = request.params[0].get_int();
-            uint64_t nMaxTries = 1000000;
-            if (!request.params[2].isNull()) {
-                nMaxTries = request.params[2].get_int();
-            }
+    int nGenerate = request.params[0].get_int();
+    uint64_t nMaxTries = 1000000;
+    if (!request.params[2].isNull()) {
+        nMaxTries = request.params[2].get_int();
+    }
 
-            CTxDestination destination = DecodeDestination(request.params[1].get_str());
-            if (!IsValidDestination(destination)) {
-                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Error: Invalid address");
-            }
+    CTxDestination destination = DecodeDestination(request.params[1].get_str());
+    if (!IsValidDestination(destination)) {
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Error: Invalid address");
+    }
 
-            const CTxMemPool& mempool = EnsureMemPool();
+    const CTxMemPool& mempool = EnsureMemPool();
 
-            CScript coinbase_script = GetScriptForDestination(destination);
+    CScript coinbase_script = GetScriptForDestination(destination);
 
-            return generateBlocks(mempool, coinbase_script, nGenerate, nMaxTries);
-        },
-    };
+    return generateBlocks(mempool, coinbase_script, nGenerate, nMaxTries);
 }
 
 static UniValue getmininginfo(const JSONRPCRequest& request)
