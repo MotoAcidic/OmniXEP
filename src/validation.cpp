@@ -1175,8 +1175,7 @@ bool ReadBlockFromDisk(CBlock& block, const FlatFilePos& pos, const Consensus::P
     }
 
     // Check the header
-    const int algo = CBlockHeader::GetAlgoType(block.nVersion);
-    if (block.IsProofOfWork() && !CheckProofOfWork(block.GetPoWHash(), block.nBits, algo, consensusParams))
+    if (block.IsProofOfWork() && !CheckProofOfWork(block.GetPoWHash(), block.nBits, consensusParams))
         return error("ReadBlockFromDisk: Errors in block header at %s", pos.ToString());
 
     return true;
@@ -3700,7 +3699,7 @@ static bool CheckBlockHeader(const CBlockHeader& block, BlockValidationState& st
         return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "invalid-type", "block type is invalid");
 
     // Check proof of work matches claimed amount
-    if (block.IsProofOfWork() && fCheckPOW && !CheckProofOfWork(block.GetPoWHash(), block.nBits, algo, consensusParams))
+    if (block.IsProofOfWork() && fCheckPOW && !CheckProofOfWork(block.GetPoWHash(), block.nBits, consensusParams))
         return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "high-hash", "proof of work failed");
 
     return true;
