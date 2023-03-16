@@ -288,10 +288,6 @@ WalletModel::EncryptionStatus WalletModel::getEncryptionStatus() const
     {
         return Locked;
     }
-    else if(m_wallet->isUnlockedAskingForPassword() && !getLastPasswordEnteredValid())
-    {
-        return UnlockedAskingForPassword;
-    }
     else
     {
         return Unlocked;
@@ -312,20 +308,17 @@ bool WalletModel::setWalletEncrypted(bool encrypted, const SecureString &passphr
     }
 }
 
-bool WalletModel::setWalletLocked(bool locked, bool fAskingForPassword, const SecureString &passPhrase)
+bool WalletModel::setWalletLocked(bool locked, const SecureString &passPhrase)
 {
     if(locked)
     {
         // Lock
-        setLastPasswordEnteredValid(false);
-        return m_wallet->lock(fAskingForPassword);
+        return m_wallet->lock();
     }
     else
     {
         // Unlock
-        const bool unlocked = m_wallet->unlock(passPhrase, fAskingForPassword);
-        setLastPasswordEnteredValid(unlocked);
-        return unlocked;
+        return m_wallet->unlock(passPhrase);
     }
 }
 
@@ -425,27 +418,22 @@ void WalletModel::unsubscribeFromCoreSignals()
 // WalletModel::UnlockContext implementation
 WalletModel::UnlockContext WalletModel::requestUnlock()
 {
-    setLastPasswordEnteredValid(false);
-    EncryptionStatus status = getEncryptionStatus();
-    const bool asking_for_password = status == UnlockedAskingForPassword;
-    bool was_locked = status == Locked || asking_for_password;
+    bool was_locked = getEncryptionStatus() == Locked;
     if(was_locked)
     {
         // Request UI to unlock wallet
         Q_EMIT requireUnlock();
     }
     // If wallet is still locked, unlock was failed or cancelled, mark context as invalid
-    status = getEncryptionStatus();
-    bool valid = status != Locked && status != UnlockedAskingForPassword;
+    bool valid = getEncryptionStatus() != Locked;
 
-    return UnlockContext(this, valid, was_locked, asking_for_password);
+    return UnlockContext(this, valid, was_locked);
 }
 
-WalletModel::UnlockContext::UnlockContext(WalletModel *_wallet, bool _valid, bool _relock, bool _asking_for_password):
+WalletModel::UnlockContext::UnlockContext(WalletModel *_wallet, bool _valid, bool _relock):
         wallet(_wallet),
         valid(_valid),
-        relock(_relock),
-        asking_for_password(_asking_for_password)
+        relock(_relock)
 {
 }
 
@@ -453,7 +441,7 @@ WalletModel::UnlockContext::~UnlockContext()
 {
     if(valid && relock)
     {
-        wallet->setWalletLocked(true, asking_for_password);
+        wallet->setWalletLocked(true);
     }
 }
 

@@ -358,7 +358,7 @@ void WalletView::unlockWallet()
     if(!walletModel)
         return;
     // Unlock wallet when requested by wallet model
-    if (walletModel->getEncryptionStatus() == WalletModel::Locked || walletModel->getEncryptionStatus() == WalletModel::UnlockedAskingForPassword)
+    if (walletModel->getEncryptionStatus() == WalletModel::Locked)
     {
         AskPassphraseDialog dlg(AskPassphraseDialog::Unlock, this);
         dlg.setModel(walletModel);
@@ -371,7 +371,7 @@ void WalletView::lockWallet()
     if (!walletModel)
         return;
 
-    walletModel->setWalletLocked(true, false);
+    walletModel->setWalletLocked(true);
 }
 
 void WalletView::usedSendingAddresses()

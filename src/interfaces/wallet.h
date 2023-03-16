@@ -61,14 +61,13 @@ public:
     virtual bool isCrypted() = 0;
 
     //! Lock wallet.
-    virtual bool lock(const bool fUnlockedAskingForPassword = false) = 0;
+    virtual bool lock() = 0;
 
     //! Unlock wallet.
-    virtual bool unlock(const SecureString& wallet_passphrase, const bool fAskingForPassword = false) = 0;
+    virtual bool unlock(const SecureString& wallet_passphrase) = 0;
 
     //! Return whether wallet is locked.
     virtual bool isLocked() = 0;
-    virtual bool isUnlockedAskingForPassword() = 0;
 
     //! Change wallet passphrase.
     virtual bool changeWalletPassphrase(const SecureString& old_wallet_passphrase,

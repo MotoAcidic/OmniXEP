@@ -113,7 +113,7 @@ bool EnsureWalletIsAvailable(const CWallet* pwallet, bool avoidException)
 
 void EnsureWalletIsUnlocked(const CWallet* pwallet)
 {
-    if (pwallet->IsLocked() || pwallet->IsUnlockedAskingForPassword()) {
+    if (pwallet->IsLocked()) {
         throw JSONRPCError(RPC_WALLET_UNLOCK_NEEDED, "Error: Please enter the wallet passphrase with walletpassphrase first.");
     }
 }
@@ -1903,17 +1903,16 @@ static UniValue walletpassphrase(const JSONRPCRequest& request)
             "time that overrides the old one.\n",
                 {
                     {"passphrase", RPCArg::Type::STR, RPCArg::Optional::NO, "The wallet passphrase"},
-                    {"timeout", RPCArg::Type::NUM, RPCArg::Optional::NO, "The time to keep the decryption key in seconds; capped at 100000000 (~3 years). Set to 0 to remain unlocked."},
-                    {"disable_sending", RPCArg::Type::BOOL, /* default */ "false", "Whether the wallet will ask for the passphrase again before sending coins"},
+                    {"timeout", RPCArg::Type::NUM, RPCArg::Optional::NO, "The time to keep the decryption key in seconds; capped at 100000000 (~3 years)."},
                 },
                 RPCResult{RPCResult::Type::NONE, "", ""},
                 RPCExamples{
             "\nUnlock the wallet for 60 seconds\n"
-            + HelpExampleCli("walletpassphrase", "\"my pass phrase\" 60 false") +
+            + HelpExampleCli("walletpassphrase", "\"my pass phrase\" 60") +
             "\nLock the wallet again (before 60 seconds)\n"
             + HelpExampleCli("walletlock", "") +
             "\nAs a JSON-RPC call\n"
-            + HelpExampleRpc("walletpassphrase", "\"my pass phrase\", 60, false")
+            + HelpExampleRpc("walletpassphrase", "\"my pass phrase\", 60")
                 },
             }.Check(request);
 
@@ -1952,15 +1951,11 @@ static UniValue walletpassphrase(const JSONRPCRequest& request)
             throw JSONRPCError(RPC_INVALID_PARAMETER, "passphrase can not be empty");
         }
 
-        if (!pwallet->Unlock(strWalletPass, request.params[2].isNull() ? false : request.params[2].get_bool())) {
+        if (!pwallet->Unlock(strWalletPass)) {
             throw JSONRPCError(RPC_WALLET_PASSPHRASE_INCORRECT, "Error: The wallet passphrase entered was incorrect.");
         }
 
         pwallet->TopUpKeyPool();
-
-        if (nSleepTime == 0) {
-            return NullUniValue;
-        }
 
         pwallet->nRelockTime = GetTime() + nSleepTime;
         relock_time = pwallet->nRelockTime;
@@ -4326,7 +4321,7 @@ static const CRPCCommand commands[] =
     { "wallet",             "unloadwallet",                     &unloadwallet,                  {"wallet_name"} },
     { "wallet",             "walletcreatefundedpsbt",           &walletcreatefundedpsbt,        {"inputs","outputs","locktime","options","bip32derivs"} },
     { "wallet",             "walletlock",                       &walletlock,                    {} },
-    { "wallet",             "walletpassphrase",                 &walletpassphrase,              {"passphrase","timeout","disable_sending"} },
+    { "wallet",             "walletpassphrase",                 &walletpassphrase,              {"passphrase","timeout"} },
     { "wallet",             "walletpassphrasechange",           &walletpassphrasechange,        {"oldpassphrase","newpassphrase"} },
     { "wallet",             "walletprocesspsbt",                &walletprocesspsbt,             {"psbt","sign","sighashtype","bip32derivs"} },
 };
