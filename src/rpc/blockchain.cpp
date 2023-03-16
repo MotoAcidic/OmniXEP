@@ -186,7 +186,8 @@ UniValue blockToJSON(const CBlock& block, const CBlockIndex* tip, const CBlockIn
         const COutPoint& prevout = block.vtx[1]->vin[0].prevout;
         const Consensus::Params& params = Params().GetConsensus();
         uint256 hashBlock;
-        CTransactionRef txPrev = GetTransaction(nullptr, nullptr, prevout.hash, params, hashBlock);
+        //bool GetTransaction(const uint256& hash, CTransactionRef& txOut, const Consensus::Params& consensusParams, uint256& hashBlock, const CBlockIndex* const block_index)
+        CTransactionRef txPrev = GetTransaction(nullptr, nullptr, prevout.hash, params, hashBlock, nullptr);
 
         if (txPrev) {
             const CBlockIndex* pindexFrom = nullptr;
