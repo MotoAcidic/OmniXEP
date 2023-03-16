@@ -169,56 +169,53 @@ UniValue blockToJSON(const CBlock& block, const CBlockIndex* tip, const CBlockIn
     if (pnext)
         result.pushKV("nextblockhash", pnext->GetBlockHash().GetHex());
 
-    result.pushKV("type", CBlockHeader::GetAlgoType(blockindex->nVersion) == -1 ? blockindex->IsProofOfWork() : CBlockHeader::GetAlgoType(blockindex->nVersion));
+    result.pushKV("type", CBlockHeader::GetAlgo(blockindex->nVersion) == -1 ? blockindex->IsProofOfWork() : CBlockHeader::GetAlgo(blockindex->nVersion));
     result.pushKV("modifier", strprintf("%016x", blockindex->nStakeModifier));
     result.pushKV("modifierV2", blockindex->nStakeModifierV2.GetHex());
-    result.pushKV("modifierchecksum", strprintf("%08x", blockindex->nStakeModifierChecksum));
     result.pushKV("mint", ValueFromAmount(blockindex->nMint));
     result.pushKV("moneysupply", ValueFromAmount(blockindex->nMoneySupply));
     result.pushKV("treasurypayment", ValueFromAmount(blockindex->nTreasuryPayment));
 
     if (blockindex->IsProofOfStake()) {
         result.pushKV("proof", "stake");
-
-        UniValue stakeData(UniValue::VOBJ);
-        stakeData.pushKV("proofhash", blockindex->hashProofOfStake.GetHex());
-
         const COutPoint& prevout = block.vtx[1]->vin[0].prevout;
+
         const Consensus::Params& params = Params().GetConsensus();
         uint256 hashBlock;
-        CTransactionRef txPrev = GetTransaction(nullptr, nullptr, prevout.hash, params, hashBlock);
-
-        if (txPrev) {
+        CTransactionRef txPrev;
+        if (GetTransaction(prevout.hash, txPrev, params, hashBlock)) {
             const CBlockIndex* pindexFrom = nullptr;
             {
                 LOCK(cs_main);
                 pindexFrom = LookupBlockIndex(hashBlock);
             }
             if (pindexFrom) {
-                //uint256 hashProofOfStake;
-                //unsigned int nTimeBlockFrom = pindexFrom->GetBlockTime();
+                uint256 hashProofOfStake;
+                unsigned int nTimeBlockFrom = blockindex->nHeight >= params.nMandatoryUpgradeBlock[0] ? pindexFrom->GetBlockTime() : txPrev->nTime;
                 int nHeightBlockFrom = pindexFrom->nHeight;
 
-                //CDataStream ss(SER_GETHASH, 0);
+                CDataStream ss(SER_GETHASH, 0);
                 uint64_t nStakeModifier = 0;
                 uint256 nStakeModifierV2 = uint256();
                 int nStakeModifierHeight = 0;
                 int64_t nStakeModifierTime = 0;
 
                 if (GetKernelStakeModifier(blockindex->pprev, hashBlock, blockindex->GetBlockTime(), params, nStakeModifier, nStakeModifierV2, nStakeModifierHeight, nStakeModifierTime, false)) {
-                    /*if (blockindex->pprev->UsesStakeModifierV2())
+                    if (blockindex->pprev->UsesStakeModifierV2())
                         ss << nStakeModifierV2;
                     else
                         ss << nStakeModifier;
-                    hashProofOfStake = stakeHash(blockindex->GetBlockTime(), ss, prevout.n, prevout.hash, nTimeBlockFrom, true);*/
+                    hashProofOfStake = stakeHash(blockindex->GetBlockTime(), ss, prevout.n, prevout.hash, nTimeBlockFrom, blockindex->nHeight >= params.nMandatoryUpgradeBlock[0]);
 
+                    UniValue stakeData(UniValue::VOBJ);
+                    stakeData.pushKV("proofhash", hashProofOfStake.GetHex());
                     stakeData.pushKV("blockfromhash", hashBlock.GetHex());
                     stakeData.pushKV("blockfromheight", nHeightBlockFrom);
-                    stakeData.pushKV("modifierheight", nStakeModifierHeight);
+                    stakeData.pushKV("stakemodifierheight", nStakeModifierHeight);
+                    result.pushKV("coinstake", stakeData);
                 }
             }
         }
-        result.pushKV("coinstake", stakeData);
     } else {
         result.pushKV("proof", "work");
         result.pushKV("proofhash", block.GetPoWHash().GetHex());
