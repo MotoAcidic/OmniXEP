@@ -17,24 +17,39 @@
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/split.hpp>
 
-static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesisOutputScript, uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
+static CBlock CreateGenesisBlock(const char* pszTimestamp, const std::vector<CScript>& genesisOutputScripts, uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const std::vector<CAmount>& genesisRewards)
 {
     CMutableTransaction txNew;
     txNew.nVersion = 1;
     txNew.vin.resize(1);
-    txNew.vout.resize(1);
-    txNew.vin[0].scriptSig = CScript() << 486604799 << CScriptNum(4) << std::vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
-    txNew.vout[0].nValue = genesisReward;
-    txNew.vout[0].scriptPubKey = genesisOutputScript;
+    txNew.vin[0].scriptSig = CScript() << OP_0 << nBits << OP_4 << std::vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
+    for (unsigned int i = 0; i < genesisOutputScripts.size(); i++)
+        txNew.vout.emplace_back(genesisRewards[i], genesisOutputScripts[i]);
 
     CBlock genesis;
-    genesis.nTime    = nTime;
-    genesis.nBits    = nBits;
-    genesis.nNonce   = nNonce;
+    genesis.nTime = nTime;
+    genesis.nBits = nBits;
+    genesis.nNonce = nNonce;
     genesis.nVersion = nVersion;
     genesis.vtx.push_back(MakeTransactionRef(std::move(txNew)));
     genesis.hashPrevBlock.SetNull();
     genesis.hashMerkleRoot = BlockMerkleRoot(genesis);
+
+    arith_uint256 hashTarget = arith_uint256().SetCompactBase256(std::min(genesis.nBits, (unsigned)0x1f00ffff));
+    /*while (true) {
+        arith_uint256 hash = UintToArith256(genesis.GetPoWHash());
+        if (hash <= hashTarget) {
+            // Found a solution
+            printf("genesis block found\n   hash: %s\n target: %s\n   bits: %08x\n  nonce: %u\n", hash.ToString().c_str(), hashTarget.ToString().c_str(), genesis.nBits, genesis.nNonce);
+            break;
+        }
+        genesis.nNonce += 1;
+        if ((genesis.nNonce & 0x1ffff) == 0)
+            printf("testing nonce: %u\n", genesis.nNonce);
+    }*/
+    uint256 hash = genesis.GetPoWHash();
+    assert(UintToArith256(hash) <= hashTarget);
+
     return genesis;
 }
 
