@@ -59,7 +59,7 @@ static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits
     genesisOutputScripts.emplace_back(CScript() << OP_0 << ParseHex("4536e905b8c5bbc163137fed4cde7d12f0de010f")); // ep1qg5mwjpdcckauzccn0lk5ehnaztcduqg09g6jgu
     genesisOutputScripts.emplace_back(CScript() << OP_0 << ParseHex("5417a551f0989b8a3b00257645cb1e3d2884ca64")); // ep1q2st6250snzdc5wcqy4mytjc7855gfjnyhxyu4f
     assert(genesisOutputScripts.size() == genesisRewards.size());
-    return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
+    return CreateGenesisBlock(pszTimestamp, genesisOutputScripts, nTime, nNonce, nBits, nVersion, genesisRewards);
 }
 
 /**
