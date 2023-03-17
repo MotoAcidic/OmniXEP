@@ -22,7 +22,7 @@ static inline const CBlockIndex* GetLastBlockIndex(const CBlockIndex* pindex, co
 
 static inline const CBlockIndex* GetLastBlockIndexForAlgo(const CBlockIndex* pindex, const int& algo)
 {
-    while (pindex && pindex->pprev && CBlockHeader::GetAlgo(pindex->nVersion) != algo)
+    while (pindex && pindex->pprev && CBlockHeader::GetAlgoType(pindex->nVersion) != algo)
         pindex = pindex->pprev;
     return pindex;
 }
@@ -46,7 +46,7 @@ static inline const CBlockIndex* GetASERTReferenceBlockAndHeightForAlgo(const CB
 
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
 {
-    const int algo = CBlockHeader::GetAlgo(pblock->nVersion);
+    const int algo = CBlockHeader::GetAlgoType(pblock->nVersion);
     const uint32_t nProofOfWorkLimit = UintToArith256(params.powLimit[algo == -1 ? CBlockHeader::ALGO_POW_SHA256 : algo]).GetCompact();
     if (pindexLast == nullptr || params.fPowNoRetargeting)
         return nProofOfWorkLimit;
@@ -61,7 +61,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         if (pindexPrev->pprev && pindexPrev->nBits == (nProofOfWorkLimit - 1)) {
             // Return the block before the last non-special-min-difficulty-rules-block
             const CBlockIndex* pindex = pindexPrev;
-            while (pindex->pprev && (pindex->nBits == (nProofOfWorkLimit - 1) || CBlockHeader::GetAlgo(pindex->nVersion) != algo))
+            while (pindex->pprev && (pindex->nBits == (nProofOfWorkLimit - 1) || CBlockHeader::GetAlgoType(pindex->nVersion) != algo))
                 pindex = pindex->pprev;
             const CBlockIndex* pprev = GetLastBlockIndexForAlgo(pindex->pprev, algo);
             if (pprev && pprev->nHeight > 10) {
@@ -140,7 +140,7 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
 
 unsigned int WeightedTargetExponentialMovingAverage(const CBlockIndex* pindexLast, const CBlockHeader* pblock, const Consensus::Params& params)
 {
-    const int algo = CBlockHeader::GetAlgo(pblock->nVersion);
+    const int algo = CBlockHeader::GetAlgoType(pblock->nVersion);
     const bool fProofOfStake = pblock->IsProofOfStake();
     const arith_uint256 bnPowLimit = algo == -1 ? UintToArith256(params.powLimit[fProofOfStake ? CBlockHeader::ALGO_POS : CBlockHeader::ALGO_POW_SHA256]) : UintToArith256(params.powLimit[algo]);
     const uint32_t nProofOfWorkLimit = bnPowLimit.GetCompact();
@@ -200,7 +200,7 @@ static inline void AtomicToArith256(arith_uint256& arith, const std::atomic<uint
 
 unsigned int AverageTargetASERT(const CBlockIndex* pindexLast, const CBlockHeader* pblock, const Consensus::Params& params)
 {
-    const int algo = CBlockHeader::GetAlgo(pblock->nVersion);
+    const int algo = CBlockHeader::GetAlgoType(pblock->nVersion);
     const bool fProofOfStake = pblock->IsProofOfStake();
     const arith_uint256 bnPowLimit = algo == -1 ? UintToArith256(params.powLimit[fProofOfStake ? CBlockHeader::ALGO_POS : CBlockHeader::ALGO_POW_SHA256]) : UintToArith256(params.powLimit[algo]);
     const uint32_t nProofOfWorkLimit = bnPowLimit.GetCompact();

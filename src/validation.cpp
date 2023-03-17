@@ -1175,7 +1175,7 @@ bool ReadBlockFromDisk(CBlock& block, const FlatFilePos& pos, const Consensus::P
     }
 
     // Check the header
-    const int algo = CBlockHeader::GetAlgo(block.nVersion);
+    const int algo = CBlockHeader::GetAlgoType(block.nVersion);
     if (block.IsProofOfWork() && !CheckProofOfWork(block.GetPoWHash(), block.nBits, algo, consensusParams)) return error("ReadBlockFromDisk: Errors in block header at %s", pos.ToString());
 
     return true;

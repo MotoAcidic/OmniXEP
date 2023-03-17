@@ -207,7 +207,7 @@ CBlock TestChain100Setup::CreateAndProcessBlock(const std::vector<CMutableTransa
         IncrementExtraNonce(&block, ::ChainActive().Tip(), extraNonce);
     }
 
-    while (!CheckProofOfWork(block.GetPoWHash(), block.nBits, CBlockHeader::GetAlgo(block.nVersion), chainparams.GetConsensus()))
+    while (!CheckProofOfWork(block.GetPoWHash(), block.nBits, CBlockHeader::GetAlgoType(block.nVersion), chainparams.GetConsensus()))
         ++block.nNonce;
     std::shared_ptr<const CBlock> shared_pblock = std::make_shared<const CBlock>(block);
     ProcessNewBlock(chainparams, shared_pblock, true, nullptr);
