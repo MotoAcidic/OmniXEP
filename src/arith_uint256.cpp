@@ -277,7 +277,7 @@ arith_uint256& arith_uint256::SetCompact(uint32_t nCompact, bool* pfNegative, bo
     return *this;
 }
 
-uint32_t arith_uint256::GetCompactRounded(bool fNegative) const
+uint32_t arith_uint256::GetCompactRoundedBase256(bool fNegative) const
 {
     int nSize = (bits() + 7) / 8;
     uint32_t nCompact = 0;
