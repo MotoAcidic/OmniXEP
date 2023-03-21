@@ -261,6 +261,13 @@ public:
         m_assumed_blockchain_size = 40;
         m_assumed_chain_state_size = 2;
 
+        //Bring over from mainnet
+        std::vector<CAmount> genesisRewards;             // premine
+        genesisRewards.emplace_back(27000000000 * COIN); // 27 billion
+        genesisRewards.emplace_back(1500000000 * COIN);  // 1.5 billion
+        genesisRewards.emplace_back(500000000 * COIN);   // 0.5 billion
+        genesisRewards.emplace_back(500000000 * COIN);   // 0.5 billion
+        genesisRewards.emplace_back(500000000 * COIN);   // 0.5 billion
         genesis = CreateGenesisBlock(1296688602, 414098458, UintToArith256(consensus.powLimit[CBlockHeader::AlgoType::ALGO_POW_SHA256]).GetCompactBase256(), 1, genesisRewards);
         consensus.hashGenesisBlock = genesis.GetHash();
 
@@ -363,6 +370,14 @@ public:
 
         UpdateActivationParametersFromArgs(args);
 
+
+        //Bring over from mainnet
+        std::vector<CAmount> genesisRewards;             // premine
+        genesisRewards.emplace_back(27000000000 * COIN); // 27 billion
+        genesisRewards.emplace_back(1500000000 * COIN);  // 1.5 billion
+        genesisRewards.emplace_back(500000000 * COIN);   // 0.5 billion
+        genesisRewards.emplace_back(500000000 * COIN);   // 0.5 billion
+        genesisRewards.emplace_back(500000000 * COIN);   // 0.5 billion
         genesis = CreateGenesisBlock(1296688602, 414098458, UintToArith256(consensus.powLimit[CBlockHeader::AlgoType::ALGO_POW_SHA256]).GetCompactBase256(), 1, genesisRewards);
         consensus.hashGenesisBlock = genesis.GetHash();
 
