@@ -501,7 +501,7 @@ bool CheckStakeKernelHash(const unsigned int& nBits, const CBlockIndex* pindexPr
     bool fNegative;
     bool fOverflow;
     arith_uint256 bnTargetPerCoinDay;
-    bnTargetPerCoinDay.SetCompactBase256(nBits, &fNegative, &fOverflow);
+    bnTargetPerCoinDay.SetCompact(nBits, &fNegative, &fOverflow);
 
     // Check range
     if (fNegative || bnTargetPerCoinDay == 0 || fOverflow || bnTargetPerCoinDay > UintToArith256(params.powLimit[CBlockHeader::ALGO_POS]))
