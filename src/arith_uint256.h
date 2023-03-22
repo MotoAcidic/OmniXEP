@@ -303,9 +303,7 @@ public:
      * complexities of the sign bit and using base 256 are probably an
      * implementation accident.
      */
-    arith_uint256& SetCompact(uint32_t nCompact, bool *pfNegative = nullptr, bool *pfOverflow = nullptr);
     arith_uint256& SetCompactBase256(uint32_t nCompact, bool* pfNegative = nullptr, bool* pfOverflow = nullptr);
-    uint32_t GetCompact(bool fNegative = false) const;
     uint32_t GetCompactBase256(bool fNegative = false) const;
     uint32_t GetCompactRounded(bool fNegative = false) const;
     
