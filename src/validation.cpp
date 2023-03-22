@@ -3906,7 +3906,7 @@ static bool ContextualCheckBlockHeader(const CBlockHeader& block, BlockValidatio
     // Check proof of work
     const Consensus::Params& consensusParams = params.GetConsensus();
     const uint32_t nRequiredBits = GetNextWorkRequired(pindexPrev, &block, consensusParams);
-    //LogPrintf("%s: block %i - bnTarget = %s, expected bnTarget = %s\n", __func__, nHeight, arith_uint256().SetCompact(block.nBits).ToString(), arith_uint256().SetCompact(nRequiredBits).ToString());
+    //LogPrintf("%s: block %i - bnTarget = %s, expected bnTarget = %s\n", __func__, nHeight, arith_uint256().SetCompactBase256(block.nBits).ToString(), arith_uint256().SetCompactBase256(nRequiredBits).ToString());
     if (block.nBits != nRequiredBits)
         return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "bad-diffbits", "incorrect difficulty target");
 

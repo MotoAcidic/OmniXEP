@@ -128,7 +128,7 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
     // Retarget
     const arith_uint256 bnPowLimit = UintToArith256(params.powLimit[CBlockHeader::ALGO_POW_SHA256]);
     arith_uint256 bnNew;
-    bnNew.SetCompact(pindexLast->nBits);
+    bnNew.SetCompactBase256(pindexLast->nBits);
     bnNew *= nActualTimespan;
     bnNew /= params.nPowTargetTimespan;
 
@@ -158,7 +158,7 @@ unsigned int WeightedTargetExponentialMovingAverage(const CBlockIndex* pindexLas
     int nActualSpacing = pindexPrev->GetBlockTime() - pindexPrevPrev->GetBlockTime(); // Difficulty for PoW and PoS are calculated separately
 
     arith_uint256 bnNew;
-    bnNew.SetCompact(pindexPrev->nBits);
+    bnNew.SetCompactBase256(pindexPrev->nBits);
     int nTargetSpacing = params.nPowTargetSpacing;
     const uint32_t nTargetTimespan = params.nPowTargetTimespan;
     //nTargetSpacing *= 2; // 160 second block time for PoW + 160 second block time for PoS = 80 second effective block time
@@ -269,7 +269,7 @@ unsigned int AverageTargetASERT(const CBlockIndex* pindexLast, const CBlockHeade
             //unsigned int nBlocksAveraged = 0;
             for (int i = 0; i < (int)nASERTBlockTargetsToAverage; i++) {
                 if (pindex->nBits != (nProofOfWorkLimit - 1) || !params.fPowAllowMinDifficultyBlocks) { // Don't add min difficulty targets to the average
-                    arith_uint256 bnTarget = arith_uint256().SetCompact(pindex->nBits);
+                    arith_uint256 bnTarget = arith_uint256().SetCompactBase256(pindex->nBits);
                     refBlockTarget += bnTarget / nASERTBlockTargetsToAverage;
                     //nBlocksAveraged++;
                     //if (pindex->GetBlockHash() == params.hashGenesisBlock)
@@ -297,7 +297,7 @@ unsigned int AverageTargetASERT(const CBlockIndex* pindexLast, const CBlockHeade
     } else {
         if (fUseCache && algo != -1) {
             if (nTargetCacheAlgo.load() != algo || refBlockTargetCache == arith_uint256()) {
-                refBlockTargetCache = arith_uint256().SetCompact(pindexReferenceBlock->nBits);
+                refBlockTargetCache = arith_uint256().SetCompactBase256(pindexReferenceBlock->nBits);
                 Arith256ToAtomic(refBlockTargetCache, targetCacheOne, targetCacheTwo, targetCacheThree, targetCacheFour);
                 nTargetCacheHeight.store(-1);
                 nTargetCacheAlgo.store(algo);
@@ -305,7 +305,7 @@ unsigned int AverageTargetASERT(const CBlockIndex* pindexLast, const CBlockHeade
             }
             refBlockTarget = refBlockTargetCache;
         } else
-            refBlockTarget = arith_uint256().SetCompact(pindexReferenceBlock->nBits);
+            refBlockTarget = arith_uint256().SetCompactBase256(pindexReferenceBlock->nBits);
     }
 
     //LogPrintf("nHeight = %u, algo = %i, refBlockTarget = %s\n", nHeight, algo, refBlockTarget.ToString().c_str());
@@ -378,7 +378,7 @@ bool CheckProofOfWork(const uint256& hash, const unsigned int& nBits, const int&
     bool fOverflow;
     arith_uint256 bnTarget;
 
-    bnTarget.SetCompact(nBits, &fNegative, &fOverflow);
+    bnTarget.SetCompactBase256(nBits, &fNegative, &fOverflow);
 
     // Check range
     if (fNegative || bnTarget == 0 || fOverflow || algo < -1 || algo == CBlockHeader::ALGO_POS || algo >= CBlockHeader::ALGO_COUNT || bnTarget > UintToArith256(params.powLimit[algo == -1 ? CBlockHeader::ALGO_POW_SHA256 : algo]))
