@@ -249,7 +249,7 @@ unsigned int AverageTargetASERT(const CBlockIndex* pindexLast, const CBlockHeade
     arith_uint256 refBlockTarget;
 
     // We don't want to recalculate the average of several days' worth of block targets here every single time, so instead we cache the average and start height
-    //const bool fUseCache = false;
+    const bool fUseCache = false;
     arith_uint256 refBlockTargetCache;
     // For lack of a better way to store an atomic uint256 at the moment
     static std::atomic<uint64_t> targetCacheOne{0};
@@ -258,8 +258,8 @@ unsigned int AverageTargetASERT(const CBlockIndex* pindexLast, const CBlockHeade
     static std::atomic<uint64_t> targetCacheFour{0};
     static std::atomic_int nTargetCacheHeight{-1};
     static std::atomic_int nTargetCacheAlgo{CBlockHeader::ALGO_COUNT};
-    //if (fUseCache)
-    //    AtomicToArith256(refBlockTargetCache, targetCacheOne, targetCacheTwo, targetCacheThree, targetCacheFour);
+    if (fUseCache)
+        AtomicToArith256(refBlockTargetCache, targetCacheOne, targetCacheTwo, targetCacheThree, targetCacheFour);
 
     constexpr bool fUseCache = true;
     {
