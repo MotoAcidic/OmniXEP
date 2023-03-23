@@ -27,15 +27,6 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const std::vector<CSc
     for (unsigned int i = 0; i < genesisOutputScripts.size(); i++)
         txNew.vout.emplace_back(genesisRewards[i], genesisOutputScripts[i]);
 
-    CBlock genesis;
-    genesis.nTime = nTime;
-    genesis.nBits = nBits;
-    genesis.nNonce = nNonce;
-    genesis.nVersion = nVersion;
-    genesis.vtx.push_back(MakeTransactionRef(std::move(txNew)));
-    genesis.hashPrevBlock.SetNull();
-    genesis.hashMerkleRoot = BlockMerkleRoot(genesis);
-
     arith_uint256 hashTarget = arith_uint256().SetCompactBase256(std::min(genesis.nBits, (unsigned)0x1f00ffff));
     /*while (true) {
         arith_uint256 hash = UintToArith256(genesis.GetPoWHash());
