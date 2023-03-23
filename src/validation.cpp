@@ -2488,7 +2488,8 @@ bool CChainState::ConnectBlock(const CBlock& block, BlockValidationState& state,
     }
 
     //LogPrintf("ConnectBlock(): INFO: Block reward (actual=%s vs limit=%s) maximum: %s\n", FormatMoney(nActualBlockReward), FormatMoney(nExpectedBlockReward), nActualBlockReward == nExpectedBlockReward);
-    if (nActualBlockReward > nExpectedBlockReward) {
+    //if (nActualBlockReward > nExpectedBlockReward) {
+    if (pindex->nHeight != 0 && nActualBlockReward > nExpectedBlockReward){
         LogPrintf("ERROR: ConnectBlock(): %s pays too much (actual=%s vs limit=%s)\n", fProofOfStake ? "coinstake" : "coinbase", FormatMoney(nActualBlockReward), FormatMoney(nExpectedBlockReward));
         return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-cb-amount");
     }
