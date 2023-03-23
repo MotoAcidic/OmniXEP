@@ -150,6 +150,8 @@ public:
         genesisRewards.emplace_back(500000000 * COIN);   // 0.5 billion
         genesis = CreateGenesisBlock(1609246800, 10543997, UintToArith256(consensus.powLimit[CBlockHeader::AlgoType::ALGO_POW_SHA256]).GetCompactBase256(), 1, genesisRewards);
         consensus.hashGenesisBlock = genesis.GetHash();
+        //printf("Merkle hash mainnet: %s\n", genesis.hashMerkleRoot.ToString().c_str());
+        //printf("Genesis hash mainnet: %s\n", consensus.hashGenesisBlock.ToString().c_str());
         assert(genesis.hashMerkleRoot == uint256S("0x951ef417a7e31855adad366ad777b3a4608a7f50679baa54e81a28904097a26f"));
         assert(consensus.hashGenesisBlock == uint256S("0x000000954c02f260a6db02c712557adcb5a7a8a0a9acfd3d3c2b3a427376c56f"));
 
