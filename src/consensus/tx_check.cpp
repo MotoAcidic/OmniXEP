@@ -42,12 +42,12 @@ bool CheckTransaction(const CTransaction& tx, TxValidationState& state)
             return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-txns-inputs-duplicate");
     }
 
-    if (tx.IsCoinBase())
-    {
-        if (tx.vin[0].scriptSig.size() < 2 || tx.vin[0].scriptSig.size() > 100)
+if (tx.IsCoinBase()) {
+        //if (tx.vin[0].scriptSig.size() < 2 || tx.vin[0].scriptSig.size() > 100)
+        const unsigned int maxSigLength = static_cast<uint32_t>(tx.nVersion) >= 2 ? 100 : 120;
+        if (tx.vin[0].scriptSig.size() < 2 || tx.vin[0].scriptSig.size() > maxSigLength)
             return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-cb-length");
-    }
-    else
+    } else
     {
         for (const auto& txin : tx.vin)
             if (txin.prevout.IsNull())
