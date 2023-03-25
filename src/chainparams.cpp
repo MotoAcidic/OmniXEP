@@ -327,50 +327,49 @@ public:
 class CRegTestParams : public CChainParams {
 public:
     explicit CRegTestParams(const ArgsManager& args) {
-        strNetworkID =  CBaseChainParams::REGTEST;
+        strNetworkID = CBaseChainParams::REGTEST;
         consensus.nSubsidyHalvingInterval = 150;
         consensus.nBudgetPaymentsStartBlock = std::numeric_limits<int>::max();
         consensus.nPoSStartBlock = 0;
         consensus.nLastPoWBlock = std::numeric_limits<int>::max();
         consensus.nTreasuryPaymentsStartBlock = 30;
-        consensus.BIP16Exception = uint256();
+        consensus.BIP16Exception = uint256{};
         consensus.BIP34Height = 500; // BIP34 activated on regtest (Used in functional tests)
-        consensus.BIP34Hash = uint256();
+        consensus.BIP34Hash = uint256{};
         consensus.BIP65Height = 1351; // BIP65 activated on regtest (Used in functional tests)
         consensus.BIP66Height = 1251; // BIP66 activated on regtest (Used in functional tests)
-        consensus.CSVHeight = 432; // CSV activated on regtest (Used in rpc activation tests)
-        consensus.SegwitHeight = 0; // SEGWIT is always activated on regtest unless overridden
+        consensus.CSVHeight = 432;    // CSV activated on regtest (Used in rpc activation tests)
+        consensus.SegwitHeight = 0;   // SEGWIT is always activated on regtest unless overridden
         consensus.MinBIP9WarningHeight = 0;
-        consensus.powLimit[CBlockHeader::AlgoType::ALGO_POW_SHA256] = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.nPowTargetTimespan = 1 * 60 * 60; // 1 hour
-        consensus.nPowTargetSpacing = 80; // 80-second block spacing - must be divisible by (nStakeTimestampMask+1)
-        consensus.nStakeTimestampMask = 0x3; // 4 second time slots
+        consensus.powLimit[CBlockHeader::AlgoType::ALGO_POS] = uint256S("7fffff0000000000000000000000000000000000000000000000000000000000");        // 0x207fffff
+        consensus.powLimit[CBlockHeader::AlgoType::ALGO_POW_SHA256] = uint256S("7fffff0000000000000000000000000000000000000000000000000000000000"); // 0x207fffff
+        consensus.nPowTargetTimespan = 1 * 60 * 60;                                                                                                 // 1 hour
+        consensus.nPowTargetSpacing = 80;                                                                                                           // 80-second block spacing - must be divisible by (nStakeTimestampMask+1)
+        consensus.nStakeTimestampMask = 0x3;                                                                                                        // 4 second time slots
         consensus.nStakeMinDepth = 0;
-        consensus.nStakeMinAge = 1 * 60; // regtest min age is 1 minute
+        consensus.nStakeMinAge = 1 * 60;            // regtest min age is 1 minute
         consensus.nStakeMaxAge = 30 * 24 * 60 * 60; // 30 days
-        consensus.nModifierInterval = 1 * 60; // Modifier interval: time to elapse before new modifier is computed
+        consensus.nModifierInterval = 1 * 60;       // Modifier interval: time to elapse before new modifier is computed
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = true;
         consensus.nRuleChangeActivationThreshold = (24 * 60 * 60 * 75) / (100 * consensus.nPowTargetSpacing); // 75% for testchains
-        consensus.nMinerConfirmationWindow = 24 * 60 * 60 / consensus.nPowTargetSpacing; // Faster than normal for regtest (one day instead of two weeks)
+        consensus.nMinerConfirmationWindow = 24 * 60 * 60 / consensus.nPowTargetSpacing;                      // Faster than normal for regtest (one day instead of two weeks)
         consensus.nTreasuryPaymentsCycleBlocks = 20;
 
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 0;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = Consensus::BIP9Deployment::NO_TIMEOUT;
+        consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].min_activation_height = 0; // No activation delay
 
-        // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x00");
-
-        consensus.mTreasuryPayees.emplace(CScript() << ParseHex("04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f") << OP_CHECKSIG, 100); // 10% (full reward) for pubkey
-        consensus.nTreasuryRewardPercentage = 10; // 10% of block reward goes to treasury
+        consensus.mTreasuryPayees.emplace(CScript() << OP_0 << ParseHex("978a5064cd1fdf8c2510fe3fcbd65eaa5e98b32d"), 100); // 10% (full reward) for ep1qj799qexdrl0ccfgslcluh4j74f0f3vedatcv0k
+        consensus.nTreasuryRewardPercentage = 10;                                                                          // 10% of block reward goes to treasury
 
         consensus.nMinimumChainWork = uint256{};
         consensus.defaultAssumeValid = uint256{};
 
         pchMessageStart[0] = 0xfa;
         pchMessageStart[1] = 0xbf;
-        pchMessageStart[2] = 0xb5;
+        pchMessageStart[2] = 0xc5;
         pchMessageStart[3] = 0xda;
         nDefaultPort = 18444;
         nPruneAfterHeight = 1000;
@@ -379,19 +378,18 @@ public:
 
         UpdateActivationParametersFromArgs(args);
 
-
-        //Bring over from mainnet
         std::vector<CAmount> genesisRewards;             // premine
         genesisRewards.emplace_back(27000000000 * COIN); // 27 billion
         genesisRewards.emplace_back(1500000000 * COIN);  // 1.5 billion
         genesisRewards.emplace_back(500000000 * COIN);   // 0.5 billion
         genesisRewards.emplace_back(500000000 * COIN);   // 0.5 billion
         genesisRewards.emplace_back(500000000 * COIN);   // 0.5 billion
-        genesis = CreateGenesisBlock(1296688602, 414098458, UintToArith256(consensus.powLimit[CBlockHeader::AlgoType::ALGO_POW_SHA256]).GetCompactBase256(), 1, genesisRewards);
+        genesis = CreateGenesisBlock(1609246800, 14201, UintToArith256(consensus.powLimit[CBlockHeader::AlgoType::ALGO_POW_SHA256]).GetCompactBase256(), 1, genesisRewards);
         consensus.hashGenesisBlock = genesis.GetHash();
-
-        assert(consensus.hashGenesisBlock == uint256S("0x0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206"));
-        assert(genesis.hashMerkleRoot == uint256S("0x4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b"));
+        //printf("Merkle hash regtest: %s\n", genesis.hashMerkleRoot.ToString().c_str());
+        //printf("Genesis hash regtest: %s\n", consensus.hashGenesisBlock.ToString().c_str());
+        assert(genesis.hashMerkleRoot == uint256S("0x74d37252db3a2e1960cb4d62da34954ab26d39e431a8b77afe3dd31d8ddc96b3"));
+        assert(consensus.hashGenesisBlock == uint256S("0x00005c7509dcd261eea59d1cbe054f8ad6adb0b783ea4169d22ddba5b3fc6b50"));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //!< Regtest mode doesn't have any DNS seeds.
@@ -403,32 +401,31 @@ public:
 
         checkpointData = {
             {
-                {0, uint256S("0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206")},
-            }
-        };
+                {0, uint256S("00005c7509dcd261eea59d1cbe054f8ad6adb0b783ea4169d22ddba5b3fc6b50")},
+            }};
 
         chainTxData = ChainTxData{
             0,
             0,
-            0
-        };
+            0};
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,111);
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,196);
-        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,239);
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 141);
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 19);
+        base58Prefixes[SECRET_KEY] = std::vector<unsigned char>(1, 239);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
 
-        bech32_hrp = "bcrt";
+        bech32_hrp = "eprt";
     }
 
     /**
      * Allows modifying the Version Bits regtest parameters.
      */
-    void UpdateVersionBitsParameters(Consensus::DeploymentPos d, int64_t nStartTime, int64_t nTimeout)
+    void UpdateVersionBitsParameters(Consensus::DeploymentPos d, int64_t nStartTime, int64_t nTimeout, int min_activation_height)
     {
         consensus.vDeployments[d].nStartTime = nStartTime;
         consensus.vDeployments[d].nTimeout = nTimeout;
+        consensus.vDeployments[d].min_activation_height = min_activation_height;
     }
     void UpdateActivationParametersFromArgs(const ArgsManager& args);
 };
