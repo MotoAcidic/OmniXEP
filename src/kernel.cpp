@@ -669,7 +669,7 @@ unsigned int GetStakeModifierChecksum(const CBlockIndex* pindex)
         ss << pindex->nStakeModifierV2;
     else
         ss << pindex->nStakeModifier;
-    arith_uint256 hashChecksum = UintToArith256(Hash(ss.begin(), ss.end()));
+    arith_uint256 hashChecksum = UintToArith256(Hash(ss));
     hashChecksum >>= (256 - 32);
     return hashChecksum.GetLow64();
 }
