@@ -67,6 +67,13 @@ bool AddWallet(const std::shared_ptr<CWallet>& wallet)
 bool RemoveWallet(const std::shared_ptr<CWallet>& wallet)
 {
     assert(wallet);
+
+    interfaces::Chain& chain = wallet->chain();
+    std::string name = wallet->GetName();
+
+    // Stop wallet staking thread
+    chain.stopStakingThread(wallet->GetStakingThread());
+
     // Unregister with the validation interface which also drops shared ponters.
     wallet->m_chain_notifications_handler.reset();
     LOCK(cs_wallets);
@@ -4498,4 +4505,280 @@ void CWallet::ConnectScriptPubKeyManNotifiers()
         spk_man->NotifyWatchonlyChanged.connect(NotifyWatchonlyChanged);
         spk_man->NotifyCanGetAddressesChanged.connect(NotifyCanGetAddressesChanged);
     }
+}
+
+void CWallet::LoadDescriptorScriptPubKeyMan(uint256 id, WalletDescriptor& desc)
+{
+    auto spk_manager = std::unique_ptr<ScriptPubKeyMan>(new DescriptorScriptPubKeyMan(*this, desc));
+    m_spk_managers[id] = std::move(spk_manager);
+}
+
+void CWallet::SetupDescriptorScriptPubKeyMans()
+{
+    AssertLockHeld(cs_wallet);
+
+    // Make a seed
+    CKey seed_key;
+    seed_key.MakeNewKey(true);
+    CPubKey seed = seed_key.GetPubKey();
+    assert(seed_key.VerifyPubKey(seed));
+
+    // Get the extended key
+    CExtKey master_key;
+    master_key.SetSeed(seed_key.begin(), seed_key.size());
+
+    for (bool internal : {false, true}) {
+        for (OutputType t : OUTPUT_TYPES) {
+            auto spk_manager = std::unique_ptr<DescriptorScriptPubKeyMan>(new DescriptorScriptPubKeyMan(*this, internal));
+            if (IsCrypted()) {
+                if (IsLocked()) {
+                    throw std::runtime_error(std::string(__func__) + ": Wallet is locked, cannot setup new descriptors");
+                }
+                if (!spk_manager->CheckDecryptionKey(vMasterKey) && !spk_manager->Encrypt(vMasterKey, nullptr)) {
+                    throw std::runtime_error(std::string(__func__) + ": Could not encrypt new descriptors");
+                }
+            }
+            spk_manager->SetupDescriptorGeneration(master_key, t);
+            uint256 id = spk_manager->GetID();
+            m_spk_managers[id] = std::move(spk_manager);
+            AddActiveScriptPubKeyMan(id, t, internal);
+        }
+    }
+}
+
+void CWallet::AddActiveScriptPubKeyMan(uint256 id, OutputType type, bool internal)
+{
+    WalletBatch batch(*database);
+    if (!batch.WriteActiveScriptPubKeyMan(static_cast<uint8_t>(type), id, internal)) {
+        throw std::runtime_error(std::string(__func__) + ": writing active ScriptPubKeyMan id failed");
+    }
+    LoadActiveScriptPubKeyMan(id, type, internal);
+}
+
+void CWallet::LoadActiveScriptPubKeyMan(uint256 id, OutputType type, bool internal)
+{
+    WalletLogPrintf("Setting spkMan to active: id = %s, type = %d, internal = %d\n", id.ToString(), static_cast<int>(type), static_cast<int>(internal));
+    auto& spk_mans = internal ? m_internal_spk_managers : m_external_spk_managers;
+    auto spk_man = m_spk_managers.at(id).get();
+    spk_man->SetInternal(internal);
+    spk_mans[type] = spk_man;
+
+    NotifyCanGetAddressesChanged();
+}
+
+bool CWallet::IsLegacy() const
+{
+    if (m_internal_spk_managers.count(OutputType::LEGACY) == 0) {
+        return false;
+    }
+    auto spk_man = dynamic_cast<LegacyScriptPubKeyMan*>(m_internal_spk_managers.at(OutputType::LEGACY));
+    return spk_man != nullptr;
+}
+
+DescriptorScriptPubKeyMan* CWallet::GetDescriptorScriptPubKeyMan(const WalletDescriptor& desc) const
+{
+    for (auto& spk_man_pair : m_spk_managers) {
+        // Try to downcast to DescriptorScriptPubKeyMan then check if the descriptors match
+        DescriptorScriptPubKeyMan* spk_manager = dynamic_cast<DescriptorScriptPubKeyMan*>(spk_man_pair.second.get());
+        if (spk_manager != nullptr && spk_manager->HasWalletDescriptor(desc)) {
+            return spk_manager;
+        }
+    }
+
+    return nullptr;
+}
+
+ScriptPubKeyMan* CWallet::AddWalletDescriptor(WalletDescriptor& desc, const FlatSigningProvider& signing_provider, const std::string& label, bool internal)
+{
+    if (!IsWalletFlagSet(WALLET_FLAG_DESCRIPTORS)) {
+        WalletLogPrintf("Cannot add WalletDescriptor to a non-descriptor wallet\n");
+        return nullptr;
+    }
+
+    LOCK(cs_wallet);
+    auto new_spk_man = std::unique_ptr<DescriptorScriptPubKeyMan>(new DescriptorScriptPubKeyMan(*this, desc));
+
+    // If we already have this descriptor, remove it from the maps but add the existing cache to desc
+    auto old_spk_man = GetDescriptorScriptPubKeyMan(desc);
+    if (old_spk_man) {
+        WalletLogPrintf("Update existing descriptor: %s\n", desc.descriptor->ToString());
+
+        {
+            LOCK(old_spk_man->cs_desc_man);
+            new_spk_man->SetCache(old_spk_man->GetWalletDescriptor().cache);
+        }
+
+        // Remove from maps of active spkMans
+        auto old_spk_man_id = old_spk_man->GetID();
+        for (bool internal : {false, true}) {
+            for (OutputType t : OUTPUT_TYPES) {
+                auto active_spk_man = GetScriptPubKeyMan(t, internal);
+                if (active_spk_man && active_spk_man->GetID() == old_spk_man_id) {
+                    if (internal) {
+                        m_internal_spk_managers.erase(t);
+                    } else {
+                        m_external_spk_managers.erase(t);
+                    }
+                    break;
+                }
+            }
+        }
+        m_spk_managers.erase(old_spk_man_id);
+    }
+
+    // Add the private keys to the descriptor
+    for (const auto& entry : signing_provider.keys) {
+        const CKey& key = entry.second;
+        new_spk_man->AddDescriptorKey(key, key.GetPubKey());
+    }
+
+    // Top up key pool, the manager will generate new scriptPubKeys internally
+    if (!new_spk_man->TopUp()) {
+        WalletLogPrintf("Could not top up scriptPubKeys\n");
+        return nullptr;
+    }
+
+    // Apply the label if necessary
+    // Note: we disable labels for ranged descriptors
+    if (!desc.descriptor->IsRange()) {
+        auto script_pub_keys = new_spk_man->GetScriptPubKeys();
+        if (script_pub_keys.empty()) {
+            WalletLogPrintf("Could not generate scriptPubKeys (cache is empty)\n");
+            return nullptr;
+        }
+
+        CTxDestination dest;
+        if (!internal && ExtractDestination(script_pub_keys.at(0), dest)) {
+            SetAddressBook(dest, label, "receive");
+        }
+    }
+
+    // Save the descriptor to memory
+    auto ret = new_spk_man.get();
+    m_spk_managers[new_spk_man->GetID()] = std::move(new_spk_man);
+
+    // Save the descriptor to DB
+    ret->WriteDescriptor();
+
+    return ret;
+}
+
+bool CWallet::SelectStakeCoins(std::set<CInputCoin>& setCoins) const
+{
+    AssertLockHeld(cs_wallet);
+
+    // Choose coins to use
+    CAmount nBalance = GetBalance().m_mine_trusted;
+    CAmount nValueIn = 0;
+    std::vector<COutput> vAvailableCoins;
+    CCoinControl temp;
+    CoinSelectionParams coin_selection_params;
+    coin_selection_params.use_bnb=false;
+    bool bnb_used;
+    AvailableCoins(vAvailableCoins, true, &temp, 1, MAX_MONEY, MAX_MONEY, 0);
+
+    if (!SelectCoins(vAvailableCoins, nBalance, setCoins, nValueIn, temp, coin_selection_params, bnb_used))
+        return false;
+    if (setCoins.empty())
+        return false;
+
+    return true;
+}
+
+// peercoin: sign block
+bool CWallet::GetBlockSigningPubKey(const CBlock& block, CPubKey& pubkey, bool& pubkeyInSig) const
+{
+    AssertLockHeld(cs_wallet);
+
+    const bool fProofOfStake = block.IsProofOfStake();
+    std::vector<std::vector<unsigned char>> vSolutions;
+    const CTxOut& txout = fProofOfStake ? block.vtx[1]->vout[1] : block.vtx[0]->vout[0];
+    CScript scriptPubKey;
+    if (fProofOfStake) {
+        const COutPoint& prevout = block.vtx[1]->vin[0].prevout;
+        const CWalletTx* const origwtx = GetWalletTx(prevout.hash);
+        if (origwtx && origwtx->tx)
+            scriptPubKey = origwtx->tx->vout[prevout.n].scriptPubKey;
+        else
+            return false;
+    } else {
+        scriptPubKey = txout.scriptPubKey;
+    }
+    TxoutType whichType = Solver(scriptPubKey, vSolutions);
+
+    if (whichType == TxoutType::PUBKEY /*|| whichType == TxoutType::PUBKEY_REPLAY || whichType == TxoutType::PUBKEY_DATA_REPLAY*/) {
+        pubkey = CPubKey(vSolutions[0]);
+    } else if (whichType == TxoutType::PUBKEYHASH /*|| whichType == TxoutType::PUBKEYHASH_REPLAY*/ || whichType == TxoutType::WITNESS_V0_KEYHASH) {
+        std::unique_ptr<SigningProvider> provider = GetSolvingProvider(scriptPubKey);
+        if (!provider || !provider->GetPubKey(CKeyID(uint160(vSolutions[0])), pubkey))
+            return false;
+    } else if (whichType == TxoutType::SCRIPTHASH /*|| whichType == TxoutType::SCRIPTHASH_REPLAY*/ || whichType == TxoutType::WITNESS_V0_SCRIPTHASH) {
+        CScript subscript;
+        std::unique_ptr<SigningProvider> provider = GetSolvingProvider(scriptPubKey);
+        uint160 hash;
+        if (whichType == TxoutType::WITNESS_V0_SCRIPTHASH) {
+            CRIPEMD160().Write(&vSolutions[0][0], 32).Finalize(hash.begin());
+        } else // whichType == TxoutType::SCRIPTHASH
+            hash = uint160(vSolutions[0]);
+        if (provider && provider->GetCScript(CScriptID(hash), subscript)) {
+            TxoutType scriptType = Solver(subscript, vSolutions);
+            if (fProofOfStake && (scriptType == TxoutType::MULTISIG /*|| scriptType == TxoutType::MULTISIG_REPLAY || scriptType == TxoutType::MULTISIG_DATA || scriptType == TxoutType::MULTISIG_DATA_REPLAY*/))
+                whichType = scriptType; // pubkey is retrieved from PoS output below
+            else if (scriptType != TxoutType::WITNESS_V0_KEYHASH || !provider->GetPubKey(CKeyID(uint160(vSolutions[0])), pubkey))
+                return false;
+        } else
+            return false;
+    } else if (whichType == TxoutType::MULTISIG /*|| whichType == TxoutType::MULTISIG_REPLAY || whichType == TxoutType::MULTISIG_DATA || whichType == TxoutType::MULTISIG_DATA_REPLAY*/) {
+        if (vSolutions.size() != 3 || vSolutions.front()[0] != 1 || vSolutions.back()[0] != 1)
+            return false;
+        pubkey = CPubKey(vSolutions[1]);
+        if (!pubkey.IsValid())
+            return false;
+    } else {
+        return false;
+    }
+
+    if (fProofOfStake) {
+        TxoutType outputType = Solver(txout.scriptPubKey, vSolutions); // check the output
+        if (outputType == TxoutType::PUBKEY) { // pubkey is revealed in p2pk output
+            pubkey = CPubKey(vSolutions[0]); // use pubkey from output rather than input
+            pubkeyInSig = true;
+        } else if (whichType == TxoutType::PUBKEY /*|| whichType == TxoutType::PUBKEY_REPLAY || whichType == TxoutType::PUBKEY_DATA_REPLAY*/ || whichType == TxoutType::MULTISIG /*|| whichType == TxoutType::MULTISIG_REPLAY || whichType == TxoutType::MULTISIG_DATA || whichType == TxoutType::MULTISIG_DATA_REPLAY*/) { // p2pk and multisig PoS inputs don't place the pubkey in the scriptSig
+            pubkeyInSig = false;
+            if (outputType == TxoutType::PUBKEYHASH || outputType == TxoutType::WITNESS_V0_KEYHASH) {
+                std::unique_ptr<SigningProvider> provider = GetSolvingProvider(txout.scriptPubKey);
+                if (!provider || !provider->GetPubKey(CKeyID(uint160(vSolutions[0])), pubkey)) // extract pubkey from output to put in coinbase
+                    return false;
+            } else if (outputType == TxoutType::SCRIPTHASH) {
+                CScript subscript;
+                std::unique_ptr<SigningProvider> provider = GetSolvingProvider(txout.scriptPubKey);
+                if (provider && provider->GetCScript(CScriptID(uint160(vSolutions[0])), subscript)) { // extract pubkey from script to put in coinbase
+                    outputType = Solver(subscript, vSolutions);
+                    if (outputType != TxoutType::WITNESS_V0_KEYHASH || !provider->GetPubKey(CKeyID(uint160(vSolutions[0])), pubkey))
+                        return false;
+                } else
+                    return false;
+            } else
+                return false;
+        } else
+            pubkeyInSig = true;
+    } else if (whichType != TxoutType::PUBKEY) // PoW has no inputs so the pubkey isn't revealed unless it uses a p2pk output
+        pubkeyInSig = false;
+    else
+        pubkeyInSig = true;
+
+    return true;
+}
+
+// peercoin: sign block
+bool CWallet::SignBlock(CBlock& block, const CPubKey& pubkey) const
+{
+    AssertLockHeld(cs_wallet);
+
+    // Try to sign with all ScriptPubKeyMans
+    for (ScriptPubKeyMan* spk_man : GetAllScriptPubKeyMans()) {
+        if (spk_man->SignBlock(block, pubkey) == SigningResult::OK)
+            return true;
+    }
+    return false;
 }
