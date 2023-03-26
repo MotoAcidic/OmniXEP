@@ -639,8 +639,6 @@ private:
     std::mutex mutexScanning;
     friend class WalletRescanReserver;
 
-    std::atomic<uint32_t> nStakingThread{0};
-
     //! the current wallet version: clients below this version are not able to load the wallet
     int nWalletVersion GUARDED_BY(cs_wallet){FEATURE_BASE};
 
@@ -786,16 +784,6 @@ public:
 
     /** Interface to assert chain access and if successful lock it */
     std::unique_ptr<interfaces::Chain::Lock> LockChain() { return m_chain ? m_chain->lock() : nullptr; }
-    uint32_t GetStakingThread() const { return nStakingThread; }
-    void SetStakingThread(const uint32_t threadNum)
-    {
-        if (nStakingThread == 0) {
-            nStakingThread = threadNum;
-        }
-    }
-
-    /** Interface to assert chain access */
-    bool HaveChain() const { return m_chain ? true : false; }
 
     std::map<uint256, CWalletTx> mapWallet GUARDED_BY(cs_wallet);
 
@@ -994,9 +982,6 @@ public:
      * @param[in] orderForm BIP 70 / BIP 21 order form details to be set on the transaction.
      */
     void CommitTransaction(CTransactionRef tx, mapValue_t mapValue, std::vector<std::pair<std::string, std::string>> orderForm);
-    bool SelectStakeCoins(std::set<CInputCoin>& setCoins) const EXCLUSIVE_LOCKS_REQUIRED(cs_wallet);
-    bool GetBlockSigningPubKey(const CBlock& block, CPubKey& pubkey, bool& pubkeyInSig) const EXCLUSIVE_LOCKS_REQUIRED(cs_wallet);
-    bool SignBlock(CBlock& block, const CPubKey& pubkey) const EXCLUSIVE_LOCKS_REQUIRED(cs_wallet);
 
     bool DummySignTx(CMutableTransaction &txNew, const std::set<CTxOut> &txouts, bool use_max_sig = false) const
     {
