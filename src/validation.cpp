@@ -1601,7 +1601,7 @@ bool CheckInputScripts(const CTransaction& tx, TxValidationState &state, const C
         return true;
     }
 
-    if (!txdata.m_spent_outputs_ready) {
+    if (!txdata.ready) {
         std::vector<CTxOut> spent_outputs;
         spent_outputs.reserve(tx.vin.size());
 
