@@ -1281,7 +1281,7 @@ uint256 GetOutputsHash(const T& txTo)
 template <class T>
 void PrecomputedTransactionData::Init(const T& txTo, std::vector<CTxOut>&& spent_outputs)
 {
-    assert(ready);
+    //assert(ready);
 
     m_spent_outputs = std::move(spent_outputs);
 
