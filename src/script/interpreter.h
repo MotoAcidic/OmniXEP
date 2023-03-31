@@ -126,8 +126,6 @@ struct PrecomputedTransactionData
     uint256 hashPrevouts, hashSequence, hashOutputs;
     bool ready = false;
     std::vector<CTxOut> m_spent_outputs;
-    //! Whether m_spent_outputs is initialized.
-    bool m_spent_outputs_ready = false;
 
     template <class T>
     void Init(const T& tx, std::vector<CTxOut>&& spent_outputs);
