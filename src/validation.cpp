@@ -5805,113 +5805,6 @@ bool GetCoinAge(const CTransaction& tx, const CCoinsViewCache& view, unsigned in
 // peercoin: check block signature
 bool CheckBlockSignature(const CBlock& block)
 {
-    //if (block.GetHash() == Params().GetConsensus().hashGenesisBlock)
-    const uint256& blockHash = block.GetHash();
-    if (blockHash == Params().GetConsensus().hashGenesisBlock)
-        return block.vchBlockSig.empty();
-
-    if (block.vchBlockSig.empty())
-        return error("%s: vchBlockSig is empty!", __func__);
-
-    std::vector<std::vector<unsigned char>> vSolutions;
-    const CTxOut& txout = block.IsProofOfStake() ? block.vtx[1]->vout[1] : block.vtx[0]->vout[0];
-    txnouttype whichType = Solver(txout.scriptPubKey, vSolutions);
-    CPubKey pubkey;
-
-    if (whichType == TX_PUBKEY) {
-        const std::vector<unsigned char>& vchPubKey = vSolutions[0];
-        pubkey = CPubKey(vchPubKey);
-    } else if (whichType == TX_PUBKEYHASH) {
-        const CTxIn& txin = block.vtx[1]->vin[0];
-        int start = 1 + (int)*txin.scriptSig.begin(); // skip sig
-        pubkey = CPubKey(txin.scriptSig.begin() + start + 1, txin.scriptSig.end());
-    } else if (whichType == WITNESS_V0_KEYHASH_SIZE) {
-        const CTxIn& txin = block.vtx[1]->vin[0];
-        pubkey = CPubKey(txin.scriptWitness.stack.back());
-    }
-
-    if (!pubkey.IsCompressed())
-        return error("%s: invalid pubkey %s", __func__, HexStr(pubkey));
-
-    return pubkey.Verify(block.GetHash(), block.vchBlockSig);
-}
-
-// peercoin: total coin age spent in transaction, in the unit of coin-days.
-// Only those coins meeting minimum age requirement counts. As those
-// transactions not in main chain are not currently indexed so we
-// might not find out about their coin age. Older transactions are
-// guaranteed to be in main chain by sync-checkpoint. This rule is
-// introduced to help nodes establish a consistent view of the coin
-// age (trust score) of competing branches.
-bool GetCoinAge(const CTransaction& tx, const CCoinsViewCache& view, unsigned int nTimeTx, int nHeightCurrent, uint64_t& nCoinAge, const CBlockIndex* pindexFrom)
-{
-    arith_uint256 bnSatoshiSecond = 0;  // coin age in the unit of satoshi-seconds
-    nCoinAge = 0;
-
-    if (tx.IsCoinBase())
-        return true;
-
-    const Consensus::Params& params = Params().GetConsensus();
-    for (const auto& txin : tx.vin) {
-        // First try finding the previous transaction in database
-        const COutPoint& prevout = txin.prevout;
-        Coin coin;
-
-        int64_t nValueIn;
-        //uint32_t nTimeTxPrev;
-        if (view.GetCoin(prevout, coin)) {
-            pindexFrom = ::ChainActive()[coin.nHeight];
-            nValueIn = coin.out.nValue;
-            //nTimeTxPrev = coin.nTime;
-        } else {
-            //return error("%s : previous transaction not in main chain", __func__);
-            uint256 hashBlock;
-            CTransactionRef txPrev = GetTransaction(pindexFrom, nullptr, prevout.hash, params, hashBlock);
-            if (!txPrev)
-                return error("%s : tx index not found", __func__);
-
-            if (!pindexFrom) {
-                LOCK(cs_main);
-                pindexFrom = LookupBlockIndex(hashBlock);
-            }
-            nValueIn = txPrev->vout[prevout.n].nValue;
-            //nTimeTxPrev = txPrev->nTime;
-        }
-
-        if (!pindexFrom)
-            return error("%s : block index not found", __func__);
-
-        unsigned int nTimeBlockFrom = pindexFrom->GetBlockTime();
-        int nHeightBlockFrom = pindexFrom->nHeight;
-        int64_t nStakeMinAge = params.nStakeMinAge;
-        int nStakeMinDepth = params.nStakeMinDepth;
-        //LogPrintf("nTimeTx=%u, nTimeBlockFrom=%u, nTimeTxPrev=%u, nHeightBlockFrom=%i, nStakeMinAge=%li, nStakeMinDepth=%i\n", nTimeTx, nTimeBlockFrom, nTimeTxPrev, nHeightBlockFrom, nStakeMinAge, nStakeMinDepth);
-
-        if (nTimeTx < nTimeBlockFrom)
-            return false; // Transaction timestamp violation
-
-        if (nTimeBlockFrom + nStakeMinAge > nTimeTx || nHeightCurrent - nHeightBlockFrom < nStakeMinDepth)
-            continue; // only count coins meeting min age requirement
-
-        unsigned int nTimeDiff = nTimeTx - (nTimeBlockFrom);
-        nTimeDiff = std::min((int64_t)nTimeDiff, params.nStakeMaxAge);
-
-        bnSatoshiSecond += arith_uint256(nValueIn) * nTimeDiff;
-
-        if (gArgs.GetBoolArg("-printcoinage", false))
-            LogPrintf("coin age nValueIn=%-12lld nTimeDiff=%d bnCentSecond=%s\n", nValueIn, nTimeDiff, (bnSatoshiSecond*100/COIN).ToString());
-    }
-
-    arith_uint256 bnCoinDay = bnSatoshiSecond / COIN / (24 * 60 * 60);
-    if (gArgs.GetBoolArg("-printcoinage", false))
-        LogPrintf("coin age bnCoinDay=%s\n", bnCoinDay.ToString());
-    nCoinAge = bnCoinDay.GetLow64();
-    return true;
-}
-
-// peercoin: check block signature
-bool CheckBlockSignature(const CBlock& block)
-{
     const uint256& blockHash = block.GetHash();
     if (blockHash == Params().GetConsensus().hashGenesisBlock)
         return block.vchBlockSig.empty();
@@ -5922,10 +5815,10 @@ bool CheckBlockSignature(const CBlock& block)
     const bool fProofOfStake = block.IsProofOfStake();
     std::vector<std::vector<unsigned char>> vSolutions;
     const CTxOut& txout = fProofOfStake ? block.vtx[1]->vout[1] : block.vtx[0]->vout[0];
-    TxoutType whichType = Solver(txout.scriptPubKey, vSolutions);
+    txnouttype whichType = Solver(txout.scriptPubKey, vSolutions);
     CPubKey pubkey;
 
-    if (whichType == TxoutType::PUBKEY) {
+    if (whichType == TX_PUBKEY) {
         pubkey = CPubKey(vSolutions[0]);
     } else {
         const CTxIn& cbtxin = block.vtx[0]->vin[0];
@@ -5952,11 +5845,11 @@ bool CheckBlockSignature(const CBlock& block)
             //LogPrintf("%s : coinbase cbtxin.scriptSig = %s\n", __func__, HexStr(cbtxin.scriptSig));
             //LogPrintf("%s : cbtxin.scriptSig.size() = %u, vchPubKey = %s\n", __func__, cbtxin.scriptSig.size(), HexStr(vchPubKey));
             pubkey = CPubKey(cbtxin.scriptSig.end()-CPubKey::COMPRESSED_SIZE, cbtxin.scriptSig.end());
-            if (whichType == TxoutType::PUBKEYHASH || whichType == TxoutType::WITNESS_V0_KEYHASH) { // we need to ensure the signing pubkey belongs to the original staker so that the coinstake TX cannot be used by someone else to create a different block
+            if (whichType == TX_PUBKEYHASH || whichType == WITNESS_V0_KEYHASH_SIZE) { // we need to ensure the signing pubkey belongs to the original staker so that the coinstake TX cannot be used by someone else to create a different block
                 if (Hash160(pubkey) != uint160(vSolutions[0])) {
                     return error("%s : pubkey used for block signature (%s) does not correspond to first output", __func__, HexStr(pubkey));
                 }
-            } else if (whichType == TxoutType::SCRIPTHASH) {
+            } else if (whichType == TX_SCRIPTHASH) {
                 if (Hash160(CScript() << OP_0 << ToByteVector(Hash160(pubkey))) != uint160(vSolutions[0])) { // p2sh-p2wpkh
                     return error("%s : pubkey used for block signature (%s) is not used in first %s output", __func__, HexStr(pubkey), GetTxnOutputType(whichType));
                 }

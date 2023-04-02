@@ -457,9 +457,6 @@ bool CBlockTreeDB::LoadBlockIndexGuts(const Consensus::Params& consensusParams, 
                 pindexNew->nTreasuryPayment = diskindex.nTreasuryPayment;
                 pindexNew->hashProofOfStake = diskindex.hashProofOfStake;
 
-                if (pindexNew->IsProofOfWork() && !CheckProofOfWork(pindexNew->GetBlockHeader().GetPoWHash(), pindexNew->nBits, consensusParams))
-                    return error("%s: CheckProofOfWork failed: %s", __func__, pindexNew->ToString());
-
                 const int algo = CBlockHeader::GetAlgoType(pindexNew->nVersion);
                 if (pindexNew->IsProofOfWork() && !CheckProofOfWork(pindexNew->GetBlockHeader().GetPoWHash(), pindexNew->nBits, algo, consensusParams)) return error("%s: CheckProofOfWork failed: %s", __func__, pindexNew->ToString());
 
