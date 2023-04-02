@@ -5805,7 +5805,9 @@ bool GetCoinAge(const CTransaction& tx, const CCoinsViewCache& view, unsigned in
 // peercoin: check block signature
 bool CheckBlockSignature(const CBlock& block)
 {
-    if (block.GetHash() == Params().GetConsensus().hashGenesisBlock)
+    //if (block.GetHash() == Params().GetConsensus().hashGenesisBlock)
+    const uint256& blockHash = block.GetHash();
+    if (blockHash == Params().GetConsensus().hashGenesisBlock)
         return block.vchBlockSig.empty();
 
     if (block.vchBlockSig.empty())
