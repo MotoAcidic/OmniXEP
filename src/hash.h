@@ -13,7 +13,7 @@
 #include <crypto/scrypt.h>
 #include <crypto/sha1.h>
 #include <crypto/sha256.h>
-//#include <crypto/sha512.h>
+// #include <crypto/sha512.h>
 #include <prevector.h>
 #include <serialize.h>
 #include <uint256.h>
@@ -21,21 +21,21 @@
 
 #include <crypto/sph_blake.h>
 #include <crypto/sph_bmw.h>
+#include <crypto/sph_cubehash.h>
+#include <crypto/sph_echo.h>
+#include <crypto/sph_fugue.h>
 #include <crypto/sph_groestl.h>
+#include <crypto/sph_hamsi.h>
+#include <crypto/sph_haval.h>
 #include <crypto/sph_jh.h>
 #include <crypto/sph_keccak.h>
-#include <crypto/sph_skein.h>
 #include <crypto/sph_luffa.h>
-#include <crypto/sph_cubehash.h>
+#include <crypto/sph_sha2.h>
+#include <crypto/sph_shabal.h>
 #include <crypto/sph_shavite.h>
 #include <crypto/sph_simd.h>
-#include <crypto/sph_echo.h>
-#include <crypto/sph_hamsi.h>
-#include <crypto/sph_fugue.h>
-#include <crypto/sph_shabal.h>
+#include <crypto/sph_skein.h>
 #include <crypto/sph_whirlpool.h>
-#include <crypto/sph_sha2.h>
-#include <crypto/sph_haval.h>
 
 #include <string>
 #include <vector>
@@ -44,114 +44,147 @@ typedef uint256 ChainCode;
 
 /* ----------- Bitcoin Hash ------------------------------------------------- */
 /** A hasher class for Bitcoin's 256-bit hash (double SHA-256). */
-class CHash256 {
+class CHash256
+{
 private:
     CSHA256 sha;
+
 public:
     static const size_t OUTPUT_SIZE = CSHA256::OUTPUT_SIZE;
 
-    void Finalize(unsigned char hash[OUTPUT_SIZE]) {
+    void Finalize(unsigned char hash[OUTPUT_SIZE])
+    {
         unsigned char buf[CSHA256::OUTPUT_SIZE];
         sha.Finalize(buf);
         sha.Reset().Write(buf, CSHA256::OUTPUT_SIZE).Finalize(hash);
     }
 
-    CHash256& Write(const unsigned char *data, size_t len) {
+    CHash256& Write(const unsigned char* data, size_t len)
+    {
         sha.Write(data, len);
         return *this;
     }
 
-    CHash256& Reset() {
+    CHash256& Reset()
+    {
         sha.Reset();
         return *this;
     }
 };
 
 /** A hasher class for Bitcoin's 160-bit hash (SHA-256 + RIPEMD-160). */
-class CHash160 {
+class CHash160
+{
 private:
     CSHA256 sha;
+
 public:
     static const size_t OUTPUT_SIZE = CRIPEMD160::OUTPUT_SIZE;
 
-    void Finalize(unsigned char hash[OUTPUT_SIZE]) {
+    void Finalize(unsigned char hash[OUTPUT_SIZE])
+    {
         unsigned char buf[CSHA256::OUTPUT_SIZE];
         sha.Finalize(buf);
         CRIPEMD160().Write(buf, CSHA256::OUTPUT_SIZE).Finalize(hash);
     }
 
-    CHash160& Write(const unsigned char *data, size_t len) {
+    CHash160& Write(const unsigned char* data, size_t len)
+    {
         sha.Write(data, len);
         return *this;
     }
 
-    CHash160& Reset() {
+    CHash160& WriteJ(Span<const unsigned char> input)
+    {
+        sha.Write(input.data(), input.size());
+        return *this;
+    }
+
+    CHash160& Reset()
+    {
         sha.Reset();
         return *this;
     }
 };
 
 /** A hasher class for Bitcoin's 160-bit hash (double SHA-1). */
-class CHash1 {
+class CHash1
+{
 private:
     CSHA1 sha;
+
 public:
     static const size_t OUTPUT_SIZE = CSHA1::OUTPUT_SIZE;
 
-    void Finalize(Span<unsigned char> output) {
+    void Finalize(Span<unsigned char> output)
+    {
         assert(output.size() == OUTPUT_SIZE);
         unsigned char buf[CSHA1::OUTPUT_SIZE];
         sha.Finalize(buf);
         sha.Reset().Write(buf, CSHA1::OUTPUT_SIZE).Finalize(output.data());
     }
 
-    CHash1& Write(Span<const unsigned char> input) {
+    CHash1& Write(Span<const unsigned char> input)
+    {
         sha.Write(input.data(), input.size());
         return *this;
     }
 
-    CHash1& Reset() {
+    CHash1& Reset()
+    {
         sha.Reset();
         return *this;
     }
 };
 
 /** Compute the 256-bit hash of an object. */
-template<typename T1>
+template <typename T1>
 inline uint256 Hash(const T1 pbegin, const T1 pend)
 {
     static const unsigned char pblank[1] = {};
     uint256 result;
-    CHash256().Write(pbegin == pend ? pblank : (const unsigned char*)&pbegin[0], (pend - pbegin) * sizeof(pbegin[0]))
-              .Finalize((unsigned char*)&result);
+    CHash256().Write(pbegin == pend ? pblank : (const unsigned char*)&pbegin[0], (pend - pbegin) * sizeof(pbegin[0])).Finalize((unsigned char*)&result);
     return result;
 }
 
 /** Compute the 256-bit hash of the concatenation of two objects. */
-template<typename T1, typename T2>
-inline uint256 Hash(const T1 p1begin, const T1 p1end,
-                    const T2 p2begin, const T2 p2end) {
+template <typename T1, typename T2>
+inline uint256 Hash(const T1 p1begin, const T1 p1end, const T2 p2begin, const T2 p2end)
+{
     static const unsigned char pblank[1] = {};
     uint256 result;
-    CHash256().Write(p1begin == p1end ? pblank : (const unsigned char*)&p1begin[0], (p1end - p1begin) * sizeof(p1begin[0]))
-              .Write(p2begin == p2end ? pblank : (const unsigned char*)&p2begin[0], (p2end - p2begin) * sizeof(p2begin[0]))
-              .Finalize((unsigned char*)&result);
+    CHash256().Write(p1begin == p1end ? pblank : (const unsigned char*)&p1begin[0], (p1end - p1begin) * sizeof(p1begin[0])).Write(p2begin == p2end ? pblank : (const unsigned char*)&p2begin[0], (p2end - p2begin) * sizeof(p2begin[0])).Finalize((unsigned char*)&result);
     return result;
 }
 
 /** Compute the 160-bit hash of an object. */
-template<typename T1>
+template <typename T1>
 inline uint160 Hash160(const T1 pbegin, const T1 pend)
 {
     static unsigned char pblank[1] = {};
     uint160 result;
-    CHash160().Write(pbegin == pend ? pblank : (const unsigned char*)&pbegin[0], (pend - pbegin) * sizeof(pbegin[0]))
-              .Finalize((unsigned char*)&result);
+    CHash160().Write(pbegin == pend ? pblank : (const unsigned char*)&pbegin[0], (pend - pbegin) * sizeof(pbegin[0])).Finalize((unsigned char*)&result);
+    return result;
+}
+
+/** Compute the 160-bit hash of an object. */
+template <typename T1>
+inline uint160 Hash160J(const T1& in1)
+{
+    uint160 result;
+    CHash160().WriteJ(MakeUCharSpan(in1)).Finalize((unsigned char*)&result);
     return result;
 }
 
 /** Compute the 160-bit hash of a vector. */
 inline uint160 Hash160(const std::vector<unsigned char>& vch)
+{
+    return Hash160(vch.begin(), vch.end());
+}
+
+/** Compute the 160-bit hash of a vector. */
+template <unsigned int N>
+inline uint160 Hash160(const prevector<N, unsigned char>& vch)
 {
     return Hash160(vch.begin(), vch.end());
 }
@@ -164,19 +197,21 @@ private:
 
     const int nType;
     const int nVersion;
-public:
 
+public:
     CHashWriter(int nTypeIn, int nVersionIn) : nType(nTypeIn), nVersion(nVersionIn) {}
 
     int GetType() const { return nType; }
     int GetVersion() const { return nVersion; }
 
-    void write(const char *pch, size_t size) {
+    void write(const char* pch, size_t size)
+    {
         ctx.Write((const unsigned char*)pch, size);
     }
 
     // invalidates the object
-    uint256 GetHash() {
+    uint256 GetHash()
+    {
         uint256 result;
         ctx.Finalize((unsigned char*)&result);
         return result;
@@ -185,14 +220,16 @@ public:
     /**
      * Returns the first 64 bits from the resulting hash.
      */
-    inline uint64_t GetCheapHash() {
+    inline uint64_t GetCheapHash()
+    {
         unsigned char result[CHash256::OUTPUT_SIZE];
         ctx.Finalize(result);
         return ReadLE64(result);
     }
 
-    template<typename T>
-    CHashWriter& operator<<(const T& obj) {
+    template <typename T>
+    CHashWriter& operator<<(const T& obj)
+    {
         // Serialize to this stream
         ::Serialize(*this, obj);
         return (*this);
@@ -200,7 +237,7 @@ public:
 };
 
 /** Reads data from an underlying stream, while hashing the read data. */
-template<typename Source>
+template <typename Source>
 class CHashVerifier : public CHashWriter
 {
 private:
@@ -225,7 +262,7 @@ public:
         }
     }
 
-    template<typename T>
+    template <typename T>
     CHashVerifier<Source>& operator>>(T&& obj)
     {
         // Unserialize from this stream
@@ -235,8 +272,8 @@ public:
 };
 
 /** Compute the 256-bit hash of an object's serialization. */
-template<typename T>
-uint256 SerializeHash(const T& obj, int nType=SER_GETHASH, int nVersion=PROTOCOL_VERSION)
+template <typename T>
+uint256 SerializeHash(const T& obj, int nType = SER_GETHASH, int nVersion = PROTOCOL_VERSION)
 {
     CHashWriter ss(nType, nVersion);
     ss << obj;
@@ -245,7 +282,7 @@ uint256 SerializeHash(const T& obj, int nType=SER_GETHASH, int nVersion=PROTOCOL
 
 unsigned int MurmurHash3(unsigned int nHashSeed, const std::vector<unsigned char>& vDataToHash);
 
-void BIP32Hash(const ChainCode &chainCode, unsigned int nChild, unsigned char header, const unsigned char data[32], unsigned char output[64]);
+void BIP32Hash(const ChainCode& chainCode, unsigned int nChild, unsigned char header, const unsigned char data[32], unsigned char output[64]);
 
 /** Return a CHashWriter primed for tagged hashes (as specified in BIP 340).
  *
@@ -256,19 +293,19 @@ void BIP32Hash(const ChainCode &chainCode, unsigned int nChild, unsigned char he
 CHashWriter TaggedHash(const std::string& tag);
 
 /* ----------- Quark Hash ------------------------------------------------- */
-template<typename T1>
+template <typename T1>
 inline uint256 HashQuark(const T1& in1)
 {
-    sph_blake512_context      ctx_blake;
-    sph_bmw512_context        ctx_bmw;
-    sph_groestl512_context    ctx_groestl;
-    sph_jh512_context         ctx_jh;
-    sph_keccak512_context     ctx_keccak;
-    sph_skein512_context      ctx_skein;
+    sph_blake512_context ctx_blake;
+    sph_bmw512_context ctx_bmw;
+    sph_groestl512_context ctx_groestl;
+    sph_jh512_context ctx_jh;
+    sph_keccak512_context ctx_keccak;
+    sph_skein512_context ctx_skein;
 
     constexpr unsigned int inputHashLength = 64;
 
-    const Span<const unsigned char> &input = MakeUCharSpan(in1);
+    const Span<const unsigned char>& input = MakeUCharSpan(in1);
     unsigned char hashA[inputHashLength], hashB[inputHashLength];
 
     sph_blake512_init(&ctx_blake);
@@ -343,30 +380,30 @@ inline uint256 HashQuark(const T1& in1)
 }
 
 /* ----------- Xevan Hash ------------------------------------------------- */
-template<typename T1>
+template <typename T1>
 inline uint256 HashXevan(const T1& in1)
 {
-    sph_blake512_context      ctx_blake;
-    sph_bmw512_context        ctx_bmw;
-    sph_groestl512_context    ctx_groestl;
-    sph_jh512_context         ctx_jh;
-    sph_keccak512_context     ctx_keccak;
-    sph_skein512_context      ctx_skein;
-    sph_luffa512_context      ctx_luffa;
-    sph_cubehash512_context   ctx_cubehash;
-    sph_shavite512_context    ctx_shavite;
-    sph_simd512_context       ctx_simd;
-    sph_echo512_context       ctx_echo;
-    sph_hamsi512_context      ctx_hamsi;
-    sph_fugue512_context      ctx_fugue;
-    sph_shabal512_context     ctx_shabal;
-    sph_whirlpool_context     ctx_whirlpool;
-    sph_sha512_context        ctx_sha2;
-    sph_haval256_5_context    ctx_haval;
+    sph_blake512_context ctx_blake;
+    sph_bmw512_context ctx_bmw;
+    sph_groestl512_context ctx_groestl;
+    sph_jh512_context ctx_jh;
+    sph_keccak512_context ctx_keccak;
+    sph_skein512_context ctx_skein;
+    sph_luffa512_context ctx_luffa;
+    sph_cubehash512_context ctx_cubehash;
+    sph_shavite512_context ctx_shavite;
+    sph_simd512_context ctx_simd;
+    sph_echo512_context ctx_echo;
+    sph_hamsi512_context ctx_hamsi;
+    sph_fugue512_context ctx_fugue;
+    sph_shabal512_context ctx_shabal;
+    sph_whirlpool_context ctx_whirlpool;
+    sph_sha512_context ctx_sha2;
+    sph_haval256_5_context ctx_haval;
 
     constexpr unsigned int inputHashLength = 128; // Note this causes 64 bytes of zeroed memory to be read beyond the hash
 
-    const Span<const unsigned char> &input = MakeUCharSpan(in1);
+    const Span<const unsigned char>& input = MakeUCharSpan(in1);
     unsigned char hashA[inputHashLength], hashB[inputHashLength];
     memset(&hashA[64], '\0', inputHashLength - 64); // Write zeroes to the bytes which are not overwritten by the hash output
     memset(&hashB[64], '\0', inputHashLength - 64);
@@ -434,7 +471,7 @@ inline uint256 HashXevan(const T1& in1)
     sph_sha512_init(&ctx_sha2);
     sph_sha512(&ctx_sha2, static_cast<const void*>(hashA), inputHashLength);
     sph_sha512_close(&ctx_sha2, static_cast<void*>(hashB));
-    //CSHA512().Write(reinterpret_cast<const unsigned char*>(hashA), inputHashLength).Finalize(reinterpret_cast<unsigned char*>(hashB));
+    // CSHA512().Write(reinterpret_cast<const unsigned char*>(hashA), inputHashLength).Finalize(reinterpret_cast<unsigned char*>(hashB));
 
     sph_haval256_5_init(&ctx_haval);
     sph_haval256_5(&ctx_haval, static_cast<const void*>(hashB), inputHashLength);
@@ -505,7 +542,7 @@ inline uint256 HashXevan(const T1& in1)
     sph_sha512_init(&ctx_sha2);
     sph_sha512(&ctx_sha2, static_cast<const void*>(hashB), inputHashLength);
     sph_sha512_close(&ctx_sha2, static_cast<void*>(hashA));
-    //CSHA512().Write(reinterpret_cast<const unsigned char*>(hashB), inputHashLength).Finalize(reinterpret_cast<unsigned char*>(hashA));
+    // CSHA512().Write(reinterpret_cast<const unsigned char*>(hashB), inputHashLength).Finalize(reinterpret_cast<unsigned char*>(hashA));
 
     sph_haval256_5_init(&ctx_haval);
     sph_haval256_5(&ctx_haval, static_cast<const void*>(hashA), inputHashLength);
@@ -517,18 +554,18 @@ inline uint256 HashXevan(const T1& in1)
 }
 
 /* ----------- Nist5 Hash ------------------------------------------------- */
-template<typename T1>
+template <typename T1>
 inline uint256 HashNist5(const T1& in1)
 {
-    sph_blake512_context      ctx_blake;
-    sph_groestl512_context    ctx_groestl;
-    sph_jh512_context         ctx_jh;
-    sph_keccak512_context     ctx_keccak;
-    sph_skein512_context      ctx_skein;
+    sph_blake512_context ctx_blake;
+    sph_groestl512_context ctx_groestl;
+    sph_jh512_context ctx_jh;
+    sph_keccak512_context ctx_keccak;
+    sph_skein512_context ctx_skein;
 
     constexpr unsigned int inputHashLength = 64;
 
-    const Span<const unsigned char> &input = MakeUCharSpan(in1);
+    const Span<const unsigned char>& input = MakeUCharSpan(in1);
     unsigned char hashA[inputHashLength], hashB[inputHashLength];
 
     sph_blake512_init(&ctx_blake);
@@ -562,10 +599,10 @@ inline uint256 HashNist5(const T1& in1)
 }
 
 /* ----------- Scrypt Hash ------------------------------------------------- */
-template<typename T1>
+template <typename T1>
 inline uint256 HashScrypt(const T1& in1)
 {
-    const Span<const unsigned char> &input = MakeUCharSpan(in1);
+    const Span<const unsigned char>& input = MakeUCharSpan(in1);
 
     uint256 result;
     scrypt_N_1_1_256(input.data(), input.size(), static_cast<void*>(&result), 1024);
@@ -573,10 +610,10 @@ inline uint256 HashScrypt(const T1& in1)
 }
 
 /* ----------- Scrypt² Hash ------------------------------------------------- */
-template<typename T1>
+template <typename T1>
 inline uint256 HashScryptSquared(const T1& in1)
 {
-    const Span<const unsigned char> &input = MakeUCharSpan(in1);
+    const Span<const unsigned char>& input = MakeUCharSpan(in1);
 
     uint256 result;
     scrypt_N_1_1_256(input.data(), input.size(), static_cast<void*>(&result), 1048576);

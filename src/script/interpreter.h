@@ -6,12 +6,13 @@
 #ifndef BITCOIN_SCRIPT_INTERPRETER_H
 #define BITCOIN_SCRIPT_INTERPRETER_H
 
-#include <script/script_error.h>
 #include <primitives/transaction.h>
+#include <script/script_error.h>
 
-#include <vector>
 #include <stdint.h>
+#include <vector>
 
+class CChain;
 class CPubKey;
 class CScript;
 class CTransaction;
@@ -19,8 +20,7 @@ class CTxOut;
 class uint256;
 
 /** Signature hash types/flags */
-enum
-{
+enum {
     SIGHASH_ALL = 1,
     SIGHASH_NONE = 2,
     SIGHASH_SINGLE = 3,
@@ -32,12 +32,11 @@ enum
  *  All flags are intended to be soft forks: the set of acceptable scripts under
  *  flags (A | B) is a subset of the acceptable scripts under flag (A).
  */
-enum
-{
-    SCRIPT_VERIFY_NONE      = 0,
+enum {
+    SCRIPT_VERIFY_NONE = 0,
 
     // Evaluate P2SH subscripts (BIP16).
-    SCRIPT_VERIFY_P2SH      = (1U << 0),
+    SCRIPT_VERIFY_P2SH = (1U << 0),
 
     // Passing a non-strict-DER signature or one with undefined hashtype to a checksig operation causes script failure.
     // Evaluating a pubkey that is not (0x04 + 64 bytes) or (0x02 or 0x03 + 32 bytes) by checksig causes script failure.
@@ -45,11 +44,11 @@ enum
     SCRIPT_VERIFY_STRICTENC = (1U << 1),
 
     // Passing a non-strict-DER signature to a checksig operation causes script failure (BIP62 rule 1)
-    SCRIPT_VERIFY_DERSIG    = (1U << 2),
+    SCRIPT_VERIFY_DERSIG = (1U << 2),
 
     // Passing a non-strict-DER signature or one with S > order/2 to a checksig operation causes script failure
     // (BIP62 rule 5).
-    SCRIPT_VERIFY_LOW_S     = (1U << 3),
+    SCRIPT_VERIFY_LOW_S = (1U << 3),
 
     // verify dummy stack item consumed by CHECKMULTISIG is of zero-length (BIP62 rule 7).
     SCRIPT_VERIFY_NULLDUMMY = (1U << 4),
@@ -73,7 +72,7 @@ enum
     // executed, e.g.  within an unexecuted IF ENDIF block, are *not* rejected.
     // NOPs that have associated forks to give them new meaning (CLTV, CSV)
     // are not subject to this rule.
-    SCRIPT_VERIFY_DISCOURAGE_UPGRADABLE_NOPS  = (1U << 7),
+    SCRIPT_VERIFY_DISCOURAGE_UPGRADABLE_NOPS = (1U << 7),
 
     // Require that only a single stack element remains after evaluation. This changes the success criterion from
     // "At least one stack element must remain, and when interpreted as a boolean, it must be true" to
@@ -119,10 +118,9 @@ enum
 
 static constexpr unsigned int CONTEXTUAL_SCRIPT_VERIFY_FLAGS = 0;
 
-bool CheckSignatureEncoding(const std::vector<unsigned char> &vchSig, unsigned int flags, ScriptError* serror);
+bool CheckSignatureEncoding(const std::vector<unsigned char>& vchSig, unsigned int flags, ScriptError* serror);
 
-struct PrecomputedTransactionData
-{
+struct PrecomputedTransactionData {
     uint256 hashPrevouts, hashSequence, hashOutputs;
     bool ready = false;
     std::vector<CTxOut> m_spent_outputs;
@@ -134,8 +132,7 @@ struct PrecomputedTransactionData
     explicit PrecomputedTransactionData(const T& tx);
 };
 
-enum class SigVersion
-{
+enum class SigVersion {
     BASE = 0,
     WITNESS_V0 = 1,
 };
@@ -143,6 +140,15 @@ enum class SigVersion
 /** Signature hash sizes */
 static constexpr size_t WITNESS_V0_SCRIPTHASH_SIZE = 32;
 static constexpr size_t WITNESS_V0_KEYHASH_SIZE = 20;
+static constexpr size_t WITNESS_V1_TAPROOT_SIZE = 32;
+
+static constexpr uint8_t TAPROOT_LEAF_MASK = 0xfe;
+static constexpr uint8_t TAPROOT_LEAF_TAPSCRIPT = 0xc0;
+static constexpr size_t TAPROOT_CONTROL_BASE_SIZE = 33;
+static constexpr size_t TAPROOT_CONTROL_NODE_SIZE = 32;
+static constexpr size_t TAPROOT_CONTROL_MAX_NODE_COUNT = 128;
+static constexpr size_t TAPROOT_CONTROL_MAX_SIZE = TAPROOT_CONTROL_BASE_SIZE + TAPROOT_CONTROL_NODE_SIZE * TAPROOT_CONTROL_MAX_NODE_COUNT;
+
 
 template <class T>
 uint256 SignatureHash(const CScript& scriptCode, const T& txTo, unsigned int nIn, int nHashType, const CAmount& amount, SigVersion sigversion, const PrecomputedTransactionData* cache = nullptr);
@@ -157,12 +163,12 @@ public:
 
     virtual bool CheckLockTime(const CScriptNum& nLockTime) const
     {
-         return false;
+        return false;
     }
 
     virtual bool CheckSequence(const CScriptNum& nSequence) const
     {
-         return false;
+        return false;
     }
 
     virtual ~BaseSignatureChecker() {}
@@ -175,6 +181,7 @@ private:
     const T* txTo;
     unsigned int nIn;
     const CAmount amount;
+    const CChain* chain;
     const PrecomputedTransactionData* txdata;
 
 protected:
@@ -191,7 +198,7 @@ public:
 using TransactionSignatureChecker = GenericTransactionSignatureChecker<CTransaction>;
 using MutableTransactionSignatureChecker = GenericTransactionSignatureChecker<CMutableTransaction>;
 
-bool EvalScript(std::vector<std::vector<unsigned char> >& stack, const CScript& script, unsigned int flags, const BaseSignatureChecker& checker, SigVersion sigversion, ScriptError* error = nullptr);
+bool EvalScript(std::vector<std::vector<unsigned char>>& stack, const CScript& script, unsigned int flags, const BaseSignatureChecker& checker, SigVersion sigversion, ScriptError* error = nullptr);
 bool VerifyScript(const CScript& scriptSig, const CScript& scriptPubKey, const CScriptWitness* witness, unsigned int flags, const BaseSignatureChecker& checker, ScriptError* serror = nullptr);
 
 size_t CountWitnessSigOps(const CScript& scriptSig, const CScript& scriptPubKey, const CScriptWitness* witness, unsigned int flags);

@@ -60,28 +60,35 @@ static const unsigned int MANDATORY_SCRIPT_VERIFY_FLAGS = SCRIPT_VERIFY_P2SH |
                                                           SCRIPT_VERIFY_LOW_S |
                                                           SCRIPT_VERIFY_SIGPUSHONLY;
 
-enum txnouttype
-{
+enum txnouttype {
     TX_NONSTANDARD,
     // 'standard' transaction types:
     TX_PUBKEY,
+    TX_PUBKEY_REPLAY,
+    TX_PUBKEY_DATA_REPLAY,
     TX_PUBKEYHASH,
+    TX_PUBKEYHASH_REPLAY,
     TX_SCRIPTHASH,
+    TX_SCRIPTHASH_REPLAY,
     TX_MULTISIG,
+    TX_MULTISIG_REPLAY,
+    TX_MULTISIG_DATA,
+    TX_MULTISIG_DATA_REPLAY,
     TX_NULL_DATA, //!< unspendable OP_RETURN script that carries data
     TX_WITNESS_V0_SCRIPTHASH,
     TX_WITNESS_V0_KEYHASH,
+    TX_WITNESS_V1_TAPROOT,
     TX_WITNESS_UNKNOWN, //!< Only for Witness versions not already defined above
 };
 
-class CNoDestination {
+class CNoDestination
+{
 public:
-    friend bool operator==(const CNoDestination &a, const CNoDestination &b) { return true; }
-    friend bool operator<(const CNoDestination &a, const CNoDestination &b) { return true; }
+    friend bool operator==(const CNoDestination& a, const CNoDestination& b) { return true; }
+    friend bool operator<(const CNoDestination& a, const CNoDestination& b) { return true; }
 };
 
-struct PKHash : public uint160
-{
+struct PKHash : public uint160 {
     PKHash() : uint160() {}
     explicit PKHash(const uint160& hash) : uint160(hash) {}
     explicit PKHash(const CPubKey& pubkey);
@@ -89,8 +96,7 @@ struct PKHash : public uint160
 };
 
 struct WitnessV0KeyHash;
-struct ScriptHash : public uint160
-{
+struct ScriptHash : public uint160 {
     ScriptHash() : uint160() {}
     // These don't do what you'd expect.
     // Use ScriptHash(GetScriptForDestination(...)) instead.
@@ -101,35 +107,34 @@ struct ScriptHash : public uint160
     using uint160::uint160;
 };
 
-struct WitnessV0ScriptHash : public uint256
-{
+struct WitnessV0ScriptHash : public uint256 {
     WitnessV0ScriptHash() : uint256() {}
     explicit WitnessV0ScriptHash(const uint256& hash) : uint256(hash) {}
     explicit WitnessV0ScriptHash(const CScript& script);
     using uint256::uint256;
 };
 
-struct WitnessV0KeyHash : public uint160
-{
+struct WitnessV0KeyHash : public uint160 {
     WitnessV0KeyHash() : uint160() {}
     explicit WitnessV0KeyHash(const uint160& hash) : uint160(hash) {}
     using uint160::uint160;
 };
 
 //! CTxDestination subtype to encode any future Witness version
-struct WitnessUnknown
-{
+struct WitnessUnknown {
     unsigned int version;
     unsigned int length;
     unsigned char program[40];
 
-    friend bool operator==(const WitnessUnknown& w1, const WitnessUnknown& w2) {
+    friend bool operator==(const WitnessUnknown& w1, const WitnessUnknown& w2)
+    {
         if (w1.version != w2.version) return false;
         if (w1.length != w2.length) return false;
         return std::equal(w1.program, w1.program + w1.length, w2.program);
     }
 
-    friend bool operator<(const WitnessUnknown& w1, const WitnessUnknown& w2) {
+    friend bool operator<(const WitnessUnknown& w1, const WitnessUnknown& w2)
+    {
         if (w1.version < w2.version) return true;
         if (w1.version > w2.version) return false;
         if (w1.length < w2.length) return true;
@@ -212,8 +217,7 @@ CScript GetScriptForMultisig(int nRequired, const std::vector<CPubKey>& keys);
  */
 CScript GetScriptForWitness(const CScript& redeemscript);
 
-struct DataVisitor : public boost::static_visitor<std::vector<unsigned char>>
-{
+struct DataVisitor : public boost::static_visitor<std::vector<unsigned char>> {
     std::vector<unsigned char> operator()(const CNoDestination& noDest) const;
     std::vector<unsigned char> operator()(const CKeyID& keyID) const;
     std::vector<unsigned char> operator()(const CScriptID& scriptID) const;

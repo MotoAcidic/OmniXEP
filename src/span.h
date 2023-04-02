@@ -5,16 +5,16 @@
 #ifndef BITCOIN_SPAN_H
 #define BITCOIN_SPAN_H
 
-#include <type_traits>
-#include <cstddef>
 #include <algorithm>
 #include <assert.h>
+#include <cstddef>
+#include <type_traits>
 
 /** A Span is an object that can refer to a contiguous sequence of objects.
  *
  * It implements a subset of C++20's std::span.
  */
-template<typename C>
+template <typename C>
 class Span
 {
     C* m_data;
@@ -54,11 +54,17 @@ public:
  *
  * std::span will have a constructor that implements this functionality directly.
  */
-template<typename A, int N>
-constexpr Span<A> MakeSpan(A (&a)[N]) { return Span<A>(a, N); }
+template <typename A, int N>
+constexpr Span<A> MakeSpan(A (&a)[N])
+{
+    return Span<A>(a, N);
+}
 
-template<typename V>
-constexpr Span<typename std::remove_pointer<decltype(std::declval<V>().data())>::type> MakeSpan(V& v) { return Span<typename std::remove_pointer<decltype(std::declval<V>().data())>::type>(v.data(), v.size()); }
+template <typename V>
+constexpr Span<typename std::remove_pointer<decltype(std::declval<V>().data())>::type> MakeSpan(V& v)
+{
+    return Span<typename std::remove_pointer<decltype(std::declval<V>().data())>::type>(v.data(), v.size());
+}
 
 /** Pop the last element off a span, and return a reference to that element. */
 template <typename T>
@@ -70,5 +76,26 @@ T& SpanPopBack(Span<T>& span)
     span = Span<T>(span.data(), size - 1);
     return back;
 }
+
+// Helper functions to safely cast to unsigned char pointers.
+inline unsigned char* UCharCast(char* c) { return (unsigned char*)c; }
+inline unsigned char* UCharCast(unsigned char* c) { return c; }
+inline const unsigned char* UCharCast(const char* c) { return (unsigned char*)c; }
+inline const unsigned char* UCharCast(const unsigned char* c) { return c; }
+
+// Helper function to safely convert a Span to a Span<[const] unsigned char>.
+template <typename T>
+constexpr auto UCharSpanCast(Span<T> s) -> Span<typename std::remove_pointer<decltype(UCharCast(s.data()))>::type>
+{
+    return {UCharCast(s.data()), s.size()};
+}
+
+/** Like MakeSpan, but for (const) unsigned char member types only. Only works for (un)signed char containers. */
+template <typename V>
+constexpr auto MakeUCharSpan(V&& v) -> decltype(UCharSpanCast(MakeSpan(std::forward<V>(v))))
+{
+    return UCharSpanCast(MakeSpan(std::forward<V>(v)));
+}
+
 
 #endif
