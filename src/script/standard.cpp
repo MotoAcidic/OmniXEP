@@ -27,26 +27,21 @@ WitnessV0ScriptHash::WitnessV0ScriptHash(const CScript& in)
 
 const char* GetTxnOutputType(txnouttype t)
 {
-    switch (t) {
-    case TX_NONSTANDARD: return "nonstandard";
-    case TX_PUBKEY: return "pubkey";
-    case TX_PUBKEY_REPLAY: return "pubkey_replay";
-    case TX_PUBKEY_DATA_REPLAY: return "pubkey_data_replay";
-    case TX_PUBKEYHASH: return "pubkeyhash";
-    case TX_PUBKEYHASH_REPLAY: return "pubkeyhash_replay";
-    case TX_SCRIPTHASH: return "scripthash";
-    case TX_SCRIPTHASH_REPLAY: return "scripthash_replay";
-    case TX_MULTISIG: return "multisig";
-    case TX_MULTISIG_REPLAY: return "multisig_replay";
-    case TX_MULTISIG_DATA: return "multisig_data";
-    case TX_MULTISIG_DATA_REPLAY: return "multisig_data_replay";
-    case TX_NULL_DATA: return "nulldata";
-    case TX_WITNESS_V0_KEYHASH: return "witness_v0_keyhash";
-    case TX_WITNESS_V0_SCRIPTHASH: return "witness_v0_scripthash";
-    case TX_WITNESS_V1_TAPROOT: return "witness_v1_taproot";
-    case TX_WITNESS_UNKNOWN: return "witness_unknown";
-    }
-    return nullptr;
+    switch (t)
+    {
+    case TxoutType::NONSTANDARD: return "nonstandard";
+    case TxoutType::PUBKEY: return "pubkey";
+    case TxoutType::PUBKEYHASH: return "pubkeyhash";
+    case TxoutType::PUBKEYHASH_REPLAY: return "pubkeyhash_replay";
+    case TxoutType::SCRIPTHASH: return "scripthash";
+    case TxoutType::MULTISIG: return "multisig";
+    case TxoutType::NULL_DATA: return "nulldata";
+    case TxoutType::WITNESS_V0_KEYHASH: return "witness_v0_keyhash";
+    case TxoutType::WITNESS_V0_SCRIPTHASH: return "witness_v0_scripthash";
+    case TxoutType::WITNESS_V1_TAPROOT: return "witness_v1_taproot";
+    case TxoutType::WITNESS_UNKNOWN: return "witness_unknown";
+    } // no default case, so the compiler can warn about missing cases
+    assert(false);
 }
 
 static bool MatchPayToPubkey(const CScript& script, valtype& pubkey)
@@ -75,6 +70,78 @@ static bool MatchPayToPubkeyHash(const CScript& script, valtype& pubkeyhash)
 static constexpr bool IsSmallInteger(opcodetype opcode)
 {
     return opcode >= OP_1 && opcode <= OP_16;
+}
+
+static bool IsMinimalPush(const valtype& data, opcodetype opcode) {
+    // Excludes OP_1NEGATE, OP_1-16 since they are by definition minimal
+    if (0 > opcode || opcode > OP_PUSHDATA4) {
+        return false;
+    } else if (data.size() == 0) {
+        // Should have used OP_0.
+        return opcode == OP_0;
+    } else if (data.size() == 1 && data[0] >= 1 && data[0] <= 16) {
+        // Should have used OP_1 .. OP_16.
+        return false;
+    } else if (data.size() == 1 && data[0] == 0x81) {
+        // Should have used OP_1NEGATE.
+        return false;
+    } else if (data.size() <= 75) {
+        // Must have used a direct push (opcode indicating number of bytes pushed + those bytes).
+        return opcode == data.size();
+    } else if (data.size() <= 255) {
+        // Must have used OP_PUSHDATA.
+        return opcode == OP_PUSHDATA1;
+    } else if (data.size() <= 65535) {
+        // Must have used OP_PUSHDATA2.
+        return opcode == OP_PUSHDATA2;
+    }
+    return true;
+}
+
+static bool IsMinimallyEncoded(const valtype& vch)
+{
+    if (vch.size() > 0) {
+        // Check that the number is encoded with the minimum possible
+        // number of bytes.
+        //
+        // If the most-significant-byte - excluding the sign bit - is zero
+        // then we're not minimal. Note how this test also rejects the
+        // negative-zero encoding, 0x80.
+        if ((vch.back() & 0x7f) == 0) {
+            // One exception: if there's more than one byte and the most
+            // significant bit of the second-most-significant-byte is set
+            // it would conflict with the sign bit. An example of this case
+            // is +-255, which encode to 0xff00 and 0xff80 respectively.
+            // (big-endian).
+            if (vch.size() <= 1 || (vch[vch.size() - 2] & 0x80) == 0) {
+                return false;
+            }
+        }
+        return true;
+    } else
+        return false;
+}
+
+static bool MatchPayToPubkeyHashReplay(const CScript& script, std::vector<valtype>& txData)
+{
+    const unsigned int scriptSize = script.size();
+    if (scriptSize < 29 || scriptSize > 65 || script[0] != OP_DUP || script[1] != OP_HASH160 || script[2] != 20 || script[23] != OP_EQUALVERIFY ||
+        script[24] != OP_CHECKSIG || script[scriptSize - 2] != OP_CHECKBLOCKATHEIGHTVERIFY || script.back() != OP_2DROP) return false;
+    txData.emplace_back(script.begin() + 3, script.begin() + 23);
+
+    opcodetype opcode;
+    valtype data;
+    CScript::const_iterator it = script.begin() + 25;
+
+    if (!script.GetOp(it, opcode, data) || data.size() > 32 /* uint256 size */) return false;
+    // Optionally ensure leading zeroes are trimmed from the block hash
+    if (!IsSmallInteger(opcode) && (!IsMinimalPush(data, opcode) /*|| data.size() == 0 || (data.back() & 0xff) == 0*/)) return false;
+    txData.push_back(data);
+    if (!script.GetOp(it, opcode, data) || data.size() > 4 /* int32_t size */) return false;
+    if (!IsSmallInteger(opcode) && (!IsMinimalPush(data, opcode) || !IsMinimallyEncoded(data))) return false;
+    txData.push_back(data);
+
+    return true;
 }
 
 static bool MatchMultisig(const CScript& script, unsigned int& required, std::vector<valtype>& pubkeys)
@@ -146,6 +213,12 @@ txnouttype Solver(const CScript& scriptPubKey, std::vector<std::vector<unsigned 
         return TX_PUBKEYHASH;
     }
 
+    std::vector<std::vector<unsigned char>> txData;
+    if (MatchPayToPubkeyHashReplay(scriptPubKey, txData)) {
+        vSolutionsRet.insert(vSolutionsRet.end(), txData.begin(), txData.end());
+        return TxoutType::PUBKEYHASH_REPLAY;
+    }
+
     unsigned int required;
     std::vector<std::vector<unsigned char>> keys;
     if (MatchMultisig(scriptPubKey, required, keys)) {
@@ -171,7 +244,7 @@ bool ExtractDestination(const CScript& scriptPubKey, CTxDestination& addressRet)
 
         addressRet = PKHash(pubKey);
         return true;
-    } else if (whichType == TX_PUBKEYHASH) {
+    } else if (whichType == TX_PUBKEYHASH || whichType == TxoutType::PUBKEYHASH_REPLAY) {
         addressRet = PKHash(uint160(vSolutions[0]));
         return true;
     } else if (whichType == TX_SCRIPTHASH) {
