@@ -562,7 +562,7 @@ bool CheckStakeKernelHash(const unsigned int& nBits, const CBlockIndex* pindexPr
                 hashProofOfStake.ToString());
         }
 
-        return stakeTargetHit(hashProofOfStake, nValueIn, nTimeWeight, bnTargetPerCoinDay, true, true);
+        return stakeTargetHit(hashProofOfStake, nValueIn, nTimeWeight, bnTargetPerCoinDay, true, Params().NetworkIDString() != CBaseChainParams::MAIN);
     }
 
     // nHashDrift should be <= MAX_FUTURE_BLOCK_TIME otherwise we risk creating a block which will be rejected due to nTimeTx being too far in the future
@@ -583,7 +583,7 @@ bool CheckStakeKernelHash(const unsigned int& nBits, const CBlockIndex* pindexPr
 
         // If stake hash does not meet the target then continue to next iteration
         nTimeWeight = CalculateTimeWeight(nTimeTx, nTimeBlockFrom, nStakeMinAge, nStakeMaxAge, nMinTimeWeight);
-        if (!stakeTargetHit(hashProofOfStake, nValueIn, nTimeWeight, bnTargetPerCoinDay, true, true))
+        if (!stakeTargetHit(hashProofOfStake, nValueIn, nTimeWeight, bnTargetPerCoinDay, true, Params().NetworkIDString() != CBaseChainParams::MAIN))
             continue;
 
         fSuccess = true; // If we make it this far then we have successfully created a stake hash
