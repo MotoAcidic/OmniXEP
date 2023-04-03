@@ -89,7 +89,7 @@ public:
         consensus.nBudgetPaymentsStartBlock = std::numeric_limits<int>::max();
         consensus.nPoSStartBlock = 0;
         consensus.nLastPoWBlock = 150000;
-
+        consensus.nMandatoryUpgradeBlock = 150000;
         consensus.nTreasuryPaymentsStartBlock = std::numeric_limits<int>::max();
         consensus.BIP16Exception = uint256{};
         consensus.BIP34Height = 0;
