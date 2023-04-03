@@ -119,7 +119,7 @@ IsMineResult IsMineInner(const LegacyScriptPubKeyMan& keystore, const CScript& s
         break;
     }
     case TX_PUBKEYHASH:
-    case TxoutType::PUBKEYHASH_REPLAY:
+    case TX_PUBKEYHASH_REPLAY:
         keyID = CKeyID(uint160(vSolutions[0]));
         if (!PermitsUncompressed(sigversion)) {
             CPubKey pubkey;

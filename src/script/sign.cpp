@@ -117,7 +117,7 @@ static bool SignStep(const SigningProvider& provider, const BaseSignatureCreator
         ret.push_back(std::move(sig));
         return true;
     case TX_PUBKEYHASH: 
-    case TxoutType::PUBKEYHASH_REPLAY: {
+    case TX_PUBKEYHASH_REPLAY: {
         CKeyID keyID = CKeyID(uint160(vSolutions[0]));
         CPubKey pubkey;
         if (!GetPubKey(provider, sigdata, keyID, pubkey)) {

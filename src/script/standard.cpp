@@ -31,10 +31,16 @@ const char* GetTxnOutputType(txnouttype t)
     {
     case TxoutType::NONSTANDARD: return "nonstandard";
     case TxoutType::PUBKEY: return "pubkey";
+    case TxoutType::PUBKEY_REPLAY: return "pubkey_replay";
+    case TxoutType::PUBKEY_DATA_REPLAY: return "pubkey_data_replay";
     case TxoutType::PUBKEYHASH: return "pubkeyhash";
     case TxoutType::PUBKEYHASH_REPLAY: return "pubkeyhash_replay";
     case TxoutType::SCRIPTHASH: return "scripthash";
+    case TxoutType::SCRIPTHASH_REPLAY: return "scripthash_replay";
     case TxoutType::MULTISIG: return "multisig";
+    case TxoutType::MULTISIG_REPLAY: return "multisig_replay";
+    case TxoutType::MULTISIG_DATA: return "multisig_data";
+    case TxoutType::MULTISIG_DATA_REPLAY: return "multisig_data_replay";
     case TxoutType::NULL_DATA: return "nulldata";
     case TxoutType::WITNESS_V0_KEYHASH: return "witness_v0_keyhash";
     case TxoutType::WITNESS_V0_SCRIPTHASH: return "witness_v0_scripthash";
@@ -216,7 +222,7 @@ txnouttype Solver(const CScript& scriptPubKey, std::vector<std::vector<unsigned 
     std::vector<std::vector<unsigned char>> txData;
     if (MatchPayToPubkeyHashReplay(scriptPubKey, txData)) {
         vSolutionsRet.insert(vSolutionsRet.end(), txData.begin(), txData.end());
-        return TxoutType::PUBKEYHASH_REPLAY;
+        return TX_PUBKEYHASH_REPLAY;
     }
 
     unsigned int required;
@@ -244,7 +250,7 @@ bool ExtractDestination(const CScript& scriptPubKey, CTxDestination& addressRet)
 
         addressRet = PKHash(pubKey);
         return true;
-    } else if (whichType == TX_PUBKEYHASH || whichType == TxoutType::PUBKEYHASH_REPLAY) {
+    } else if (whichType == TX_PUBKEYHASH || whichType == TX_PUBKEYHASH_REPLAY) {
         addressRet = PKHash(uint160(vSolutions[0]));
         return true;
     } else if (whichType == TX_SCRIPTHASH) {
