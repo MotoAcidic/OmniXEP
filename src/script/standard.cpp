@@ -29,23 +29,23 @@ const char* GetTxnOutputType(txnouttype t)
 {
     switch (t)
     {
-    case TxoutType::NONSTANDARD: return "nonstandard";
-    case TxoutType::PUBKEY: return "pubkey";
-    case TxoutType::PUBKEY_REPLAY: return "pubkey_replay";
-    case TxoutType::PUBKEY_DATA_REPLAY: return "pubkey_data_replay";
-    case TxoutType::PUBKEYHASH: return "pubkeyhash";
-    case TxoutType::PUBKEYHASH_REPLAY: return "pubkeyhash_replay";
-    case TxoutType::SCRIPTHASH: return "scripthash";
-    case TxoutType::SCRIPTHASH_REPLAY: return "scripthash_replay";
-    case TxoutType::MULTISIG: return "multisig";
-    case TxoutType::MULTISIG_REPLAY: return "multisig_replay";
-    case TxoutType::MULTISIG_DATA: return "multisig_data";
-    case TxoutType::MULTISIG_DATA_REPLAY: return "multisig_data_replay";
-    case TxoutType::NULL_DATA: return "nulldata";
-    case TxoutType::WITNESS_V0_KEYHASH: return "witness_v0_keyhash";
-    case TxoutType::WITNESS_V0_SCRIPTHASH: return "witness_v0_scripthash";
-    case TxoutType::WITNESS_V1_TAPROOT: return "witness_v1_taproot";
-    case TxoutType::WITNESS_UNKNOWN: return "witness_unknown";
+    case TX_NONSTANDARD: return "nonstandard";
+    case TX_PUBKEY: return "pubkey";
+    case TX_PUBKEY_REPLAY: return "pubkey_replay";
+    case TX_PUBKEY_DATA_REPLAY: return "pubkey_data_replay";
+    case TX_PUBKEYHASH: return "pubkeyhash";
+    case TX_PUBKEYHASH_REPLAY: return "pubkeyhash_replay";
+    case TX_SCRIPTHASH: return "scripthash";
+    case TX_SCRIPTHASH_REPLAY: return "scripthash_replay";
+    case TX_MULTISIG: return "multisig";
+    case TX_MULTISIG_REPLAY: return "multisig_replay";
+    case TX_MULTISIG_DATA: return "multisig_data";
+    case TX_MULTISIG_DATA_REPLAY: return "multisig_data_replay";
+    case TX_NULL_DATA: return "nulldata";
+    case TX_WITNESS_V0_KEYHASH: return "witness_v0_keyhash";
+    case TX_WITNESS_V0_SCRIPTHASH: return "witness_v0_scripthash";
+    case TX_WITNESS_V1_TAPROOT: return "witness_v1_taproot";
+    case TX_WITNESS_UNKNOWN: return "witness_unknown";
     } // no default case, so the compiler can warn about missing cases
     assert(false);
 }

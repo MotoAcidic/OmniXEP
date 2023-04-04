@@ -114,9 +114,26 @@ enum {
     // Making OP_CODESEPARATOR and FindAndDelete fail any non-segwit scripts
     //
     SCRIPT_VERIFY_CONST_SCRIPTCODE = (1U << 16),
+
+    // Taproot/Tapscript validation (BIPs 341 & 342)
+    //
+    SCRIPT_VERIFY_TAPROOT = (1U << 17),
+
+    // Making unknown Taproot leaf versions non-standard
+    //
+    SCRIPT_VERIFY_DISCOURAGE_UPGRADABLE_TAPROOT_VERSION = (1U << 18),
+
+    // Making unknown OP_SUCCESS non-standard
+    SCRIPT_VERIFY_DISCOURAGE_OP_SUCCESS = (1U << 19),
+
+    // Making unknown public key versions (in BIP 342 scripts) non-standard
+    SCRIPT_VERIFY_DISCOURAGE_UPGRADABLE_PUBKEYTYPE = (1U << 20),
+
+    // Enforce CHECKBLOCKATHEIGHTVERIFY opcode
+    SCRIPT_VERIFY_CHECKBLOCKATHEIGHTVERIFY = (1U << 31)
 };
 
-static constexpr unsigned int CONTEXTUAL_SCRIPT_VERIFY_FLAGS = 0;
+static constexpr unsigned int CONTEXTUAL_SCRIPT_VERIFY_FLAGS = SCRIPT_VERIFY_CHECKBLOCKATHEIGHTVERIFY;
 
 bool CheckSignatureEncoding(const std::vector<unsigned char>& vchSig, unsigned int flags, ScriptError* serror);
 
@@ -171,6 +188,11 @@ public:
         return false;
     }
 
+    virtual bool CheckBlockHash(const int32_t nHeight, const std::vector<unsigned char>& nBlockHash) const
+    {
+         return false;
+    }
+
     virtual ~BaseSignatureChecker() {}
 };
 
@@ -193,6 +215,7 @@ public:
     bool CheckSig(const std::vector<unsigned char>& scriptSig, const std::vector<unsigned char>& vchPubKey, const CScript& scriptCode, SigVersion sigversion) const override;
     bool CheckLockTime(const CScriptNum& nLockTime) const override;
     bool CheckSequence(const CScriptNum& nSequence) const override;
+    bool CheckBlockHash(const int32_t nHeight, const std::vector<unsigned char>& nBlockHash) const override;
 };
 
 using TransactionSignatureChecker = GenericTransactionSignatureChecker<CTransaction>;
