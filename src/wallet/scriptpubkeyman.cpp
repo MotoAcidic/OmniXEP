@@ -95,6 +95,8 @@ IsMineResult IsMineInner(const LegacyScriptPubKeyMan& keystore, const CScript& s
     case TX_WITNESS_UNKNOWN:
         break;
     case TX_PUBKEY:
+    case TX_PUBKEY_REPLAY:
+    case TX_PUBKEY_DATA_REPLAY:
         keyID = CPubKey(vSolutions[0]).GetID();
         if (!PermitsUncompressed(sigversion) && vSolutions[0].size() != 33) {
             return IsMineResult::INVALID;
@@ -132,6 +134,7 @@ IsMineResult IsMineInner(const LegacyScriptPubKeyMan& keystore, const CScript& s
         }
         break;
     case TX_SCRIPTHASH:
+    case TX_SCRIPTHASH_REPLAY:
     {
         if (sigversion != IsMineSigVersion::TOP) {
             // P2SH inside P2WSH or P2SH is invalid.
@@ -164,9 +167,12 @@ IsMineResult IsMineInner(const LegacyScriptPubKeyMan& keystore, const CScript& s
     }
 
     case TX_MULTISIG:
+    case TX_MULTISIG_REPLAY:
+    case TX_MULTISIG_DATA:
+    case TX_MULTISIG_DATA_REPLAY:
     {
-        // Never treat bare multisig outputs as ours (they can still be made watchonly-though)
-        if (sigversion == IsMineSigVersion::TOP) {
+        // Never treat bare multisig outputs as ours unless they are a single pubkey (they can still be made watchonly-though)
+        if (sigversion == IsMineSigVersion::TOP && (vSolutions.size() != 3 || vSolutions.front()[0] != 1 || vSolutions.back()[0] != 1)) {
             break;
         }
 
@@ -758,7 +764,8 @@ bool LegacyScriptPubKeyMan::HaveWatchOnly() const
 static bool ExtractPubKey(const CScript &dest, CPubKey& pubKeyOut)
 {
     std::vector<std::vector<unsigned char>> solutions;
-    return Solver(dest, solutions) == TX_PUBKEY &&
+    txnouttype whichType = Solver(dest, solutions);
+    return (whichType == TX_PUBKEY || whichType == TX_PUBKEY_REPLAY || whichType == TX_PUBKEY_DATA_REPLAY) &&
         (pubKeyOut = CPubKey(solutions[0])).IsFullyValid();
 }
 

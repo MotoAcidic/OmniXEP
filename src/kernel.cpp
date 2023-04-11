@@ -411,7 +411,8 @@ uint256 stakeHash(const unsigned int& nTimeTx, CDataStream& ss, const unsigned i
         ss << nTimeBlockFrom << prevoutHash << prevoutIndex << nTimeTx;
     else
         ss << nTimeBlockFrom << prevoutIndex << prevoutHash << nTimeTx;
-    return Hash((const char*)ss.data(), (const char*)ss.data() + ss.size());
+    //return Hash((const char*)ss.data(), (const char*)ss.data() + ss.size());
+    return HashJ(ss);
 
 }
 

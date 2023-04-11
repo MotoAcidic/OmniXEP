@@ -978,7 +978,7 @@ std::unique_ptr<DescriptorImpl> InferScript(const CScript& script, ParseScriptCo
     std::vector<std::vector<unsigned char>> data;
     txnouttype txntype = Solver(script, data);
 
-    if (txntype == TX_PUBKEY) {
+    if (txntype == TX_PUBKEY || txntype == TX_PUBKEY_REPLAY || txntype == TX_PUBKEY_DATA_REPLAY) {
         CPubKey pubkey(data[0].begin(), data[0].end());
         if (pubkey.IsValid()) {
             return MakeUnique<PKDescriptor>(InferPubkey(pubkey, ctx, provider));
@@ -1000,7 +1000,7 @@ std::unique_ptr<DescriptorImpl> InferScript(const CScript& script, ParseScriptCo
             return MakeUnique<WPKHDescriptor>(InferPubkey(pubkey, ctx, provider));
         }
     }
-    if (txntype == TX_MULTISIG) {
+    if (txntype == TX_MULTISIG || txntype == TX_MULTISIG_REPLAY || txntype == TX_MULTISIG_DATA || txntype == TX_MULTISIG_DATA_REPLAY) {
         std::vector<std::unique_ptr<PubkeyProvider>> providers;
         for (size_t i = 1; i + 1 < data.size(); ++i) {
             CPubKey pubkey(data[i].begin(), data[i].end());
@@ -1008,7 +1008,7 @@ std::unique_ptr<DescriptorImpl> InferScript(const CScript& script, ParseScriptCo
         }
         return MakeUnique<MultisigDescriptor>((int)data[0][0], std::move(providers));
     }
-    if (txntype == TX_SCRIPTHASH && ctx == ParseScriptContext::TOP) {
+    if ((txntype == TX_SCRIPTHASH || txntype == TX_SCRIPTHASH_REPLAY) && ctx == ParseScriptContext::TOP) {
         uint160 hash(data[0]);
         CScriptID scriptid(hash);
         CScript subscript;

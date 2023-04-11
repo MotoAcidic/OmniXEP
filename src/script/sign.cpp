@@ -113,6 +113,8 @@ static bool SignStep(const SigningProvider& provider, const BaseSignatureCreator
     case TX_WITNESS_UNKNOWN:
         return false;
     case TX_PUBKEY:
+    case TX_PUBKEY_REPLAY:
+    case TX_PUBKEY_DATA_REPLAY:
         if (!CreateSig(creator, sigdata, provider, sig, CPubKey(vSolutions[0]), scriptPubKey, sigversion)) return false;
         ret.push_back(std::move(sig));
         return true;
@@ -140,7 +142,10 @@ static bool SignStep(const SigningProvider& provider, const BaseSignatureCreator
         sigdata.missing_redeem_script = h160;
         return false;
 
-    case TX_MULTISIG: {
+    case TX_MULTISIG:
+    case TX_MULTISIG_REPLAY:
+    case TX_MULTISIG_DATA:
+    case TX_MULTISIG_DATA_REPLAY: {
         size_t required = vSolutions.front()[0];
         ret.push_back(valtype()); // workaround CHECKMULTISIG bug
         for (size_t i = 1; i < vSolutions.size() - 1; ++i) {
@@ -205,14 +210,14 @@ bool ProduceSignature(const SigningProvider& provider, const BaseSignatureCreato
     CScript subscript;
     sigdata.scriptWitness.stack.clear();
 
-    if (solved && whichType == TX_SCRIPTHASH)
+    if (solved && whichType == TX_SCRIPTHASH  || whichType == TX_SCRIPTHASH_REPLAY)
     {
         // Solver returns the subscript that needs to be evaluated;
         // the final scriptSig is the signatures from that
         // and then the serialized subscript:
         subscript = CScript(result[0].begin(), result[0].end());
         sigdata.redeem_script = subscript;
-        solved = solved && SignStep(provider, creator, subscript, result, whichType, SigVersion::BASE, sigdata) && whichType != TX_SCRIPTHASH;
+        solved = solved && SignStep(provider, creator, subscript, result, whichType, SigVersion::BASE, sigdata) && whichType != TX_SCRIPTHASH && whichType != TX_SCRIPTHASH_REPLAY;
         P2SH = true;
     }
 
@@ -231,7 +236,7 @@ bool ProduceSignature(const SigningProvider& provider, const BaseSignatureCreato
         CScript witnessscript(result[0].begin(), result[0].end());
         sigdata.witness_script = witnessscript;
         txnouttype subType;
-        solved = solved && SignStep(provider, creator, witnessscript, result, subType, SigVersion::WITNESS_V0, sigdata) && subType != TX_SCRIPTHASH && subType != TX_WITNESS_V0_SCRIPTHASH && subType != TX_WITNESS_V0_KEYHASH;
+        solved = solved && SignStep(provider, creator, witnessscript, result, subType, SigVersion::WITNESS_V0, sigdata) && subType != TX_SCRIPTHASH && subType != TX_SCRIPTHASH_REPLAY && subType != TX_WITNESS_V0_SCRIPTHASH && subType != TX_WITNESS_V0_KEYHASH;
         result.push_back(std::vector<unsigned char>(witnessscript.begin(), witnessscript.end()));
         sigdata.scriptWitness.stack = result;
         sigdata.witness = true;
@@ -306,7 +311,7 @@ SignatureData DataFromTransaction(const CMutableTransaction& tx, unsigned int nI
     SigVersion sigversion = SigVersion::BASE;
     CScript next_script = txout.scriptPubKey;
 
-    if (script_type == TX_SCRIPTHASH && !stack.script.empty() && !stack.script.back().empty()) {
+    if ((script_type == TX_SCRIPTHASH || script_type == TX_SCRIPTHASH_REPLAY) && !stack.script.empty() && !stack.script.back().empty()) {
         // Get the redeemScript
         CScript redeem_script(stack.script.back().begin(), stack.script.back().end());
         data.redeem_script = redeem_script;
@@ -329,7 +334,7 @@ SignatureData DataFromTransaction(const CMutableTransaction& tx, unsigned int nI
         stack.witness.clear();
         sigversion = SigVersion::WITNESS_V0;
     }
-    if (script_type == TX_MULTISIG && !stack.script.empty()) {
+    if ((script_type == TX_MULTISIG || script_type == TX_MULTISIG_REPLAY || script_type == TX_MULTISIG_DATA || script_type == TX_MULTISIG_DATA_REPLAY) && !stack.script.empty()) {
         // Build a map of pubkey -> signature by matching sigs to pubkeys:
         assert(solutions.size() > 1);
         unsigned int num_pubkeys = solutions.size()-2;
@@ -456,7 +461,7 @@ bool IsSegWitOutput(const SigningProvider& provider, const CScript& script)
     std::vector<valtype> solutions;
     auto whichtype = Solver(script, solutions);
     if (whichtype == TX_WITNESS_V0_SCRIPTHASH || whichtype == TX_WITNESS_V0_KEYHASH || whichtype == TX_WITNESS_UNKNOWN) return true;
-    if (whichtype == TX_SCRIPTHASH) {
+    if (whichtype == TX_SCRIPTHASH || whichtype == TX_SCRIPTHASH_REPLAY) {
         auto h160 = uint160(solutions[0]);
         CScript subscript;
         if (provider.GetCScript(h160, subscript)) {

@@ -126,7 +126,7 @@ public:
         consensus.nTreasuryRewardPercentage = 10;                                                                          // 10% of block reward goes to treasury
 
         consensus.nMinimumChainWork = uint256S("0x000000000000000000000000000000000000000000004d4a27e34ba8c684ba2b");
-        consensus.defaultAssumeValid = uint256S("0x5fbff547e15f6ad22cad7dad4a79dd5ed893552ea809a10400cc618e52a2be91"); // 450000
+        consensus.defaultAssumeValid = uint256S("0xb7f5913d988682f90be2a534dfc0c7310f71d658a9eb2aa6b6952a424021010a"); // 900000
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -197,13 +197,22 @@ public:
                 {350000, uint256S("7ece4c4e3332cde2a53ef8ebaa1de6744482d946de38aa76586913fb0a97ab05")},
                 {400000, uint256S("cf9360a5acf99d45a8d2f86c0f8141734c61088294fb1934b6ca7dce8617968c")},
                 {450000, uint256S("5fbff547e15f6ad22cad7dad4a79dd5ed893552ea809a10400cc618e52a2be91")},
+                {500000, uint256S("577286d8ba7183398ecefcb7df2ef722c226a888c7a440aa650411802e67b224")},
+                {550000, uint256S("a79eff4cc1a1ab2b98d814beea9fc84c9318abf2ab8890e18df4b6996ce48441")},
+                {600000, uint256S("d5b72da40a58aad7df1cbea415f63e2e6efce593fd8e7feb0dd6c6cff25f0589")},
+                {650000, uint256S("51c070bf0c0c6855cfec74c87354e6633752be05b904948bba28c4438f64a65e")},
+                {700000, uint256S("742c77743ce02d6d8cc9b830c14de3d6f0c555f90cd648c6708ef90939789789")},
+                {750000, uint256S("7edd43aea64c1eac214e3043921527dfe8ecaa21eb5a8ad8ee0a2ba34eea16fd")},
+                {800000, uint256S("0a6a0fc8773fe97d1a0599168468def7ae866f72feeab75d3226873670782903")},
+                {850000, uint256S("7a4ad48466bdc20539349421f985dc4026bd7843a8758bd321b029b2f37fc36e")},
+                {900000, uint256S("b7f5913d988682f90be2a534dfc0c7310f71d658a9eb2aa6b6952a424021010a")},
             }};
 
         chainTxData = ChainTxData{
-            // Data from RPC: getchaintxstats 30720 5fbff547e15f6ad22cad7dad4a79dd5ed893552ea809a10400cc618e52a2be91
-            /* nTime    */ 1644990128,
-            /* nTxCount */ 920206,
-            /* dTxRate  */ 0.02603273603057632,
+            // Data from RPC: getchaintxstats 32400 b7f5913d988682f90be2a534dfc0c7310f71d658a9eb2aa6b6952a424021010a
+            /* nTime    */ 1681004432,
+            /* nTxCount */ 1837360,
+            /* dTxRate  */ 0.02521959469838949
         };
     }
 };
