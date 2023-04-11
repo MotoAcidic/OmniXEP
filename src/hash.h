@@ -65,6 +65,12 @@ public:
         return *this;
     }
 
+    CHash256& WriteJ(Span<const unsigned char> input)
+    {
+        sha.Write(input.data(), input.size());
+        return *this;
+    }
+
     CHash256& Reset()
     {
         sha.Reset();
@@ -144,6 +150,14 @@ inline uint256 Hash(const T1 pbegin, const T1 pend)
     static const unsigned char pblank[1] = {};
     uint256 result;
     CHash256().Write(pbegin == pend ? pblank : (const unsigned char*)&pbegin[0], (pend - pbegin) * sizeof(pbegin[0])).Finalize((unsigned char*)&result);
+    return result;
+}
+
+template<typename T>
+inline uint256 HashJ(const T& in1)
+{
+    uint256 result;
+    CHash256().WriteJ(MakeUCharSpan(in1)).Finalize((unsigned char*)&result);
     return result;
 }
 
