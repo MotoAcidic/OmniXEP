@@ -1551,9 +1551,18 @@ int GetSpendHeight(const CCoinsViewCache& inputs)
 
 static CuckooCache::cache<uint256, SignatureCacheHasher> scriptExecutionCache;
 static uint256 scriptExecutionCacheNonce(GetRandHash());
+static CSHA256 g_scriptExecutionCacheHasher;
 
 void InitScriptExecutionCache()
 {
+    // Setup the salted hasher
+    uint256 nonce = GetRandHash();
+    // We want the nonce to be 64 bytes long to force the hasher to process
+    // this chunk, which makes later hash computations more efficient. We
+    // just write our 32-byte entropy twice to fill the 64 bytes.
+    g_scriptExecutionCacheHasher.Write(nonce.begin(), 32);
+    g_scriptExecutionCacheHasher.Write(nonce.begin(), 32);
+
     // nMaxCacheSize is unsigned. If -maxsigcachesize is set to zero,
     // setup_bytes creates the minimum possible cache (2 elements).
     size_t nMaxCacheSize = std::min(std::max((int64_t)0, gArgs.GetArg("-maxsigcachesize", DEFAULT_MAX_SIG_CACHE_SIZE) / 2), MAX_MAX_SIG_CACHE_SIZE) * ((size_t)1 << 20);
@@ -1595,6 +1604,14 @@ bool CheckInputScripts(const CTransaction& tx, TxValidationState &state, const C
     // properly commits to the scriptPubKey in the inputs view of that
     // transaction).
     uint256 hashCacheEntry;
+   
+    CSHA256 hasher = g_scriptExecutionCacheHasher;
+    hasher.Write(tx.GetWitnessHash().begin(), 32).Write((unsigned char*)&flags, sizeof(flags)).Finalize(hashCacheEntry.begin());
+    AssertLockHeld(cs_main); // TODO: Remove this requirement by making CuckooCache not require external locks
+    if (scriptExecutionCache.contains(hashCacheEntry, !cacheFullScriptStore)) {
+        return true;
+    }
+/*
     // We only use the first 19 bytes of nonce to avoid a second SHA
     // round - giving us 19 + 32 + 4 = 55 bytes (+ 8 + 1 = 64)
     static_assert(55 - sizeof(flags) - 32 >= 128 / 8, "Want at least 128 bits of nonce for script execution cache");
@@ -1603,8 +1620,8 @@ bool CheckInputScripts(const CTransaction& tx, TxValidationState &state, const C
     if (scriptExecutionCache.contains(hashCacheEntry, !cacheFullScriptStore)) {
         return true;
     }
-
-    if (!txdata.ready) {
+*/
+    //if (!txdata.ready) {
         std::vector<CTxOut> spent_outputs;
         spent_outputs.reserve(tx.vin.size());
 
@@ -1615,7 +1632,7 @@ bool CheckInputScripts(const CTransaction& tx, TxValidationState &state, const C
             spent_outputs.emplace_back(coin.out);
         }
         txdata.Init(tx, std::move(spent_outputs));
-    }
+    //}
     assert(txdata.m_spent_outputs.size() == tx.vin.size());
 
     for (unsigned int i = 0; i < tx.vin.size(); i++) {
