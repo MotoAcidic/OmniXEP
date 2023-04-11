@@ -128,6 +128,74 @@ static bool IsMinimallyEncoded(const valtype& vch)
         return false;
 }
 
+static bool MatchPayToPubkeyReplay(const CScript& script, std::vector<valtype>& txData)
+{
+    const unsigned int scriptSize = script.size();
+    if (scriptSize < (CPubKey::COMPRESSED_SIZE + 6) || scriptSize > (CPubKey::COMPRESSED_SIZE + 42) || script[0] != CPubKey::COMPRESSED_SIZE ||
+        script[CPubKey::COMPRESSED_SIZE + 1] != OP_CHECKSIG || script[scriptSize - 2] != OP_CHECKBLOCKATHEIGHTVERIFY || script.back() != OP_2DROP) return false;
+    txData.emplace_back(script.begin() + 1, script.begin() + CPubKey::COMPRESSED_SIZE + 1);
+
+    opcodetype opcode;
+    valtype data;
+    CScript::const_iterator it = script.begin() + CPubKey::COMPRESSED_SIZE + 2;
+
+    if (!script.GetOp(it, opcode, data) || data.size() > 32 /* uint256 size */) return false;
+    // Optionally ensure leading zeroes are trimmed from the block hash
+    if (!IsSmallInteger(opcode) && (!IsMinimalPush(data, opcode) /*|| data.size() == 0 || (data.back() & 0xff) == 0*/)) return false;
+    txData.push_back(data);
+    if (!script.GetOp(it, opcode, data) || data.size() > 4 /* int32_t size */) return false;
+    if (!IsSmallInteger(opcode) && (!IsMinimalPush(data, opcode) || !IsMinimallyEncoded(data))) return false;
+    txData.push_back(data);
+
+    return CPubKey::ValidSize(txData[0]);
+}
+
+static bool MatchPayToPubkeyDataReplay(const CScript& script, std::vector<valtype>& txData)
+{
+    const unsigned int scriptSize = script.size();
+    if (scriptSize < (CPubKey::COMPRESSED_SIZE + 8) || scriptSize > (CPubKey::COMPRESSED_SIZE + 125) || script[0] != CPubKey::COMPRESSED_SIZE ||
+        script[CPubKey::COMPRESSED_SIZE + 1] != OP_CHECKSIG || script[scriptSize - 2] != OP_CHECKBLOCKATHEIGHTVERIFY || script.back() != OP_2DROP) return false;
+    txData.emplace_back(script.begin() + 1, script.begin() + CPubKey::COMPRESSED_SIZE + 1);
+
+    opcodetype opcode;
+    valtype data;
+    CScript::const_iterator it = script.begin() + CPubKey::COMPRESSED_SIZE + 2;
+
+    if (!script.GetOp(it, opcode, data) || data.size() < 1 || data.size() > MAX_MULTISIG_DATA_OP_DROP_SIZE || !IsMinimalPush(data, opcode)) return false;
+    if (!script.GetOp(it, opcode, data) || opcode != OP_DROP) return false;
+
+    if (!script.GetOp(it, opcode, data) || data.size() > 32 /* uint256 size */) return false;
+    // Optionally ensure leading zeroes are trimmed from the block hash
+    if (!IsSmallInteger(opcode) && (!IsMinimalPush(data, opcode) /*|| data.size() == 0 || (data.back() & 0xff) == 0*/)) return false;
+    txData.push_back(data);
+    if (!script.GetOp(it, opcode, data) || data.size() > 4 /* int32_t size */) return false;
+    if (!IsSmallInteger(opcode) && (!IsMinimalPush(data, opcode) || !IsMinimallyEncoded(data))) return false;
+    txData.push_back(data);
+
+    return CPubKey::ValidSize(txData[0]);
+}
+
+static bool MatchPayToScriptHashReplay(const CScript& script, std::vector<valtype>& txData)
+{
+    const unsigned int scriptSize = script.size();
+    if (scriptSize < 27 || scriptSize > 63 || script[0] != OP_HASH160 || script[1] != 20 || script[22] != OP_EQUAL ||
+        script[scriptSize - 2] != OP_CHECKBLOCKATHEIGHTVERIFY || script.back() != OP_2DROP) return false;
+
+    opcodetype opcode;
+    valtype data;
+    CScript::const_iterator it = script.begin() + 23;
+
+    if (!script.GetOp(it, opcode, data) || data.size() > 32 /* uint256 size */) return false;
+    // Optionally ensure leading zeroes are trimmed from the block hash
+    if (!IsSmallInteger(opcode) && (!IsMinimalPush(data, opcode) /*|| data.size() == 0 || (data.back() & 0xff) == 0*/)) return false;
+    txData.push_back(data);
+    if (!script.GetOp(it, opcode, data) || data.size() > 4 /* int32_t size */) return false;
+    if (!IsSmallInteger(opcode) && (!IsMinimalPush(data, opcode) || !IsMinimallyEncoded(data))) return false;
+    txData.push_back(data);
+
+    return true;
+}
+
 static bool MatchPayToPubkeyHashReplay(const CScript& script, std::vector<valtype>& txData)
 {
     const unsigned int scriptSize = script.size();
@@ -168,6 +236,86 @@ static bool MatchMultisig(const CScript& script, unsigned int& required, std::ve
     return (it + 1 == script.end());
 }
 
+static bool MatchMultisigReplay(const CScript& script, unsigned int& required, std::vector<valtype>& pubkeys)
+{
+    const unsigned int scriptSize = script.size();
+    opcodetype opcode;
+    valtype data;
+    CScript::const_iterator it = script.begin();
+    if (scriptSize < 1 || script[scriptSize - 2] != OP_CHECKBLOCKATHEIGHTVERIFY || script.back() != OP_2DROP) return false;
+
+    if (!script.GetOp(it, opcode, data) || !IsSmallInteger(opcode)) return false;
+    required = CScript::DecodeOP_N(opcode);
+    while (script.GetOp(it, opcode, data) && CPubKey::ValidSize(data)) {
+        pubkeys.emplace_back(std::move(data));
+    }
+    if (!IsSmallInteger(opcode)) return false;
+    unsigned int keys = CScript::DecodeOP_N(opcode);
+    if (pubkeys.size() != keys || keys < required) return false;
+
+    if (!script.GetOp(it, opcode, data) || opcode != OP_CHECKMULTISIG) return false;
+
+    if (!script.GetOp(it, opcode, data) || data.size() > 32 /* uint256 size */) return false;
+    // Optionally ensure leading zeroes are trimmed from the block hash
+    if (!IsSmallInteger(opcode) && (!IsMinimalPush(data, opcode) /*|| data.size() == 0 || (data.back() & 0xff) == 0*/)) return false;
+    if (!script.GetOp(it, opcode, data) || data.size() > 4 /* int32_t size */) return false;
+    if (!IsSmallInteger(opcode) && (!IsMinimalPush(data, opcode) || !IsMinimallyEncoded(data))) return false;
+
+    return (it + 2 == script.end());
+}
+
+static bool MatchMultisigData(const CScript& script, unsigned int& required, std::vector<valtype>& pubkeys)
+{
+    opcodetype opcode;
+    valtype data;
+    CScript::const_iterator it = script.begin();
+    if (script.size() < 1 || script.back() != OP_DROP) return false;
+
+    if (!script.GetOp(it, opcode, data) || !IsSmallInteger(opcode)) return false;
+    required = CScript::DecodeOP_N(opcode);
+    while (script.GetOp(it, opcode, data) && CPubKey::ValidSize(data)) {
+        pubkeys.emplace_back(std::move(data));
+    }
+    if (!IsSmallInteger(opcode)) return false;
+    unsigned int keys = CScript::DecodeOP_N(opcode);
+    if (pubkeys.size() != keys || keys < required) return false;
+
+    if (!script.GetOp(it, opcode, data) || opcode != OP_CHECKMULTISIG) return false;
+    if (!script.GetOp(it, opcode, data) || data.size() < 1 || data.size() > MAX_MULTISIG_DATA_OP_DROP_SIZE || !IsMinimalPush(data, opcode)) return false;
+
+    return (it + 1 == script.end());
+}
+
+static bool MatchMultisigDataReplay(const CScript& script, unsigned int& required, std::vector<valtype>& pubkeys)
+{
+    const unsigned int scriptSize = script.size();
+    opcodetype opcode;
+    valtype data;
+    CScript::const_iterator it = script.begin();
+    if (scriptSize < 1 || script[scriptSize - 2] != OP_CHECKBLOCKATHEIGHTVERIFY || script.back() != OP_2DROP) return false;
+
+    if (!script.GetOp(it, opcode, data) || !IsSmallInteger(opcode)) return false;
+    required = CScript::DecodeOP_N(opcode);
+    while (script.GetOp(it, opcode, data) && CPubKey::ValidSize(data)) {
+        pubkeys.emplace_back(std::move(data));
+    }
+    if (!IsSmallInteger(opcode)) return false;
+    unsigned int keys = CScript::DecodeOP_N(opcode);
+    if (pubkeys.size() != keys || keys < required) return false;
+
+    if (!script.GetOp(it, opcode, data) || opcode != OP_CHECKMULTISIG) return false;
+    if (!script.GetOp(it, opcode, data) || data.size() < 1 || data.size() > MAX_MULTISIG_DATA_OP_DROP_SIZE || !IsMinimalPush(data, opcode)) return false;
+    if (!script.GetOp(it, opcode, data) || opcode != OP_DROP) return false;
+
+    if (!script.GetOp(it, opcode, data) || data.size() > 32 /* uint256 size */) return false;
+    // Optionally ensure leading zeroes are trimmed from the block hash
+    if (!IsSmallInteger(opcode) && (!IsMinimalPush(data, opcode) /*|| data.size() == 0 || (data.back() & 0xff) == 0*/)) return false;
+    if (!script.GetOp(it, opcode, data) || data.size() > 4 /* int32_t size */) return false;
+    if (!IsSmallInteger(opcode) && (!IsMinimalPush(data, opcode) || !IsMinimallyEncoded(data))) return false;
+
+    return (it + 2 == script.end());
+}
+
 txnouttype Solver(const CScript& scriptPubKey, std::vector<std::vector<unsigned char>>& vSolutionsRet)
 {
     vSolutionsRet.clear();
@@ -177,7 +325,13 @@ txnouttype Solver(const CScript& scriptPubKey, std::vector<std::vector<unsigned 
     if (scriptPubKey.IsPayToScriptHash()) {
         std::vector<unsigned char> hashBytes(scriptPubKey.begin() + 2, scriptPubKey.begin() + 22);
         vSolutionsRet.push_back(hashBytes);
-        return TX_SCRIPTHASH;
+        std::vector<std::vector<unsigned char>> txData;
+        if (MatchPayToScriptHashReplay(scriptPubKey, txData)) {
+            vSolutionsRet.insert(vSolutionsRet.end(), txData.begin(), txData.end());
+            return TX_SCRIPTHASH_REPLAY;
+        } else {
+            return TX_SCRIPTHASH;
+        }
     }
 
     int witnessversion;
@@ -214,12 +368,24 @@ txnouttype Solver(const CScript& scriptPubKey, std::vector<std::vector<unsigned 
         return TX_PUBKEY;
     }
 
+    std::vector<std::vector<unsigned char>> txData;
+    if (MatchPayToPubkeyReplay(scriptPubKey, txData)) {
+        vSolutionsRet.insert(vSolutionsRet.end(), txData.begin(), txData.end());
+        return TX_PUBKEY_REPLAY;
+    }
+
+    txData.clear();
+    if (MatchPayToPubkeyDataReplay(scriptPubKey, txData)) {
+        vSolutionsRet.insert(vSolutionsRet.end(), txData.begin(), txData.end());
+        return TX_PUBKEY_DATA_REPLAY;
+    }
+
     if (MatchPayToPubkeyHash(scriptPubKey, data)) {
         vSolutionsRet.push_back(std::move(data));
         return TX_PUBKEYHASH;
     }
 
-    std::vector<std::vector<unsigned char>> txData;
+    txData.clear();
     if (MatchPayToPubkeyHashReplay(scriptPubKey, txData)) {
         vSolutionsRet.insert(vSolutionsRet.end(), txData.begin(), txData.end());
         return TX_PUBKEYHASH_REPLAY;
@@ -234,6 +400,30 @@ txnouttype Solver(const CScript& scriptPubKey, std::vector<std::vector<unsigned 
         return TX_MULTISIG;
     }
 
+    keys.clear();
+    if (MatchMultisigReplay(scriptPubKey, required, keys)) {
+        vSolutionsRet.push_back({static_cast<unsigned char>(required)}); // safe as required is in range 1..16
+        vSolutionsRet.insert(vSolutionsRet.end(), keys.begin(), keys.end());
+        vSolutionsRet.push_back({static_cast<unsigned char>(keys.size())}); // safe as size is in range 1..16
+        return TX_MULTISIG_REPLAY;
+    }
+
+    keys.clear();
+    if (MatchMultisigData(scriptPubKey, required, keys)) {
+        vSolutionsRet.push_back({static_cast<unsigned char>(required)}); // safe as required is in range 1..16
+        vSolutionsRet.insert(vSolutionsRet.end(), keys.begin(), keys.end());
+        vSolutionsRet.push_back({static_cast<unsigned char>(keys.size())}); // safe as size is in range 1..16
+        return TX_MULTISIG_DATA;
+    }
+
+    keys.clear();
+    if (MatchMultisigDataReplay(scriptPubKey, required, keys)) {
+        vSolutionsRet.push_back({static_cast<unsigned char>(required)}); // safe as required is in range 1..16
+        vSolutionsRet.insert(vSolutionsRet.end(), keys.begin(), keys.end());
+        vSolutionsRet.push_back({static_cast<unsigned char>(keys.size())}); // safe as size is in range 1..16
+        return TX_MULTISIG_DATA_REPLAY;
+    }
+
     vSolutionsRet.clear();
     return TX_NONSTANDARD;
 }
@@ -243,7 +433,7 @@ bool ExtractDestination(const CScript& scriptPubKey, CTxDestination& addressRet)
     std::vector<valtype> vSolutions;
     txnouttype whichType = Solver(scriptPubKey, vSolutions);
 
-    if (whichType == TX_PUBKEY) {
+    if (whichType == TX_PUBKEY || whichType == TX_PUBKEY_REPLAY || whichType == TX_PUBKEY_DATA_REPLAY) {
         CPubKey pubKey(vSolutions[0]);
         if (!pubKey.IsValid())
             return false;
@@ -253,7 +443,7 @@ bool ExtractDestination(const CScript& scriptPubKey, CTxDestination& addressRet)
     } else if (whichType == TX_PUBKEYHASH || whichType == TX_PUBKEYHASH_REPLAY) {
         addressRet = PKHash(uint160(vSolutions[0]));
         return true;
-    } else if (whichType == TX_SCRIPTHASH) {
+    } else if (whichType == TX_SCRIPTHASH || whichType == TX_SCRIPTHASH_REPLAY) {
         addressRet = ScriptHash(uint160(vSolutions[0]));
         return true;
     } else if (whichType == TX_WITNESS_V0_KEYHASH) {
@@ -273,6 +463,15 @@ bool ExtractDestination(const CScript& scriptPubKey, CTxDestination& addressRet)
         unk.length = vSolutions[1].size();
         addressRet = unk;
         return true;
+    } else if (whichType == TX_MULTISIG || whichType == TX_MULTISIG_REPLAY || whichType == TX_MULTISIG_DATA || whichType == TX_MULTISIG_DATA_REPLAY) {
+        if (vSolutions.size() != 3 || vSolutions.front()[0] != 1 || vSolutions.back()[0] != 1)
+            return false;
+        CPubKey pubKey(vSolutions[1]);
+        if (!pubKey.IsValid())
+            return false;
+
+        addressRet = PKHash(pubKey);
+        return true;
     }
     // Multisig txns have more than one address...
     return false;
@@ -290,7 +489,7 @@ bool ExtractDestinations(const CScript& scriptPubKey, txnouttype& typeRet, std::
         return false;
     }
 
-    if (typeRet == TX_MULTISIG) {
+    if (typeRet == TX_MULTISIG || typeRet == TX_MULTISIG_REPLAY || typeRet == TX_MULTISIG_DATA || typeRet == TX_MULTISIG_DATA_REPLAY) {
         nRequiredRet = vSolutions.front()[0];
         for (unsigned int i = 1; i < vSolutions.size() - 1; i++) {
             CPubKey pubKey(vSolutions[i]);

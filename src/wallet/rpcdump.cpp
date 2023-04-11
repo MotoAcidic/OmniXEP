@@ -883,7 +883,9 @@ static std::string RecurseImportData(const CScript& script, ImportData& import_d
     txnouttype script_type = Solver(script, solverdata);
 
     switch (script_type) {
-    case TX_PUBKEY: {
+    case TX_PUBKEY:
+    case TX_PUBKEY_REPLAY:
+    case TX_PUBKEY_DATA_REPLAY: {
         CPubKey pubkey(solverdata[0].begin(), solverdata[0].end());
         import_data.used_keys.emplace(pubkey.GetID(), false);
         return "";
@@ -905,7 +907,10 @@ static std::string RecurseImportData(const CScript& script, ImportData& import_d
         import_data.import_scripts.emplace(*subscript);
         return RecurseImportData(*subscript, import_data, ScriptContext::P2SH);
     }
-    case TX_MULTISIG: {
+    case TX_MULTISIG:
+    case TX_MULTISIG_REPLAY:
+    case TX_MULTISIG_DATA:
+    case TX_MULTISIG_DATA_REPLAY: {
         for (size_t i = 1; i + 1< solverdata.size(); ++i) {
             CPubKey pubkey(solverdata[i].begin(), solverdata[i].end());
             import_data.used_keys.emplace(pubkey.GetID(), false);
