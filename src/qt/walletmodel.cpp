@@ -157,20 +157,7 @@ WalletModel::SendCoinsReturn WalletModel::prepareTransaction(WalletModelTransact
             setAddress.insert(rcp.address);
             ++nAddresses;
 
-            const CTxDestination dest = DecodeDestination(rcp.address.toStdString());
-            CScript scriptPubKey = GetScriptForDestination(dest);
-            if (m_client_model && (dest.which() == 1 /* PKHash */ || dest.which() == 2 /* ScriptHash */)) {
-                const int nHeight = std::max(m_client_model->getNumBlocks() - 100, 0);
-
-                std::unique_ptr<interfaces::Chain> chain = interfaces::MakeChain(*m_client_model->node().context());
-
-                // Trim the most significant bytes of the block hash to reduce it from 32 to 20 bytes while still maintaining good collision resistance
-                const uint256& blockHash = chain->getBlockHash(nHeight);
-                std::vector<unsigned char> vchBlockHash(blockHash.begin(), blockHash.end());
-                vchBlockHash.erase(vchBlockHash.begin() + 20, vchBlockHash.end());
-
-                scriptPubKey << vchBlockHash << nHeight << OP_CHECKBLOCKATHEIGHTVERIFY << OP_2DROP;
-            }
+            CScript scriptPubKey = GetScriptForDestination(DecodeDestination(rcp.address.toStdString()));
             CRecipient recipient = {scriptPubKey, rcp.amount, rcp.fSubtractFeeFromAmount};
             vecSend.push_back(recipient);
 
