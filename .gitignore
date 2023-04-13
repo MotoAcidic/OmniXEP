@@ -177,3 +177,4 @@ dist/
 .vs/ProjectSettings.json
 
 .vs/slnx.sqlite
+src/.vscode/settings.json
