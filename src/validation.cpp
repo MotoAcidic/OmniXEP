@@ -1621,7 +1621,9 @@ bool CheckInputScripts(const CTransaction& tx, TxValidationState &state, const C
         return true;
     }
 */
+
     //if (!txdata.ready) {
+    if (!txdata.m_spent_outputs_ready) {
         std::vector<CTxOut> spent_outputs;
         spent_outputs.reserve(tx.vin.size());
 
@@ -1632,7 +1634,7 @@ bool CheckInputScripts(const CTransaction& tx, TxValidationState &state, const C
             spent_outputs.emplace_back(coin.out);
         }
         txdata.Init(tx, std::move(spent_outputs));
-    //}
+    }
     assert(txdata.m_spent_outputs.size() == tx.vin.size());
 
     for (unsigned int i = 0; i < tx.vin.size(); i++) {
