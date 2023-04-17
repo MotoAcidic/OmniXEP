@@ -2221,12 +2221,8 @@ bool CChainState::ConnectBlock(const CBlock& block, BlockValidationState& state,
     else if (!fProofOfStake && pindex->nHeight > chainparams.GetConsensus().nLastPoWBlock)
         return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "PoW-ended", strprintf("%s: PoW period ended", __func__));
 
-    bool devA = !pindex->GeneratedStakeModifier();
-    bool devB = ContextualCheckPoSBlock(block, fProofOfStake, state, view, pindex, chainparams.GetConsensus(), fJustCheck);
-    // if (!pindex->GeneratedStakeModifier() && /*pindex->nStakeModifierChecksum == 0 &&*/ !ContextualCheckPoSBlock(block, fProofOfStake, state, view, pindex, chainparams.GetConsensus(), fJustCheck))
-    if (!devA && !devB) {
-        LogPrintf("!devA && !devB ERROR 0\n");
-        LogPrintf("devA: %d, devB: %d\n", devA, devB);
+    if (!pindex->GeneratedStakeModifier() && /*pindex->nStakeModifierChecksum == 0 &&*/ !ContextualCheckPoSBlock(block, fProofOfStake, state, view, pindex, chainparams.GetConsensus(), fJustCheck))
+    {
         return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-pos", "proof of stake is incorrect"); // return invalid state here because we don't check in AcceptBlock
         // return error("%s: failed PoS check %s", __func__, state.ToString());
     }
@@ -2467,6 +2463,7 @@ bool CChainState::ConnectBlock(const CBlock& block, BlockValidationState& state,
         }
 
         txdata.emplace_back(tx);
+
         if (!tx.IsCoinBase()) {
             std::vector<CScriptCheck> vChecks;
             bool fCacheResults = fJustCheck; /* Don't cache results if we're actually connecting blocks (still consult the cache, though) */
