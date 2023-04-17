@@ -153,7 +153,7 @@ inline uint256 Hash(const T1 pbegin, const T1 pend)
     return result;
 }
 
-template<typename T>
+template <typename T>
 inline uint256 HashJ(const T& in1)
 {
     uint256 result;
@@ -207,7 +207,7 @@ inline uint160 Hash160(const prevector<N, unsigned char>& vch)
 class CHashWriter
 {
 private:
-    CHash256 ctx;
+    CSHA256 ctx;
 
     const int nType;
     const int nVersion;
@@ -223,11 +223,27 @@ public:
         ctx.Write((const unsigned char*)pch, size);
     }
 
-    // invalidates the object
+
+    /** Compute the double-SHA256 hash of all data written to this object.
+     *
+     * Invalidates this object.
+     */
     uint256 GetHash()
     {
         uint256 result;
-        ctx.Finalize((unsigned char*)&result);
+        ctx.Finalize(result.begin());
+        ctx.Reset().Write(result.begin(), CSHA256::OUTPUT_SIZE).Finalize(result.begin());
+        return result;
+    }
+
+    /** Compute the SHA256 hash of all data written to this object.
+     *
+     * Invalidates this object.
+     */
+    uint256 GetSHA256()
+    {
+        uint256 result;
+        ctx.Finalize(result.begin());
         return result;
     }
 
@@ -236,9 +252,11 @@ public:
      */
     inline uint64_t GetCheapHash()
     {
-        unsigned char result[CHash256::OUTPUT_SIZE];
-        ctx.Finalize(result);
-        return ReadLE64(result);
+        uint256 result = GetHash();
+        return ReadLE64(result.begin());
+        // unsigned char result[CHash256::OUTPUT_SIZE];
+        // ctx.Finalize(result);
+        // return ReadLE64(result);
     }
 
     template <typename T>
@@ -293,6 +311,9 @@ uint256 SerializeHash(const T& obj, int nType = SER_GETHASH, int nVersion = PROT
     ss << obj;
     return ss.GetHash();
 }
+
+/** Single-SHA256 a 32-byte input (represented as uint256). */
+NODISCARD uint256 SHA256Uint256(const uint256& input);
 
 unsigned int MurmurHash3(unsigned int nHashSeed, const std::vector<unsigned char>& vDataToHash);
 

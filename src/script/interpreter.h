@@ -138,9 +138,26 @@ static constexpr unsigned int CONTEXTUAL_SCRIPT_VERIFY_FLAGS = SCRIPT_VERIFY_CHE
 bool CheckSignatureEncoding(const std::vector<unsigned char>& vchSig, unsigned int flags, ScriptError* serror);
 
 struct PrecomputedTransactionData {
+    // BIP341 precomputed data.
+    // These are single-SHA256, see https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki#cite_note-15.
+    uint256 m_prevouts_single_hash;
+    uint256 m_sequences_single_hash;
+    uint256 m_outputs_single_hash;
+    uint256 m_spent_amounts_single_hash;
+    uint256 m_spent_scripts_single_hash;
+    //! Whether the 5 fields above are initialized.
+    bool m_bip341_taproot_ready = false;
+
+    // BIP143 precomputed data (double-SHA256).
     uint256 hashPrevouts, hashSequence, hashOutputs;
-    bool ready = false;
+    //! Whether the 3 fields above are initialized.
+    bool m_bip143_segwit_ready = false;
+
     std::vector<CTxOut> m_spent_outputs;
+    //! Whether m_spent_outputs is initialized.
+    bool m_spent_outputs_ready = false;
+
+    PrecomputedTransactionData() = default;
 
     template <class T>
     void Init(const T& tx, std::vector<CTxOut>&& spent_outputs);
@@ -150,8 +167,10 @@ struct PrecomputedTransactionData {
 };
 
 enum class SigVersion {
-    BASE = 0,
-    WITNESS_V0 = 1,
+    BASE = 0,       //!< Bare scripts and BIP16 P2SH-wrapped redeemscripts
+    WITNESS_V0 = 1, //!< Witness v0 (P2WPKH and P2WSH); see BIP 141
+    TAPROOT = 2,    //!< Witness v1 with 32-byte program, not BIP16 P2SH-wrapped, key path spending; see BIP 341
+    TAPSCRIPT = 3,  //!< Witness v1 with 32-byte program, not BIP16 P2SH-wrapped, script path spending, leaf version 0xc0; see BIP 342
 };
 
 /** Signature hash sizes */
@@ -189,7 +208,7 @@ public:
 
     virtual bool CheckBlockHash(const int32_t nHeight, const std::vector<unsigned char>& nBlockHash) const
     {
-         return false;
+        return false;
     }
 
     virtual ~BaseSignatureChecker() {}

@@ -120,13 +120,13 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].min_activation_height = 0; // No activation delay
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x00000000000000000000000000000000000000000e1ab5ec9348e9f4b8eb8154");
+        //consensus.nMinimumChainWork = uint256S("0x00000000000000000000000000000000000000000e1ab5ec9348e9f4b8eb8154");
 
         consensus.mTreasuryPayees.emplace(CScript() << OP_0 << ParseHex("978a5064cd1fdf8c2510fe3fcbd65eaa5e98b32d"), 100); // 10% (full reward) for ep1qj799qexdrl0ccfgslcluh4j74f0f3vedatcv0k
         consensus.nTreasuryRewardPercentage = 10;                                                                          // 10% of block reward goes to treasury
 
         consensus.nMinimumChainWork = uint256S("0x000000000000000000000000000000000000000000004d4a27e34ba8c684ba2b");
-        consensus.defaultAssumeValid = uint256S("0xb7f5913d988682f90be2a534dfc0c7310f71d658a9eb2aa6b6952a424021010a"); // 900000
+        //consensus.defaultAssumeValid = uint256S("0xb7f5913d988682f90be2a534dfc0c7310f71d658a9eb2aa6b6952a424021010a"); // 900000
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
