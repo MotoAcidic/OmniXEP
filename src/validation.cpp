@@ -2220,7 +2220,8 @@ bool CChainState::ConnectBlock(const CBlock& block, BlockValidationState& state,
     else if (!fProofOfStake && pindex->nHeight > chainparams.GetConsensus().nLastPoWBlock)
         return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "PoW-ended", strprintf("%s: PoW period ended", __func__));
 
-     if (!pindex->GeneratedStakeModifier() && /*pindex->nStakeModifierChecksum == 0 &&*/ !ContextualCheckPoSBlock(block, fProofOfStake, state, view, pindex, chainparams.GetConsensus(), fJustCheck))
+    if (!pindex->GeneratedStakeModifier() && /*pindex->nStakeModifierChecksum == 0 &&*/ !ContextualCheckPoSBlock(block, fProofOfStake, state, view, pindex, chainparams.GetConsensus(), fJustCheck))
+    {
         return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-pos", "proof of stake is incorrect"); // return invalid state here because we don't check in AcceptBlock
         // return error("%s: failed PoS check %s", __func__, state.ToString());
     }
