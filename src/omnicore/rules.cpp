@@ -153,10 +153,10 @@ CMainConsensusParams::CMainConsensusParams()
     // Waiting period for enabling freezing
     OMNI_FREEZE_WAIT_PERIOD = 4096; // ~4 weeks
     // Script related:
-    PUBKEYHASH_BLOCK = 0;
-    SCRIPTHASH_BLOCK = 322000;
-    MULTISIG_BLOCK = 0;
-    NULLDATA_BLOCK = std::numeric_limits<int>::max();
+    PUBKEYHASH_BLOCK = 850000;
+    SCRIPTHASH_BLOCK = 850000;
+    MULTISIG_BLOCK = 850000;
+    NULLDATA_BLOCK = 0;
     // Transaction restrictions:
     MSC_ALERT_BLOCK = 0;
     MSC_SEND_BLOCK = 850000;
@@ -169,16 +169,16 @@ CMainConsensusParams::CMainConsensusParams()
     MSC_BET_BLOCK = std::numeric_limits<int>::max();
     MSC_STOV1_BLOCK = std::numeric_limits<int>::max();
     MSC_ANYDATA_BLOCK = 0;
-    MSC_NONFUNGIBLE_BLOCK = std::numeric_limits<int>::max();
-    MSC_DELEGATED_ISSUANCE_BLOCK = std::numeric_limits<int>::max();
+    MSC_NONFUNGIBLE_BLOCK = 850000;
+    MSC_DELEGATED_ISSUANCE_BLOCK = 850000;
     // Other feature activations:
     GRANTEFFECTS_FEATURE_BLOCK = 850000;
     DEXMATH_FEATURE_BLOCK = 850000;
-    SPCROWDCROSSOVER_FEATURE_BLOCK = std::numeric_limits<int>::max();
+    SPCROWDCROSSOVER_FEATURE_BLOCK = 850000;
     TRADEALLPAIRS_FEATURE_BLOCK = 850000;
     FEES_FEATURE_BLOCK = std::numeric_limits<int>::max();
     FREEZENOTICE_FEATURE_BLOCK = std::numeric_limits<int>::max();
-    FREEDEX_FEATURE_BLOCK = std::numeric_limits<int>::max();
+    FREEDEX_FEATURE_BLOCK = 850000;
 }
 
 /**
