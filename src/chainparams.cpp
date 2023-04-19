@@ -260,7 +260,7 @@ public:
         consensus.nTreasuryRewardPercentage = 10;                                                                          // 10% of block reward goes to treasury
 
         consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000030d440d4400");
-        consensus.defaultAssumeValid = uint256S("0x4a121e7765837b21bcffad979e499ecbf7184fcbf772c34c481433059d0840f8"); // 200000
+        consensus.defaultAssumeValid = uint256S("0x001"); // 200000
 
         pchMessageStart[0] = 0xdb;
         pchMessageStart[1] = 0xb1;

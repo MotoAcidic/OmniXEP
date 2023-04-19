@@ -99,7 +99,7 @@ int WalletTxBuilder(
         vecRecipients.push_back(recipient);
     }
 
-    CAmount nFeeRequired{std::max(minFee, iWallet->getMinimumFee(1000, coinControl, nullptr, nullptr))};
+    CAmount nFeeRequired{std::max(minFee, iWallet->getMinimumFee(100000, coinControl, nullptr, nullptr))};
     CTransactionRef wtxNew;
     std::string strFailReason;
     CAmount nFeeRet{0};
