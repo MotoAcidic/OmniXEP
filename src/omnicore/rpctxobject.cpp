@@ -644,7 +644,7 @@ void populateRPCTypeAnyData(CMPTransaction& omniObj, UniValue& txobj)
 void populateRPCTypeBitcoinPayment(CMPTransaction& omniObj, UniValue& txobj)
 {
     uint256 linked_txid = omniObj.getLinkedTXID();
-    txobj.push_back(Pair("linkedtxid", linked_txid.GetHex()));
+    txobj.pushKV("linkedtxid", linked_txid.GetHex());
 
     CTransaction linked_tx;
     uint256 linked_blockHash = 0;
@@ -661,9 +661,9 @@ void populateRPCTypeBitcoinPayment(CMPTransaction& omniObj, UniValue& txobj)
             int parseRC = ParseTransaction(linked_tx, linked_blockHeight, 0, mp_obj, linked_blockTime);
             if (parseRC >= 0) {
                 if (mp_obj.interpret_Transaction()) {
-                    txobj.push_back(Pair("linkedtxtype", mp_obj.getTypeString()));
-                    txobj.push_back(Pair("paymentrecipient", mp_obj.getSender()));
-                    txobj.push_back(Pair("paymentamount", FormatDivisibleMP(GetBitcoinPaymentAmount(omniObj.getHash(), mp_obj.getSender()))));
+                    txobj.pushKV("linkedtxtype", mp_obj.getTypeString());
+                    txobj.pushKV("paymentrecipient", mp_obj.getSender());
+                    txobj.pushKV("paymentamount", FormatDivisibleMP(GetBitcoinPaymentAmount(omniObj.getHash(), mp_obj.getSender())));
                 }
             }
         }
