@@ -1377,12 +1377,12 @@ int64_t GetBitcoinPaymentAmount(const uint256& txid, const std::string& recipien
 
     int64_t totalSatoshis = 0;
 
-    for (unsigned int n = 0; n < tx.vout.size(); ++n) {
+    for (unsigned int n = 0; n < tx->vout.size(); ++n) {
         CTxDestination dest;
-        if (ExtractDestination(tx.vout[n].scriptPubKey, dest)) {
+        if (ExtractDestination(tx->vout[n].scriptPubKey, dest)) {
             std::string strAddress = EncodeDestination(dest);
             if (strAddress != recipient) continue;
-            totalSatoshis += tx.vout[n].nValue;
+            totalSatoshis += tx->vout[n].nValue;
         }
     }
 
