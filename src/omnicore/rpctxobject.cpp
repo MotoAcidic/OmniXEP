@@ -646,11 +646,11 @@ void populateRPCTypeBitcoinPayment(CMPTransaction& omniObj, UniValue& txobj)
     uint256 linked_txid = omniObj.getLinkedTXID();
     txobj.pushKV("linkedtxid", linked_txid.GetHex());
 
-    CTransaction linked_tx;
+    CTransactionRef linked_tx;
     uint256 linked_blockHash = 0;
     int linked_blockHeight = 0;
     int linked_blockTime = 0;
-    if (GetTransaction(linked_txid, linked_tx, linked_blockHash, true)) {
+    if (GetTransaction(linked_txid, linked_tx, Params().GetConsensus(), linked_blockHash, true)) {
         if (linked_blockHash != 0) {
             CBlockIndex* pBlockIndex = GetBlockIndex(linked_blockHash);
             if (NULL != pBlockIndex) {
