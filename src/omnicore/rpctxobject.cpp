@@ -641,7 +641,7 @@ void populateRPCTypeAnyData(CMPTransaction& omniObj, UniValue& txobj)
     txobj.pushKV("data", omniObj.getPayloadData());
 }
 
-void populateRPCTypeBitcoinPayment(CMPTransaction& omniObj, Object& txobj)
+void populateRPCTypeBitcoinPayment(CMPTransaction& omniObj, UniValue& txobj)
 {
     uint256 linked_txid = omniObj.getLinkedTXID();
     txobj.push_back(Pair("linkedtxid", linked_txid.GetHex()));
