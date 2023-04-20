@@ -65,7 +65,7 @@ int64_t ParseAmount(const UniValue& value, bool isDivisible)
     return amount;
 }
 
-uint32_t ParsePropertyIdOrZero(const json_spirit::Value& value)
+uint32_t ParsePropertyIdOrZero(const UniValue& value)
 {
     int64_t propertyId = value.get_int64();
     if (propertyId != 0 && (propertyId < 1 || 4294967295LL < propertyId)) {
