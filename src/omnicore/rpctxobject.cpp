@@ -232,6 +232,9 @@ void populateRPCTypeInfo(CMPTransaction& mp_obj, UniValue& txobj, uint32_t txTyp
         case MSC_TYPE_CHANGE_ISSUER_ADDRESS:
             populateRPCTypeChangeIssuer(mp_obj, txobj);
             break;
+        case MSC_TYPE_BITCOIN_PAYMENT:
+            populateRPCTypeBitcoinPayment(mp_obj, txobj);
+            break;
         case MSC_TYPE_ENABLE_FREEZING:
             populateRPCTypeEnableFreezing(mp_obj, txobj);
             break;
@@ -286,6 +289,7 @@ bool showRefForTx(uint32_t txType)
         case MSC_TYPE_REVOKE_PROPERTY_TOKENS: return false;
         case MSC_TYPE_CHANGE_ISSUER_ADDRESS: return true;
         case MSC_TYPE_SEND_ALL: return true;
+        case MSC_TYPE_BITCOIN_PAYMENT: return false;
         case MSC_TYPE_ENABLE_FREEZING: return false;
         case MSC_TYPE_DISABLE_FREEZING: return false;
         case MSC_TYPE_FREEZE_PROPERTY_TOKENS: return true;
@@ -635,6 +639,37 @@ void populateRPCTypeRemoveDelegate(CMPTransaction& omniObj, UniValue& txobj)
 void populateRPCTypeAnyData(CMPTransaction& omniObj, UniValue& txobj)
 {
     txobj.pushKV("data", omniObj.getPayloadData());
+}
+
+void populateRPCTypeBitcoinPayment(CMPTransaction& omniObj, Object& txobj)
+{
+    uint256 linked_txid = omniObj.getLinkedTXID();
+    txobj.push_back(Pair("linkedtxid", linked_txid.GetHex()));
+
+    CTransaction linked_tx;
+    uint256 linked_blockHash = 0;
+    int linked_blockHeight = 0;
+    int linked_blockTime = 0;
+    if (GetTransaction(linked_txid, linked_tx, linked_blockHash, true)) {
+        if (linked_blockHash != 0) {
+            CBlockIndex* pBlockIndex = GetBlockIndex(linked_blockHash);
+            if (NULL != pBlockIndex) {
+                linked_blockHeight = pBlockIndex->nHeight;
+                linked_blockTime = pBlockIndex->nTime;
+            }
+            CMPTransaction mp_obj;
+            int parseRC = ParseTransaction(linked_tx, linked_blockHeight, 0, mp_obj, linked_blockTime);
+            if (parseRC >= 0) {
+                if (mp_obj.interpret_Transaction()) {
+                    txobj.push_back(Pair("linkedtxtype", mp_obj.getTypeString()));
+                    txobj.push_back(Pair("paymentrecipient", mp_obj.getSender()));
+                    txobj.push_back(Pair("paymentamount", FormatDivisibleMP(GetBitcoinPaymentAmount(omniObj.getHash(), mp_obj.getSender()))));
+                }
+            }
+        }
+    }
+
+    // TODO: what about details about what this payment did (eg crowdsale purchase, paid accept etc)?
 }
 
 void populateRPCExtendedTypeSendToOwners(const uint256 txid, std::string extendedDetailsFilter, UniValue& txobj, uint16_t version, interfaces::Wallet *iWallet)

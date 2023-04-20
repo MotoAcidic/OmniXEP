@@ -4,6 +4,7 @@
 
 #include <omnicore/log.h>
 #include <omnicore/parsing.h>
+#include <omnicore/omnicore.h>
 
 #include <base58.h>
 
@@ -61,6 +62,24 @@ std::vector<unsigned char> CreatePayload_SimpleSend(uint32_t propertyId, uint64_
 
     return payload;
 }
+
+std::vector<unsigned char> CreatePayload_BitcoinPayment(const uint256& linkedtxid)
+{
+    std::vector<unsigned char> payload;
+    uint16_t messageVer = 0;
+    uint16_t messageType = 80;
+    mastercore::swapByteOrder16(messageVer);
+    mastercore::swapByteOrder16(messageType);
+    std::string linkedtxidhash = linkedtxid.GetHex();
+
+    PUSH_BACK_BYTES(payload, messageVer);
+    PUSH_BACK_BYTES(payload, messageType);
+    payload.insert(payload.end(), linkedtxidhash.begin(), linkedtxidhash.end());
+    payload.push_back('\0');
+
+    return payload;
+}
+
 
 std::vector<unsigned char> CreatePayload_SendAll(uint8_t ecosystem)
 {
@@ -231,7 +250,7 @@ std::vector<unsigned char> CreatePayload_IssuanceVariable(uint8_t ecosystem, uin
 {
     std::vector<unsigned char> payload;
     uint16_t messageType = 51;
-    uint16_t messageVer = 0;
+    uint16_t messageVer = (propertyIdDesired == BTC_PROPERTY_ID) ? 2 : 0;
     SwapByteOrder16(messageVer);
     SwapByteOrder16(messageType);
     SwapByteOrder16(propertyType);

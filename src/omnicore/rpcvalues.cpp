@@ -65,6 +65,15 @@ int64_t ParseAmount(const UniValue& value, bool isDivisible)
     return amount;
 }
 
+uint32_t ParsePropertyIdOrZero(const json_spirit::Value& value)
+{
+    int64_t propertyId = value.get_int64();
+    if (propertyId != 0 && (propertyId < 1 || 4294967295LL < propertyId)) {
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "Property identifier is out of range");
+    }
+    return static_cast<uint32_t>(propertyId);
+}
+
 int64_t ParseAmount(const UniValue& value, int propertyType)
 {
     bool fDivisible = (propertyType == 2);  // 1 = indivisible, 2 = divisible

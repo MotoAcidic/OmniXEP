@@ -99,6 +99,9 @@ private:
     uint32_t activation_block;
     uint32_t min_client_version;
 
+    // Bitcoin Payment
+    uint256 linked_txid;
+
     // Indicates whether the transaction can be used to execute logic
     bool rpcOnly;
 
@@ -126,6 +129,7 @@ private:
     bool interpret_GrantTokens();
     bool interpret_RevokeTokens();
     bool interpret_ChangeIssuer();
+    bool interpret_BitcoinPayment();
     bool interpret_EnableFreezing();
     bool interpret_DisableFreezing();
     bool interpret_FreezeTokens();
@@ -158,6 +162,7 @@ private:
     int logicMath_GrantTokens(CBlockIndex* pindex, uint256 &blockHash);
     int logicMath_RevokeTokens(CBlockIndex *pindex);
     int logicMath_ChangeIssuer(CBlockIndex *pindex);
+    int logicMath_BitcoinPayment();
     int logicMath_EnableFreezing(CBlockIndex *pindex);
     int logicMath_DisableFreezing(CBlockIndex *pindex);
     int logicMath_FreezeTokens(CBlockIndex *pindex);
@@ -227,6 +232,7 @@ public:
     uint32_t getMinClientVersion() const { return min_client_version; }
     unsigned int getIndexInBlock() const { return tx_idx; }
     uint32_t getDistributionProperty() const { return distribution_property; }
+    uint256 getLinkedTXID() const { return linked_txid; }
     uint64_t getNonFungibleTokenStart() const { return nonfungible_token_start; }
     uint64_t getNonFungibleTokenEnd() const { return nonfungible_token_end; }
     uint64_t getNonFungibleDataType() const { return nonfungible_data_type; }

@@ -234,6 +234,54 @@ static UniValue omni_send(const JSONRPCRequest& request)
     }
 }
 
+// omni_sendbtcpayment - send a BTC payment
+static UniValue omni_sendbtcpayment(const JSONRPCRequest& request)
+{
+    if (fHelp || params.size() != 4)
+        throw runtime_error(
+            "omni_sendbtcpayment \"fromaddress\" \"toaddress\" \"linkedtxid\" \"amount\"\n"
+
+            "\nCreate and broadcast a BTC payment transaction.\n"
+
+            "\nArguments:\n"
+            "1. fromaddress          (string, required) the address to send from\n"
+            "2. toaddress            (string, required) the address of the receiver\n"
+            "3. linkedtxid           (string, required) the transaction ID of the linked transaction\n"
+            "4. amount               (string, required) the amount of Bitcoin to send\n"
+
+            "\nResult:\n"
+            "\"hash\"                  (string) the hex-encoded transaction hash\n"
+
+            "\nExamples:\n" +
+            HelpExampleCli("omni_sendbtcpayment", "\"3M9qvHKtgARhqcMtM5cRT9VaiDJ5PSfQGY\" \"37FaKponF7zqoMLUjEiko25pDiuVH5YLEa\" \"txid\" \"0.01\"") + HelpExampleRpc("omni_sendbtcpayment", "\"3M9qvHKtgARhqcMtM5cRT9VaiDJ5PSfQGY\", \"37FaKponF7zqoMLUjEiko25pDiuVH5YLEa\", \"txid\", \"0.01\""));
+
+    // obtain parameters & info
+    std::string fromAddress = ParseAddress(params[0]);
+    std::string toAddress = ParseAddress(params[1]);
+    uint256 linkedtxid = ParseHashV(params[2], "txid");
+    int64_t referenceAmount = ParseAmount(params[3], true);
+
+    // create a payload for the transaction
+    std::vector<unsigned char> payload = CreatePayload_BitcoinPayment(linkedtxid);
+
+    // request the wallet build the transaction (and if needed commit it)
+    uint256 txid;
+    std::string rawHex;
+    int result = ClassAgnosticWalletTXBuilder(fromAddress, toAddress, fromAddress, referenceAmount, payload, txid, rawHex, autoCommit);
+
+    // check error and return the txid (or raw hex depending on autocommit)
+    if (result != 0) {
+        throw JSONRPCError(result, error_str(result));
+    } else {
+        if (!autoCommit) {
+            return rawHex;
+        } else {
+            PendingAdd(txid, fromAddress, MSC_TYPE_BITCOIN_PAYMENT, BTC_PROPERTY_ID, referenceAmount);
+            return txid.GetHex();
+        }
+    }
+}
+
 static UniValue omni_sendall(const JSONRPCRequest& request)
 {
     std::shared_ptr<CWallet> const wallet = GetWalletForJSONRPCRequest(request);
@@ -894,7 +942,7 @@ static UniValue omni_sendissuancecrowdsale(const JSONRPCRequest& request)
     std::string name = ParseText(request.params[6]);
     std::string url = ParseText(request.params[7]);
     std::string data = ParseText(request.params[8]);
-    uint32_t propertyIdDesired = ParsePropertyId(request.params[9]);
+    uint32_t propertyIdDesired = ParsePropertyIdOrZero(request.params[9]);
     int64_t numTokens = ParseAmount(request.params[10], type);
     int64_t deadline = ParseDeadline(request.params[11]);
     uint8_t earlyBonus = ParseEarlyBirdBonus(request.params[12]);
@@ -902,8 +950,10 @@ static UniValue omni_sendissuancecrowdsale(const JSONRPCRequest& request)
 
     // perform checks
     RequirePropertyName(name);
-    RequireExistingProperty(propertyIdDesired);
-    RequireSameEcosystem(ecosystem, propertyIdDesired);
+    if (propertyIdDesired != BTC_PROPERTY_ID) {
+        RequireExistingProperty(propertyIdDesired);
+        RequireSameEcosystem(ecosystem, propertyIdDesired);
+    }
 
     // create a payload for the transaction
     std::vector<unsigned char> payload = CreatePayload_IssuanceVariable(ecosystem, type, previousId, category, subcategory, name, url, data, propertyIdDesired, numTokens, deadline, earlyBonus, issuerPercentage);

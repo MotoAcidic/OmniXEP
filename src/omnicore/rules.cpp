@@ -36,29 +36,32 @@ std::vector<TransactionRestriction> CConsensusParams::GetRestrictions() const
     const TransactionRestriction vTxRestrictions[] =
     { //  transaction type                    version        allow 0  activation block
       //  ----------------------------------  -------------  -------  ------------------
-        { OMNICORE_MESSAGE_TYPE_ALERT,        0xFFFF,        true,    MSC_ALERT_BLOCK    },
-        { OMNICORE_MESSAGE_TYPE_ACTIVATION,   0xFFFF,        true,    MSC_ALERT_BLOCK    },
-        { OMNICORE_MESSAGE_TYPE_DEACTIVATION, 0xFFFF,        true,    MSC_ALERT_BLOCK    },
+        { OMNICORE_MESSAGE_TYPE_ALERT,        0xFFFF,        true,    MSC_ALERT_BLOCK           },
+        { OMNICORE_MESSAGE_TYPE_ACTIVATION,   0xFFFF,        true,    MSC_ALERT_BLOCK           },
+        { OMNICORE_MESSAGE_TYPE_DEACTIVATION, 0xFFFF,        true,    MSC_ALERT_BLOCK           },
 
-        { MSC_TYPE_SIMPLE_SEND,               MP_TX_PKT_V0,  false,   MSC_SEND_BLOCK     },
+        { MSC_TYPE_SIMPLE_SEND,               MP_TX_PKT_V0,  false,   MSC_SEND_BLOCK            },
 
-        { MSC_TYPE_TRADE_OFFER,               MP_TX_PKT_V0,  false,   MSC_DEX_BLOCK      },
-        { MSC_TYPE_TRADE_OFFER,               MP_TX_PKT_V1,  false,   MSC_DEX_BLOCK      },
-        { MSC_TYPE_ACCEPT_OFFER_BTC,          MP_TX_PKT_V0,  false,   MSC_DEX_BLOCK      },
+        { MSC_TYPE_TRADE_OFFER,               MP_TX_PKT_V0,  false,   MSC_DEX_BLOCK             },
+        { MSC_TYPE_TRADE_OFFER,               MP_TX_PKT_V1,  false,   MSC_DEX_BLOCK             },
+        { MSC_TYPE_ACCEPT_OFFER_BTC,          MP_TX_PKT_V0,  false,   MSC_DEX_BLOCK             },
 
-        { MSC_TYPE_CREATE_PROPERTY_FIXED,     MP_TX_PKT_V0,  false,   MSC_SP_BLOCK       },
-        { MSC_TYPE_CREATE_PROPERTY_VARIABLE,  MP_TX_PKT_V0,  false,   MSC_SP_BLOCK       },
-        { MSC_TYPE_CREATE_PROPERTY_VARIABLE,  MP_TX_PKT_V1,  false,   MSC_SP_BLOCK       },
-        { MSC_TYPE_CLOSE_CROWDSALE,           MP_TX_PKT_V0,  false,   MSC_SP_BLOCK       },
+        { MSC_TYPE_CREATE_PROPERTY_FIXED,     MP_TX_PKT_V0,  false,   MSC_SP_BLOCK              },
+        { MSC_TYPE_CREATE_PROPERTY_VARIABLE,  MP_TX_PKT_V0,  false,   MSC_SP_BLOCK              },
+        { MSC_TYPE_CREATE_PROPERTY_VARIABLE,  MP_TX_PKT_V1,  false,   MSC_SP_BLOCK              },
+        { MSC_TYPE_CREATE_PROPERTY_VARIABLE,  MP_TX_PKT_V2,   true,   MSC_BTC_CROWDSALE_BLOCK   },
+        { MSC_TYPE_CLOSE_CROWDSALE,           MP_TX_PKT_V0,  false,   MSC_SP_BLOCK              },
 
-        { MSC_TYPE_CREATE_PROPERTY_MANUAL,    MP_TX_PKT_V0,  false,   MSC_MANUALSP_BLOCK },
-        { MSC_TYPE_GRANT_PROPERTY_TOKENS,     MP_TX_PKT_V0,  false,   MSC_MANUALSP_BLOCK },
-        { MSC_TYPE_REVOKE_PROPERTY_TOKENS,    MP_TX_PKT_V0,  false,   MSC_MANUALSP_BLOCK },
-        { MSC_TYPE_CHANGE_ISSUER_ADDRESS,     MP_TX_PKT_V0,  false,   MSC_MANUALSP_BLOCK },
-        { MSC_TYPE_ENABLE_FREEZING,           MP_TX_PKT_V0,  false,   MSC_MANUALSP_BLOCK },
-        { MSC_TYPE_DISABLE_FREEZING,          MP_TX_PKT_V0,  false,   MSC_MANUALSP_BLOCK },
-        { MSC_TYPE_FREEZE_PROPERTY_TOKENS,    MP_TX_PKT_V0,  false,   MSC_MANUALSP_BLOCK },
-        { MSC_TYPE_UNFREEZE_PROPERTY_TOKENS,  MP_TX_PKT_V0,  false,   MSC_MANUALSP_BLOCK },
+        { MSC_TYPE_BITCOIN_PAYMENT,           MP_TX_PKT_V0,   true,   MSC_BTC_CROWDSALE_BLOCK   },
+
+        { MSC_TYPE_CREATE_PROPERTY_MANUAL,    MP_TX_PKT_V0,  false,   MSC_MANUALSP_BLOCK        },
+        { MSC_TYPE_GRANT_PROPERTY_TOKENS,     MP_TX_PKT_V0,  false,   MSC_MANUALSP_BLOCK        },
+        { MSC_TYPE_REVOKE_PROPERTY_TOKENS,    MP_TX_PKT_V0,  false,   MSC_MANUALSP_BLOCK        },
+        { MSC_TYPE_CHANGE_ISSUER_ADDRESS,     MP_TX_PKT_V0,  false,   MSC_MANUALSP_BLOCK        },
+        { MSC_TYPE_ENABLE_FREEZING,           MP_TX_PKT_V0,  false,   MSC_MANUALSP_BLOCK        },
+        { MSC_TYPE_DISABLE_FREEZING,          MP_TX_PKT_V0,  false,   MSC_MANUALSP_BLOCK        },
+        { MSC_TYPE_FREEZE_PROPERTY_TOKENS,    MP_TX_PKT_V0,  false,   MSC_MANUALSP_BLOCK        },
+        { MSC_TYPE_UNFREEZE_PROPERTY_TOKENS,  MP_TX_PKT_V0,  false,   MSC_MANUALSP_BLOCK        },
 
         { MSC_TYPE_ADD_DELEGATE,              MP_TX_PKT_V0,  false,   MSC_DELEGATED_ISSUANCE_BLOCK },
         { MSC_TYPE_REMOVE_DELEGATE,           MP_TX_PKT_V0,  false,   MSC_DELEGATED_ISSUANCE_BLOCK },
@@ -168,6 +171,7 @@ CMainConsensusParams::CMainConsensusParams()
     MSC_SEND_ALL_BLOCK = 850000;
     MSC_BET_BLOCK = std::numeric_limits<int>::max();
     MSC_STOV1_BLOCK = std::numeric_limits<int>::max();
+    MSC_BTC_CROWDSALE_BLOCK = 850000;
     MSC_ANYDATA_BLOCK = 0;
     MSC_NONFUNGIBLE_BLOCK = 850000;
     MSC_DELEGATED_ISSUANCE_BLOCK = 850000;
@@ -213,6 +217,7 @@ CTestNetConsensusParams::CTestNetConsensusParams()
     MSC_SEND_ALL_BLOCK = 0;
     MSC_BET_BLOCK = 999999;
     MSC_STOV1_BLOCK = 0;
+    MSC_BTC_CROWDSALE_BLOCK = 0;
     MSC_ANYDATA_BLOCK = 0;
     MSC_NONFUNGIBLE_BLOCK = 0;
     MSC_DELEGATED_ISSUANCE_BLOCK = 0;
@@ -258,6 +263,7 @@ CRegTestConsensusParams::CRegTestConsensusParams()
     MSC_SEND_ALL_BLOCK = 0;
     MSC_BET_BLOCK = 999999;
     MSC_STOV1_BLOCK = 999999;
+    MSC_BTC_CROWDSALE_BLOCK = 999999;
     MSC_ANYDATA_BLOCK = 0;
     MSC_NONFUNGIBLE_BLOCK = 0;
     MSC_DELEGATED_ISSUANCE_BLOCK = 0;
@@ -368,6 +374,20 @@ bool IsAllowedOutputType(int whichType, int nBlock)
     }
 
     return false;
+}
+
+/**
+ * Whether Bitcoin payments are supported for a transaction type/version.
+ */
+bool IsBitcoinPaymentAllowed(uint16_t type, uint16_t version)
+{
+    bool allowed = false;
+
+    if (type == MSC_TYPE_CREATE_PROPERTY_VARIABLE && version == MP_TX_PKT_V2) {
+            allowed = true;
+    }
+
+    return allowed;
 }
 
 /**
@@ -553,6 +573,7 @@ std::string GetFeatureName(uint16_t featureId)
         case FEATURE_TRADEALLPAIRS: return "Allow trading all pairs on the Distributed Exchange";
         case FEATURE_FEES: return "Fee system (inc 0.05% fee from trades of non-Omni pairs)";
         case FEATURE_STOV1: return "Cross-property Send To Owners";
+        case FEATURE_BTC_CROWDSALES: return "Allow BTC as the desired property in a crowdsale)";
         case FEATURE_FREEZENOTICE: return "Activate the waiting period for enabling freezing";
         case FEATURE_FREEDEX: return "Activate trading of any token on the distributed exchange";
         case FEATURE_NONFUNGIBLE: return "Uniquely identifiable tokens";
@@ -600,6 +621,9 @@ bool IsFeatureActivated(uint16_t featureId, int transactionBlock)
             break;
         case FEATURE_STOV1:
             activationBlock = params.MSC_STOV1_BLOCK;
+            break;
+        case FEATURE_BTC_CROWDSALES:
+            activationBlock = params.FEES_FEATURE_BLOCK;
             break;
         case FEATURE_FREEZENOTICE:
             activationBlock = params.FREEZENOTICE_FEATURE_BLOCK;
