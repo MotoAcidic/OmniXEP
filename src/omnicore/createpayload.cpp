@@ -68,8 +68,8 @@ std::vector<unsigned char> CreatePayload_BitcoinPayment(const uint256& linkedtxi
     std::vector<unsigned char> payload;
     uint16_t messageVer = 0;
     uint16_t messageType = 80;
-    mastercore::swapByteOrder16(messageVer);
-    mastercore::swapByteOrder16(messageType);
+    SwapByteOrder16(messageVer);
+    SwapByteOrder16(messageType);
     std::string linkedtxidhash = linkedtxid.GetHex();
 
     PUSH_BACK_BYTES(payload, messageVer);
