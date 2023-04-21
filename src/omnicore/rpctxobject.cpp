@@ -650,13 +650,14 @@ void populateRPCTypeBitcoinPayment(CMPTransaction& omniObj, UniValue& txobj)
     uint256 linked_blockHash = 0;
     int linked_blockHeight = 0;
     int linked_blockTime = 0;
-    if (GetTransaction(linked_txid, linked_tx, Params().GetConsensus(), linked_blockHash)) {
-        if (linked_blockHash != (uint256) 0) {
+    if (GetTransaction(linked_txid, linked_tx, Params().GetConsensus() , linked_blockHash)) {
+        if (linked_blockHash != 0) {
             CBlockIndex* pBlockIndex = GetBlockIndex(linked_blockHash);
             if (NULL != pBlockIndex) {
                 linked_blockHeight = pBlockIndex->nHeight;
                 linked_blockTime = pBlockIndex->nTime;
             }
+
             CMPTransaction mp_obj;
             int parseRC = ParseTransaction(linked_tx, linked_blockHeight, 0, mp_obj, linked_blockTime);
             if (parseRC >= 0) {
