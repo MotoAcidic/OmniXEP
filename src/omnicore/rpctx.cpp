@@ -253,8 +253,9 @@ static UniValue omni_sendbtcpayment(const JSONRPCRequest& request)
            RPCResult::Type::STR_HEX, "hash", "the hex-encoded transaction hash"
        },
        RPCExamples{
-           HelpExampleCli("omni_sendbtcpayment", "\"3M9qvHKtgARhqcMtM5cRT9VaiDJ5PSfQGY\" \"37FaKponF7zqoMLUjEiko25pDiuVH5YLEa\" \"txid\" \"0.01\"") + HelpExampleRpc("omni_sendbtcpayment", "\"3M9qvHKtgARhqcMtM5cRT9VaiDJ5PSfQGY\", \"37FaKponF7zqoMLUjEiko25pDiuVH5YLEa\", \"txid\", \"0.01\"")
-           //+ HelpExampleRpc()  // TODO need to populate the rpc example
+           HelpExampleCli("omni_sendbtcpayment", "\"3M9qvHKtgARhqcMtM5cRT9VaiDJ5PSfQGY\" \"37FaKponF7zqoMLUjEiko25pDiuVH5YLEa\" \"txid\" \"0.01\"") 
+           + HelpExampleRpc("omni_sendbtcpayment", "\"3M9qvHKtgARhqcMtM5cRT9VaiDJ5PSfQGY\", \"37FaKponF7zqoMLUjEiko25pDiuVH5YLEa\", \"txid\", \"0.01\"")
+           
        }
     }.Check(request);
 
@@ -2175,6 +2176,7 @@ static const CRPCCommand commands[] =
   //  ------------------------------------ ------------------------------- ------------------------------ ----------
     { "omni layer (transaction creation)", "omni_sendrawtx",               &omni_sendrawtx,               {"fromaddress", "rawtransaction", "referenceaddress", "redeemaddress", "referenceamount"} },
     { "omni layer (transaction creation)", "omni_send",                    &omni_send,                    {"fromaddress", "toaddress", "propertyid", "amount", "redeemaddress", "referenceamount"} },
+    { "omni layer (transaction creation)", "omni_sendbtcpayment",          &omni_sendbtcpayment,          {"fromaddress", "toaddress", "linkedTxID", "amount"} },
     { "omni layer (transaction creation)", "omni_senddexsell",             &omni_senddexsell,             {"fromaddress", "propertyidforsale", "amountforsale", "amountdesired", "paymentwindow", "minacceptfee", "action"} },
     { "omni layer (transaction creation)", "omni_sendnewdexorder",         &omni_sendnewdexorder,         {"fromaddress", "propertyidforsale", "amountforsale", "amountdesired", "paymentwindow", "minacceptfee"} },
     { "omni layer (transaction creation)", "omni_sendupdatedexorder",      &omni_sendupdatedexorder,      {"fromaddress", "propertyidforsale", "amountforsale", "amountdesired", "paymentwindow", "minacceptfee"} },
