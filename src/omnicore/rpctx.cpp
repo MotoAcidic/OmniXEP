@@ -947,7 +947,8 @@ static UniValue omni_sendissuancecrowdsale(const JSONRPCRequest& request)
     std::string name = ParseText(request.params[6]);
     std::string url = ParseText(request.params[7]);
     std::string data = ParseText(request.params[8]);
-    uint32_t propertyIdDesired = ParsePropertyIdOrZero(request.params[9]);
+    uint32_t propertyIdDesired = ParsePropertyId(request.params[9]);
+    //uint32_t propertyIdDesired = ParsePropertyIdOrZero(request.params[9]);
     int64_t numTokens = ParseAmount(request.params[10], type);
     int64_t deadline = ParseDeadline(request.params[11]);
     uint8_t earlyBonus = ParseEarlyBirdBonus(request.params[12]);
