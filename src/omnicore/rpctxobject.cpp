@@ -616,6 +616,7 @@ void populateRPCTypeDisableFreezing(CMPTransaction& omniObj, UniValue& txobj)
 {
     txobj.pushKV("propertyid", (uint64_t) omniObj.getProperty());
 }
+
 void populateRPCTypeFreezeTokens(CMPTransaction& omniObj, UniValue& txobj)
 {
     txobj.pushKV("propertyid", (uint64_t) omniObj.getProperty());
