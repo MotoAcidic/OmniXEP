@@ -245,9 +245,9 @@ static UniValue omni_sendbtcpayment(const JSONRPCRequest& request)
        "\nCreate and broadcast a BTC payment transaction.\n",
        {
            {"fromaddress", RPCArg::Type::STR, RPCArg::Optional::NO, "the address to send from\n"},
-           {"toaddress", RPCArg::Type::STR, RPCArg::Optional::NO, "the hex-encoded raw transaction"},
-           {"linkedtxid", RPCArg::Type::STR, RPCArg::Optional::NO, "a reference address (none by default)\n"},
-           {"amount", RPCArg::Type::STR, RPCArg::Optional::NO, "an address that can spent the transaction dust (sender by default)\n"},
+           {"toaddress", RPCArg::Type::STR, RPCArg::Optional::NO, "crowdsale issuer address from omni_getactivecrowdsales"},
+           {"linkedtxid", RPCArg::Type::STR, RPCArg::Optional::NO, "the creationtxid of the crowdsale\n"},
+           {"amount", RPCArg::Type::STR, RPCArg::Optional::NO, "amount to send to crowdsale\n"},
        },
        RPCResult{
            RPCResult::Type::STR_HEX, "hash", "the hex-encoded transaction hash"
@@ -260,10 +260,10 @@ static UniValue omni_sendbtcpayment(const JSONRPCRequest& request)
     }.Check(request);
 
     // obtain parameters & info
-    std::string fromAddress = ParseAddress(Params[0]);
-    std::string toAddress = ParseAddress(Params[1]);
-    uint256 linkedtxid = ParseHashV(Params[2], "txid");
-    int64_t referenceAmount = ParseAmount(Params[3], true);
+    std::string fromAddress = ParseAddress(request.params[0]);
+    std::string toAddress = ParseAddress(request.params[1]);
+    uint256 linkedtxid = ParseHashV(request.params[2], "txid");
+    int64_t referenceAmount = ParseAmount(request.params[3], true);
 
     // create a payload for the transaction
     std::vector<unsigned char> payload = CreatePayload_BitcoinPayment(linkedtxid);
@@ -271,11 +271,11 @@ static UniValue omni_sendbtcpayment(const JSONRPCRequest& request)
     // request the wallet build the transaction (and if needed commit it)
     uint256 txid;
     std::string rawHex;
-    //int result = ClassAgnosticWalletTXBuilder(fromAddress, toAddress, fromAddress, referenceAmount, payload, txid, rawHex, autoCommit);
-    int result = WalletTxBuilder(fromAddress, toAddress, fromAddress, referenceAmount, payload, txid, rawHex, autoCommit);
+    int result = WalletTxBuilder(fromAddress, toAddress, fromAddress, referenceAmount, payload, txid, rawHex, autoCommit, pwallet.get());
 
     // check error and return the txid (or raw hex depending on autocommit)
     if (result != 0) {
+        printf("Wallet Result", result);
         throw JSONRPCError(result, error_str(result));
     } else {
         if (!autoCommit) {
