@@ -78,10 +78,10 @@ using namespace mastercore;
 RecursiveMutex cs_tally;
 
 //! Exodus address (changes based on network)
-static std::string exodus_address = "1EXoDusjGwvnjZUyKkxZ4UHEf77z6A5S4P";
+static std::string exodus_address = "xJZ3d5F3Z7yT31wKu93ueLcvHA2j2YSh6B";
 
 //! Mainnet Exodus address
-static const std::string exodus_mainnet = "1EXoDusjGwvnjZUyKkxZ4UHEf77z6A5S4P";
+static const std::string exodus_mainnet = "xJZ3d5F3Z7yT31wKu93ueLcvHA2j2YSh6B";
 //! Testnet Exodus address
 static const std::string exodus_testnet = "mpexoDuSkGGqvqrkrjiFng38QPkJQVFyqv";
 //! Testnet Exodus crowdsale address

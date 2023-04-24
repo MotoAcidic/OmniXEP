@@ -145,11 +145,11 @@ std::vector<TransactionCheckpoint> CMainConsensusParams::GetTransactions() const
 CMainConsensusParams::CMainConsensusParams()
 {
     // Exodus related:
-    exodusBonusPerWeek = 0;   //Never happened
-    exodusDeadline = 0; // Never happened
-    exodusReward = 0;         // Never happened
-    GENESIS_BLOCK = 916080;
-    LAST_EXODUS_BLOCK = 0; // Never happened
+    exodusBonusPerWeek = 0;   //No bonus
+    exodusDeadline = 1698809526; // Wed Nov 01 2023 03:32:06 GMT+0000
+    exodusReward = 1;         // 1:1 ratio
+    GENESIS_BLOCK = 916326;
+    LAST_EXODUS_BLOCK = std::numeric_limits<int>::max(); // No end so far
     // Notice range for feature activations:
     MIN_ACTIVATION_BLOCKS = 2048;  // ~2 weeks
     MAX_ACTIVATION_BLOCKS = 12288; // ~12 weeks
