@@ -2613,7 +2613,7 @@ int CMPTransaction::logicMath_BitcoinPayment()
     std::string linked_sender = mp_obj.getSender();
     nValue = GetBitcoinPaymentAmount(txid, linked_sender);
     PrintToLog("\tlinked tx sender: %s\n", linked_sender);
-    PrintToLog("\t  psyment amount: %s\n", FormatDivisibleMP(nValue));
+    PrintToLog("\t  payment amount: %s\n", FormatDivisibleMP(nValue));
 
     if (nValue == 0) {
         PrintToLog("%s(): rejected: no payment to sender of linked transaction\n",
