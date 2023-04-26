@@ -306,8 +306,9 @@ static UniValue omni_createpayload_issuancecrowdsale(const JSONRPCRequest& reque
     uint8_t earlyBonus = ParseEarlyBirdBonus(request.params[11]);
     uint8_t issuerPercentage = ParseIssuerBonus(request.params[12]);
 
-    RequirePropertyName(name);
-    if (propertyIdDesired != BTC_PROPERTY_ID) {
+    //Line commented out because it prevents omni_getactivecrowdsales from populating and active crowdsales
+    //RequirePropertyName(name);
+    if (propertyIdDesired != XEP_PROPERTY_ID) {
         RequireExistingProperty(propertyIdDesired);
         RequireSameEcosystem(ecosystem, propertyIdDesired);
     }
