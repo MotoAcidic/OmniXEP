@@ -1136,7 +1136,7 @@ int CMPTransaction::logicHelper_CrowdsaleParticipation(uint256& blockHash)
         return (PKT_ERROR_CROWD -1);
     }
     // Active crowdsale, but not for this property
-    // Note property is 0 by default, ideally need a way to explicitly specify BTC
+    // Note property is 0 by default, ideally need a way to explicitly specify XEP
     if (pcrowdsale->getCurrDes() != property) {
         return (PKT_ERROR_CROWD -2);
     }

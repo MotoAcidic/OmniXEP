@@ -114,7 +114,7 @@ For more details, please see the descriptions of the new RPCs:
 Experimental querying of any Bitcoin balance
 --------------------------------------------
 
-A new optional database was added, which allows the user to query any Bitcoin balance or list transactions of any addresses. Please note, this feature is experimental and not enabled per default. To enable the new database, restart Omni Core with `experimental-btc-balances=1` configuration option.
+A new optional database was added, which allows the user to query any Bitcoin balance or list transactions of any addresses. Please note, this feature is experimental and not enabled per default. To enable the new database, restart Omni Core with `experimental-xep-balances=1` configuration option.
 
 **When enabling both of these options, Omni Core creates a new database for Bitcoin balances. This step can take a very long time of up to multiple days on mainnet. More than 300 GB of additional disk space are required!**
 
@@ -156,7 +156,7 @@ The following list includes relevant pull requests merged into this release:
 - #1169 Avoid overflow on reindex with debug enabled
 - #1165 Add bitcore indexing
 - #1173 Bump version to 0.9.0
-- #1175 Add description for -experimental-btc-balances
+- #1175 Add description for -experimental-xep-balances
 - #1179 Move lock to blockOnchainActive
 - #1177 Add documentation for address index RPCs
 - #1181 Return error, when using bitcore RPCs without addrindex

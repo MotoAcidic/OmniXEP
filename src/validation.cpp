@@ -5195,7 +5195,7 @@ bool LoadBlockIndex(const CChainParams& chainparams)
 
         LogPrintf("Initializing databases...\n");
 
-        fAddressIndex = gArgs.GetBoolArg("-experimental-btc-balances", DEFAULT_ADDRINDEX);
+        fAddressIndex = gArgs.GetBoolArg("-experimental-xep-balances", DEFAULT_ADDRINDEX);
         pblocktree->WriteFlag("addressindex", fAddressIndex);
     }
     return true;

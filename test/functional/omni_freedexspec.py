@@ -30,7 +30,7 @@ class OmniFreeDExSpec(BitcoinTestFramework):
         # Obtaining a master address to work with
         address = self.nodes[0].getnewaddress()
 
-        # Funding the address with some testnet BTC for fees
+        # Funding the address with some testnet XEP for fees
         self.nodes[0].sendtoaddress(address, 10)
         self.nodes[0].sendtoaddress(address, 10)
         self.nodes[0].generatetoaddress(1, coinbase_address)
@@ -244,7 +244,7 @@ class OmniFreeDExSpec(BitcoinTestFramework):
         assert_equal(offerNow['amount'], offerBeforeReceivingMore['amount'])
         assert_equal(balanceNow['reserved'], balanceBeforeReceivingMore['reserved'])
 
-        # There can be only one active offer that accepts BTC
+        # There can be only one active offer that accepts XEP
 
         # Setup variables
         startBTC = 0.1
@@ -264,7 +264,7 @@ class OmniFreeDExSpec(BitcoinTestFramework):
         result = self.nodes[0].omni_gettransaction(txid)
         assert_equal(result['valid'], True)
 
-        # there is already an active offer accepting BTC
+        # there is already an active offer accepting XEP
         txid = self.nodes[0].omni_senddexsell(fundedAddress, currencyOffered, firstOfferMSC, firstOfferBTC, stdBlockSpan, stdCommitFee, actionNew)
         self.nodes[0].generatetoaddress(1, coinbase_address)
 
@@ -272,7 +272,7 @@ class OmniFreeDExSpec(BitcoinTestFramework):
         result = self.nodes[0].omni_gettransaction(txid)
         assert_equal(result['valid'], True)
 
-        # and another offer accepting BTC is made
+        # and another offer accepting XEP is made
         payload = self.nodes[0].omni_createpayload_dexsell(currencyOffered, secondOfferMSC, secondOfferBTC, stdBlockSpan, stdCommitFee, actionNew)
         txid = self.nodes[0].omni_sendrawtx(fundedAddress, payload)
         self.nodes[0].generatetoaddress(1, coinbase_address)

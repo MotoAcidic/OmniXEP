@@ -102,7 +102,7 @@ int populateRPCTransactionObject(const CTransaction& tx, const uint256& blockHas
 
     const uint256& txid = tx.GetHash();
 
-    // DEx BTC payment needs special handling since it's not actually an Omni message - handle and return
+    // DEx XEP payment needs special handling since it's not actually an Omni message - handle and return
     if (parseRC > 0) {
         if (confirmations <= 0) {
             // only confirmed DEx payments are currently supported
@@ -810,7 +810,7 @@ int populateRPCDExPurchases(const CTransaction& wtx, UniValue& purchases, std::s
         purchaseObj.pushKV("referenceaddress", seller);
         purchaseObj.pushKV("propertyid", propertyId);
         purchaseObj.pushKV("amountbought", FormatMP(propertyId, nValue));
-        purchaseObj.pushKV("valid", true); //only valid purchases are stored, anything else is regular BTC tx
+        purchaseObj.pushKV("valid", true); //only valid purchases are stored, anything else is regular XEP tx
         purchases.push_back(purchaseObj);
     }
     return purchases.size();

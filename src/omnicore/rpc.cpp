@@ -2078,7 +2078,7 @@ static UniValue omni_getactivedexsells(const JSONRPCRequest& request)
                    {RPCResult::Type::STR, "seller", "the Bitcoin address of the seller"},
                    {RPCResult::Type::STR_AMOUNT, "amountavailable", "the number of tokens still listed for sale and currently available"},
                    {RPCResult::Type::STR_AMOUNT, "bitcoindesired", "the number of bitcoins desired in exchange"},
-                   {RPCResult::Type::STR_AMOUNT, "unitprice", "the unit price (BTC/token)"},
+                   {RPCResult::Type::STR_AMOUNT, "unitprice", "the unit price (XEP/token)"},
                    {RPCResult::Type::NUM, "timelimit", "the time limit in blocks a buyer has to pay following a successful accept"},
                    {RPCResult::Type::STR_AMOUNT, "minimumfee", "the minimum mining fee a buyer has to pay to accept this offer"},
                    {RPCResult::Type::STR_AMOUNT, "amountaccepted", "the number of tokens currently reserved for pending \"accept\" orders"},

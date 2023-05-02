@@ -43,7 +43,7 @@ class OmniFreeze(BitcoinTestFramework):
         # Preparing some mature Bitcoins
         node.generatetoaddress(105, coinbase_address)
 
-        # Funding the addresses with some testnet BTC for fees
+        # Funding the addresses with some testnet XEP for fees
         node.sendmany("", {address: 5, freeze_address: 4})
         node.sendtoaddress(address, 6)
         node.sendtoaddress(address, 7)

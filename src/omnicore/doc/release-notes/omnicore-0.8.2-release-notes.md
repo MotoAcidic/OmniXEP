@@ -61,7 +61,7 @@ Three new RPCs were added to create, update and cancel orders on the distributed
 
 ### omni_sendnewdexorder
 
-Creates a new sell offer on the distributed token/BTC exchange.
+Creates a new sell offer on the distributed token/XEP exchange.
 
 **Arguments:**
 
@@ -89,7 +89,7 @@ $ omnicore-cli "omni_sendnewdexorder" "37FaKponF7zqoMLUjEiko25pDiuVH5YLEa" 1 "1.
 
 ### omni_sendupdatedexorder
 
-Updates an existing sell offer on the distributed token/BTC exchange.
+Updates an existing sell offer on the distributed token/XEP exchange.
 
 **Arguments:**
 
@@ -117,7 +117,7 @@ $ omnicore-cli "omni_sendupdatedexorder" "37FaKponF7zqoMLUjEiko25pDiuVH5YLEa" 1 
 
 ### omni_sendcanceldexorder
 
-Cancels existing sell offer on the distributed token/BTC exchange.
+Cancels existing sell offer on the distributed token/XEP exchange.
 
 **Arguments:**
 

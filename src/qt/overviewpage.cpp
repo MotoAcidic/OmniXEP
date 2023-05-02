@@ -84,7 +84,7 @@ public:
     explicit TxViewDelegate(const PlatformStyle *_platformStyle, QObject *parent=nullptr):
         QAbstractItemDelegate(parent),
         walletModel(nullptr),
-        unit(BitcoinUnits::BTC),
+        unit(BitcoinUnits::XEP),
         platformStyle(_platformStyle)
     {
 
@@ -338,7 +338,7 @@ OverviewPage::OverviewPage(const PlatformStyle *platformStyle, QWidget *parent) 
     ui->labelWalletStatus->setText("(" + tr("out of sync") + ")");
     ui->labelTransactionsStatus->setText("(" + tr("out of sync") + ")");
 
-    // make sure BTC is always first in the list by adding it first
+    // make sure XEP is always first in the list by adding it first
     UpdatePropertyBalance(0,0,0);
 
     updateOmni();
@@ -421,7 +421,7 @@ void OverviewPage::UpdatePropertyBalance(unsigned int propertyId, uint64_t avail
 
     if (propertyId == 0) { // override for bitcoin
         divisible = true;
-        tokenStr = " BTC";
+        tokenStr = " XEP";
     } else {
         divisible = isPropertyDivisible(propertyId);
         tokenStr = getTokenLabel(propertyId);
@@ -594,7 +594,7 @@ void OverviewPage::setWalletModel(WalletModel *model)
         });
     }
 
-    // update the display unit, to not use the default ("BTC")
+    // update the display unit, to not use the default ("XEP")
     updateDisplayUnit();
 }
 

@@ -30,7 +30,7 @@ class OmniFreeDExVersionsSpec(BitcoinTestFramework):
         # Obtaining a master address to work with
         address = self.nodes[0].getnewaddress()
 
-        # Funding the address with some testnet BTC for fees
+        # Funding the address with some testnet XEP for fees
         self.nodes[0].sendtoaddress(address, 10)
         self.nodes[0].sendtoaddress(address, 10)
         self.nodes[0].generatetoaddress(1, coinbase_address)

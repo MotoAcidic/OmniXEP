@@ -1083,9 +1083,9 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
                     dataAddressSeq = seq; // record data address seq num for reference matching
                     dataAddressValue = value_data[k]; // record data address amount for reference matching
                     if (msc_debug_parser_data) PrintToLog("Data Address located - data[%d]:%s: %s (%s)\n", k, script_data[k], address_data[k], FormatDivisibleMP(value_data[k]));
-                } else { // invalidate - Class A cannot be more than one data packet - possible collision, treat as default (BTC payment)
+                } else { // invalidate - Class A cannot be more than one data packet - possible collision, treat as default (XEP payment)
                     strDataAddress.clear(); //empty strScriptData to block further parsing
-                    if (msc_debug_parser_data) PrintToLog("Multiple Data Addresses found (collision?) Class A invalidated, defaulting to BTC payment\n");
+                    if (msc_debug_parser_data) PrintToLog("Multiple Data Addresses found (collision?) Class A invalidated, defaulting to XEP payment\n");
                     break;
                 }
             }
@@ -1124,7 +1124,7 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
                                     if (msc_debug_parser_data) PrintToLog("Reference Address located via matching amounts - data[%d]:%s: %s (%s)\n", k, script_data[k], address_data[k], FormatDivisibleMP(value_data[k]));
                                 } else {
                                     strRefAddress.clear();
-                                    if (msc_debug_parser_data) PrintToLog("Reference Address collision, multiple potential candidates. Class A invalidated, defaulting to BTC payment\n");
+                                    if (msc_debug_parser_data) PrintToLog("Reference Address collision, multiple potential candidates. Class A invalidated, defaulting to XEP payment\n");
                                     break;
                                 }
                             }
@@ -1137,7 +1137,7 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
             strReference = strRefAddress; // populate expected var strReference with chosen address (if not empty)
         }
         if (strRefAddress.empty()) {
-            strDataAddress.clear(); // last validation step, if strRefAddress is empty, blank strDataAddress so we default to BTC payment
+            strDataAddress.clear(); // last validation step, if strRefAddress is empty, blank strDataAddress so we default to XEP payment
         }
         if (!strDataAddress.empty()) { // valid Class A packet almost ready
             if (msc_debug_parser_data) PrintToLog("valid Class A:from=%s:to=%s:data=%s\n", strSender, strReference, strScriptData);
@@ -1360,7 +1360,7 @@ int ParseTransaction(const CTransaction& tx, int nBlock, unsigned int idx, CMPTr
 }
 
 /**
- * Helper to provide the amount of BTC sent to a particular address in a transaction
+ * Helper to provide the amount of XEP sent to a particular address in a transaction
  */
 int64_t GetXepPaymentAmount(const uint256& txid, const std::string& recipient)
 {
@@ -1410,7 +1410,7 @@ static bool HandleDExPayments(const CTransaction& tx, int nBlock, const std::str
             std::string strAddress = EncodeDestination(dest);
             if (msc_debug_parser_dex) PrintToLog("payment #%d %s %s\n", count, strAddress, FormatIndivisibleMP(tx.vout[n].nValue));
 
-            // check everything and pay BTC for the property we are buying here...
+            // check everything and pay XEP for the property we are buying here...
             if (0 == DEx_payment(tx.GetHash(), n, strAddress, strSender, tx.vout[n].nValue, nBlock)) ++count;
         }
     }
@@ -2104,7 +2104,7 @@ int mastercore_handler_block_end(int nBlockNow, CBlockIndex const * pBlockIndex,
         // for every new received block must do:
         // 1) remove expired entries from the accept list (per spec accept entries are
         //    valid until their blocklimit expiration; because the customer can keep
-        //    paying BTC for the offer in several installments)
+        //    paying XEP for the offer in several installments)
         // 2) update the amount in the Exodus address
         int64_t devmsc = 0;
         unsigned int how_many_erased = eraseExpiredAccepts(nBlockNow);

@@ -125,7 +125,7 @@ void MetaDExDialog::setClientModel(ClientModel *model)
 
 void MetaDExDialog::setWalletModel(WalletModel *model)
 {
-    // use wallet model to get visibility into BTC balance changes for fees
+    // use wallet model to get visibility into XEP balance changes for fees
     this->walletModel = model;
 }
 
@@ -219,7 +219,7 @@ void MetaDExDialog::UpdateBalance()
         if (CheckFee(walletModel->wallet(), currentSetAddress.toStdString(), 28)) {
             ui->lblFeeWarning->setVisible(false);
         } else {
-            ui->lblFeeWarning->setText("WARNING: The address is low on BTC for transaction fees.");
+            ui->lblFeeWarning->setText("WARNING: The address is low on XEP for transaction fees.");
             ui->lblFeeWarning->setVisible(true);
         }
     }

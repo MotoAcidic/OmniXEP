@@ -47,7 +47,7 @@ private:
     //! amount of MSC for sale specified when the offer was placed
     int64_t offer_amount_original;
     uint32_t property;
-    //! amount desired, in BTC
+    //! amount desired, in XEP
     int64_t BTC_desired_original;
     int64_t min_fee;
     uint8_t blocktimelimit;

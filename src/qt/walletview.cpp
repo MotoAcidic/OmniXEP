@@ -51,7 +51,7 @@ WalletView::WalletView(const PlatformStyle *_platformStyle, QWidget *parent):
     // Create tabs
     overviewPage = new OverviewPage(platformStyle);
 
-    // Transactions page, Omni transactions in first tab, BTC only transactions in second tab
+    // Transactions page, Omni transactions in first tab, XEP only transactions in second tab
     transactionsPage = new QWidget(this);
     bitcoinTXTab = new QWidget(this);
     QVBoxLayout *vbox = new QVBoxLayout();

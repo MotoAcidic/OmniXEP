@@ -34,7 +34,7 @@ const uint16_t FEATURE_TRADEALLPAIRS = 8;
 const uint16_t FEATURE_FEES = 9;
 //! Feature identifier to enable cross property (v1) Send To Owners
 const uint16_t FEATURE_STOV1 = 10;
-//! Feature identifier to enable BTC in crowdsales
+//! Feature identifier to enable XEP in crowdsales
 const uint16_t FEATURE_XEP_CROWDSALES = 11;
 //! Feature identifier to activate the waiting period for enabling managed property address freezing
 const uint16_t FEATURE_FREEZENOTICE = 14;
@@ -56,7 +56,7 @@ struct TransactionRestriction
     uint16_t txType;
     //! Transaction version
     uint16_t txVersion;
-    //! Whether the property identifier can be 0 (= BTC)
+    //! Whether the property identifier can be 0 (= XEP)
     bool allowWildcard;
     //! Block after which the feature or transaction is enabled
     int activationBlock;
@@ -136,7 +136,7 @@ public:
     int MSC_BET_BLOCK;
     //! Block to enable cross property STO (v1)
     int MSC_STOV1_BLOCK;
-    //! Block to enable BTC in crowdsales
+    //! Block to enable XEP in crowdsales
     int MSC_XEP_CROWDSALE_BLOCK;
     //! Block to enable any data payloads
     int MSC_ANYDATA_BLOCK;

@@ -101,7 +101,7 @@ void SendMPDialog::setClientModel(ClientModel *model)
 
 void SendMPDialog::setWalletModel(WalletModel *model)
 {
-    // use wallet model to get visibility into BTC balance changes for fees
+    // use wallet model to get visibility into XEP balance changes for fees
     this->walletModel = model;
     if (model != nullptr) {
        connect(model, &WalletModel::balanceChanged, this, &SendMPDialog::updateFrom);
@@ -177,7 +177,7 @@ void SendMPDialog::updateFrom()
         if (CheckFee(walletModel->wallet(), currentSetFromAddress, 16)) {
             ui->feeWarningLabel->setVisible(false);
         } else {
-            ui->feeWarningLabel->setText("WARNING: The sending address is low on BTC for transaction fees. Please topup the BTC balance for the sending address to send Omni Layer transactions.");
+            ui->feeWarningLabel->setText("WARNING: The sending address is low on XEP for transaction fees. Please topup the XEP balance for the sending address to send Omni Layer transactions.");
             ui->feeWarningLabel->setVisible(true);
         }
     }

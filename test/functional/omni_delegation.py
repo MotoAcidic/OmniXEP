@@ -45,7 +45,7 @@ class OmniDelegation(BitcoinTestFramework):
         # Preparing some mature Bitcoins
         node.generatetoaddress(110, coinbase_address)
 
-        # Funding the addresses with some testnet BTC for fees
+        # Funding the addresses with some testnet XEP for fees
         node.sendmany("", {issuer_address: 5, delegate_address: 3, sink_address: 4, unrelated_address: 7})
         node.generatetoaddress(1, coinbase_address)
 

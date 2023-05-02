@@ -234,7 +234,7 @@ static UniValue omni_send(const JSONRPCRequest& request)
     }
 }
 
-// omni_sendxeppayment - send a BTC payment
+// omni_sendxeppayment - send a XEP payment
 static UniValue omni_sendxeppayment(const JSONRPCRequest& request)
 {
 
@@ -242,7 +242,7 @@ static UniValue omni_sendxeppayment(const JSONRPCRequest& request)
     std::unique_ptr<interfaces::Wallet> pwallet = interfaces::MakeWallet(wallet);
 
     RPCHelpMan{"omni_sendxeppayment",
-       "\nCreate and broadcast a BTC payment transaction.\n",
+       "\nCreate and broadcast a XEP payment transaction.\n",
        {
            {"fromaddress", RPCArg::Type::STR, RPCArg::Optional::NO, "the address to send from\n"},
            {"toaddress", RPCArg::Type::STR, RPCArg::Optional::NO, "crowdsale issuer address from omni_getactivecrowdsales"},
@@ -482,7 +482,7 @@ static UniValue omni_senddexsell(const JSONRPCRequest& request)
     std::unique_ptr<interfaces::Wallet> pwallet = interfaces::MakeWallet(wallet);
 
     RPCHelpMan{"omni_senddexsell",
-       "\nPlace, update or cancel a sell offer on the distributed token/BTC exchange.\n",
+       "\nPlace, update or cancel a sell offer on the distributed token/XEP exchange.\n",
        {
            {"fromaddress", RPCArg::Type::STR, RPCArg::Optional::NO, "the address to send from\n"},
            {"propertyidforsale", RPCArg::Type::NUM, RPCArg::Optional::NO, "the identifier of the tokens to list for sale\n"},
@@ -513,7 +513,7 @@ static UniValue omni_senddexsell(const JSONRPCRequest& request)
     // perform conversions
     if (action <= CMPTransaction::UPDATE) { // actions 3 permit zero values, skip check
         amountForSale = ParseAmount(request.params[2], isPropertyDivisible(propertyIdForSale));
-        amountDesired = ParseAmount(request.params[3], true); // BTC is divisible
+        amountDesired = ParseAmount(request.params[3], true); // XEP is divisible
         paymentWindow = ParseDExPaymentWindow(request.params[4]);
         minAcceptFee = ParseDExFee(request.params[5]);
     }
@@ -641,7 +641,7 @@ static UniValue omni_sendnewdexorder(const JSONRPCRequest& request)
     std::unique_ptr<interfaces::Wallet> pwallet = interfaces::MakeWallet(wallet);
 
     RPCHelpMan{"omni_sendnewdexorder",
-       "\nCreates a new sell offer on the distributed token/BTC exchange.\n",
+       "\nCreates a new sell offer on the distributed token/XEP exchange.\n",
        {
            {"fromaddress", RPCArg::Type::STR, RPCArg::Optional::NO, "the address to send from\n"},
            {"propertyidforsale", RPCArg::Type::NUM, RPCArg::Optional::NO, "the identifier of the tokens to list for sale\n"},
@@ -663,7 +663,7 @@ static UniValue omni_sendnewdexorder(const JSONRPCRequest& request)
     std::string fromAddress = ParseAddress(request.params[0]);
     uint32_t propertyIdForSale = ParsePropertyId(request.params[1]);
     int64_t amountForSale = ParseAmount(request.params[2], isPropertyDivisible(propertyIdForSale));
-    int64_t amountDesired = ParseAmount(request.params[3], true); // BTC is divisible
+    int64_t amountDesired = ParseAmount(request.params[3], true); // XEP is divisible
     uint8_t paymentWindow = ParseDExPaymentWindow(request.params[4]);
     int64_t minAcceptFee = ParseDExFee(request.params[5]);
     uint8_t action = CMPTransaction::NEW;
@@ -707,7 +707,7 @@ static UniValue omni_sendupdatedexorder(const JSONRPCRequest& request)
     std::unique_ptr<interfaces::Wallet> pwallet = interfaces::MakeWallet(wallet);
 
     RPCHelpMan{"omni_sendupdatedexorder",
-       "\nUpdates an existing sell offer on the distributed token/BTC exchange.\n",
+       "\nUpdates an existing sell offer on the distributed token/XEP exchange.\n",
        {
            {"fromaddress", RPCArg::Type::STR, RPCArg::Optional::NO, "the address to send from\n"},
            {"propertyidforsale", RPCArg::Type::NUM, RPCArg::Optional::NO, "the identifier of the tokens to update\n"},
@@ -729,7 +729,7 @@ static UniValue omni_sendupdatedexorder(const JSONRPCRequest& request)
     std::string fromAddress = ParseAddress(request.params[0]);
     uint32_t propertyIdForSale = ParsePropertyId(request.params[1]);
     int64_t amountForSale = ParseAmount(request.params[2], isPropertyDivisible(propertyIdForSale));
-    int64_t amountDesired = ParseAmount(request.params[3], true); // BTC is divisible
+    int64_t amountDesired = ParseAmount(request.params[3], true); // XEP is divisible
     uint8_t paymentWindow = ParseDExPaymentWindow(request.params[4]);
     int64_t minAcceptFee = ParseDExFee(request.params[5]);
     uint8_t action = CMPTransaction::UPDATE;
@@ -773,7 +773,7 @@ static UniValue omni_sendcanceldexorder(const JSONRPCRequest& request)
     std::unique_ptr<interfaces::Wallet> pwallet = interfaces::MakeWallet(wallet);
 
     RPCHelpMan{"omni_sendcanceldexorder",
-       "\nCancels existing sell offer on the distributed token/BTC exchange.\n",
+       "\nCancels existing sell offer on the distributed token/XEP exchange.\n",
        {
            {"fromaddress", RPCArg::Type::STR, RPCArg::Optional::NO, "the address to send from\n"},
            {"propertyidforsale", RPCArg::Type::NUM, RPCArg::Optional::NO, "the identifier of the tokens to cancel\n"},
@@ -886,11 +886,11 @@ static UniValue omni_senddexpay(const JSONRPCRequest& request)
         const CAmount amountToPayInBTC = calculateDesiredBTC(acceptOffer->getOfferAmountOriginal(), acceptOffer->getBTCDesiredOriginal(), amountAccepted);
 
         if (nAmount > amountToPayInBTC) {
-            throw JSONRPCError(RPC_MISC_ERROR, strprintf("Paying more than required: %lld BTC to pay for %lld tokens", FormatMoney(amountToPayInBTC), FormatMP(propertyId, amountAccepted)));
+            throw JSONRPCError(RPC_MISC_ERROR, strprintf("Paying more than required: %lld XEP to pay for %lld tokens", FormatMoney(amountToPayInBTC), FormatMP(propertyId, amountAccepted)));
         }
 
         if (!isPropertyDivisible(propertyId) && nAmount < amountToPayInBTC) {
-            throw JSONRPCError(RPC_MISC_ERROR, strprintf("Paying less than required: %lld BTC to pay for %lld tokens", FormatMoney(amountToPayInBTC), FormatMP(propertyId, amountAccepted)));
+            throw JSONRPCError(RPC_MISC_ERROR, strprintf("Paying less than required: %lld XEP to pay for %lld tokens", FormatMoney(amountToPayInBTC), FormatMP(propertyId, amountAccepted)));
         }
     }
 

@@ -25,7 +25,7 @@ class OmniFeeCache(BitcoinTestFramework):
         # Obtaining a master address to work with
         address = node.getnewaddress()
 
-        # Funding the address with some testnet BTC for fees
+        # Funding the address with some testnet XEP for fees
         node.sendtoaddress(address, 20)
         node.sendtoaddress(address, 20)
         node.sendtoaddress(address, 20)

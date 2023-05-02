@@ -236,7 +236,7 @@ static int input_msc_balances_string(const std::string& s)
     return 0;
 }
 
-// seller-address, offer_block, amount, property, desired BTC , property_desired, fee, blocktimelimit
+// seller-address, offer_block, amount, property, desired XEP , property_desired, fee, blocktimelimit
 // 13z1JFtDMGTYQvtMq5gs4LmCztK3rmEZga,299076,76375000,1,6415500,0,10000,6
 static int input_mp_offers_string(const std::string& s)
 {

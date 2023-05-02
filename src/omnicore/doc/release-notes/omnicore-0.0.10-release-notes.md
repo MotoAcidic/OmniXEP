@@ -92,7 +92,7 @@ Dust threshold values
 
 The default `minrelaytxfee` was raised from `0.00001` to `0.00005` in Bitcoin Core 0.10.3 as temporary measure against massive memory pool bloat.
 
-The minimum relay fee influences the "dust threshold", and has an impact on the output values of Omni transactions, which are chosen to be as low as possible. As per default, Omni transactions created with Master Core had output values between `0.00000546` BTC and `0.00000882` BTC, whereby the new output values are between `0.0000273` BTC and `0.0000441` BTC.
+The minimum relay fee influences the "dust threshold", and has an impact on the output values of Omni transactions, which are chosen to be as low as possible. As per default, Omni transactions created with Master Core had output values between `0.00000546` XEP and `0.00000882` XEP, whereby the new output values are between `0.0000273` XEP and `0.0000441` XEP.
 
 To continue to create transactions with lower values, start Omni Core with `-minrelaytxfee=0.00001` or add the following to your `bitcoin.conf`:
 ```
@@ -111,7 +111,7 @@ This behavior can result in significantly different fees compared to Master Core
 The following fee related configuration options are available:
 
 - `txconfirmtarget=<n>`: create transactions that have enough fees (or priority) so they are likely to begin confirmation within n blocks (default: `6`). This setting is overridden by the `paytxfee` option.
-- `paytxfee=<amount>`: fee (in BTC/kB) to add to transactions you send.
+- `paytxfee=<amount>`: fee (in XEP/kB) to add to transactions you send.
 - `sendfreetransactions=0|1`: send transactions as zero-fee transactions if possible (default: `0`).
 
 New RPC commands for fee estimation:

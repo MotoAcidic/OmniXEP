@@ -162,7 +162,7 @@ $ omnicore-cli "omni_send" "3M9qvHKtgARhqcMtM5cRT9VaiDJ5PSfQGY" "37FaKponF7zqoML
 
 ### omni_senddexsell
 
-Place, update or cancel a sell offer on the distributed token/BTC exchange.
+Place, update or cancel a sell offer on the distributed token/XEP exchange.
 
 **Please note: this RPC is replaced by:**
 
@@ -197,7 +197,7 @@ $ omnicore-cli "omni_senddexsell" "37FaKponF7zqoMLUjEiko25pDiuVH5YLEa" 1 "1.5" "
 
 ### omni_sendnewdexorder
 
-Creates a new sell offer on the distributed token/BTC exchange.
+Creates a new sell offer on the distributed token/XEP exchange.
 
 **Arguments:**
 
@@ -225,7 +225,7 @@ $ omnicore-cli "omni_sendnewdexorder" "37FaKponF7zqoMLUjEiko25pDiuVH5YLEa" 1 "1.
 
 ### omni_sendupdatedexorder
 
-Updates an existing sell offer on the distributed token/BTC exchange.
+Updates an existing sell offer on the distributed token/XEP exchange.
 
 **Arguments:**
 
@@ -253,7 +253,7 @@ $ omnicore-cli "omni_sendupdatedexorder" "37FaKponF7zqoMLUjEiko25pDiuVH5YLEa" 1 
 
 ### omni_sendcanceldexorder
 
-Cancels existing sell offer on the distributed token/BTC exchange.
+Cancels existing sell offer on the distributed token/XEP exchange.
 
 **Arguments:**
 
@@ -1431,7 +1431,7 @@ Returns currently active offers on the distributed exchange.
     "seller" : "address",              // (string) the Bitcoin address of the seller
     "amountavailable" : "n.nnnnnnnn",  // (string) the number of tokens still listed for sale and currently available
     "bitcoindesired" : "n.nnnnnnnn",   // (string) the number of bitcoins desired in exchange
-    "unitprice" : "n.nnnnnnnn" ,       // (string) the unit price (BTC/token)
+    "unitprice" : "n.nnnnnnnn" ,       // (string) the unit price (XEP/token)
     "timelimit" : nn,                  // (number) the time limit in blocks a buyer has to pay following a successful accept
     "minimumfee" : "n.nnnnnnnn",       // (string) the minimum mining fee a buyer has to pay to accept this offer
     "amountaccepted" : "n.nnnnnnnn",   // (string) the number of tokens currently reserved for pending "accept" orders
@@ -2652,7 +2652,7 @@ $ omnicore-cli "omni_createpayload_sendall" 2
 
 ### omni_createpayload_dexsell
 
-Create a payload to place, update or cancel a sell offer on the traditional distributed OMNI/BTC exchange.
+Create a payload to place, update or cancel a sell offer on the traditional distributed OMNI/XEP exchange.
 
 **Arguments:**
 

@@ -8,11 +8,11 @@ printf "   * Starting a fresh regtest daemon\n"
 rm -r ~/.bitcoin/regtest
 ./src/omnicored --regtest --server --daemon --omniactivationallowsender=any --omni_debug=all >nul
 sleep 10
-printf "   * Preparing some mature testnet BTC\n"
+printf "   * Preparing some mature testnet XEP\n"
 ./src/omnicore-cli --regtest setgenerate true 102 >null
 printf "   * Obtaining a master address to work with\n"
 ADDR=$(./src/omnicore-cli --regtest getnewaddress OMNIAccount)
-printf "   * Funding the address with some testnet BTC for fees\n"
+printf "   * Funding the address with some testnet XEP for fees\n"
 ./src/omnicore-cli --regtest sendtoaddress $ADDR 20 >null
 ./src/omnicore-cli --regtest setgenerate true 1 >null
 printf "   * Participating in the Exodus crowdsale to obtain some OMNI\n"
@@ -25,7 +25,7 @@ for i in {1..10}
 do
    ADDRESS=("${ADDRESS[@]}" $(./src/omnicore-cli --regtest getnewaddress))
 done
-printf "\nTesting a crowdsale using BTC before activation...\n"
+printf "\nTesting a crowdsale using XEP before activation...\n"
 printf "   * Creating an indivisible test property and opening a crowdsale\n"
 TXID=$(./src/omnicore-cli --regtest omni_sendissuancecrowdsale $ADDR 1 1 0 "Z_TestCat" "Z_TestSubCat" "Z_IndivisTestProperty" "Z_TestURL" "Z_TestData" 0 10 1477488310 0 0)
 ./src/omnicore-cli --regtest setgenerate true 1 >null
@@ -39,7 +39,7 @@ if [ $RESULT == "false," ]
     printf "FAIL (result:%s)\n" $RESULT
     FAIL=$((FAIL+1))
 fi
-printf "\nActivating v2 crowdsales (allow BTC)... \n"
+printf "\nActivating v2 crowdsales (allow XEP)... \n"
 printf "   * Sending the activation\n"
 BLOCKS=$(./src/omnicore-cli --regtest getblockcount)
 TXID=$(./src/omnicore-cli --regtest omni_sendactivation $ADDR 11 $(($BLOCKS + 8)) 999)
@@ -66,8 +66,8 @@ if [ $FEATUREID == "11" ]
     printf "FAIL (result:%s)\n" $FEATUREID
     FAIL=$((FAIL+1))
 fi
-printf "\nTesting crowdsales using BTC after activation...\n"
-printf "\nTesting an indivisible BTC crowdsale...\n"
+printf "\nTesting crowdsales using XEP after activation...\n"
+printf "\nTesting an indivisible XEP crowdsale...\n"
 printf "   * Creating an indivisible test property and opening a crowdsale\n"
 CROWDTXID=$(./src/omnicore-cli --regtest omni_sendissuancecrowdsale $ADDR 1 1 0 "Z_TestCat" "Z_TestSubCat" "Z_IndivisTestProperty" "Z_TestURL" "Z_TestData" 0 1000 1477488310 0 0)
 ./src/omnicore-cli --regtest setgenerate true 1 >null
@@ -81,10 +81,10 @@ if [ $RESULT == "true," ]
     printf "FAIL (result:%s)\n" $RESULT
     FAIL=$((FAIL+1))
 fi
-printf "\nTesting sending a BTC payment to the crowdsale...\n"
-printf "   * Sending some BTC to %s\n" ${ADDRESS[1]}
+printf "\nTesting sending a XEP payment to the crowdsale...\n"
+printf "   * Sending some XEP to %s\n" ${ADDRESS[1]}
 ./src/omnicore-cli --regtest sendtoaddress ${ADDRESS[1]} 0.2 >null
-printf "   * Sending some BTC from %s to the crowdsale\n" ${ADDRESS[1]}
+printf "   * Sending some XEP from %s to the crowdsale\n" ${ADDRESS[1]}
 TXID=$(./src/omnicore-cli --regtest omni_sendxeppayment ${ADDRESS[1]} $ADDR $CROWDTXID 0.1)
 ./src/omnicore-cli --regtest setgenerate true 1 >null
 printf "     # Checking the transaction was valid... "
@@ -117,7 +117,7 @@ if [ $RESULT == "1" ]
     printf "FAIL (result:%s)\n" $RESULT
     FAIL=$((FAIL+1))
 fi
-printf "     # Checking the payment amount was 0.1 BTC... "
+printf "     # Checking the payment amount was 0.1 XEP... "
 RESULT=$(./src/omnicore-cli --regtest omni_gettransaction $TXID | grep amount | cut -c22-)
 if [ $RESULT == "\"0.10000000\"," ]
   then
@@ -147,7 +147,7 @@ if [ $RESULT == "1" ]
     printf "FAIL (result:%s)\n" $RESULT
     FAIL=$((FAIL+1))
 fi
-printf "     # Checking the crowdsale amount raised is now 0.1 BTC... "
+printf "     # Checking the crowdsale amount raised is now 0.1 XEP... "
 RESULT=$(./src/omnicore-cli --regtest omni_getcrowdsale 3 true | grep amountraised | cut -d '"' -f4)
 if [ $RESULT == "0.10000000" ]
   then
@@ -177,10 +177,10 @@ if [ $RESULT == "0" ]
     printf "FAIL (result:%s)\n" $RESULT
     FAIL=$((FAIL+1))
 fi
-printf "\nTesting a divisible BTC crowdsale...\n"
-printf "   * Sending some BTC to %s\n" ${ADDRESS[3]}
+printf "\nTesting a divisible XEP crowdsale...\n"
+printf "   * Sending some XEP to %s\n" ${ADDRESS[3]}
 ./src/omnicore-cli --regtest sendtoaddress ${ADDRESS[3]} 0.2 >null
-printf "   * Sending some BTC to %s\n" ${ADDRESS[4]}
+printf "   * Sending some XEP to %s\n" ${ADDRESS[4]}
 ./src/omnicore-cli --regtest sendtoaddress ${ADDRESS[4]} 0.2 >null
 ./src/omnicore-cli --regtest setgenerate true 1 >null
 printf "   * Creating a divisible test property and opening a crowdsale\n"
@@ -196,7 +196,7 @@ if [ $RESULT == "true," ]
     printf "FAIL (result:%s)\n" $RESULT
     FAIL=$((FAIL+1))
 fi
-printf "   * Sending some BTC from %s to the crowdsale\n" ${ADDRESS[4]}
+printf "   * Sending some XEP from %s to the crowdsale\n" ${ADDRESS[4]}
 TXID=$(./src/omnicore-cli --regtest omni_sendxeppayment ${ADDRESS[4]} ${ADDRESS[3]} $CROWDTXID 0.1)
 ./src/omnicore-cli --regtest setgenerate true 1 >null
 printf "     # Checking the transaction was valid... "
@@ -229,7 +229,7 @@ if [ $RESULT == "1" ]
     printf "FAIL (result:%s)\n" $RESULT
     FAIL=$((FAIL+1))
 fi
-printf "     # Checking the payment amount was 0.1 BTC... "
+printf "     # Checking the payment amount was 0.1 XEP... "
 RESULT=$(./src/omnicore-cli --regtest omni_gettransaction $TXID | grep amount | cut -c22-)
 if [ $RESULT == "\"0.10000000\"," ]
   then
@@ -259,7 +259,7 @@ if [ $RESULT == "1" ]
     printf "FAIL (result:%s)\n" $RESULT
     FAIL=$((FAIL+1))
 fi
-printf "     # Checking the crowdsale amount raised is now 0.1 BTC... "
+printf "     # Checking the crowdsale amount raised is now 0.1 XEP... "
 RESULT=$(./src/omnicore-cli --regtest omni_getcrowdsale 4 true | grep amountraised | cut -d '"' -f4)
 if [ $RESULT == "0.10000000" ]
   then

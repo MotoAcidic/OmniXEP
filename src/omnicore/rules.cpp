@@ -573,7 +573,7 @@ std::string GetFeatureName(uint16_t featureId)
         case FEATURE_TRADEALLPAIRS: return "Allow trading all pairs on the Distributed Exchange";
         case FEATURE_FEES: return "Fee system (inc 0.05% fee from trades of non-Omni pairs)";
         case FEATURE_STOV1: return "Cross-property Send To Owners";
-        case FEATURE_XEP_CROWDSALES: return "Allow BTC as the desired property in a crowdsale)";
+        case FEATURE_XEP_CROWDSALES: return "Allow XEP as the desired property in a crowdsale)";
         case FEATURE_FREEZENOTICE: return "Activate the waiting period for enabling freezing";
         case FEATURE_FREEDEX: return "Activate trading of any token on the distributed exchange";
         case FEATURE_NONFUNGIBLE: return "Uniquely identifiable tokens";
@@ -650,7 +650,7 @@ bool IsFeatureActivated(uint16_t featureId, int transactionBlock)
  * In the test ecosystem, transactions, which are known to the client are allowed
  * without height restriction.
  *
- * Certain transactions use a property identifier of 0 (= BTC) as wildcard, which
+ * Certain transactions use a property identifier of 0 (= XEP) as wildcard, which
  * must explicitly be allowed.
  */
 bool IsTransactionTypeAllowed(int txBlock, uint32_t txProperty, uint16_t txType, uint16_t version)
@@ -663,7 +663,7 @@ bool IsTransactionTypeAllowed(int txBlock, uint32_t txProperty, uint16_t txType,
         if (entry.txType != txType || entry.txVersion != version) {
             continue;
         }
-        // a property identifier of 0 (= BTC) may be used as wildcard
+        // a property identifier of 0 (= XEP) may be used as wildcard
         if (OMNI_PROPERTY_XEP == txProperty && !entry.allowWildcard) {
             continue;
         }

@@ -150,11 +150,11 @@ static int64_t calculateDesiredBTC(const int64_t amountOffered, const int64_t am
     uint64_t amount_des = static_cast<uint64_t>(amountDesired);
     uint64_t balanceReallyAvailable = static_cast<uint64_t>(amountAvailable);
 
-    double BTC;
+    double XEP;
 
-    BTC = amount_des * balanceReallyAvailable;
-    BTC /= (double) nValue;
-    amount_des = rounduint64(BTC);
+    XEP = amount_des * balanceReallyAvailable;
+    XEP /= (double) nValue;
+    amount_des = rounduint64(XEP);
 
     return static_cast<int64_t>(amount_des);
 }
@@ -236,12 +236,12 @@ int DEx_offerCreate(const std::string& addressSeller, uint32_t propertyId, int64
                         addressSeller, FormatDivisibleMP(amountOffered), strMPProperty(propertyId),
                         FormatDivisibleMP(balanceReallyAvailable), strMPProperty(propertyId));
 
-        // AND we must also re-adjust the BTC desired in this case...
+        // AND we must also re-adjust the XEP desired in this case...
         amountDesired = legacy::calculateDesiredBTC(amountOffered, amountDesired, balanceReallyAvailable);
         amountOffered = balanceReallyAvailable;
         if (nAmended) *nAmended = amountOffered;
 
-        PrintToLog("%s: adjusting order: updated amount for sale: %s %s, offered for: %s BTC\n", __func__,
+        PrintToLog("%s: adjusting order: updated amount for sale: %s %s, offered for: %s XEP\n", __func__,
                         FormatDivisibleMP(amountOffered), strMPProperty(propertyId), FormatDivisibleMP(amountDesired));
     }
     // -------------------------------------------------------------------------
@@ -345,7 +345,7 @@ int DEx_acceptCreate(const std::string& addressBuyer, const std::string& address
         return DEX_ERROR_ACCEPT -205;
     }
 
-    // ensure the correct BTC fee was paid in this acceptance message
+    // ensure the correct XEP fee was paid in this acceptance message
     if (feePaid < offer.getMinFee()) {
         PrintToLog("%s: rejected: transaction fee too small [%d < %d]\n", __func__, feePaid, offer.getMinFee());
         return DEX_ERROR_ACCEPT -105;
@@ -491,7 +491,7 @@ int64_t calculateDExPurchase(const int64_t amountOffered, const int64_t amountDe
 }
 
 /**
- * Handles incoming BTC payment for the offer.
+ * Handles incoming XEP payment for the offer.
  * TODO: change nAmended: uint64_t -> int64_t
  */
 int DEx_payment(const uint256& txid, unsigned int vout, const std::string& addressSeller, const std::string& addressBuyer, int64_t amountPaid, int block, uint64_t* nAmended)
@@ -567,7 +567,7 @@ int DEx_payment(const uint256& txid, unsigned int vout, const std::string& addre
     const int64_t amountRemaining = p_accept->getAcceptAmountRemaining(); // actual amount desired, in the Accept
 
     if (msc_debug_dex) PrintToLog(
-            "%s: BTC desired: %s, offered amount: %s, amount to purchase: %s, amount remaining: %s\n", __func__,
+            "%s: XEP desired: %s, offered amount: %s, amount to purchase: %s, amount remaining: %s\n", __func__,
             FormatDivisibleMP(amountDesired), FormatDivisibleMP(amountOffered),
             FormatDivisibleMP(amountPurchased), FormatDivisibleMP(amountRemaining));
 
@@ -579,9 +579,9 @@ int DEx_payment(const uint256& txid, unsigned int vout, const std::string& addre
     }
 
     if (amountPurchased > 0) {
-        PrintToLog("%s: seller %s offered %s %s for %s BTC\n", __func__,
+        PrintToLog("%s: seller %s offered %s %s for %s XEP\n", __func__,
                 addressSeller, FormatDivisibleMP(amountOffered), strMPProperty(propertyId), FormatDivisibleMP(amountDesired));
-        PrintToLog("%s: buyer %s pays %s BTC to purchase %s %s\n", __func__,
+        PrintToLog("%s: buyer %s pays %s XEP to purchase %s %s\n", __func__,
                 addressBuyer, FormatDivisibleMP(amountPaid), FormatDivisibleMP(amountPurchased), strMPProperty(propertyId));
 
         assert(update_tally_map(addressSeller, propertyId, -amountPurchased, ACCEPT_RESERVE));

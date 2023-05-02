@@ -130,7 +130,7 @@ static UniValue omni_createpayload_setnonfungibledata(const JSONRPCRequest& requ
 static UniValue omni_createpayload_dexsell(const JSONRPCRequest& request)
 {
     RPCHelpMan{"omni_createpayload_dexsell",
-       "\nCreate a payload to place, update or cancel a sell offer on the traditional distributed OMNI/BTC exchange.\n",
+       "\nCreate a payload to place, update or cancel a sell offer on the traditional distributed OMNI/XEP exchange.\n",
        {
            {"propertyidforsale", RPCArg::Type::NUM, RPCArg::Optional::NO, " the identifier of the tokens to list for sale (must be 1 for OMN or 2 for TOMN)\n"},
            {"amountforsale", RPCArg::Type::STR, RPCArg::Optional::NO, "the amount of tokens to list for sale\n"},
@@ -158,7 +158,7 @@ static UniValue omni_createpayload_dexsell(const JSONRPCRequest& request)
 
     if (action <= CMPTransaction::UPDATE) { // actions 3 permit zero values, skip check
         amountForSale = ParseAmount(request.params[1], isPropertyDivisible(propertyIdForSale));
-        amountDesired = ParseAmount(request.params[2], true); // BTC is divisible
+        amountDesired = ParseAmount(request.params[2], true); // XEP is divisible
         paymentWindow = ParseDExPaymentWindow(request.params[3]);
         minAcceptFee = ParseDExFee(request.params[4]);
     }

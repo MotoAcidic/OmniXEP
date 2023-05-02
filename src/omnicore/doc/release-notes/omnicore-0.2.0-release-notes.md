@@ -85,10 +85,10 @@ Earlier versions of Omni Core (prior to 0.2.0) used Bitcoin Core 0.10.x as a bas
 
 It is highly recommended that users of Omni Core consider these fee changes and their chosen fee settings when upgrading to Omni Core 0.2.0, and test thoroughly to ensure that fee behavior is desirable and as expected.
 
-Consideration of the modified behavior for the `-paytxfee` setting is especially important. Earlier versions of Bitcoin Core (and thus earlier versions of Omni Core prior to 0.2.0) would round the size of the transaction upwards to the nearest kilobyte when calculating the fee (for example a 250 byte transaction would be rounded up to 1 kB). This issue has been resolved in newer versions of Bitcoin Core, and so Omni Core 0.2.0 will no longer perform this rounding when calculating the fee. A comparison of the behaviors can be shown in the following, where an example `paytxfee` value of 0.001 BTC/kB has been set:
+Consideration of the modified behavior for the `-paytxfee` setting is especially important. Earlier versions of Bitcoin Core (and thus earlier versions of Omni Core prior to 0.2.0) would round the size of the transaction upwards to the nearest kilobyte when calculating the fee (for example a 250 byte transaction would be rounded up to 1 kB). This issue has been resolved in newer versions of Bitcoin Core, and so Omni Core 0.2.0 will no longer perform this rounding when calculating the fee. A comparison of the behaviors can be shown in the following, where an example `paytxfee` value of 0.001 XEP/kB has been set:
 
-- Omni Core prior to 0.2.0: A transaction with a size of 250 bytes will be rounded up to 1 kB, and so a fee of 0.001 BTC will be used
-- Omni Core 0.2.0: A transaction with a size of 250 bytes will not be rounded, and so a fee of 0.00025 BTC will be used
+- Omni Core prior to 0.2.0: A transaction with a size of 250 bytes will be rounded up to 1 kB, and so a fee of 0.001 XEP will be used
+- Omni Core 0.2.0: A transaction with a size of 250 bytes will not be rounded, and so a fee of 0.00025 XEP will be used
 
 It is also worth noting that the fee estimation algorithms were updated, and thus the fees chosen when using `-txconfirmtarget` (along with the output of the `estimatefee` RPC) will likely be different in Omni Core 0.2.0 when compared to prior versions.
 

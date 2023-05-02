@@ -171,7 +171,7 @@ int IsMyAddressAllWallets(const std::string& address, const bool matchAny, const
 CAmount GetEstimatedFeePerKb(interfaces::Wallet& iWallet)
 {
     // Need to look over this to see if we need to increase for XEP
-    CAmount nFee = 50000; // 0.0005 BTC;
+    CAmount nFee = 50000; // 0.0005 XEP;
 
 #ifdef ENABLE_WALLET
     CCoinControl coinControl;

@@ -202,7 +202,7 @@ The following list includes relevant pull requests merged into this release:
 - #397 Bump version to Omni Core 0.0.11-rc2
 - #402 Add seed blocks for 410,000 to 420,000
 - #403 Add consensus hash for block 420,000
-- #405 Use uint256 when calculating desired BTC for DEx 1
+- #405 Use uint256 when calculating desired XEP for DEx 1
 - #404 Bump version to Omni Core 0.0.11-rel
 ```
 
