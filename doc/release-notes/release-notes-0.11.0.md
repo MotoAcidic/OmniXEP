@@ -429,7 +429,7 @@ Thanks to everyone who directly contributed to this release:
 - bikinibabe
 - BitcoinPRReadingGroup
 - Blake Jakopovic
-- BtcDrak
+- XepDrak
 - charlescharles
 - Chris Arnesen
 - Ciemon

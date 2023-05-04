@@ -2128,7 +2128,7 @@ static UniValue omni_getactivedexsells(const JSONRPCRequest& request)
         int64_t minFee = selloffer.getMinFee();
         uint8_t timeLimit = selloffer.getBlockTimeLimit();
         int64_t sellOfferAmount = selloffer.getOfferAmountOriginal(); //badly named - "Original" implies off the wire, but is amended amount
-        int64_t sellBitcoinDesired = selloffer.getBTCDesiredOriginal(); //badly named - "Original" implies off the wire, but is amended amount
+        int64_t sellBitcoinDesired = selloffer.getXEPDesiredOriginal(); //badly named - "Original" implies off the wire, but is amended amount
         int64_t amountAvailable = GetTokenBalance(seller, propertyId, SELLOFFER_RESERVE);
         int64_t amountAccepted = GetTokenBalance(seller, propertyId, ACCEPT_RESERVE);
 
@@ -2145,7 +2145,7 @@ static UniValue omni_getactivedexsells(const JSONRPCRequest& request)
             }
         }
         int64_t unitPrice = rounduint64(unitPriceFloat * COIN);
-        int64_t bitcoinDesired = calculateDesiredBTC(sellOfferAmount, sellBitcoinDesired, amountAvailable);
+        int64_t bitcoinDesired = calculateDesiredXEP(sellOfferAmount, sellBitcoinDesired, amountAvailable);
 
         UniValue responseObj(UniValue::VOBJ);
         responseObj.pushKV("txid", txid);
@@ -2173,12 +2173,12 @@ static UniValue omni_getactivedexsells(const JSONRPCRequest& request)
                 int blocksLeftToPay = (blockOfAccept + selloffer.getBlockTimeLimit()) - curBlock;
                 int64_t amountAccepted = accept.getAcceptAmountRemaining();
                 // TODO: don't recalculate!
-                int64_t amountToPayInBTC = calculateDesiredBTC(accept.getOfferAmountOriginal(), accept.getBTCDesiredOriginal(), amountAccepted);
+                int64_t amountToPayInXEP = calculateDesiredXEP(accept.getOfferAmountOriginal(), accept.getXEPDesiredOriginal(), amountAccepted);
                 matchedAccept.pushKV("buyer", buyer);
                 matchedAccept.pushKV("block", blockOfAccept);
                 matchedAccept.pushKV("blocksleft", blocksLeftToPay);
                 matchedAccept.pushKV("amount", FormatMP(propertyId, amountAccepted));
-                matchedAccept.pushKV("amounttopay", FormatDivisibleMP(amountToPayInBTC));
+                matchedAccept.pushKV("amounttopay", FormatDivisibleMP(amountToPayInXEP));
                 acceptsMatched.push_back(matchedAccept);
             }
         }

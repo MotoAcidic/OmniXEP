@@ -33,7 +33,7 @@ Testnet mode allows Omni Core to be run on the Bitcoin testnet blockchain for sa
 
 1. To run Omni Core in testnet mode, run Omni Core with the following option in place: `-testnet`.
 
-2. To receive OMN (and TOMN) on testnet please send TBTC to `moneyqMan7uh8FqdCA2BV5yZ8qVrc9ikLP`. For each 1 TBTC you will receive 100 OMN and 100 TOMN.
+2. To receive OMN (and TOMN) on testnet please send TXEP to `moneyqMan7uh8FqdCA2BV5yZ8qVrc9ikLP`. For each 1 TXEP you will receive 100 OMN and 100 TOMN.
 
 Dependencies
 ------------

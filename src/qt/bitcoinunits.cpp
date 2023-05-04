@@ -42,7 +42,7 @@ QString BitcoinUnits::longName(int unit)
     {
     case XEP: return QString("XEP");
     case mXEP: return QString("mXEP");
-    case uXEP: return QString::fromUtf8("µBTC (bits)");
+    case uXEP: return QString::fromUtf8("µXEP (bits)");
     case SAT: return QString("Satoshi (sat)");
     default: return QString("???");
     }

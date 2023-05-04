@@ -144,7 +144,7 @@ namespace legacy
  * @see:
  * https://github.com/mastercoin-MSC/mastercore/blob/mscore-0.0.9/src/mastercore_dex.cpp#L439-L449
  */
-static int64_t calculateDesiredBTC(const int64_t amountOffered, const int64_t amountDesired, const int64_t amountAvailable)
+static int64_t calculateDesiredXEP(const int64_t amountOffered, const int64_t amountDesired, const int64_t amountAvailable)
 {
     uint64_t nValue = static_cast<uint64_t>(amountOffered);
     uint64_t amount_des = static_cast<uint64_t>(amountDesired);
@@ -166,7 +166,7 @@ static int64_t calculateDesiredBTC(const int64_t amountOffered, const int64_t am
  * TODO: don't expose it!
  * @return The amount of bitcoins desired
  */
-int64_t calculateDesiredBTC(const int64_t amountOffered, const int64_t amountDesired, const int64_t amountAvailable)
+int64_t calculateDesiredXEP(const int64_t amountOffered, const int64_t amountDesired, const int64_t amountAvailable)
 {
     if (amountOffered == 0) {
         return 0; // divide by null protection
@@ -237,7 +237,7 @@ int DEx_offerCreate(const std::string& addressSeller, uint32_t propertyId, int64
                         FormatDivisibleMP(balanceReallyAvailable), strMPProperty(propertyId));
 
         // AND we must also re-adjust the XEP desired in this case...
-        amountDesired = legacy::calculateDesiredBTC(amountOffered, amountDesired, balanceReallyAvailable);
+        amountDesired = legacy::calculateDesiredXEP(amountOffered, amountDesired, balanceReallyAvailable);
         amountOffered = balanceReallyAvailable;
         if (nAmended) *nAmended = amountOffered;
 
@@ -366,7 +366,7 @@ int DEx_acceptCreate(const std::string& addressBuyer, const std::string& address
         assert(update_tally_map(addressSeller, propertyId, -amountReserved, SELLOFFER_RESERVE));
         assert(update_tally_map(addressSeller, propertyId, amountReserved, ACCEPT_RESERVE));
 
-        CMPAccept acceptOffer(amountReserved, block, offer.getBlockTimeLimit(), offer.getProperty(), offer.getOfferAmountOriginal(), offer.getBTCDesiredOriginal(), offer.getHash());
+        CMPAccept acceptOffer(amountReserved, block, offer.getBlockTimeLimit(), offer.getProperty(), offer.getOfferAmountOriginal(), offer.getXEPDesiredOriginal(), offer.getHash());
         my_accepts.insert(std::make_pair(keyAcceptOrder, acceptOffer));
 
         rc = 0;
@@ -450,13 +450,13 @@ namespace legacy
 static int64_t calculateDExPurchase(const int64_t amountOffered, const int64_t amountDesired, const int64_t amountPaid)
 {
     uint64_t acceptOfferAmount = static_cast<uint64_t>(amountOffered);
-    uint64_t acceptBTCDesired = static_cast<uint64_t>(amountDesired);
-    uint64_t BTC_paid = static_cast<uint64_t>(amountPaid);
+    uint64_t acceptXEPDesired = static_cast<uint64_t>(amountDesired);
+    uint64_t XEP_paid = static_cast<uint64_t>(amountPaid);
 
-    const double BTC_desired_original = acceptBTCDesired;
+    const double XEP_desired_original = acceptXEPDesired;
     const double offer_amount_original = acceptOfferAmount;
 
-    double perc_X = (double) BTC_paid / BTC_desired_original;
+    double perc_X = (double) XEP_paid / XEP_desired_original;
     double Purchased = offer_amount_original * perc_X;
 
     uint64_t units_purchased = rounduint64(Purchased);
@@ -533,7 +533,7 @@ int DEx_payment(const uint256& txid, unsigned int vout, const std::string& addre
 
     // -------------------------------------------------------------------------
 
-    const int64_t amountDesired = p_accept->getBTCDesiredOriginal();
+    const int64_t amountDesired = p_accept->getXEPDesiredOriginal();
     const int64_t amountOffered = p_accept->getOfferAmountOriginal();
 
     // divide by 0 protection

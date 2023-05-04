@@ -44,7 +44,7 @@ std::vector<TransactionRestriction> CConsensusParams::GetRestrictions() const
 
         { MSC_TYPE_TRADE_OFFER,               MP_TX_PKT_V0,  false,   MSC_DEX_BLOCK             },
         { MSC_TYPE_TRADE_OFFER,               MP_TX_PKT_V1,  false,   MSC_DEX_BLOCK             },
-        { MSC_TYPE_ACCEPT_OFFER_BTC,          MP_TX_PKT_V0,  false,   MSC_DEX_BLOCK             },
+        { MSC_TYPE_ACCEPT_OFFER_XEP,          MP_TX_PKT_V0,  false,   MSC_DEX_BLOCK             },
 
         { MSC_TYPE_CREATE_PROPERTY_FIXED,     MP_TX_PKT_V0,  false,   MSC_SP_BLOCK              },
         { MSC_TYPE_CREATE_PROPERTY_VARIABLE,  MP_TX_PKT_V0,  false,   MSC_SP_BLOCK              },

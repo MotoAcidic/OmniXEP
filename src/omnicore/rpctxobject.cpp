@@ -208,7 +208,7 @@ void populateRPCTypeInfo(CMPTransaction& mp_obj, UniValue& txobj, uint32_t txTyp
         case MSC_TYPE_METADEX_CANCEL_ECOSYSTEM:
             populateRPCTypeMetaDExCancelEcosystem(mp_obj, txobj, extendedDetails);
             break;
-        case MSC_TYPE_ACCEPT_OFFER_BTC:
+        case MSC_TYPE_ACCEPT_OFFER_XEP:
             populateRPCTypeAcceptOffer(mp_obj, txobj);
             break;
         case MSC_TYPE_CREATE_PROPERTY_FIXED:
@@ -280,7 +280,7 @@ bool showRefForTx(uint32_t txType)
         case MSC_TYPE_METADEX_CANCEL_PRICE: return false;
         case MSC_TYPE_METADEX_CANCEL_PAIR: return false;
         case MSC_TYPE_METADEX_CANCEL_ECOSYSTEM: return false;
-        case MSC_TYPE_ACCEPT_OFFER_BTC: return true;
+        case MSC_TYPE_ACCEPT_OFFER_XEP: return true;
         case MSC_TYPE_CREATE_PROPERTY_FIXED: return false;
         case MSC_TYPE_CREATE_PROPERTY_VARIABLE: return false;
         case MSC_TYPE_CREATE_PROPERTY_MANUAL: return false;
@@ -362,7 +362,7 @@ void populateRPCTypeTradeOffer(CMPTransaction& omniObj, UniValue& txobj)
     CMPOffer temp_offer(omniObj);
     uint32_t propertyId = omniObj.getProperty();
     int64_t amountOffered = omniObj.getAmount();
-    int64_t amountDesired = temp_offer.getBTCDesiredOriginal();
+    int64_t amountDesired = temp_offer.getXEPDesiredOriginal();
     uint8_t sellSubAction = temp_offer.getSubaction();
 
     {
@@ -381,7 +381,7 @@ void populateRPCTypeTradeOffer(CMPTransaction& omniObj, UniValue& txobj)
         LOCK(cs_tally);
         bool tmpValid = pDbTransactionList->getValidMPTX(omniObj.getHash(), &tmpblock, &tmptype, &amountNew);
         if (tmpValid && amountNew > 0) {
-            amountDesired = calculateDesiredBTC(amountOffered, amountDesired, amountNew);
+            amountDesired = calculateDesiredXEP(amountOffered, amountDesired, amountNew);
             amountOffered = amountNew;
         }
     }

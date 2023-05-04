@@ -521,7 +521,7 @@ std::string TXHistoryDialog::shrinkTxType(int txType, bool *fundsMoved)
         case MSC_TYPE_RATELIMITED_MARK: displayType = "Rate Limit"; break;
         case MSC_TYPE_AUTOMATIC_DISPENSARY: displayType = "Auto Dispense"; break;
         case MSC_TYPE_TRADE_OFFER: displayType = "DEx Trade"; *fundsMoved = false; break;
-        case MSC_TYPE_ACCEPT_OFFER_BTC: displayType = "DEx Accept"; *fundsMoved = false; break;
+        case MSC_TYPE_ACCEPT_OFFER_XEP: displayType = "DEx Accept"; *fundsMoved = false; break;
         case MSC_TYPE_METADEX_TRADE: displayType = "MetaDEx Trade"; *fundsMoved = false; break;
         case MSC_TYPE_METADEX_CANCEL_PRICE:
         case MSC_TYPE_METADEX_CANCEL_PAIR:

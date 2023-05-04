@@ -251,7 +251,7 @@ static int input_mp_offers_string(const std::string& s)
     int offerBlock = boost::lexical_cast<int>(vstr[i++]);
     int64_t amountOriginal = boost::lexical_cast<int64_t>(vstr[i++]);
     uint32_t prop = boost::lexical_cast<uint32_t>(vstr[i++]);
-    int64_t btcDesired = boost::lexical_cast<int64_t>(vstr[i++]);
+    int64_t xepDesired = boost::lexical_cast<int64_t>(vstr[i++]);
     uint32_t prop_desired = boost::lexical_cast<uint32_t>(vstr[i++]);
     int64_t minFee = boost::lexical_cast<int64_t>(vstr[i++]);
     uint8_t blocktimelimit = boost::lexical_cast<unsigned int>(vstr[i++]); // lexical_cast can't handle char!
@@ -261,7 +261,7 @@ static int input_mp_offers_string(const std::string& s)
     if (OMNI_PROPERTY_XEP != prop_desired) return -1;
 
     const std::string combo = STR_SELLOFFER_ADDR_PROP_COMBO(sellerAddr, prop);
-    CMPOffer newOffer(offerBlock, amountOriginal, prop, btcDesired, minFee, blocktimelimit, txid);
+    CMPOffer newOffer(offerBlock, amountOriginal, prop, xepDesired, minFee, blocktimelimit, txid);
 
     if (!my_offers.insert(std::make_pair(combo, newOffer)).second) return -1;
 
@@ -277,7 +277,7 @@ static int input_mp_accepts_string(const std::string& s)
     unsigned char blocktimelimit;
     std::vector<std::string> vstr;
     boost::split(vstr, s, boost::is_any_of(" ,="), boost::token_compress_on);
-    int64_t amountRemaining, amountOriginal, offerOriginal, btcDesired;
+    int64_t amountRemaining, amountOriginal, offerOriginal, xepDesired;
     unsigned int prop;
     std::string sellerAddr, buyerAddr, txidStr;
     int i = 0;
@@ -292,11 +292,11 @@ static int input_mp_accepts_string(const std::string& s)
     amountOriginal = boost::lexical_cast<uint64_t>(vstr[i++]);
     blocktimelimit = atoi(vstr[i++]);
     offerOriginal = boost::lexical_cast<int64_t>(vstr[i++]);
-    btcDesired = boost::lexical_cast<int64_t>(vstr[i++]);
+    xepDesired = boost::lexical_cast<int64_t>(vstr[i++]);
     txidStr = vstr[i++];
 
     const std::string combo = STR_ACCEPT_ADDR_PROP_ADDR_COMBO(sellerAddr, buyerAddr, prop);
-    CMPAccept newAccept(amountOriginal, amountRemaining, nBlock, blocktimelimit, prop, offerOriginal, btcDesired, uint256S(txidStr));
+    CMPAccept newAccept(amountOriginal, amountRemaining, nBlock, blocktimelimit, prop, offerOriginal, xepDesired, uint256S(txidStr));
     if (my_accepts.insert(std::make_pair(combo, newAccept)).second) {
         return 0;
     } else {

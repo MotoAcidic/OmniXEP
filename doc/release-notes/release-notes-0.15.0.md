@@ -791,7 +791,7 @@ Thanks to everyone who directly contributed to this release:
 - Awemany
 - Bob McElrath
 - Brian McMichael
-- BtcDrak
+- XepDrak
 - Charlie Lee
 - Chris Gavin
 - Chris Stewart

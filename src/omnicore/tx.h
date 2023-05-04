@@ -44,12 +44,12 @@ private:
     unsigned int type;
     unsigned short version; // = MP_TX_PKT_V0;
 
-    // SimpleSend, SendToOwners, TradeOffer, MetaDEx, AcceptOfferBTC,
+    // SimpleSend, SendToOwners, TradeOffer, MetaDEx, AcceptOfferXEP,
     // CreatePropertyFixed, CreatePropertyVariable, GrantTokens, RevokeTokens
     uint64_t nValue;
     uint64_t nNewValue;
 
-    // SimpleSend, SendToOwners, TradeOffer, MetaDEx, AcceptOfferBTC,
+    // SimpleSend, SendToOwners, TradeOffer, MetaDEx, AcceptOfferXEP,
     // CreatePropertyFixed, CreatePropertyVariable, CloseCrowdsale,
     // CreatePropertyMananged, GrantTokens, RevokeTokens, ChangeIssuer
     unsigned int property;
@@ -121,7 +121,7 @@ private:
     bool interpret_MetaDExCancelPrice();
     bool interpret_MetaDExCancelPair();
     bool interpret_MetaDExCancelEcosystem();
-    bool interpret_AcceptOfferBTC();
+    bool interpret_AcceptOfferXEP();
     bool interpret_CreatePropertyFixed();
     bool interpret_CreatePropertyVariable();
     bool interpret_CloseCrowdsale();
@@ -150,7 +150,7 @@ private:
     int logicMath_SendAll();
     int logicMath_SendNonFungible();
     int logicMath_TradeOffer();
-    int logicMath_AcceptOffer_BTC();
+    int logicMath_AcceptOffer_XEP();
     int logicMath_MetaDExTrade();
     int logicMath_MetaDExCancelPrice();
     int logicMath_MetaDExCancelPair();

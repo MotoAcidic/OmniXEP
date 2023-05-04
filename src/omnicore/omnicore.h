@@ -67,7 +67,7 @@ enum TransactionType {
   MSC_TYPE_RATELIMITED_MARK           = 12,
   MSC_TYPE_AUTOMATIC_DISPENSARY       = 15,
   MSC_TYPE_TRADE_OFFER                = 20,
-  MSC_TYPE_ACCEPT_OFFER_BTC           = 22,
+  MSC_TYPE_ACCEPT_OFFER_XEP           = 22,
   MSC_TYPE_METADEX_TRADE              = 25,
   MSC_TYPE_METADEX_CANCEL_PRICE       = 26,
   MSC_TYPE_METADEX_CANCEL_PAIR        = 27,

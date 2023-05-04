@@ -883,14 +883,14 @@ static UniValue omni_senddexpay(const JSONRPCRequest& request)
             throw JSONRPCError(RPC_MISC_ERROR, "Unable to load accept offer from the distributed exchange");
 
         const CAmount amountAccepted = acceptOffer->getAcceptAmountRemaining();
-        const CAmount amountToPayInBTC = calculateDesiredBTC(acceptOffer->getOfferAmountOriginal(), acceptOffer->getBTCDesiredOriginal(), amountAccepted);
+        const CAmount amountToPayInXEP = calculateDesiredXEP(acceptOffer->getOfferAmountOriginal(), acceptOffer->getXEPDesiredOriginal(), amountAccepted);
 
-        if (nAmount > amountToPayInBTC) {
-            throw JSONRPCError(RPC_MISC_ERROR, strprintf("Paying more than required: %lld XEP to pay for %lld tokens", FormatMoney(amountToPayInBTC), FormatMP(propertyId, amountAccepted)));
+        if (nAmount > amountToPayInXEP) {
+            throw JSONRPCError(RPC_MISC_ERROR, strprintf("Paying more than required: %lld XEP to pay for %lld tokens", FormatMoney(amountToPayInXEP), FormatMP(propertyId, amountAccepted)));
         }
 
-        if (!isPropertyDivisible(propertyId) && nAmount < amountToPayInBTC) {
-            throw JSONRPCError(RPC_MISC_ERROR, strprintf("Paying less than required: %lld XEP to pay for %lld tokens", FormatMoney(amountToPayInBTC), FormatMP(propertyId, amountAccepted)));
+        if (!isPropertyDivisible(propertyId) && nAmount < amountToPayInXEP) {
+            throw JSONRPCError(RPC_MISC_ERROR, strprintf("Paying less than required: %lld XEP to pay for %lld tokens", FormatMoney(amountToPayInXEP), FormatMP(propertyId, amountAccepted)));
         }
     }
 
