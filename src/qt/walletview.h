@@ -111,7 +111,7 @@ public Q_SLOTS:
     /** Switch specifically to omni tx history tab */
     void gotoOmniHistoryTab();
     /** Switch specifically to bitcoin tx history tab */
-    void gotoBitcoinHistoryTab();
+    void gotoXepHistoryTab();
     /** Switch to utility page */
     void gotoToolboxPage();
 

@@ -44,7 +44,7 @@
     <name>BanTableModel</name>
     </context>
 <context>
-    <name>BitcoinGUI</name>
+    <name>XepGUI</name>
     </context>
 <context>
     <name>CoinControlDialog</name>

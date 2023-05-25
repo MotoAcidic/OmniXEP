@@ -4,7 +4,7 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test freeze."""
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import XepTestFramework
 from test_framework.util import assert_equal
 
 def rollback_chain(node, address):
@@ -24,7 +24,7 @@ def rollback_chain(node, address):
         if blockhash == new_blockhash:
             raise AssertionError("Block hashes should differ after reorg")
 
-class OmniDelegation(BitcoinTestFramework):
+class OmniDelegation(XepTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
         self.setup_clean_chain = True
@@ -42,7 +42,7 @@ class OmniDelegation(BitcoinTestFramework):
         unrelated_address = node.getnewaddress()
         coinbase_address = node.getnewaddress()
 
-        # Preparing some mature Bitcoins
+        # Preparing some mature Xeps
         node.generatetoaddress(110, coinbase_address)
 
         # Funding the addresses with some testnet XEP for fees

@@ -23,7 +23,7 @@ static bool getDisclaimerDialogResult()
     "This software is EXPERIMENTAL software. USE ON MAINNET AT YOUR OWN RISK.");
 
     QString qstrInformativeText(
-    "By default this software will use your existing Bitcoin wallet, including spending "
+    "By default this software will use your existing Xep wallet, including spending "
     "bitcoins contained therein (for example for transaction fees or trading).\n\n"
     "The protocol and transaction processing rules for the Omni Layer are still under "
     "active development and are subject to change in future.\n\n"

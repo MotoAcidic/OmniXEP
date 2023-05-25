@@ -241,8 +241,8 @@ static UniValue omni_createpayload_issuancefixed(const JSONRPCRequest& request)
            RPCResult::Type::STR_HEX, "payload", "the hex-encoded payload",
        },
        RPCExamples{
-           HelpExampleCli("omni_createpayload_issuancefixed", "2 1 0 \"Companies\" \"Bitcoin Mining\" \"Quantum Miner\" \"\" \"\" \"1000000\"")
-           + HelpExampleRpc("omni_createpayload_issuancefixed", "2, 1, 0, \"Companies\", \"Bitcoin Mining\", \"Quantum Miner\", \"\", \"\", \"1000000\"")
+           HelpExampleCli("omni_createpayload_issuancefixed", "2 1 0 \"Companies\" \"Xep Mining\" \"Quantum Miner\" \"\" \"\" \"1000000\"")
+           + HelpExampleRpc("omni_createpayload_issuancefixed", "2, 1, 0, \"Companies\", \"Xep Mining\", \"Quantum Miner\", \"\", \"\", \"1000000\"")
        }
     }.Check(request);
 
@@ -286,8 +286,8 @@ static UniValue omni_createpayload_issuancecrowdsale(const JSONRPCRequest& reque
            RPCResult::Type::STR_HEX, "payload", "the hex-encoded payload",
        },
        RPCExamples{
-           HelpExampleCli("omni_createpayload_issuancecrowdsale", "2 1 0 \"Companies\" \"Bitcoin Mining\" \"Quantum Miner\" \"\" \"\" 2 \"100\" 1483228800 30 2")
-           + HelpExampleRpc("omni_createpayload_issuancecrowdsale", "2, 1, 0, \"Companies\", \"Bitcoin Mining\", \"Quantum Miner\", \"\", \"\", 2, \"100\", 1483228800, 30, 2")
+           HelpExampleCli("omni_createpayload_issuancecrowdsale", "2 1 0 \"Companies\" \"Xep Mining\" \"Quantum Miner\" \"\" \"\" 2 \"100\" 1483228800 30 2")
+           + HelpExampleRpc("omni_createpayload_issuancecrowdsale", "2, 1, 0, \"Companies\", \"Xep Mining\", \"Quantum Miner\", \"\", \"\", 2, \"100\", 1483228800, 30, 2")
        }
     }.Check(request);
 
@@ -336,8 +336,8 @@ static UniValue omni_createpayload_issuancemanaged(const JSONRPCRequest& request
            RPCResult::Type::STR_HEX, "payload", "the hex-encoded payload",
        },
        RPCExamples{
-           HelpExampleCli("omni_createpayload_issuancemanaged", "2 1 0 \"Companies\" \"Bitcoin Mining\" \"Quantum Miner\" \"\" \"\"")
-           + HelpExampleRpc("omni_createpayload_issuancemanaged", "2, 1, 0, \"Companies\", \"Bitcoin Mining\", \"Quantum Miner\", \"\", \"\"")
+           HelpExampleCli("omni_createpayload_issuancemanaged", "2 1 0 \"Companies\" \"Xep Mining\" \"Quantum Miner\" \"\" \"\"")
+           + HelpExampleRpc("omni_createpayload_issuancemanaged", "2, 1, 0, \"Companies\", \"Xep Mining\", \"Quantum Miner\", \"\", \"\"")
        }
     }.Check(request);
 

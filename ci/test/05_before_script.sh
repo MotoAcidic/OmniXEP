@@ -8,7 +8,7 @@ export LC_ALL=C.UTF-8
 
 # Make sure default datadir does not exist and is never read by creating a dummy file
 if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-  echo > $HOME/Library/Application\ Support/Bitcoin
+  echo > $HOME/Library/Application\ Support/Xep
 else
   DOCKER_EXEC echo \> \$HOME/.bitcoin
 fi

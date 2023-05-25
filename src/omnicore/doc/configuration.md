@@ -11,8 +11,8 @@ All settings can alternatively also be configured via the `bitcoin.conf`.
 Depending on the operating system, the default locations for the configuration file are:
 
 - Unix systems: `$HOME/.bitcoin/bitcoin.conf`
-- Mac OS X: `$HOME/Library/Application Support/Bitcoin/bitcoin.conf`
-- Microsoft Windows: `%APPDATA%/Bitcoin/bitcoin.conf`
+- Mac OS X: `$HOME/Library/Application Support/Xep/bitcoin.conf`
+- Microsoft Windows: `%APPDATA%/Xep/bitcoin.conf`
 
 A typical `bitcoin.conf` may include:
 ```
@@ -33,7 +33,7 @@ omnidebug=pending
 
 To run and use Omni Core, no explicit configuration is necessary.
 
-More information about the general configuration and Bitcoin Core specific options are available in the [Bitcoin wiki](https://en.bitcoin.it/wiki/Running_Bitcoin).
+More information about the general configuration and Xep Core specific options are available in the [Xep wiki](https://en.bitcoin.it/wiki/Running_Xep).
 
 #### General options:
 
@@ -44,7 +44,7 @@ More information about the general configuration and Bitcoin Core specific optio
 | `omniprogressfrequency`      | number       | `30`           | time in seconds after which the initial scanning progress is reported           |
 | `omniseedblockfilter`        | boolean      | `1`            | set skipping of blocks without Omni transactions during initial scan            |
 | `omnishowblockconsensushash` | number       | `0`            | calculate and log the consensus hash for the specified block                    |
-| `experimental-xep-balances`  | boolean      | `0`            | maintain a full address index to query any Bitcoin balance                      |
+| `experimental-xep-balances`  | boolean      | `0`            | maintain a full address index to query any Xep balance                      |
 
 #### Log options:
 

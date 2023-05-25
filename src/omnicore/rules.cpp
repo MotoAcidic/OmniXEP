@@ -377,7 +377,7 @@ bool IsAllowedOutputType(int whichType, int nBlock)
 }
 
 /**
- * Whether Bitcoin payments are supported for a transaction type/version.
+ * Whether Xep payments are supported for a transaction type/version.
  */
 bool IsXepPaymentAllowed(uint16_t type, uint16_t version)
 {

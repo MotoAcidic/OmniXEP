@@ -28,7 +28,7 @@ void SwapByteOrder16(uint16_t&);
 void SwapByteOrder32(uint32_t&);
 void SwapByteOrder64(uint64_t&);
 
-/** Determines the Bitcoin address associated with a given hash and version. */
+/** Determines the Xep address associated with a given hash and version. */
 std::string HashToAddress(unsigned char version, const uint160& hash);
 
 /** Generates hashes used for obfuscation via ToUpper(HexStr(SHA256(x))). */

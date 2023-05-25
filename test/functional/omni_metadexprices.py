@@ -4,10 +4,10 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test meta dex prices."""
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import XepTestFramework
 from test_framework.util import assert_equal
 
-class OmniMetaDexPrices(BitcoinTestFramework):
+class OmniMetaDexPrices(XepTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
         self.setup_clean_chain = True
@@ -15,7 +15,7 @@ class OmniMetaDexPrices(BitcoinTestFramework):
     def run_test(self):
         self.log.info("test meta dex prices")
 
-        # Preparing some mature Bitcoins
+        # Preparing some mature Xeps
         coinbase_address = self.nodes[0].getnewaddress()
         self.nodes[0].generatetoaddress(101, coinbase_address)
 

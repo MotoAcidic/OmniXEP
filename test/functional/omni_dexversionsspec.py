@@ -4,7 +4,7 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test DEx versions spec using free DEx."""
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import XepTestFramework
 from test_framework.util import assert_equal
 from test_framework.authproxy import JSONRPCException
 
@@ -14,7 +14,7 @@ from test_framework.authproxy import JSONRPCException
 # based on the global state, whereby transactions with version 1 have an
 # explicit action value. Other versions are currently not valid.
 
-class OmniFreeDExVersionsSpec(BitcoinTestFramework):
+class OmniFreeDExVersionsSpec(XepTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
         self.setup_clean_chain = True
@@ -23,7 +23,7 @@ class OmniFreeDExVersionsSpec(BitcoinTestFramework):
     def run_test(self):
         self.log.info("test dex versions spec using free dex")
 
-        # Preparing some mature Bitcoins
+        # Preparing some mature Xeps
         coinbase_address = self.nodes[0].getnewaddress()
         self.nodes[0].generatetoaddress(110, coinbase_address)
 

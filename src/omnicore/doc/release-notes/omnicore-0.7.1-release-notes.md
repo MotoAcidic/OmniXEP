@@ -1,9 +1,9 @@
 Omni Core v0.7.1
 ================
 
-Omni Core 0.7.1 paves the way for trading any asset on the Omni Layer for Bitcoin in a decentralized fashion. It adds new commands to accept and execute orders on the distributed exchange.
+Omni Core 0.7.1 paves the way for trading any asset on the Omni Layer for Xep in a decentralized fashion. It adds new commands to accept and execute orders on the distributed exchange.
 
-Please note, if you have not yet upgrade from 0.6 or earlier versions: Omni Core 0.7 changed the code base of Omni Core from Bitcoin Core 0.13.2 to Bitcoin Core 0.18.1. Once consensus affecting features are enabled, this version is no longer compatible with previous versions and an upgrade is required. Due to the upgrade from Bitcoin Core 0.13.2 to 0.18.1, this version incorporates many changes, so please take your time to read through all previous release notes carefully. The first time you upgrade from Omni Core 0.6 or older versions, the database is reconstructed, which can easily consume several hours. An upgrade from 0.7 to 0.7.1 is seamless.
+Please note, if you have not yet upgrade from 0.6 or earlier versions: Omni Core 0.7 changed the code base of Omni Core from Xep Core 0.13.2 to Xep Core 0.18.1. Once consensus affecting features are enabled, this version is no longer compatible with previous versions and an upgrade is required. Due to the upgrade from Xep Core 0.13.2 to 0.18.1, this version incorporates many changes, so please take your time to read through all previous release notes carefully. The first time you upgrade from Omni Core 0.6 or older versions, the database is reconstructed, which can easily consume several hours. An upgrade from 0.7 to 0.7.1 is seamless.
 
 Please report bugs using the issue tracker on GitHub:
 
@@ -17,9 +17,9 @@ Table of contents
 - [Upgrading and downgrading](#upgrading-and-downgrading)
   - [How to upgrade](#how-to-upgrade)
   - [Downgrading](#downgrading)
-  - [Compatibility with Bitcoin Core](#compatibility-with-bitcoin-core)
+  - [Compatibility with Xep Core](#compatibility-with-bitcoin-core)
 - [Imported changes and notes](#imported-changes-and-notes)
-  - [Allow any token to be traded for Bitcoin](#allow-any-token-to-be-traded-for-bitcoin)
+  - [Allow any token to be traded for Xep](#allow-any-token-to-be-traded-for-bitcoin)
   - [Updates to omni_senddexaccept to accept orders](#updates-to-omni_senddexaccept-to-accept-orders)
   - [New command omni_senddexpay to execute orders](#new-command-omni_senddexpay-to-execute-orders)
   - [rpcallowip option changes](#rpcallowip-option-changes)
@@ -35,7 +35,7 @@ Upgrading and downgrading
 How to upgrade
 --------------
 
-If you are running Bitcoin Core or an older version of Omni Core, shut it down. Wait until it has completely shut down, then copy the new version of `omnicored`, `omnicore-cli` and `omnicore-qt`. On Microsoft Windows the setup routine can be used to automate these steps.
+If you are running Xep Core or an older version of Omni Core, shut it down. Wait until it has completely shut down, then copy the new version of `omnicored`, `omnicore-cli` and `omnicore-qt`. On Microsoft Windows the setup routine can be used to automate these steps.
 
 When upgrading from an older version, the database is reconstructed, which can easily consume several hours.
 
@@ -46,21 +46,21 @@ Downgrading
 
 Downgrading to an Omni Core version prior to 0.7.0 is not supported.
 
-Compatibility with Bitcoin Core
+Compatibility with Xep Core
 -------------------------------
 
-Omni Core is based on Bitcoin Core 0.18.1 and can be used as replacement for Bitcoin Core. Switching between Omni Core and Bitcoin Core may be supported.
+Omni Core is based on Xep Core 0.18.1 and can be used as replacement for Xep Core. Switching between Omni Core and Xep Core may be supported.
 
-However, it is not advised to upgrade or downgrade to versions other than Bitcoin Core 0.18. When switching to Omni Core, it may be necessary to reprocess Omni Layer transactions.
+However, it is not advised to upgrade or downgrade to versions other than Xep Core 0.18. When switching to Omni Core, it may be necessary to reprocess Omni Layer transactions.
 
 
 Imported changes and notes
 ==========================
 
-Allow any token to be traded for Bitcoin
+Allow any token to be traded for Xep
 ----------------------------------------
 
-Right now the native distributed exchange of the Omni Layer protocol supports trading Omni and Test Omni for Bitcoin.
+Right now the native distributed exchange of the Omni Layer protocol supports trading Omni and Test Omni for Xep.
 
 With this version, any token can be traded and there are no longer any trading restrictions. Please see the documentation for the related RPCs:
 
@@ -126,7 +126,7 @@ Create and broadcast payment for an accept offer.
 | `fromaddress`       | string  | required | the address to send from                                                                     |
 | `toaddress`         | string  | required | the address of the seller                                                                    |
 | `propertyid`        | number  | required | the identifier of the token to purchase                                                      |
-| `amount`            | string  | required | the Bitcoin amount to send                                                                   |
+| `amount`            | string  | required | the Xep amount to send                                                                   |
 
 **Result:**
 ```js
@@ -152,7 +152,7 @@ The `rpcallowip` option can no longer be used to automatically listen on all net
 Updates to the Omni Core logo
 -----------------------------
 
-To show the synergy between the Omni Layer protocol and Bitcoin, the Omni Core logos were slightly changed to also include the Bitcoin logo:
+To show the synergy between the Omni Layer protocol and Xep, the Omni Core logos were slightly changed to also include the Xep logo:
 
 - [Omni Core mainnet icon](https://github.com/OmniLayer/omnicore/blob/v0.7.1/src/qt/res/icons/bitcoin.png)
 - [Omni Core testnet icon](https://github.com/OmniLayer/omnicore/blob/v0.7.1/src/qt/res/icons/bitcoin_testnet.png)
@@ -183,4 +183,4 @@ The following list includes relevant pull requests merged into this release:
 Credits
 =======
 
-Thanks to everyone who contributed to this release, especially to Peter Bushnell and all Bitcoin Core developers.
+Thanks to everyone who contributed to this release, especially to Peter Bushnell and all Xep Core developers.

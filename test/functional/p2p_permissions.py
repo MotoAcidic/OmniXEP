@@ -19,7 +19,7 @@ from test_framework.script import (
     OP_TRUE,
 )
 from test_framework.test_node import ErrorMatch
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import XepTestFramework
 from test_framework.util import (
     assert_equal,
     connect_nodes,
@@ -28,7 +28,7 @@ from test_framework.util import (
 )
 
 
-class P2PPermissionsTests(BitcoinTestFramework):
+class P2PPermissionsTests(XepTestFramework):
     def set_test_params(self):
         self.num_nodes = 2
         self.setup_clean_chain = True

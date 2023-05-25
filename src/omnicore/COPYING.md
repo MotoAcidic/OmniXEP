@@ -1,5 +1,5 @@
 Copyright (c) 2013-2015 Omni Core Developers
-Copyright (c) 2009-2015 Bitcoin Core Developers
+Copyright (c) 2009-2015 Xep Core Developers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

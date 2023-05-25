@@ -1,11 +1,11 @@
 Omni Core v0.7.0
 ================
 
-v0.7.0 is a major release and changes the code base of Omni Core from Bitcoin Core 0.13.2 to Bitcoin Core 0.18.1. Once consensus affecting features are enabled, this version is no longer compatible with previous versions and an upgrade is required. 
+v0.7.0 is a major release and changes the code base of Omni Core from Xep Core 0.13.2 to Xep Core 0.18.1. Once consensus affecting features are enabled, this version is no longer compatible with previous versions and an upgrade is required. 
 
-Compared to Omni Core v0.6.0 and previous versions, v0.7.0 enhances it's distributed exchange nad supports trading of any asset or token for Bitcoin. This version also fixes locking issues and the RPCs for funding transactions as well as omni_listtransactions.
+Compared to Omni Core v0.6.0 and previous versions, v0.7.0 enhances it's distributed exchange nad supports trading of any asset or token for Xep. This version also fixes locking issues and the RPCs for funding transactions as well as omni_listtransactions.
 
-**Due to the upgrade from Bitcoin Core 0.13.2 to 0.18.1, this version incorporates many changes, so please take your time to read through all release notes carefully. The first time you run this version, all the database is reconstructed, which can easily consume several hours.**
+**Due to the upgrade from Xep Core 0.13.2 to 0.18.1, this version incorporates many changes, so please take your time to read through all release notes carefully. The first time you run this version, all the database is reconstructed, which can easily consume several hours.**
 
 To avoid downtime of your system, running both versions on two instances is recommended and once v0.6.1 is up-to-date and it's behavior was confirmed to work, a hot swap may be done.
 
@@ -21,10 +21,10 @@ Table of contents
 - [Upgrading and downgrading](#upgrading-and-downgrading)
   - [How to upgrade](#how-to-upgrade)
   - [Downgrading](#downgrading)
-  - [Compatibility with Bitcoin Core](#compatibility-with-bitcoin-core)
+  - [Compatibility with Xep Core](#compatibility-with-bitcoin-core)
 - [Imported changes and notes](#imported-changes-and-notes)
-  - [Upgrade to Bitcoin Core 0.18.1](#upgrade-to-bitcoin-core-0181)
-  - [Allow any token to be traded for Bitcoin](#allow-any-token-to-be-traded-for-bitcoin)
+  - [Upgrade to Xep Core 0.18.1](#upgrade-to-bitcoin-core-0181)
+  - [Allow any token to be traded for Xep](#allow-any-token-to-be-traded-for-bitcoin)
   - [Omni specific user-agent](#omni-specific-user-agent)
   - [getinfo deprecated](#getinfo-deprecated)
   - [Fee estimation improvements](#fee-estimation-improvements)
@@ -41,7 +41,7 @@ Upgrading and downgrading
 How to upgrade
 --------------
 
-If you are running Bitcoin Core or an older version of Omni Core, shut it down. Wait until it has completely shut down, then copy the new version of `omnicored`, `omnicore-cli` and `omnicore-qt`. On Microsoft Windows the setup routine can be used to automate these steps.
+If you are running Xep Core or an older version of Omni Core, shut it down. Wait until it has completely shut down, then copy the new version of `omnicored`, `omnicore-cli` and `omnicore-qt`. On Microsoft Windows the setup routine can be used to automate these steps.
 
 When upgrading from an older version, the database is reconstructed, which can easily consume several hours.
 
@@ -52,47 +52,47 @@ Downgrading
 
 Downgrading to an Omni Core version prior to 0.7.0 is not supported.
 
-Compatibility with Bitcoin Core
+Compatibility with Xep Core
 -------------------------------
 
-Omni Core is based on Bitcoin Core 0.18.1 and can be used as replacement for Bitcoin Core. Switching between Omni Core and Bitcoin Core may be supported.
+Omni Core is based on Xep Core 0.18.1 and can be used as replacement for Xep Core. Switching between Omni Core and Xep Core may be supported.
 
-However, it is not advised to upgrade or downgrade to versions other than Bitcoin Core 0.18. When switching to Omni Core, it may be necessary to reprocess Omni Layer transactions.
+However, it is not advised to upgrade or downgrade to versions other than Xep Core 0.18. When switching to Omni Core, it may be necessary to reprocess Omni Layer transactions.
 
 
 Imported changes and notes
 ==========================
 
-Upgrade to Bitcoin Core 0.18.1
+Upgrade to Xep Core 0.18.1
 ------------------------------
 
-The underlying base of Omni Core was upgraded from Bitcoin Core 0.13.2 to Bitcoin Core 0.18.1.
+The underlying base of Omni Core was upgraded from Xep Core 0.13.2 to Xep Core 0.18.1.
 
 Please read the following release notes for further details very carefully:
 
-- [Release notes for Bitcoin Core 0.14.0](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.14.0.md)
-- [Release notes for Bitcoin Core 0.14.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.14.1.md)
-- [Release notes for Bitcoin Core 0.14.2](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.14.2.md)
-- [Release notes for Bitcoin Core 0.14.3](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.14.3.md)
-- [Release notes for Bitcoin Core 0.15.0](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.15.0.md)
-- [Release notes for Bitcoin Core 0.15.0.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.15.0.1.md)
-- [Release notes for Bitcoin Core 0.15.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.15.1.md)
-- [Release notes for Bitcoin Core 0.15.2](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.15.2.md)
-- [Release notes for Bitcoin Core 0.16.0](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.16.0.md)
-- [Release notes for Bitcoin Core 0.16.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.16.1.md)
-- [Release notes for Bitcoin Core 0.16.2](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.16.2.md)
-- [Release notes for Bitcoin Core 0.16.3](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.16.3.md)
-- [Release notes for Bitcoin Core 0.17.0](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.17.0.md)
-- [Release notes for Bitcoin Core 0.17.0.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.17.0.1.md)
-- [Release notes for Bitcoin Core 0.17.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.17.1.md)
-- [Release notes for Bitcoin Core 0.18.0](https://github.com/bitcoin/bitcoin/blob/v0.18.0/doc/release-notes.md)
-- [Release notes for Bitcoin Core 0.18.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes.md)
+- [Release notes for Xep Core 0.14.0](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.14.0.md)
+- [Release notes for Xep Core 0.14.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.14.1.md)
+- [Release notes for Xep Core 0.14.2](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.14.2.md)
+- [Release notes for Xep Core 0.14.3](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.14.3.md)
+- [Release notes for Xep Core 0.15.0](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.15.0.md)
+- [Release notes for Xep Core 0.15.0.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.15.0.1.md)
+- [Release notes for Xep Core 0.15.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.15.1.md)
+- [Release notes for Xep Core 0.15.2](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.15.2.md)
+- [Release notes for Xep Core 0.16.0](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.16.0.md)
+- [Release notes for Xep Core 0.16.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.16.1.md)
+- [Release notes for Xep Core 0.16.2](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.16.2.md)
+- [Release notes for Xep Core 0.16.3](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.16.3.md)
+- [Release notes for Xep Core 0.17.0](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.17.0.md)
+- [Release notes for Xep Core 0.17.0.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.17.0.1.md)
+- [Release notes for Xep Core 0.17.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.17.1.md)
+- [Release notes for Xep Core 0.18.0](https://github.com/bitcoin/bitcoin/blob/v0.18.0/doc/release-notes.md)
+- [Release notes for Xep Core 0.18.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes.md)
 
 
-Allow any token to be traded for Bitcoin
+Allow any token to be traded for Xep
 ----------------------------------------
 
-Right now the native distributed exchange of the Omni Layer protocol supports trading Omni and Test Omni for Bitcoin.
+Right now the native distributed exchange of the Omni Layer protocol supports trading Omni and Test Omni for Xep.
 
 With this version, any token can be traded and there are no longer any trading restrictions.
 
@@ -104,7 +104,7 @@ Omni specific user-agent
 
 As per default, starting with this version, Omni Core will identify itself as `/Satoshi:0.18.1 (Omni:0.7.0)/`.
 
-With the configuration option `-omniuseragent=0` will hide the client as regular Bitcoin Core node.
+With the configuration option `-omniuseragent=0` will hide the client as regular Xep Core node.
 
 
 `getinfo` deprecated
@@ -138,7 +138,7 @@ shows where each field has been moved to:
 Fee estimation improvements
 ---------------------------
 
-Fee estimation has been significantly improved with Bitcoin Core 0.15, with more accurate fee estimates used by the wallet and a wider range of options for advanced users of the `estimatesmartfee` and `estimaterawfee` RPCs (See [PR 10199](https://github.com/bitcoin/bitcoin/pull/10199)).
+Fee estimation has been significantly improved with Xep Core 0.15, with more accurate fee estimates used by the wallet and a wider range of options for advanced users of the `estimatesmartfee` and `estimaterawfee` RPCs (See [PR 10199](https://github.com/bitcoin/bitcoin/pull/10199)).
 
 ### Changes to internal logic and wallet behavior
 
@@ -157,7 +157,7 @@ Fee estimation has been significantly improved with Bitcoin Core 0.15, with more
     - The `nblocks` argument has been renamed to `conf_target` (to be consistent with other RPC methods).
     - An `estimate_mode` argument has been added. This argument takes one of the following strings: `CONSERVATIVE`, `ECONOMICAL` or `UNSET` (which defaults to `CONSERVATIVE`).
     - The RPC return object now contains an `errors` member, which returns errors encountered during processing.
-    - If Bitcoin Core has not been running for long enough and has not seen enough blocks or transactions to produce an accurate fee estimation, an error will be returned (previously a value of -1 was used to indicate an error, which could be confused for a feerate).
+    - If Xep Core has not been running for long enough and has not seen enough blocks or transactions to produce an accurate fee estimation, an error will be returned (previously a value of -1 was used to indicate an error, which could be confused for a feerate).
 - A new `estimaterawfee` RPC is added to provide raw fee data. External clients can query and use this data in their own fee estimation logic.
 
 
@@ -230,7 +230,7 @@ The following list includes relevant pull requests merged into this release:
 - #946 Update version to 0.5.0.99 to indicate development
 - #957 fixed omni_listblocktransactions cmd typo
 - #964 depends: Update fontconfig
-- #981 Rebase Omni Core on Bitcoin Core 0.18
+- #981 Rebase Omni Core on Xep Core 0.18
 - #985 rpc: Use RPCHelpMan with Omni RPC calls
 - #987 Update Gitian build for Omni
 - #988 Omni Core 0.18.1
@@ -248,7 +248,7 @@ The following list includes relevant pull requests merged into this release:
 - #1026 Lock cs_main before calling AcceptToMemoryPool
 - #1027 Fail funded send TXs with more outputs than expected
 - #1035 Set Omni bespoke user agent string
-- #1038 Allow any token to be traded for Bitcoin
+- #1038 Allow any token to be traded for Xep
 - #1034 Prepare release of Omni Core v0.7.0
 ```
 
@@ -256,4 +256,4 @@ The following list includes relevant pull requests merged into this release:
 Credits
 =======
 
-Thanks to everyone who contributed to this release, especially to Peter Bushnell and all Bitcoin Core developers.
+Thanks to everyone who contributed to this release, especially to Peter Bushnell and all Xep Core developers.

@@ -42,8 +42,8 @@
 
 typedef uint256 ChainCode;
 
-/* ----------- Bitcoin Hash ------------------------------------------------- */
-/** A hasher class for Bitcoin's 256-bit hash (double SHA-256). */
+/* ----------- Xep Hash ------------------------------------------------- */
+/** A hasher class for Xep's 256-bit hash (double SHA-256). */
 class CHash256
 {
 private:
@@ -78,7 +78,7 @@ public:
     }
 };
 
-/** A hasher class for Bitcoin's 160-bit hash (SHA-256 + RIPEMD-160). */
+/** A hasher class for Xep's 160-bit hash (SHA-256 + RIPEMD-160). */
 class CHash160
 {
 private:
@@ -113,7 +113,7 @@ public:
     }
 };
 
-/** A hasher class for Bitcoin's 160-bit hash (double SHA-1). */
+/** A hasher class for Xep's 160-bit hash (double SHA-1). */
 class CHash1
 {
 private:

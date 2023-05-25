@@ -38,7 +38,7 @@ from test_framework.messages import (
     CTxOut,
     ToHex,
 )
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import XepTestFramework
 from test_framework.util import (
     assert_equal,
     create_confirmed_utxos,
@@ -46,7 +46,7 @@ from test_framework.util import (
 )
 
 
-class ChainstateWriteCrashTest(BitcoinTestFramework):
+class ChainstateWriteCrashTest(XepTestFramework):
     def set_test_params(self):
         self.num_nodes = 4
         self.setup_clean_chain = False

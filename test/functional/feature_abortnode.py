@@ -10,12 +10,12 @@
 - Verify that bitcoind AbortNode's.
 """
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import XepTestFramework
 from test_framework.util import wait_until, get_datadir_path, connect_nodes
 import os
 
 
-class AbortNodeTest(BitcoinTestFramework):
+class AbortNodeTest(XepTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 2

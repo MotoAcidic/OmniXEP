@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2014 The Bitcoin developers
+// Copyright (c) 2011-2014 The Xep developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -72,7 +72,7 @@ void LookupTXDialog::searchTX()
         std::string strText = "The transaction hash entered is ";
         switch(populateResult) {
             case MP_TX_NOT_FOUND:
-                strText += "not a valid Bitcoin or Omni transaction.  Please check the transaction hash "
+                strText += "not a valid Xep or Omni transaction.  Please check the transaction hash "
                            "entered and try again.";
             break;
             case MP_TX_UNCONFIRMED:
@@ -81,8 +81,8 @@ void LookupTXDialog::searchTX()
                            "transactions in the transactions tab.";
             break;
             case MP_TX_IS_NOT_OMNI_PROTOCOL:
-                strText += "a Bitcoin transaction only.\n\nTip: You can use the debug console "
-                           "'gettransaction' command to lookup specific Bitcoin transactions.";
+                strText += "a Xep transaction only.\n\nTip: You can use the debug console "
+                           "'gettransaction' command to lookup specific Xep transactions.";
             break;
 
             default:

@@ -10,7 +10,7 @@
 # config file.
 
 [Unit]
-Description=Bitcoin daemon
+Description=Xep daemon
 After=network.target
 
 [Service]

@@ -240,7 +240,7 @@ bool IsAllowedInputType(int whichType, int nBlock);
 bool IsAllowedOutputType(int whichType, int nBlock);
 /** Checks, if the transaction type and version is supported and enabled. */
 bool IsTransactionTypeAllowed(int txBlock, uint32_t txProperty, uint16_t txType, uint16_t version);
-/** Checks, if the transaction type and version permit Bitcoin payments */
+/** Checks, if the transaction type and version permit Xep payments */
 bool IsXepPaymentAllowed(uint16_t type, uint16_t version);
 
 /** Compares a supplied block, block hash and consensus hash against a hardcoded list of checkpoints. */

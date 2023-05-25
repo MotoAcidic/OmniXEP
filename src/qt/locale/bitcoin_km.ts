@@ -145,10 +145,10 @@
     </message>
 </context>
 <context>
-    <name>BitcoinGUI</name>
+    <name>XepGUI</name>
     <message>
-        <source>Send coins to a Bitcoin address</source>
-        <translation>ផ្ញើកាក់ទៅកាន់ អាសយដ្ឋាន Bitcoin មួយ</translation>
+        <source>Send coins to a Xep address</source>
+        <translation>ផ្ញើកាក់ទៅកាន់ អាសយដ្ឋាន Xep មួយ</translation>
     </message>
     </context>
 <context>

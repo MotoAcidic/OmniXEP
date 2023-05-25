@@ -18,7 +18,7 @@ needs an older patch version.
 import os
 import shutil
 
-from test_framework.test_framework import BitcoinTestFramework, SkipTest
+from test_framework.test_framework import XepTestFramework, SkipTest
 from test_framework.descriptors import descsum_create
 
 from test_framework.util import (
@@ -27,7 +27,7 @@ from test_framework.util import (
     sync_mempools
 )
 
-class BackwardsCompatibilityTest(BitcoinTestFramework):
+class BackwardsCompatibilityTest(XepTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 5
@@ -312,8 +312,8 @@ class BackwardsCompatibilityTest(BitcoinTestFramework):
 
         # Instead, we stop node and try to launch it with the wallet:
         self.stop_node(self.num_nodes - 1)
-        node_v17.assert_start_raises_init_error(["-wallet=w3_v18"], "Error: Error loading w3_v18: Wallet requires newer version of Bitcoin Core")
-        node_v17.assert_start_raises_init_error(["-wallet=w3"], "Error: Error loading w3: Wallet requires newer version of Bitcoin Core")
+        node_v17.assert_start_raises_init_error(["-wallet=w3_v18"], "Error: Error loading w3_v18: Wallet requires newer version of Xep Core")
+        node_v17.assert_start_raises_init_error(["-wallet=w3"], "Error: Error loading w3: Wallet requires newer version of Xep Core")
         self.start_node(self.num_nodes - 1)
 
         self.log.info("Test wallet upgrade path...")
@@ -325,7 +325,7 @@ class BackwardsCompatibilityTest(BitcoinTestFramework):
         hdkeypath = info["hdkeypath"]
         pubkey = info["pubkey"]
 
-        # Copy the 0.17 wallet to the last Bitcoin Core version and open it:
+        # Copy the 0.17 wallet to the last Xep Core version and open it:
         node_v17.unloadwallet("u1_v17")
         shutil.copytree(
             os.path.join(node_v17_wallets_dir, "u1_v17"),
@@ -337,7 +337,7 @@ class BackwardsCompatibilityTest(BitcoinTestFramework):
         descriptor = "wpkh([" + info["hdmasterfingerprint"] + hdkeypath[1:] + "]" + pubkey + ")"
         assert_equal(info["desc"], descsum_create(descriptor))
 
-        # Copy the 0.19 wallet to the last Bitcoin Core version and open it:
+        # Copy the 0.19 wallet to the last Xep Core version and open it:
         shutil.copytree(
             os.path.join(node_v19_wallets_dir, "w1_v19"),
             os.path.join(node_master_wallets_dir, "w1_v19")

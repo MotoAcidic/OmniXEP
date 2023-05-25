@@ -6,7 +6,7 @@
 import os
 
 from test_framework.address import ADDRESS_BCRT1_UNSPENDABLE, keyhash_to_p2pkh
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import XepTestFramework
 from test_framework.util import (
     assert_equal,
     wait_until,
@@ -26,7 +26,7 @@ def notify_outputname(walletname, txid):
     return txid if os.name == 'nt' else '{}_{}'.format(walletname, txid)
 
 
-class NotificationsTest(BitcoinTestFramework):
+class NotificationsTest(XepTestFramework):
     def set_test_params(self):
         self.num_nodes = 2
         self.setup_clean_chain = True

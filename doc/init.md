@@ -84,9 +84,9 @@ OpenRC).
 ### macOS
 
 Binary:              `/usr/local/bin/bitcoind`
-Configuration file:  `~/Library/Application Support/Bitcoin/bitcoin.conf`
-Data directory:      `~/Library/Application Support/Bitcoin`
-Lock file:           `~/Library/Application Support/Bitcoin/.lock`
+Configuration file:  `~/Library/Application Support/Xep/bitcoin.conf`
+Data directory:      `~/Library/Application Support/Xep`
+Lock file:           `~/Library/Application Support/Xep/.lock`
 
 Installing Service Configuration
 -----------------------------------

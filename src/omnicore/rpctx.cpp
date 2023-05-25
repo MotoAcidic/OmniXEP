@@ -839,7 +839,7 @@ static UniValue omni_senddexpay(const JSONRPCRequest& request)
            {"fromaddress", RPCArg::Type::STR, RPCArg::Optional::NO, "the address to send from\n"},
            {"toaddress", RPCArg::Type::STR, RPCArg::Optional::NO, "the address of the seller\n"},
            {"propertyid", RPCArg::Type::NUM, RPCArg::Optional::NO, "the identifier of the token to purchase\n"},
-           {"amount", RPCArg::Type::STR, RPCArg::Optional::NO, "the Bitcoin amount to send\n"},
+           {"amount", RPCArg::Type::STR, RPCArg::Optional::NO, "the Xep amount to send\n"},
        },
        RPCResult{
            RPCResult::Type::STR_HEX, "hash", "the hex-encoded transaction hash"
@@ -932,8 +932,8 @@ static UniValue omni_sendissuancecrowdsale(const JSONRPCRequest& request)
            RPCResult::Type::STR_HEX, "hash", "the hex-encoded transaction hash"
        },
        RPCExamples{
-           HelpExampleCli("omni_sendissuancecrowdsale", "\"3JYd75REX3HXn1vAU83YuGfmiPXW7BpYXo\" 2 1 0 \"Companies\" \"Bitcoin Mining\" \"Quantum Miner\" \"\" \"\" 2 \"100\" 1483228800 30 2")
-           + HelpExampleRpc("omni_sendissuancecrowdsale", "\"3JYd75REX3HXn1vAU83YuGfmiPXW7BpYXo\", 2, 1, 0, \"Companies\", \"Bitcoin Mining\", \"Quantum Miner\", \"\", \"\", 2, \"100\", 1483228800, 30, 2")
+           HelpExampleCli("omni_sendissuancecrowdsale", "\"3JYd75REX3HXn1vAU83YuGfmiPXW7BpYXo\" 2 1 0 \"Companies\" \"Xep Mining\" \"Quantum Miner\" \"\" \"\" 2 \"100\" 1483228800 30 2")
+           + HelpExampleRpc("omni_sendissuancecrowdsale", "\"3JYd75REX3HXn1vAU83YuGfmiPXW7BpYXo\", 2, 1, 0, \"Companies\", \"Xep Mining\", \"Quantum Miner\", \"\", \"\", 2, \"100\", 1483228800, 30, 2")
        }
     }.Check(request);
 
@@ -1004,8 +1004,8 @@ static UniValue omni_sendissuancefixed(const JSONRPCRequest& request)
            RPCResult::Type::STR_HEX, "hash", "the hex-encoded transaction hash"
        },
        RPCExamples{
-           HelpExampleCli("omni_sendissuancefixed", "\"3Ck2kEGLJtZw9ENj2tameMCtS3HB7uRar3\" 2 1 0 \"Companies\" \"Bitcoin Mining\" \"Quantum Miner\" \"\" \"\" \"1000000\"")
-           + HelpExampleRpc("omni_sendissuancefixed", "\"3Ck2kEGLJtZw9ENj2tameMCtS3HB7uRar3\", 2, 1, 0, \"Companies\", \"Bitcoin Mining\", \"Quantum Miner\", \"\", \"\", \"1000000\"")
+           HelpExampleCli("omni_sendissuancefixed", "\"3Ck2kEGLJtZw9ENj2tameMCtS3HB7uRar3\" 2 1 0 \"Companies\" \"Xep Mining\" \"Quantum Miner\" \"\" \"\" \"1000000\"")
+           + HelpExampleRpc("omni_sendissuancefixed", "\"3Ck2kEGLJtZw9ENj2tameMCtS3HB7uRar3\", 2, 1, 0, \"Companies\", \"Xep Mining\", \"Quantum Miner\", \"\", \"\", \"1000000\"")
        }
     }.Check(request);
 
@@ -1066,8 +1066,8 @@ static UniValue omni_sendissuancemanaged(const JSONRPCRequest& request)
            RPCResult::Type::STR_HEX, "hash", "the hex-encoded transaction hash"
        },
        RPCExamples{
-           HelpExampleCli("omni_sendissuancemanaged", "\"3HsJvhr9qzgRe3ss97b1QHs38rmaLExLcH\" 2 1 0 \"Companies\" \"Bitcoin Mining\" \"Quantum Miner\" \"\" \"\"")
-           + HelpExampleRpc("omni_sendissuancemanaged", "\"3HsJvhr9qzgRe3ss97b1QHs38rmaLExLcH\", 2, 1, 0, \"Companies\", \"Bitcoin Mining\", \"Quantum Miner\", \"\", \"\"")
+           HelpExampleCli("omni_sendissuancemanaged", "\"3HsJvhr9qzgRe3ss97b1QHs38rmaLExLcH\" 2 1 0 \"Companies\" \"Xep Mining\" \"Quantum Miner\" \"\" \"\"")
+           + HelpExampleRpc("omni_sendissuancemanaged", "\"3HsJvhr9qzgRe3ss97b1QHs38rmaLExLcH\", 2, 1, 0, \"Companies\", \"Xep Mining\", \"Quantum Miner\", \"\", \"\"")
        }
     }.Check(request);
 

@@ -16,7 +16,7 @@ Table of contents
 - [Upgrading and downgrading](#upgrading-and-downgrading)
   - [How to upgrade](#how-to-upgrade)
   - [Downgrading](#downgrading)
-  - [Compatibility with Bitcoin Core](#compatibility-with-bitcoin-core)
+  - [Compatibility with Xep Core](#compatibility-with-bitcoin-core)
 - [Consensus affecting changes](#consensus-affecting-changes)
     - [Freezing tokens for managed properties](#freezing-tokens-for-managed-properties)
 - [Notable changes](#notable-changes)
@@ -30,7 +30,7 @@ Upgrading and downgrading
 How to upgrade
 --------------
 
-If you are running Bitcoin Core or an older version of Omni Core, shut it down. Wait until it has completely shut down, then copy the new version of `omnicored`, `omnicore-cli` and `omnicore-qt`. On Microsoft Windows the setup routine can be used to automate these steps.
+If you are running Xep Core or an older version of Omni Core, shut it down. Wait until it has completely shut down, then copy the new version of `omnicored`, `omnicore-cli` and `omnicore-qt`. On Microsoft Windows the setup routine can be used to automate these steps.
 
 During the first startup historical Omni transactions are reprocessed and Omni Core will not be usable for approximately 15 minutes up to two hours. The progress of the initial scan is reported on the console, the GUI and written to the `debug.log`. The scan may be interrupted, but can not be resumed, and then needs to start from the beginning.
 
@@ -39,14 +39,14 @@ Downgrading
 
 Downgrading to an Omni Core version prior 0.3.0 is generally not supported as older versions will not provide accurate information due to the changes in consensus rules.
 
-Compatibility with Bitcoin Core
+Compatibility with Xep Core
 -------------------------------
 
-Omni Core is based on Bitcoin Core 0.13.2 and can be used as replacement for Bitcoin Core. Switching between Omni Core and Bitcoin Core is fully supported at any time.
+Omni Core is based on Xep Core 0.13.2 and can be used as replacement for Xep Core. Switching between Omni Core and Xep Core is fully supported at any time.
 
-Downgrading to a Bitcoin Core version prior 0.12 may not be supported due to the obfuscation of the blockchain database.
+Downgrading to a Xep Core version prior 0.12 may not be supported due to the obfuscation of the blockchain database.
 
-Downgrading to a Bitcoin Core version prior 0.10 is not supported due to the new headers-first synchronization.
+Downgrading to a Xep Core version prior 0.10 is not supported due to the new headers-first synchronization.
 
 Consensus affecting changes
 ===========================
@@ -95,4 +95,4 @@ The following list includes relevant pull requests merged into this release:
 Credits
 =======
 
-Thanks to everyone who contributed to this release, and especially the Bitcoin Core developers for providing the foundation for Omni Core!
+Thanks to everyone who contributed to this release, and especially the Xep Core developers for providing the foundation for Omni Core!

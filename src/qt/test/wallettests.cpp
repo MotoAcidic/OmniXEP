@@ -62,7 +62,7 @@ uint256 SendCoins(CWallet& wallet, SendCoinsDialog& sendCoinsDialog, const CTxDe
     QVBoxLayout* entries = sendCoinsDialog.findChild<QVBoxLayout*>("entries");
     SendCoinsEntry* entry = qobject_cast<SendCoinsEntry*>(entries->itemAt(0)->widget());
     entry->findChild<QValidatedLineEdit*>("payTo")->setText(QString::fromStdString(EncodeDestination(address)));
-    entry->findChild<BitcoinAmountField*>("payAmount")->setValue(amount);
+    entry->findChild<XepAmountField*>("payAmount")->setValue(amount);
     sendCoinsDialog.findChild<QFrame*>("frameFee")
         ->findChild<QFrame*>("frameFeeSelection")
         ->findChild<QCheckBox*>("optInRBF")
@@ -180,7 +180,7 @@ void TestGUI(interfaces::Node& node)
         QString balanceText = balanceLabel->text();
         int unit = walletModel.getOptionsModel()->getDisplayUnit();
         CAmount balance = walletModel.wallet().getBalance();
-        QString balanceComparison = BitcoinUnits::formatWithUnit(unit, balance, false, BitcoinUnits::separatorAlways);
+        QString balanceComparison = XepUnits::formatWithUnit(unit, balance, false, XepUnits::separatorAlways);
         QCOMPARE(balanceText, balanceComparison);
     }
 
@@ -207,7 +207,7 @@ void TestGUI(interfaces::Node& node)
      * QString balanceText = balanceLabel->text();
      * int unit = walletModel.getOptionsModel()->getDisplayUnit();
      * CAmount balance = walletModel.wallet().getBalance();
-     * QString balanceComparison = BitcoinUnits::formatWithUnit(unit, balance, false, BitcoinUnits::separatorAlways);
+     * QString balanceComparison = XepUnits::formatWithUnit(unit, balance, false, XepUnits::separatorAlways);
      * QCOMPARE(balanceText, balanceComparison);
     */
 
@@ -221,7 +221,7 @@ void TestGUI(interfaces::Node& node)
     labelInput->setText("TEST_LABEL_1");
 
     // Amount input
-    BitcoinAmountField* amountInput = receiveCoinsDialog.findChild<BitcoinAmountField*>("reqAmount");
+    XepAmountField* amountInput = receiveCoinsDialog.findChild<XepAmountField*>("reqAmount");
     amountInput->setValue(1);
 
     // Message input

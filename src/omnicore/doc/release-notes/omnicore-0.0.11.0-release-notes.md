@@ -14,7 +14,7 @@ Table of contents
 - [Upgrading and downgrading](#upgrading-and-downgrading)
   - [How to upgrade](#how-to-upgrade)
   - [Downgrading](#downgrading)
-  - [Compatibility with Bitcoin Core](#compatibility-with-bitcoin-core)
+  - [Compatibility with Xep Core](#compatibility-with-bitcoin-core)
 - [Consensus affecting changes](#consensus-affecting-changes)
   - [Trading of all pairs on the Distributed Exchange](#trading-of-all-pairs-on-the-distributed-exchange)
   - [Fee distribution system on the Distributed Exchange](#fee-distribution-system-on-the-distributed-exchange)
@@ -34,7 +34,7 @@ Upgrading and downgrading
 How to upgrade
 --------------
 
-If you are running Bitcoin Core or an older version of Omni Core, shut it down. Wait until it has completely shut down, then copy the new version of `omnicored`, `omnicore-cli` and `omnicore-qt`. On Microsoft Windows the setup routine can be used to automate these steps.
+If you are running Xep Core or an older version of Omni Core, shut it down. Wait until it has completely shut down, then copy the new version of `omnicored`, `omnicore-cli` and `omnicore-qt`. On Microsoft Windows the setup routine can be used to automate these steps.
 
 During the first startup historical Omni transactions are reprocessed and Omni Core will not be usable for approximately 15 minutes up to two hours. The progress of the initial scan is reported on the console, the GUI and written to the `debug.log`. The scan may be interrupted, but can not be resumed, and then needs to start from the beginning.
 
@@ -43,12 +43,12 @@ Downgrading
 
 Downgrading to an Omni Core version prior 0.0.11 is generally not supported as older versions will not provide accurate information due to the changes in consensus rules.
 
-Compatibility with Bitcoin Core
+Compatibility with Xep Core
 -------------------------------
 
-Omni Core is based on Bitcoin Core 0.10.4 and can be used as replacement for Bitcoin Core. Switching between Omni Core and Bitcoin Core is fully supported at any time.
+Omni Core is based on Xep Core 0.10.4 and can be used as replacement for Xep Core. Switching between Omni Core and Xep Core is fully supported at any time.
 
-Downgrading to a Bitcoin Core version prior 0.10 is not supported due to the new headers-first synchronization.
+Downgrading to a Xep Core version prior 0.10 is not supported due to the new headers-first synchronization.
 
 Consensus affecting changes
 ===========================
@@ -149,7 +149,7 @@ Various bug fixes and clean-ups
 Various smaller improvements were added Omni Core 0.0.11, such as:
 
 - Grow balances to fit on "Overview" tab
-- Switch to "Bitcoin" tab in "Send" page when handling Bitcoin URIs
+- Switch to "Xep" tab in "Send" page when handling Xep URIs
 - Improve and adjust fee warning threshold when sending transactions
 - Fix missing client notification for new feature activations
 - Fix Travis CI builds without cache
@@ -169,7 +169,7 @@ The following list includes relevant pull requests merged into this release:
 - #324 Fix and update seed blocks up to block 390000
 - #325 Add capability to generate seed blocks over RPC
 - #326 Grow balances to fit on overview tab
-- #327 Switch to Bitcoin tab in Send page when handling Bitcoin URIs
+- #327 Switch to Xep tab in Send page when handling Xep URIs
 - #328 Update and add unit tests for new consensus hashes
 - #332 Remove seed blocks for structurally invalid transactions + reformat
 - #333 Improve fee warning threshold in GUI
@@ -209,4 +209,4 @@ The following list includes relevant pull requests merged into this release:
 Credits
 =======
 
-Thanks to everyone who contributed to this release, and especially the Bitcoin Core developers for providing the foundation for Omni Core!
+Thanks to everyone who contributed to this release, and especially the Xep Core developers for providing the foundation for Omni Core!

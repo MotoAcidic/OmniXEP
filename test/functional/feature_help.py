@@ -4,10 +4,10 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Verify that starting bitcoin with -h works as expected."""
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import XepTestFramework
 from test_framework.util import assert_equal
 
-class HelpTest(BitcoinTestFramework):
+class HelpTest(XepTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 1

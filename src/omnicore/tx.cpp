@@ -81,7 +81,7 @@ std::string mastercore::strTransactionType(uint16_t txType)
         case MSC_TYPE_ANYDATA: return "Embed any data";
         case MSC_TYPE_NONFUNGIBLE_DATA: return "Set Non-Fungible Token Data";
         case MSC_TYPE_NOTIFICATION: return "Notification";
-        case MSC_TYPE_XEP_PAYMENT: return "Bitcoin Payment";
+        case MSC_TYPE_XEP_PAYMENT: return "Xep Payment";
         case OMNICORE_MESSAGE_TYPE_ALERT: return "ALERT";
         case OMNICORE_MESSAGE_TYPE_DEACTIVATION: return "Feature Deactivation";
         case OMNICORE_MESSAGE_TYPE_ACTIVATION: return "Feature Activation";

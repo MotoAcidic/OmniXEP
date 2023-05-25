@@ -5,7 +5,7 @@
 """Test multisig RPCs"""
 
 from test_framework.descriptors import descsum_create, drop_origins
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import XepTestFramework
 from test_framework.util import (
     assert_raises_rpc_error,
     assert_equal,
@@ -18,7 +18,7 @@ import itertools
 import json
 import os
 
-class RpcCreateMultiSigTest(BitcoinTestFramework):
+class RpcCreateMultiSigTest(XepTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 3

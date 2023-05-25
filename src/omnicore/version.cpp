@@ -35,8 +35,8 @@ const std::string OmniCoreVersion()
     }
 }
 
-//! Returns formatted Bitcoin Core version, e.g. "0.10", "0.9.3"
-const std::string BitcoinCoreVersion()
+//! Returns formatted Xep Core version, e.g. "0.10", "0.9.3"
+const std::string XepCoreVersion()
 {
     if (CLIENT_VERSION_BUILD) {
         return strprintf("%d.%d.%d.%d",

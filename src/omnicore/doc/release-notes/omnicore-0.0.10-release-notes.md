@@ -14,9 +14,9 @@ Table of contents
 - [Upgrading and downgrading](#upgrading-and-downgrading)
   - [How to upgrade](#how-to-upgrade)
   - [Downgrading](#downgrading)
-  - [Compatibility with Bitcoin Core](#compatibility-with-bitcoin-core)
+  - [Compatibility with Xep Core](#compatibility-with-bitcoin-core)
 - [Imported changes and notes](#imported-changes-and-notes)
-  - [Upgrade to Bitcoin Core 0.10.4](#upgrade-to-bitcoin-core-0104)
+  - [Upgrade to Xep Core 0.10.4](#upgrade-to-bitcoin-core-0104)
   - [Headers-first synchronization](#headers-first-synchronization)
   - [Dust threshold values](#dust-threshold-values)
   - [Transaction fee changes](#transaction-fee-changes)
@@ -48,7 +48,7 @@ Upgrading and downgrading
 How to upgrade
 --------------
 
-If you are running Bitcoin Core or an older version of Omni Core, shut it down. Wait until it has completely shut down, then copy the new version of `omnicored`, `omnicore-cli` and `omnicore-qt`. On Microsoft Windows the setup routine can be used to automate these steps.
+If you are running Xep Core or an older version of Omni Core, shut it down. Wait until it has completely shut down, then copy the new version of `omnicored`, `omnicore-cli` and `omnicore-qt`. On Microsoft Windows the setup routine can be used to automate these steps.
 
 During the first startup historical Omni transactions are reprocessed and Omni Core will not be usable for approximately 15 minutes up to two hours. The progress of the initial scan is reported on the console, the GUI and written to the `debug.log`. The scan may be interrupted, but can not be resumed, and then needs to start from the beginning.
 
@@ -57,40 +57,40 @@ Downgrading
 
 Downgrading to an Omni Core version prior 0.0.10 is generally not supported as older versions will not provide accurate information due to the changes in consensus rules.
 
-Compatibility with Bitcoin Core
+Compatibility with Xep Core
 -------------------------------
 
-Omni Core is based on Bitcoin Core 0.10.4 and can be used as replacement for Bitcoin Core. Switching between Omni Core and Bitcoin Core is fully supported at any time.
+Omni Core is based on Xep Core 0.10.4 and can be used as replacement for Xep Core. Switching between Omni Core and Xep Core is fully supported at any time.
 
-Downgrading to a Bitcoin Core version prior 0.10 is not supported due to the new headers-first synchronization.
+Downgrading to a Xep Core version prior 0.10 is not supported due to the new headers-first synchronization.
 
 Imported changes and notes
 ==========================
 
-Upgrade to Bitcoin Core 0.10.4
+Upgrade to Xep Core 0.10.4
 ------------------------------
 
-The underlying base of Omni Core was upgraded from Bitcoin Core 0.9.5 to Bitcoin Core 0.10.4.
+The underlying base of Omni Core was upgraded from Xep Core 0.9.5 to Xep Core 0.10.4.
 
 Please see the following release notes for further details:
 
-- [Release notes for Bitcoin Core 0.10.0](https://github.com/OmniLayer/omnicore/blob/omnicore-0.0.10/doc/release-notes/release-notes-0.10.0.md)
-- [Release notes for Bitcoin Core 0.10.1](https://github.com/OmniLayer/omnicore/blob/omnicore-0.0.10/doc/release-notes/release-notes-0.10.1.md)
-- [Release notes for Bitcoin Core 0.10.2](https://github.com/OmniLayer/omnicore/blob/omnicore-0.0.10/doc/release-notes/release-notes-0.10.2.md)
-- [Release notes for Bitcoin Core 0.10.3](https://github.com/OmniLayer/omnicore/blob/omnicore-0.0.10/doc/release-notes/release-notes-0.10.3.md)
-- [Release notes for Bitcoin Core 0.10.4](https://github.com/OmniLayer/omnicore/blob/omnicore-0.0.10/doc/release-notes.md)
+- [Release notes for Xep Core 0.10.0](https://github.com/OmniLayer/omnicore/blob/omnicore-0.0.10/doc/release-notes/release-notes-0.10.0.md)
+- [Release notes for Xep Core 0.10.1](https://github.com/OmniLayer/omnicore/blob/omnicore-0.0.10/doc/release-notes/release-notes-0.10.1.md)
+- [Release notes for Xep Core 0.10.2](https://github.com/OmniLayer/omnicore/blob/omnicore-0.0.10/doc/release-notes/release-notes-0.10.2.md)
+- [Release notes for Xep Core 0.10.3](https://github.com/OmniLayer/omnicore/blob/omnicore-0.0.10/doc/release-notes/release-notes-0.10.3.md)
+- [Release notes for Xep Core 0.10.4](https://github.com/OmniLayer/omnicore/blob/omnicore-0.0.10/doc/release-notes.md)
 
 Headers-first synchronization
 -----------------------------
 
-With the upgrade to Bitcoin Core 0.10 headers-first synchronization is supported and blocks are downloaded in parallel.
+With the upgrade to Xep Core 0.10 headers-first synchronization is supported and blocks are downloaded in parallel.
 
-Blocks are no longer stored in order on disk, and as result, the block files and databases are not backwards-compatible with older versions of Bitcoin Core prior 0.10.
+Blocks are no longer stored in order on disk, and as result, the block files and databases are not backwards-compatible with older versions of Xep Core prior 0.10.
 
 Dust threshold values
 ---------------------
 
-The default `minrelaytxfee` was raised from `0.00001` to `0.00005` in Bitcoin Core 0.10.3 as temporary measure against massive memory pool bloat.
+The default `minrelaytxfee` was raised from `0.00001` to `0.00005` in Xep Core 0.10.3 as temporary measure against massive memory pool bloat.
 
 The minimum relay fee influences the "dust threshold", and has an impact on the output values of Omni transactions, which are chosen to be as low as possible. As per default, Omni transactions created with Master Core had output values between `0.00000546` XEP and `0.00000882` XEP, whereby the new output values are between `0.0000273` XEP and `0.0000441` XEP.
 
@@ -104,7 +104,7 @@ Lowering the `minrelaytxfee` may result in higher memory consumption, and too lo
 Transaction fee changes
 -----------------------
 
-Starting with Bitcoin Core 0.10, transaction fees, as per default, are no longer hardcoded, but estimated based on previous blocks.
+Starting with Xep Core 0.10, transaction fees, as per default, are no longer hardcoded, but estimated based on previous blocks.
 
 This behavior can result in significantly different fees compared to Master Core 0.0.9, and manual tweaking is recommended, if the default fee estimation doesn't yield satisfying results.
 
@@ -203,9 +203,9 @@ Omni Core 0.0.10 contains support for Class C transactions which move the data e
 
 In addition to migrating data encoding to `OP_RETURN`, the requirement to send an output to the Exodus address has also been removed with Class C. Instead the bytes `0x6f6d6e69` ("omni") are prefixed to the data payload to provide marker identification.
 
-This helps to address a common criticism of systems that store data on the Bitcoin blockchain; "UTXO bloat". Since Class C transactions no longer store the data in spendable outputs, there is no need to store them in the UTXO set, and since the outputs are not stored in the UTXO set, Class C transactions do not contribute to its growth.
+This helps to address a common criticism of systems that store data on the Xep blockchain; "UTXO bloat". Since Class C transactions no longer store the data in spendable outputs, there is no need to store them in the UTXO set, and since the outputs are not stored in the UTXO set, Class C transactions do not contribute to its growth.
 
-Due to size and count restrictions of `OP_RETURN` outputs currently enforced by the Bitcoin network, the client will automatically fall back to Class B (bare-multisig) in the event that a transaction is too large to send via Class C (for example a property creation with lots of metadata).
+Due to size and count restrictions of `OP_RETURN` outputs currently enforced by the Xep network, the client will automatically fall back to Class B (bare-multisig) in the event that a transaction is too large to send via Class C (for example a property creation with lots of metadata).
 
 The configuration option `-datacarriersize=<n bytes>` can be used to set the maximal size of `OP_RETURN` payloads, and is set to `40` bytes as per default. A value of `0` can be used to disable Class C encoding completely.
 
@@ -437,7 +437,7 @@ disablewallet=1
 CI and testing of Omni Core
 ---------------------------
 
-As of now, Omni Core 0.10 has nearly 5000 lines of source code for unit tests in addition to the unit tests inherited from Bitcoin Core. Furthermore [OmniJ](https://github.com/OmniLayer/OmniJ#omni-integration-testing-with-spock-framework) is used for integration testing.
+As of now, Omni Core 0.10 has nearly 5000 lines of source code for unit tests in addition to the unit tests inherited from Xep Core. Furthermore [OmniJ](https://github.com/OmniLayer/OmniJ#omni-integration-testing-with-spock-framework) is used for integration testing.
 
 To run the unit tests locally, start `test_omnicore` or `test_omnicore-qt`. On Unix, the integration tests can be started with `qa/pull-tester/omnicore-rpc-tests.sh`. Please note, the script for the integration tests is not included in the release packages. For other operating systems, or to manually run the integration tests, see the [instructions for OmniJ](https://github.com/OmniLayer/OmniJ#omni-integration-testing-with-spock-framework).
 
@@ -448,7 +448,7 @@ Change log
 
 The following list includes relevant pull requests merged into this release:
 ```
-- #1, #2 Upgrade code base to Bitcoin Core 0.10.2
+- #1, #2 Upgrade code base to Xep Core 0.10.2
 - #7 Select only coins, which can be spent
 - #4 Fix shutdown issue after running Boost tests
 - #8, #26, #33, #35, #67 Finalize MetaDEx logic
@@ -496,7 +496,7 @@ The following list includes relevant pull requests merged into this release:
 - #178 Fix Omni transaction count value passed into block end handler
 - #179 Add consensus checkpoint for block 370000
 - #180 Update seed blocks to 370000
-- #181 Update base to Bitcoin Core 0.10~ tip
+- #181 Update base to Xep Core 0.10~ tip
 - #174 Add RPC support for unconfrimed Omni transactions
 - #184 Stop recording structurally-invalid transactions in txlistdb
 - #167 Mostly cosmetic overhaul of traditional DEx logic
@@ -511,7 +511,7 @@ The following list includes relevant pull requests merged into this release:
 - #213 Refine RPC input parsing related to addresses
 - #217 Rebrand "Mastercoin" to "Omni"
 - #218 Fix/remove empty build target of Travis CI
-- #220 Fix Bitcoin balance disappears from the UI on reorg
+- #220 Fix Xep balance disappears from the UI on reorg
 - #221 Don't call StartShutdown() after updating config
 - #223 Fix calculation of crowdsale participation on Windows
 - #224 Update links to moved API documentation
@@ -534,7 +534,7 @@ The following list includes relevant pull requests merged into this release:
 - #258 Explicitly set transaction and relay fee for RPC tests
 - #260 Add ARM and a no-wallet build as build target for Travis CI
 - #262 Filter empty balances in omni_getall* RPC calls
-- #263 Update base to Bitcoin Core 0.10.3
+- #263 Update base to Xep Core 0.10.3
 - #77 Support creation of raw transactions with non-wallet inputs
 - #273 Remove "Experimental UI" label GUI splash screen
 - #274 Add consensus checkpoint for block 380000
@@ -542,7 +542,7 @@ The following list includes relevant pull requests merged into this release:
 - #278 Replace splashes to remove OmniWallet branding
 - #269 Add release notes for Omni Core 0.0.10
 - #162 Bump version to 0.0.10.0-rc1
-- #282 Update base to Bitcoin Core 0.10.4
+- #282 Update base to Xep Core 0.10.4
 - #285 Don't use "N/A" label for transactions with type 0
 - #286 Bump version to Omni Core 0.0.10-rc3
 - #288 Expose payload over RPC and add payload size
@@ -558,4 +558,4 @@ The following list includes relevant pull requests merged into this release:
 Credits
 =======
 
-Thanks to everyone who contributed to this release, and especially the Bitcoin Core developers for providing the foundation for Omni Core!
+Thanks to everyone who contributed to this release, and especially the Xep Core developers for providing the foundation for Omni Core!

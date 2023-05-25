@@ -132,7 +132,7 @@ BOOST_AUTO_TEST_CASE(payload_create_property)
         static_cast<uint16_t>(1),            // property type: indivisible tokens
         static_cast<uint32_t>(0),            // previous property: none
         std::string("Companies"),            // category
-        std::string("Bitcoin Mining"),       // subcategory
+        std::string("Xep Mining"),       // subcategory
         std::string("Quantum Miner"),        // label
         std::string("builder.bitwatch.co"),  // website
         std::string(""),                     // additional information
@@ -186,7 +186,7 @@ BOOST_AUTO_TEST_CASE(payload_create_crowdsale)
         static_cast<uint16_t>(1),            // property type: indivisible tokens
         static_cast<uint32_t>(0),            // previous property: none
         std::string("Companies"),            // category
-        std::string("Bitcoin Mining"),       // subcategory
+        std::string("Xep Mining"),       // subcategory
         std::string("Quantum Miner"),        // label
         std::string("builder.bitwatch.co"),  // website
         std::string(""),                     // additional information
@@ -261,7 +261,7 @@ BOOST_AUTO_TEST_CASE(payload_create_managed_property)
         static_cast<uint16_t>(1),            // property type: indivisible tokens
         static_cast<uint32_t>(0),            // previous property: none
         std::string("Companies"),            // category
-        std::string("Bitcoin Mining"),       // subcategory
+        std::string("Xep Mining"),       // subcategory
         std::string("Quantum Miner"),        // label
         std::string("builder.bitwatch.co"),  // website
         std::string(""));                    // additional information

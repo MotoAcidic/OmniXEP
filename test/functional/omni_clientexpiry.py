@@ -4,9 +4,9 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test client expiry."""
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import XepTestFramework
 
-class OmniClientExpiry(BitcoinTestFramework):
+class OmniClientExpiry(XepTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
         self.setup_clean_chain = True
@@ -15,7 +15,7 @@ class OmniClientExpiry(BitcoinTestFramework):
     def run_test(self):
         self.log.info("test client expiry")
 
-        # Preparing some mature Bitcoins
+        # Preparing some mature Xeps
         coinbase_address = self.nodes[0].getnewaddress()
         self.nodes[0].generatetoaddress(101, coinbase_address)
 

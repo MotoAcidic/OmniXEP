@@ -1,7 +1,7 @@
 /**
  * @file utilsbitcoin.cpp
  *
- * This file contains certain helpers to access information about Bitcoin.
+ * This file contains certain helpers to access information about Xep.
  */
 
 #include <chain.h>

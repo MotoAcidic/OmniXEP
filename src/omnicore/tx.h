@@ -99,7 +99,7 @@ private:
     uint32_t activation_block;
     uint32_t min_client_version;
 
-    // Bitcoin Payment
+    // Xep Payment
     uint256 linked_txid;
 
     // Indicates whether the transaction can be used to execute logic

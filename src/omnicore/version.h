@@ -53,8 +53,8 @@ extern const std::string OMNI_CLIENT_NAME;
 //! Returns formatted Omni Core version, e.g. "1.2.0"
 const std::string OmniCoreVersion();
 
-//! Returns formatted Bitcoin Core version, e.g. "0.10", "0.9.3"
-const std::string BitcoinCoreVersion();
+//! Returns formatted Xep Core version, e.g. "0.10", "0.9.3"
+const std::string XepCoreVersion();
 
 
 #endif // WINDRES_PREPROC

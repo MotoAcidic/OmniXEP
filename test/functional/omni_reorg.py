@@ -4,10 +4,10 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test token balance after reorg."""
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import XepTestFramework
 from test_framework.util import (assert_equal, connect_nodes)
 
-class OmniReorgTest(BitcoinTestFramework):
+class OmniReorgTest(XepTestFramework):
     def set_test_params(self):
         self.num_nodes = 2
         self.setup_clean_chain = True

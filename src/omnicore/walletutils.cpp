@@ -38,7 +38,7 @@ namespace mastercore
 bool AddressToPubKey(interfaces::Wallet* iWallet, const std::string& key, CPubKey& pubKey)
 {
 #ifdef ENABLE_WALLET
-    // Case 1: Bitcoin address and the key is in the wallet
+    // Case 1: Xep address and the key is in the wallet
     CTxDestination dest = DecodeDestination(key);
     if (IsValidDestination(dest)) {
         CKeyID keyID = iWallet->getKeyForDestination(dest);

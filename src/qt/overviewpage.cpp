@@ -84,7 +84,7 @@ public:
     explicit TxViewDelegate(const PlatformStyle *_platformStyle, QObject *parent=nullptr):
         QAbstractItemDelegate(parent),
         walletModel(nullptr),
-        unit(BitcoinUnits::XEP),
+        unit(XepUnits::XEP),
         platformStyle(_platformStyle)
     {
 
@@ -282,7 +282,7 @@ public:
         painter->setPen(foreground);
         QString amountText;
         if (!omniOverride) {
-            amountText = BitcoinUnits::formatWithUnit(unit, amount, true, BitcoinUnits::separatorAlways);
+            amountText = XepUnits::formatWithUnit(unit, amount, true, XepUnits::separatorAlways);
         } else {
             amountText = omniAmountStr;
         }
@@ -409,7 +409,7 @@ void OverviewPage::UpdatePropertyBalance(unsigned int propertyId, uint64_t avail
     // property label
     std::string spName;
     if (propertyId == 0) {// Override for Overpageview init during GUI tests
-        spName = "Bitcoin";
+        spName = "Xep";
     } else {
         spName = getPropertyName(propertyId).c_str();
     }
@@ -430,7 +430,7 @@ void OverviewPage::UpdatePropertyBalance(unsigned int propertyId, uint64_t avail
     // Left Panel
     QVBoxLayout *vlayoutleft = new QVBoxLayout();
     QLabel *balReservedLabel = new QLabel;
-    if(propertyId != 0) { balReservedLabel->setText("Reserved:"); } else { balReservedLabel->setText("Pending:"); propLabel->setText("Bitcoin"); } // override for bitcoin
+    if(propertyId != 0) { balReservedLabel->setText("Reserved:"); } else { balReservedLabel->setText("Pending:"); propLabel->setText("Xep"); } // override for bitcoin
     QLabel *balAvailableLabel = new QLabel("Available:");
     QLabel *balTotalLabel = new QLabel("Total:");
     vlayoutleft->addWidget(balReservedLabel);
