@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_HASH_H
-#define BITCOIN_HASH_H
+#ifndef XEP_HASH_H
+#define XEP_HASH_H
 
 #include <arith_uint256.h>
 #include <attributes.h>
@@ -655,4 +655,4 @@ inline uint256 HashScryptSquared(const T1& in1)
     return result;
 }
 
-#endif // BITCOIN_HASH_H
+#endif // XEP_HASH_H

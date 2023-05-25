@@ -3,40 +3,40 @@
 # backward compatibility for existing gentoo layout 
 #
 if [ -d "/var/lib/bitcoin/.bitcoin" ]; then
-	BITCOIND_DEFAULT_DATADIR="/var/lib/bitcoin/.bitcoin"
+	XEPD_DEFAULT_DATADIR="/var/lib/bitcoin/.bitcoin"
 else
-	BITCOIND_DEFAULT_DATADIR="/var/lib/bitcoind"
+	XEPD_DEFAULT_DATADIR="/var/lib/bitcoind"
 fi
 
-BITCOIND_CONFIGFILE=${BITCOIND_CONFIGFILE:-/etc/bitcoin/bitcoin.conf}
-BITCOIND_PIDDIR=${BITCOIND_PIDDIR:-/var/run/bitcoind}
-BITCOIND_PIDFILE=${BITCOIND_PIDFILE:-${BITCOIND_PIDDIR}/bitcoind.pid}
-BITCOIND_DATADIR=${BITCOIND_DATADIR:-${BITCOIND_DEFAULT_DATADIR}}
-BITCOIND_USER=${BITCOIND_USER:-${BITCOIN_USER:-bitcoin}}
-BITCOIND_GROUP=${BITCOIND_GROUP:-bitcoin}
-BITCOIND_BIN=${BITCOIND_BIN:-/usr/bin/bitcoind}
-BITCOIND_NICE=${BITCOIND_NICE:-${NICELEVEL:-0}}
-BITCOIND_OPTS="${BITCOIND_OPTS:-${BITCOIN_OPTS}}"
+XEPD_CONFIGFILE=${XEPD_CONFIGFILE:-/etc/bitcoin/bitcoin.conf}
+XEPD_PIDDIR=${XEPD_PIDDIR:-/var/run/bitcoind}
+XEPD_PIDFILE=${XEPD_PIDFILE:-${XEPD_PIDDIR}/bitcoind.pid}
+XEPD_DATADIR=${XEPD_DATADIR:-${XEPD_DEFAULT_DATADIR}}
+XEPD_USER=${XEPD_USER:-${XEP_USER:-bitcoin}}
+XEPD_GROUP=${XEPD_GROUP:-bitcoin}
+XEPD_BIN=${XEPD_BIN:-/usr/bin/bitcoind}
+XEPD_NICE=${XEPD_NICE:-${NICELEVEL:-0}}
+XEPD_OPTS="${XEPD_OPTS:-${XEP_OPTS}}"
 
 name="Xep Core Daemon"
 description="Xep cryptocurrency P2P network daemon"
 
 command="/usr/bin/bitcoind"
-command_args="-pid=\"${BITCOIND_PIDFILE}\" \
-		-conf=\"${BITCOIND_CONFIGFILE}\" \
-		-datadir=\"${BITCOIND_DATADIR}\" \
+command_args="-pid=\"${XEPD_PIDFILE}\" \
+		-conf=\"${XEPD_CONFIGFILE}\" \
+		-datadir=\"${XEPD_DATADIR}\" \
 		-daemon \
-		${BITCOIND_OPTS}"
+		${XEPD_OPTS}"
 
-required_files="${BITCOIND_CONFIGFILE}"
-start_stop_daemon_args="-u ${BITCOIND_USER} \
-			-N ${BITCOIND_NICE} -w 2000"
-pidfile="${BITCOIND_PIDFILE}"
+required_files="${XEPD_CONFIGFILE}"
+start_stop_daemon_args="-u ${XEPD_USER} \
+			-N ${XEPD_NICE} -w 2000"
+pidfile="${XEPD_PIDFILE}"
 
 # The retry schedule to use when stopping the daemon. Could be either
 # a timeout in seconds or multiple signal/timeout pairs (like
 # "SIGKILL/180 SIGTERM/300")
-retry="${BITCOIND_SIGTERM_TIMEOUT}"
+retry="${XEPD_SIGTERM_TIMEOUT}"
 
 depend() {
 	need localmount net
@@ -50,29 +50,29 @@ start_pre() {
 	checkpath \
 	-d \
 	--mode 0750 \
-	--owner "${BITCOIND_USER}:${BITCOIND_GROUP}" \
-	"${BITCOIND_DATADIR}"
+	--owner "${XEPD_USER}:${XEPD_GROUP}" \
+	"${XEPD_DATADIR}"
 
 	checkpath \
 	-d \
 	--mode 0755 \
-	--owner "${BITCOIND_USER}:${BITCOIND_GROUP}" \
-	"${BITCOIND_PIDDIR}"
+	--owner "${XEPD_USER}:${XEPD_GROUP}" \
+	"${XEPD_PIDDIR}"
 
 	checkpath -f \
-	-o ${BITCOIND_USER}:${BITCOIND_GROUP} \
+	-o ${XEPD_USER}:${XEPD_GROUP} \
 	-m 0660 \
-	${BITCOIND_CONFIGFILE}
+	${XEPD_CONFIGFILE}
 
 	checkconfig || return 1
 }
 
 checkconfig()
 {
-	if ! grep -qs '^rpcpassword=' "${BITCOIND_CONFIGFILE}" ; then
+	if ! grep -qs '^rpcpassword=' "${XEPD_CONFIGFILE}" ; then
 		eerror ""
 		eerror "ERROR: You must set a secure rpcpassword to run bitcoind."
-		eerror "The setting must appear in ${BITCOIND_CONFIGFILE}"
+		eerror "The setting must appear in ${XEPD_CONFIGFILE}"
 		eerror ""
 		eerror "This password is security critical to securing wallets "
 		eerror "and must not be the same as the rpcuser setting."

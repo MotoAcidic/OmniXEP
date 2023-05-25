@@ -16,4 +16,4 @@ export RUN_OMNIJ_TESTS="true"
 export RUN_FUNCTIONAL_TESTS="true"
 export GOAL="install"
 export TEST_PREVIOUS_RELEASES=true
-export BITCOIN_CONFIG="--with-gui=no"
+export XEP_CONFIG="--with-gui=no"

@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_DBSPINFO_H
-#define BITCOIN_OMNICORE_DBSPINFO_H
+#ifndef XEP_OMNICORE_DBSPINFO_H
+#define XEP_OMNICORE_DBSPINFO_H
 
 #include <omnicore/dbbase.h>
 #include <omnicore/log.h>
@@ -178,4 +178,4 @@ public:
 };
 
 
-#endif // BITCOIN_OMNICORE_DBSPINFO_H
+#endif // XEP_OMNICORE_DBSPINFO_H

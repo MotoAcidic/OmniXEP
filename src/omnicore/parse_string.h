@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_PARSE_STRING_H
-#define BITCOIN_OMNICORE_PARSE_STRING_H
+#ifndef XEP_OMNICORE_PARSE_STRING_H
+#define XEP_OMNICORE_PARSE_STRING_H
 
 #include <stdint.h>
 #include <string>
@@ -18,4 +18,4 @@ int64_t StrToInt64(const std::string& str, bool divisible);
 }
 
 
-#endif // BITCOIN_OMNICORE_PARSE_STRING_H
+#endif // XEP_OMNICORE_PARSE_STRING_H

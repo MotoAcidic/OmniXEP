@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_CREATEPAYLOAD_H
-#define BITCOIN_OMNICORE_CREATEPAYLOAD_H
+#ifndef XEP_OMNICORE_CREATEPAYLOAD_H
+#define XEP_OMNICORE_CREATEPAYLOAD_H
 
 #include <string>
 #include <vector>
@@ -41,4 +41,4 @@ std::vector<unsigned char> CreatePayload_OmniCoreAlert(uint16_t alertType, uint3
 std::vector<unsigned char> CreatePayload_DeactivateFeature(uint16_t featureId);
 std::vector<unsigned char> CreatePayload_ActivateFeature(uint16_t featureId, uint32_t activationBlock, uint32_t minClientVersion);
 
-#endif // BITCOIN_OMNICORE_CREATEPAYLOAD_H
+#endif // XEP_OMNICORE_CREATEPAYLOAD_H

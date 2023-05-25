@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_DBFEES_H
-#define BITCOIN_OMNICORE_DBFEES_H
+#ifndef XEP_OMNICORE_DBFEES_H
+#define XEP_OMNICORE_DBFEES_H
 
 #include <omnicore/dbbase.h>
 #include <omnicore/log.h>
@@ -83,4 +83,4 @@ namespace mastercore
     extern COmniFeeHistory* pDbFeeHistory;
 }
 
-#endif // BITCOIN_OMNICORE_DBFEES_H
+#endif // XEP_OMNICORE_DBFEES_H

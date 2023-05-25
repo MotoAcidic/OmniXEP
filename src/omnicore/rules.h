@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_RULES_H
-#define BITCOIN_OMNICORE_RULES_H
+#ifndef XEP_OMNICORE_RULES_H
+#define XEP_OMNICORE_RULES_H
 
 #include <uint256.h>
 
@@ -249,4 +249,4 @@ bool VerifyCheckpoint(int block, const uint256& blockHash);
 bool VerifyTransactionExistence(int block);
 }
 
-#endif // BITCOIN_OMNICORE_RULES_H
+#endif // XEP_OMNICORE_RULES_H

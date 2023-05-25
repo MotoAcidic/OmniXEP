@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_SP_H
-#define BITCOIN_OMNICORE_SP_H
+#ifndef XEP_OMNICORE_SP_H
+#define XEP_OMNICORE_SP_H
 
 #include <omnicore/dbbase.h>
 #include <omnicore/dbspinfo.h>
@@ -102,4 +102,4 @@ unsigned int eraseExpiredCrowdsale(const CBlockIndex* pBlockIndex);
 }
 
 
-#endif // BITCOIN_OMNICORE_SP_H
+#endif // XEP_OMNICORE_SP_H

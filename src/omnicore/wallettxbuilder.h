@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_WALLETTXBUILDER_H
-#define BITCOIN_OMNICORE_WALLETTXBUILDER_H
+#ifndef XEP_OMNICORE_WALLETTXBUILDER_H
+#define XEP_OMNICORE_WALLETTXBUILDER_H
 
 #if defined(HAVE_CONFIG_H)
 #include <config/bitcoin-config.h>
@@ -50,4 +50,4 @@ int CreateFundedTransaction(const std::string& senderAddress,
 int CreateDExTransaction(interfaces::Wallet* pwallet, const std::string& buyerAddress, const std::string& sellerAddress, const CAmount& nAmount, uint256& txid);
 #endif
 
-#endif // BITCOIN_OMNICORE_WALLETTXBUILDER_H
+#endif // XEP_OMNICORE_WALLETTXBUILDER_H

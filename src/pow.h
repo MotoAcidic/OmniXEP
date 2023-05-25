@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_POW_H
-#define BITCOIN_POW_H
+#ifndef XEP_POW_H
+#define XEP_POW_H
 
 #include <consensus/params.h>
 
@@ -25,4 +25,4 @@ unsigned int AverageTargetASERT(const CBlockIndex* pindexLast, const CBlockHeade
 /** Check whether a block hash satisfies the proof-of-work requirement specified by nBits */
 bool CheckProofOfWork(const uint256& hash, const unsigned int& nBits, const int& algo, const Consensus::Params&);
 
-#endif // BITCOIN_POW_H
+#endif // XEP_POW_H

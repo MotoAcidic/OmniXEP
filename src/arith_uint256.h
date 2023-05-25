@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_ARITH_UINT256_H
-#define BITCOIN_ARITH_UINT256_H
+#ifndef XEP_ARITH_UINT256_H
+#define XEP_ARITH_UINT256_H
 
 #include <cstring>
 #include <limits>
@@ -332,4 +332,4 @@ uint256 ArithToUint256(const arith_uint256 &);
 arith_uint256 UintToArith256(const uint256 &);
 arith_uint256 Uint160ToArith256(const uint160 &);
 
-#endif // BITCOIN_ARITH_UINT256_H
+#endif // XEP_ARITH_UINT256_H

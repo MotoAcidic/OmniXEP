@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_DBTXLIST_H
-#define BITCOIN_OMNICORE_DBTXLIST_H
+#ifndef XEP_OMNICORE_DBTXLIST_H
+#define XEP_OMNICORE_DBTXLIST_H
 
 #include <omnicore/dbbase.h>
 #include <omnicore/nftdb.h>
@@ -70,4 +70,4 @@ namespace mastercore
 }
 
 
-#endif // BITCOIN_OMNICORE_DBTXLIST_H
+#endif // XEP_OMNICORE_DBTXLIST_H

@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_SYNC_H
-#define BITCOIN_SYNC_H
+#ifndef XEP_SYNC_H
+#define XEP_SYNC_H
 
 #include <threadsafety.h>
 #include <util/macros.h>
@@ -354,4 +354,4 @@ struct SCOPED_LOCKABLE LockAssertion
     ~LockAssertion() UNLOCK_FUNCTION() {}
 };
 
-#endif // BITCOIN_SYNC_H
+#endif // XEP_SYNC_H

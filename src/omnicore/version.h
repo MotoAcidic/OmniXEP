@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_VERSION_H
-#define BITCOIN_OMNICORE_VERSION_H
+#ifndef XEP_OMNICORE_VERSION_H
+#define XEP_OMNICORE_VERSION_H
 
 #if defined(HAVE_CONFIG_H)
 #include <config/bitcoin-config.h>
@@ -59,4 +59,4 @@ const std::string XepCoreVersion();
 
 #endif // WINDRES_PREPROC
 
-#endif // BITCOIN_OMNICORE_VERSION_H
+#endif // XEP_OMNICORE_VERSION_H

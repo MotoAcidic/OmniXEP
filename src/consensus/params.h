@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_CONSENSUS_PARAMS_H
-#define BITCOIN_CONSENSUS_PARAMS_H
+#ifndef XEP_CONSENSUS_PARAMS_H
+#define XEP_CONSENSUS_PARAMS_H
 
 #include <primitives/block.h>
 #include <script/script.h>
@@ -118,4 +118,4 @@ struct Params {
 };
 } // namespace Consensus
 
-#endif // BITCOIN_CONSENSUS_PARAMS_H
+#endif // XEP_CONSENSUS_PARAMS_H

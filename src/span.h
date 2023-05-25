@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_SPAN_H
-#define BITCOIN_SPAN_H
+#ifndef XEP_SPAN_H
+#define XEP_SPAN_H
 
 #include <algorithm>
 #include <assert.h>

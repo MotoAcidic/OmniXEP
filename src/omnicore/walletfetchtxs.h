@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_WALLETFETCHTXS_H
-#define BITCOIN_OMNICORE_WALLETFETCHTXS_H
+#ifndef XEP_OMNICORE_WALLETFETCHTXS_H
+#define XEP_OMNICORE_WALLETFETCHTXS_H
 
 class CWallet;
 class uint256;
@@ -17,4 +17,4 @@ namespace mastercore
 std::map<std::string, uint256> FetchWalletOmniTransactions(interfaces::Wallet& iWallet, unsigned int count, int startBlock = 0, int endBlock = 999999);
 }
 
-#endif // BITCOIN_OMNICORE_WALLETFETCHTXS_H
+#endif // XEP_OMNICORE_WALLETFETCHTXS_H

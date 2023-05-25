@@ -114,11 +114,11 @@ extern int CheckWalletUpdate(bool forceUpdate = false);
 /**
  * The PID file facilities.
  */
-static const char* BITCOIN_PID_FILENAME = "bitcoind.pid";
+static const char* XEP_PID_FILENAME = "bitcoind.pid";
 
 static fs::path GetPidFile()
 {
-    return AbsPathForConfigVal(fs::path(gArgs.GetArg("-pid", BITCOIN_PID_FILENAME)));
+    return AbsPathForConfigVal(fs::path(gArgs.GetArg("-pid", XEP_PID_FILENAME)));
 }
 
 NODISCARD static bool CreatePidFile()
@@ -403,7 +403,7 @@ void SetupServerArgs()
 #endif
     gArgs.AddArg("-blockreconstructionextratxn=<n>", strprintf("Extra transactions to keep in memory for compact block reconstructions (default: %u)", DEFAULT_BLOCK_RECONSTRUCTION_EXTRA_TXN), ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
     gArgs.AddArg("-blocksonly", strprintf("Whether to reject transactions from network peers. Automatic broadcast and rebroadcast of any transactions from inbound peers is disabled, unless the peer has the 'forcerelay' permission. RPC transactions are not affected. (default: %u)", DEFAULT_BLOCKSONLY), ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
-    gArgs.AddArg("-conf=<file>", strprintf("Specify path to read-only configuration file. Relative paths will be prefixed by datadir location. (default: %s)", BITCOIN_CONF_FILENAME), ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
+    gArgs.AddArg("-conf=<file>", strprintf("Specify path to read-only configuration file. Relative paths will be prefixed by datadir location. (default: %s)", XEP_CONF_FILENAME), ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
     gArgs.AddArg("-datadir=<dir>", "Specify data directory", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
     gArgs.AddArg("-dbbatchsize", strprintf("Maximum database write batch size in bytes (default: %u)", nDefaultDbBatchSize), ArgsManager::ALLOW_ANY | ArgsManager::DEBUG_ONLY, OptionsCategory::OPTIONS);
     gArgs.AddArg("-dbcache=<n>", strprintf("Maximum database cache size <n> MiB (%d to %d, default: %d). In addition, unused mempool memory is shared for this cache (see -maxmempool).", nMinDbCache, nMaxDbCache, nDefaultDbCache), ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
@@ -419,7 +419,7 @@ void SetupServerArgs()
     gArgs.AddArg("-par=<n>", strprintf("Set the number of script verification threads (%u to %d, 0 = auto, <0 = leave that many cores free, default: %d)",
         -GetNumCores(), MAX_SCRIPTCHECK_THREADS, DEFAULT_SCRIPTCHECK_THREADS), ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
     gArgs.AddArg("-persistmempool", strprintf("Whether to save the mempool on shutdown and load on restart (default: %u)", DEFAULT_PERSIST_MEMPOOL), ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
-    gArgs.AddArg("-pid=<file>", strprintf("Specify pid file. Relative paths will be prefixed by a net-specific datadir location. (default: %s)", BITCOIN_PID_FILENAME), ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
+    gArgs.AddArg("-pid=<file>", strprintf("Specify pid file. Relative paths will be prefixed by a net-specific datadir location. (default: %s)", XEP_PID_FILENAME), ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
     gArgs.AddArg("-prune=<n>", strprintf("Reduce storage requirements by enabling pruning (deleting) of old blocks. This allows the pruneblockchain RPC to be called to delete specific blocks, and enables automatic pruning of old blocks if a target size in MiB is provided. This mode is incompatible with -txindex and -rescan. "
             "Warning: Reverting this setting requires re-downloading the entire blockchain. "
             "(default: 0 = disable pruning blocks, 1 = allow manual pruning via RPC, >=%u = automatically prune block files to stay under the specified target size in MiB)", MIN_DISK_SPACE_FOR_BLOCK_FILES / 1024 / 1024), ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
@@ -1274,7 +1274,7 @@ bool AppInitMain(NodeContext& node)
     LogPrintf("Using data directory %s\n", GetDataDir().string());
 
     // Only log conf file usage message if conf file actually exists.
-    fs::path config_file_path = GetConfigFile(gArgs.GetArg("-conf", BITCOIN_CONF_FILENAME));
+    fs::path config_file_path = GetConfigFile(gArgs.GetArg("-conf", XEP_CONF_FILENAME));
     if (fs::exists(config_file_path)) {
         LogPrintf("Config file: %s\n", config_file_path.string());
     } else if (gArgs.IsArgSet("-conf")) {
@@ -1789,16 +1789,16 @@ bool AppInitMain(NodeContext& node)
                             "command line argument or add \"txindex=1\" to your client "
                             "configuration file within your data directory.\n\n"
                             "Configuration file").translated; // allow translation of main text body while still allowing differing config file string
-        msg += ": " + GetConfigFile(gArgs.GetArg("-conf", BITCOIN_CONF_FILENAME)).string() + "\n\n";
+        msg += ": " + GetConfigFile(gArgs.GetArg("-conf", XEP_CONF_FILENAME)).string() + "\n\n";
         msg += _("Would you like Omni Core to attempt to update your configuration file accordingly?").translated;
         bool fRet = uiInterface.ThreadSafeMessageBox(msg, "", CClientUIInterface::MSG_INFORMATION | CClientUIInterface::BTN_OK | CClientUIInterface::MODAL | CClientUIInterface::BTN_ABORT);
         if (fRet) {
             // add txindex=1 to config file in GetConfigFile()
-            fs::path configPathInfo = GetConfigFile(gArgs.GetArg("-conf", BITCOIN_CONF_FILENAME));
+            fs::path configPathInfo = GetConfigFile(gArgs.GetArg("-conf", XEP_CONF_FILENAME));
             FILE *fp = fopen(configPathInfo.string().c_str(), "at");
             if (!fp) {
                 std::string failMsg = _("Unable to update configuration file at").translated;
-                failMsg += ":\n" + GetConfigFile(gArgs.GetArg("-conf", BITCOIN_CONF_FILENAME)).string() + "\n\n";
+                failMsg += ":\n" + GetConfigFile(gArgs.GetArg("-conf", XEP_CONF_FILENAME)).string() + "\n\n";
                 failMsg += _("The file may be write protected or you may not have the required permissions to edit it.\n").translated;
                 failMsg += _("Please add txindex=1 to your configuration file manually.\n\nOmni Core will now shutdown.").translated;
                 return InitError(failMsg);

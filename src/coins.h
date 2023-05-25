@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_COINS_H
-#define BITCOIN_COINS_H
+#ifndef XEP_COINS_H
+#define XEP_COINS_H
 
 #include <primitives/transaction.h>
 #include <compressor.h>
@@ -433,4 +433,4 @@ private:
 
 };
 
-#endif // BITCOIN_COINS_H
+#endif // XEP_COINS_H

@@ -15,17 +15,17 @@ endif
 
 export PYTHONPATH
 
-if BUILD_BITCOIN_LIBS
+if BUILD_XEP_LIBS
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libbitcoinconsensus.pc
 endif
 
-BITCOIND_BIN=$(top_builddir)/src/$(BITCOIN_DAEMON_NAME)$(EXEEXT)
-BITCOIN_QT_BIN=$(top_builddir)/src/qt/$(BITCOIN_GUI_NAME)$(EXEEXT)
-BITCOIN_CLI_BIN=$(top_builddir)/src/$(BITCOIN_CLI_NAME)$(EXEEXT)
-BITCOIN_TX_BIN=$(top_builddir)/src/$(BITCOIN_TX_NAME)$(EXEEXT)
-BITCOIN_WALLET_BIN=$(top_builddir)/src/$(BITCOIN_WALLET_TOOL_NAME)$(EXEEXT)
-BITCOIN_WIN_INSTALLER=$(PACKAGE)-$(PACKAGE_VERSION)-win64-setup$(EXEEXT)
+XEPD_BIN=$(top_builddir)/src/$(XEP_DAEMON_NAME)$(EXEEXT)
+XEP_QT_BIN=$(top_builddir)/src/qt/$(XEP_GUI_NAME)$(EXEEXT)
+XEP_CLI_BIN=$(top_builddir)/src/$(XEP_CLI_NAME)$(EXEEXT)
+XEP_TX_BIN=$(top_builddir)/src/$(XEP_TX_NAME)$(EXEEXT)
+XEP_WALLET_BIN=$(top_builddir)/src/$(XEP_WALLET_TOOL_NAME)$(EXEEXT)
+XEP_WIN_INSTALLER=$(PACKAGE)-$(PACKAGE_VERSION)-win64-setup$(EXEEXT)
 
 empty :=
 space := $(empty) $(empty)
@@ -79,13 +79,13 @@ COVERAGE_INFO = baseline.info \
 dist-hook:
 	-$(GIT) archive --format=tar HEAD -- src/clientversion.cpp | $(AMTAR) -C $(top_distdir) -xf -
 
-$(BITCOIN_WIN_INSTALLER): all-recursive
+$(XEP_WIN_INSTALLER): all-recursive
 	$(MKDIR_P) $(top_builddir)/release
-	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(BITCOIND_BIN) $(top_builddir)/release
-	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(BITCOIN_QT_BIN) $(top_builddir)/release
-	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(BITCOIN_CLI_BIN) $(top_builddir)/release
-	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(BITCOIN_TX_BIN) $(top_builddir)/release
-	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(BITCOIN_WALLET_BIN) $(top_builddir)/release
+	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(XEPD_BIN) $(top_builddir)/release
+	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(XEP_QT_BIN) $(top_builddir)/release
+	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(XEP_CLI_BIN) $(top_builddir)/release
+	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(XEP_TX_BIN) $(top_builddir)/release
+	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(XEP_WALLET_BIN) $(top_builddir)/release
 	@test -f $(MAKENSIS) && $(MAKENSIS) -V2 $(top_builddir)/src/omnicore/res/omnicore-setup-win.nsi || \
 	  echo error: could not build $@
 	@echo built $@
@@ -108,7 +108,7 @@ $(OSX_APP)/Contents/Resources/bitcoin.icns: $(OSX_INSTALLER_ICONS)
 
 $(OSX_APP)/Contents/MacOS/OmniCore-Qt: all-recursive
 	$(MKDIR_P) $(@D)
-	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM)  $(BITCOIN_QT_BIN) $@
+	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM)  $(XEP_QT_BIN) $@
 
 $(OSX_APP)/Contents/Resources/Base.lproj/InfoPlist.strings:
 	$(MKDIR_P) $(@D)
@@ -167,22 +167,22 @@ appbundle: $(OSX_APP_BUILT)
 deploy: $(OSX_DMG)
 endif
 if TARGET_WINDOWS
-deploy: $(BITCOIN_WIN_INSTALLER)
+deploy: $(XEP_WIN_INSTALLER)
 endif
 
-$(BITCOIN_QT_BIN): FORCE
+$(XEP_QT_BIN): FORCE
 	$(MAKE) -C src qt/$(@F)
 
-$(BITCOIND_BIN): FORCE
+$(XEPD_BIN): FORCE
 	$(MAKE) -C src $(@F)
 
-$(BITCOIN_CLI_BIN): FORCE
+$(XEP_CLI_BIN): FORCE
 	$(MAKE) -C src $(@F)
 
-$(BITCOIN_TX_BIN): FORCE
+$(XEP_TX_BIN): FORCE
 	$(MAKE) -C src $(@F)
 
-$(BITCOIN_WALLET_BIN): FORCE
+$(XEP_WALLET_BIN): FORCE
 	$(MAKE) -C src $(@F)
 
 if USE_LCOV
@@ -323,7 +323,7 @@ EXTRA_DIST += \
     test/util/data/txcreatesignv2.hex \
     test/util/rpcauth-test.py
 
-CLEANFILES = $(OSX_DMG) $(BITCOIN_WIN_INSTALLER)
+CLEANFILES = $(OSX_DMG) $(XEP_WIN_INSTALLER)
 
 .INTERMEDIATE: $(COVERAGE_INFO)
 

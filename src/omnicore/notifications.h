@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_NOTIFICATIONS_H
-#define BITCOIN_OMNICORE_NOTIFICATIONS_H
+#ifndef XEP_OMNICORE_NOTIFICATIONS_H
+#define XEP_OMNICORE_NOTIFICATIONS_H
 
 #include <stdint.h>
 #include <string>
@@ -47,4 +47,4 @@ std::vector<std::string> GetOmniCoreAlertMessages();
 bool CheckExpiredAlerts(unsigned int curBlock, uint64_t curTime);
 }
 
-#endif // BITCOIN_OMNICORE_NOTIFICATIONS_H
+#endif // XEP_OMNICORE_NOTIFICATIONS_H

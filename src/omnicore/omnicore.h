@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_OMNICORE_H
-#define BITCOIN_OMNICORE_OMNICORE_H
+#ifndef XEP_OMNICORE_OMNICORE_H
+#define XEP_OMNICORE_OMNICORE_H
 
 class CBlockIndex;
 class CCoinsView;
@@ -242,4 +242,4 @@ void PrintFreezeState();
 
 }
 
-#endif // BITCOIN_OMNICORE_OMNICORE_H
+#endif // XEP_OMNICORE_OMNICORE_H

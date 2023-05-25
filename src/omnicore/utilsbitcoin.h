@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_UTILSBITCOIN_H
-#define BITCOIN_OMNICORE_UTILSBITCOIN_H
+#ifndef XEP_OMNICORE_UTILSXEP_H
+#define XEP_OMNICORE_UTILSXEP_H
 
 class CBlockIndex;
 class uint256;
@@ -22,4 +22,4 @@ bool UnitTest();
 bool isNonMainNet();
 }
 
-#endif // BITCOIN_OMNICORE_UTILSBITCOIN_H
+#endif // XEP_OMNICORE_UTILSXEP_H

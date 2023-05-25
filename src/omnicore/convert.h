@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_CONVERT_H
-#define BITCOIN_OMNICORE_CONVERT_H
+#ifndef XEP_OMNICORE_CONVERT_H
+#define XEP_OMNICORE_CONVERT_H
 
 #include <stdint.h>
 
@@ -16,4 +16,4 @@ uint64_t rounduint64(long double);
 }
 
 
-#endif // BITCOIN_OMNICORE_CONVERT_H
+#endif // XEP_OMNICORE_CONVERT_H

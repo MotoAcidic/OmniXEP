@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_SCRIPT_STANDARD_H
-#define BITCOIN_SCRIPT_STANDARD_H
+#ifndef XEP_SCRIPT_STANDARD_H
+#define XEP_SCRIPT_STANDARD_H
 
 #include <script/interpreter.h>
 #include <uint256.h>
@@ -232,4 +232,4 @@ struct DataVisitor : public boost::static_visitor<std::vector<unsigned char>> {
     std::vector<unsigned char> operator()(const WitnessUnknown& witnessUnknown) const;
 };
 
-#endif // BITCOIN_SCRIPT_STANDARD_H
+#endif // XEP_SCRIPT_STANDARD_H

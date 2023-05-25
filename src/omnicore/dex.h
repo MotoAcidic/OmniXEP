@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_DEX_H
-#define BITCOIN_OMNICORE_DEX_H
+#ifndef XEP_OMNICORE_DEX_H
+#define XEP_OMNICORE_DEX_H
 
 #include <omnicore/log.h>
 #include <omnicore/omnicore.h>
@@ -247,4 +247,4 @@ unsigned int eraseExpiredAccepts(int block);
 }
 
 
-#endif // BITCOIN_OMNICORE_DEX_H
+#endif // XEP_OMNICORE_DEX_H

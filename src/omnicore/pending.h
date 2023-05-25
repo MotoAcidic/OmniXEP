@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_PENDING_H
-#define BITCOIN_OMNICORE_PENDING_H
+#ifndef XEP_OMNICORE_PENDING_H
+#define XEP_OMNICORE_PENDING_H
 
 class uint256;
 struct CMPPending;
@@ -47,4 +47,4 @@ struct CMPPending
 };
 
 
-#endif // BITCOIN_OMNICORE_PENDING_H
+#endif // XEP_OMNICORE_PENDING_H

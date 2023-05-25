@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_RPCVALUES_H
-#define BITCOIN_OMNICORE_RPCVALUES_H
+#ifndef XEP_OMNICORE_RPCVALUES_H
+#define XEP_OMNICORE_RPCVALUES_H
 
 class CPubKey;
 class CTransaction;
@@ -45,4 +45,4 @@ uint32_t ParseOutputIndex(const UniValue& value);
 std::vector<PrevTxsEntry> ParsePrevTxs(const UniValue& value);
 
 
-#endif // BITCOIN_OMNICORE_RPCVALUES_H
+#endif // XEP_OMNICORE_RPCVALUES_H

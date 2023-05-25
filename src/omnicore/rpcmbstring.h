@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_RPCMBSTRING_H
-#define BITCOIN_OMNICORE_RPCMBSTRING_H
+#ifndef XEP_OMNICORE_RPCMBSTRING_H
+#define XEP_OMNICORE_RPCMBSTRING_H
 
 #include <stdint.h>
 #include <string>
@@ -10,4 +10,4 @@ namespace mastercore
 std::string SanitizeInvalidUTF8(const std::string& s);
 }
 
-#endif // BITCOIN_OMNICORE_RPCMBSTRING_H
+#endif // XEP_OMNICORE_RPCMBSTRING_H

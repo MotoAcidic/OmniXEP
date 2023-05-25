@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_NFTDB_H
-#define BITCOIN_OMNICORE_NFTDB_H
+#ifndef XEP_OMNICORE_NFTDB_H
+#define XEP_OMNICORE_NFTDB_H
 
 #include <omnicore/dbbase.h>
 
@@ -78,4 +78,4 @@ namespace mastercore
     extern CMPNonFungibleTokensDB *pDbNFT;
 }
 
-#endif // BITCOIN_OMNICORE_NFTDB_H
+#endif // XEP_OMNICORE_NFTDB_H

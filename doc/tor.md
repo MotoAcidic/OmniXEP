@@ -1,4 +1,4 @@
-# TOR SUPPORT IN BITCOIN
+# TOR SUPPORT IN XEP
 
 It is possible to run Xep Core as a Tor hidden service, and connect to such services.
 

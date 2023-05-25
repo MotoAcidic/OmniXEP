@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_SCRIPT_SCRIPT_ERROR_H
-#define BITCOIN_SCRIPT_SCRIPT_ERROR_H
+#ifndef XEP_SCRIPT_SCRIPT_ERROR_H
+#define XEP_SCRIPT_SCRIPT_ERROR_H
 
 typedef enum ScriptError_t
 {
@@ -79,4 +79,4 @@ typedef enum ScriptError_t
 
 const char* ScriptErrorString(const ScriptError error);
 
-#endif // BITCOIN_SCRIPT_SCRIPT_ERROR_H
+#endif // XEP_SCRIPT_SCRIPT_ERROR_H
