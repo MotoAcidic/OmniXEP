@@ -1,11 +1,11 @@
-// Copyright (c) 2011-2019 The Bitcoin Core developers
+// Copyright (c) 2011-2019 The Xep Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <qt/overviewpage.h>
 #include <qt/forms/ui_overviewpage.h>
 
-#include <qt/bitcoinunits.h>
+#include <qt/xepunits.h>
 #include <qt/clientmodel.h>
 #include <qt/guiconstants.h>
 #include <qt/guiutil.h>
@@ -25,7 +25,7 @@
 #include <omnicore/tx.h>
 #include <omnicore/parsing.h>
 #include <omnicore/pending.h>
-#include <omnicore/utilsbitcoin.h>
+#include <omnicore/utilsxep.h>
 #include <omnicore/walletutils.h>
 
 #include <chainparams.h>
@@ -419,7 +419,7 @@ void OverviewPage::UpdatePropertyBalance(unsigned int propertyId, uint64_t avail
     propLabel->setStyleSheet("QLabel { font-weight:bold; }");
     vlayout->addWidget(propLabel);
 
-    if (propertyId == 0) { // override for bitcoin
+    if (propertyId == 0) { // override for xep
         divisible = true;
         tokenStr = " XEP";
     } else {
@@ -430,7 +430,7 @@ void OverviewPage::UpdatePropertyBalance(unsigned int propertyId, uint64_t avail
     // Left Panel
     QVBoxLayout *vlayoutleft = new QVBoxLayout();
     QLabel *balReservedLabel = new QLabel;
-    if(propertyId != 0) { balReservedLabel->setText("Reserved:"); } else { balReservedLabel->setText("Pending:"); propLabel->setText("Xep"); } // override for bitcoin
+    if(propertyId != 0) { balReservedLabel->setText("Reserved:"); } else { balReservedLabel->setText("Pending:"); propLabel->setText("Xep"); } // override for xep
     QLabel *balAvailableLabel = new QLabel("Available:");
     QLabel *balTotalLabel = new QLabel("Total:");
     vlayoutleft->addWidget(balReservedLabel);
@@ -620,7 +620,7 @@ void OverviewPage::updateOmniAlerts()
 
 void OverviewPage::updateAlerts(const QString &warnings)
 {
-    QString alertString = warnings; // get current bitcoin alert/warning directly
+    QString alertString = warnings; // get current xep alert/warning directly
 
     // get alert messages
     std::vector<std::string> omniAlerts = GetOmniCoreAlertMessages();

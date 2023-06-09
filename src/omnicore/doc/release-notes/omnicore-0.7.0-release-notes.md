@@ -21,10 +21,10 @@ Table of contents
 - [Upgrading and downgrading](#upgrading-and-downgrading)
   - [How to upgrade](#how-to-upgrade)
   - [Downgrading](#downgrading)
-  - [Compatibility with Xep Core](#compatibility-with-bitcoin-core)
+  - [Compatibility with Xep Core](#compatibility-with-xep-core)
 - [Imported changes and notes](#imported-changes-and-notes)
-  - [Upgrade to Xep Core 0.18.1](#upgrade-to-bitcoin-core-0181)
-  - [Allow any token to be traded for Xep](#allow-any-token-to-be-traded-for-bitcoin)
+  - [Upgrade to Xep Core 0.18.1](#upgrade-to-xep-core-0181)
+  - [Allow any token to be traded for Xep](#allow-any-token-to-be-traded-for-xep)
   - [Omni specific user-agent](#omni-specific-user-agent)
   - [getinfo deprecated](#getinfo-deprecated)
   - [Fee estimation improvements](#fee-estimation-improvements)
@@ -70,23 +70,23 @@ The underlying base of Omni Core was upgraded from Xep Core 0.13.2 to Xep Core 0
 
 Please read the following release notes for further details very carefully:
 
-- [Release notes for Xep Core 0.14.0](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.14.0.md)
-- [Release notes for Xep Core 0.14.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.14.1.md)
-- [Release notes for Xep Core 0.14.2](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.14.2.md)
-- [Release notes for Xep Core 0.14.3](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.14.3.md)
-- [Release notes for Xep Core 0.15.0](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.15.0.md)
-- [Release notes for Xep Core 0.15.0.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.15.0.1.md)
-- [Release notes for Xep Core 0.15.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.15.1.md)
-- [Release notes for Xep Core 0.15.2](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.15.2.md)
-- [Release notes for Xep Core 0.16.0](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.16.0.md)
-- [Release notes for Xep Core 0.16.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.16.1.md)
-- [Release notes for Xep Core 0.16.2](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.16.2.md)
-- [Release notes for Xep Core 0.16.3](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.16.3.md)
-- [Release notes for Xep Core 0.17.0](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.17.0.md)
-- [Release notes for Xep Core 0.17.0.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.17.0.1.md)
-- [Release notes for Xep Core 0.17.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.17.1.md)
-- [Release notes for Xep Core 0.18.0](https://github.com/bitcoin/bitcoin/blob/v0.18.0/doc/release-notes.md)
-- [Release notes for Xep Core 0.18.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes.md)
+- [Release notes for Xep Core 0.14.0](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.14.0.md)
+- [Release notes for Xep Core 0.14.1](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.14.1.md)
+- [Release notes for Xep Core 0.14.2](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.14.2.md)
+- [Release notes for Xep Core 0.14.3](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.14.3.md)
+- [Release notes for Xep Core 0.15.0](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.15.0.md)
+- [Release notes for Xep Core 0.15.0.1](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.15.0.1.md)
+- [Release notes for Xep Core 0.15.1](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.15.1.md)
+- [Release notes for Xep Core 0.15.2](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.15.2.md)
+- [Release notes for Xep Core 0.16.0](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.16.0.md)
+- [Release notes for Xep Core 0.16.1](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.16.1.md)
+- [Release notes for Xep Core 0.16.2](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.16.2.md)
+- [Release notes for Xep Core 0.16.3](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.16.3.md)
+- [Release notes for Xep Core 0.17.0](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.17.0.md)
+- [Release notes for Xep Core 0.17.0.1](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.17.0.1.md)
+- [Release notes for Xep Core 0.17.1](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.17.1.md)
+- [Release notes for Xep Core 0.18.0](https://github.com/xep/xep/blob/v0.18.0/doc/release-notes.md)
+- [Release notes for Xep Core 0.18.1](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes.md)
 
 
 Allow any token to be traded for Xep
@@ -138,13 +138,13 @@ shows where each field has been moved to:
 Fee estimation improvements
 ---------------------------
 
-Fee estimation has been significantly improved with Xep Core 0.15, with more accurate fee estimates used by the wallet and a wider range of options for advanced users of the `estimatesmartfee` and `estimaterawfee` RPCs (See [PR 10199](https://github.com/bitcoin/bitcoin/pull/10199)).
+Fee estimation has been significantly improved with Xep Core 0.15, with more accurate fee estimates used by the wallet and a wider range of options for advanced users of the `estimatesmartfee` and `estimaterawfee` RPCs (See [PR 10199](https://github.com/xep/xep/pull/10199)).
 
 ### Changes to internal logic and wallet behavior
 
 - Internally, estimates are now tracked on three different time horizons. This allows for longer targets and means estimates adjust more quickly to changes in conditions.
 - Estimates can now be *conservative* or *economical*. *Conservative* estimates use longer time horizons to produce an estimate which is less susceptible to rapid changes in fee conditions. *Economical* estimates use shorter time horizons and will be more affected by short-term changes in fee conditions. Economical estimates may be considerably lower during periods of low transaction activity (for example over weekends), but may result in transactions being unconfirmed if prevailing fees increase rapidly.
-- By default, the wallet will use conservative fee estimates to increase the reliability of transactions being confirmed within the desired target. For transactions that are marked as replaceable, the wallet will use an economical estimate by default, since the fee can be 'bumped' if the fee conditions change rapidly (See [PR 10589](https://github.com/bitcoin/bitcoin/pull/10589)).
+- By default, the wallet will use conservative fee estimates to increase the reliability of transactions being confirmed within the desired target. For transactions that are marked as replaceable, the wallet will use an economical estimate by default, since the fee can be 'bumped' if the fee conditions change rapidly (See [PR 10589](https://github.com/xep/xep/pull/10589)).
 - Estimates can now be made for confirmation targets up to 1008 blocks (one week).
 - More data on historical fee rates is stored, leading to more precise fee estimates.
 - Transactions which leave the mempool due to eviction or other non-confirmed reasons are now taken into account by the fee estimation logic, leading to more accurate fee estimates.
@@ -153,7 +153,7 @@ Fee estimation has been significantly improved with Xep Core 0.15, with more acc
 ### Changes to fee estimate RPCs
 
 - The `estimatefee` RPC is now deprecated in favor of using only `estimatesmartfee` (which is the implementation used by the GUI)
-- The `estimatesmartfee` RPC interface has been changed (See [PR 10707](https://github.com/bitcoin/bitcoin/pull/10707)):
+- The `estimatesmartfee` RPC interface has been changed (See [PR 10707](https://github.com/xep/xep/pull/10707)):
     - The `nblocks` argument has been renamed to `conf_target` (to be consistent with other RPC methods).
     - An `estimate_mode` argument has been added. This argument takes one of the following strings: `CONSERVATIVE`, `ECONOMICAL` or `UNSET` (which defaults to `CONSERVATIVE`).
     - The RPC return object now contains an `errors` member, which returns errors encountered during processing.

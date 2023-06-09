@@ -21,7 +21,7 @@ Table of contents
 - [Upgrading and downgrading](#upgrading-and-downgrading)
   - [How to upgrade](#how-to-upgrade)
   - [Downgrading](#downgrading)
-  - [Compatibility with Xep Core](#compatibility-with-bitcoin-core)
+  - [Compatibility with Xep Core](#compatibility-with-xep-core)
 - [Imported notes](#imported-notes)
   - [Transaction replays](#transaction-replays)
   - [Searching for affected transactions](#searching-for-affected-transactions)

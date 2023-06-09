@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2015-2019 The Bitcoin Core developers
+# Copyright (c) 2015-2019 The Xep Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test p2p permission message.
@@ -153,9 +153,9 @@ class P2PPermissionsTests(XepTestFramework):
                 raise AssertionError("Expected permissions %r is not granted." % p)
 
     def replaceinconfig(self, nodeid, old, new):
-        with open(self.nodes[nodeid].bitcoinconf, encoding="utf8") as f:
+        with open(self.nodes[nodeid].xepconf, encoding="utf8") as f:
             newText = f.read().replace(old, new)
-        with open(self.nodes[nodeid].bitcoinconf, 'w', encoding="utf8") as f:
+        with open(self.nodes[nodeid].xepconf, 'w', encoding="utf8") as f:
             f.write(newText)
 
 

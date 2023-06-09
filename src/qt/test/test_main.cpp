@@ -1,13 +1,13 @@
-// Copyright (c) 2009-2019 The Bitcoin Core developers
+// Copyright (c) 2009-2019 The Xep Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include <config/bitcoin-config.h>
+#include <config/xep-config.h>
 #endif
 
 #include <interfaces/node.h>
-#include <qt/bitcoin.h>
+#include <qt/xep.h>
 #include <qt/test/apptests.h>
 #include <qt/test/rpcnestedtests.h>
 #include <qt/test/uritests.h>

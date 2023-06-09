@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_CASE(payload_send_all)
 
 BOOST_AUTO_TEST_CASE(payload_dex_offer)
 {
-    // Sell tokens for bitcoins [type 20, version 1]
+    // Sell tokens for xeps [type 20, version 1]
     std::vector<unsigned char> vch = CreatePayload_DExSell(
         static_cast<uint32_t>(1),         // property: MSC
         static_cast<int64_t>(100000000),  // amount to transfer: 1.0 MSC (in willets)
@@ -116,7 +116,7 @@ BOOST_AUTO_TEST_CASE(payload_meta_dex_cancel_ecosystem)
 
 BOOST_AUTO_TEST_CASE(payload_accept_dex_offer)
 {
-    // Purchase tokens with bitcoins [type 22, version 0]
+    // Purchase tokens with xeps [type 22, version 0]
     std::vector<unsigned char> vch = CreatePayload_DExAccept(
         static_cast<uint32_t>(1),          // property: MSC
         static_cast<int64_t>(130000000));  // amount to transfer: 1.3 MSC (in willets)

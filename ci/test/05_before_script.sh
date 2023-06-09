@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Copyright (c) 2018-2019 The Bitcoin Core developers
+# Copyright (c) 2018-2019 The Xep Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -10,7 +10,7 @@ export LC_ALL=C.UTF-8
 if [ "$TRAVIS_OS_NAME" == "osx" ]; then
   echo > $HOME/Library/Application\ Support/Xep
 else
-  DOCKER_EXEC echo \> \$HOME/.bitcoin
+  DOCKER_EXEC echo \> \$HOME/.xep
 fi
 
 DOCKER_EXEC mkdir -p ${DEPENDS_DIR}/SDKs ${DEPENDS_DIR}/sdk-sources

@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2020 The Bitcoin Core developers
+// Copyright (c) 2009-2020 The Xep Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -28,14 +28,14 @@ public:
 
 /**
  * Default setting for nMaxDatacarrierBytes. 640 bytes of data, +1 for OP_RETURN,
- * +3 for the pushdata opcodes. This is set at 8x the 80 byte limit of bitcoin in
+ * +3 for the pushdata opcodes. This is set at 8x the 80 byte limit of xep in
  * order to hold more data than and discourage bogus data carrying multisig outputs.
  */
 static const unsigned int MAX_OP_RETURN_RELAY = 644;
 
 /**
  * This is the maximum number of bytes which can be carried by TxoutType::MULTISIG_DATA.
- * See https://github.com/bitcoin/bitcoin/pull/1809 for more information.
+ * See https://github.com/xep/xep/pull/1809 for more information.
  */
 static const unsigned int MAX_MULTISIG_DATA_OP_DROP_SIZE = 80;
 
@@ -157,7 +157,7 @@ struct WitnessUnknown {
  *  * WitnessV0ScriptHash: TX_WITNESS_V0_SCRIPTHASH destination (P2WSH)
  *  * WitnessV0KeyHash: TX_WITNESS_V0_KEYHASH destination (P2WPKH)
  *  * WitnessUnknown: TX_WITNESS_UNKNOWN destination (P2W???)
- *  A CTxDestination is the internal data type encoded in a bitcoin address
+ *  A CTxDestination is the internal data type encoded in a xep address
  */
 typedef boost::variant<CNoDestination, PKHash, ScriptHash, WitnessV0ScriptHash, WitnessV0KeyHash, WitnessUnknown> CTxDestination;
 

@@ -226,7 +226,7 @@ extern OfferMap my_offers;
 //! In-memory collection of DEx accepts
 extern AcceptMap my_accepts;
 
-/** Determines the amount of bitcoins desired, in case it needs to be recalculated. TODO: don't expose! */
+/** Determines the amount of xeps desired, in case it needs to be recalculated. TODO: don't expose! */
 int64_t calculateDesiredXEP(const int64_t amountOffered, const int64_t amountDesired, const int64_t amountAvailable);
 
 bool DEx_offerExists(const std::string& addressSeller, uint32_t propertyId);

@@ -1,11 +1,11 @@
-// Copyright (c) 2011-2018 The Bitcoin Core developers
+// Copyright (c) 2011-2018 The Xep Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #ifndef XEP_QT_TRANSACTIONTABLEMODEL_H
 #define XEP_QT_TRANSACTIONTABLEMODEL_H
 
-#include <qt/bitcoinunits.h>
+#include <qt/xepunits.h>
 
 #include <QAbstractTableModel>
 #include <QStringList>

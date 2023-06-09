@@ -14,9 +14,9 @@ Table of contents
 - [Upgrading and downgrading](#upgrading-and-downgrading)
   - [How to upgrade](#how-to-upgrade)
   - [Downgrading](#downgrading)
-  - [Compatibility with Xep Core](#compatibility-with-bitcoin-core)
+  - [Compatibility with Xep Core](#compatibility-with-xep-core)
 - [Imported changes and notes](#imported-changes-and-notes)
-  - [Upgrade to Xep Core 0.10.4](#upgrade-to-bitcoin-core-0104)
+  - [Upgrade to Xep Core 0.10.4](#upgrade-to-xep-core-0104)
   - [Headers-first synchronization](#headers-first-synchronization)
   - [Dust threshold values](#dust-threshold-values)
   - [Transaction fee changes](#transaction-fee-changes)
@@ -94,7 +94,7 @@ The default `minrelaytxfee` was raised from `0.00001` to `0.00005` in Xep Core 0
 
 The minimum relay fee influences the "dust threshold", and has an impact on the output values of Omni transactions, which are chosen to be as low as possible. As per default, Omni transactions created with Master Core had output values between `0.00000546` XEP and `0.00000882` XEP, whereby the new output values are between `0.0000273` XEP and `0.0000441` XEP.
 
-To continue to create transactions with lower values, start Omni Core with `-minrelaytxfee=0.00001` or add the following to your `bitcoin.conf`:
+To continue to create transactions with lower values, start Omni Core with `-minrelaytxfee=0.00001` or add the following to your `xep.conf`:
 ```
 minrelaytxfee=0.00001
 ```
@@ -429,7 +429,7 @@ To compile Omni Core without wallet support (illustrated for Unix):
 make
 ```
 
-To disable to wallet via configuration options start Omni Core with `-disablewallet`, or add the following to your `bitcoin.conf`:
+To disable to wallet via configuration options start Omni Core with `-disablewallet`, or add the following to your `xep.conf`:
 ```
 disablewallet=1
 ```

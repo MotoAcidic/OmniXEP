@@ -15,24 +15,24 @@ merging pull requests as well as a "lead maintainer" who is responsible for the
 release cycle, overall merging, moderation and appointment of maintainers.
 
 If you're looking for somewhere to start contributing, check out the
-[good first issue](https://github.com/bitcoin/bitcoin/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22)
-list or participate in a weekly [Xep Core PR Review Club](https://bitcoincore.reviews/) meeting.
+[good first issue](https://github.com/xep/xep/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22)
+list or participate in a weekly [Xep Core PR Review Club](https://xepcore.reviews/) meeting.
 
 Communication Channels
 ----------------------
 
 Most communication about Xep Core development happens on IRC, in the
-#bitcoin-core-dev channel on Freenode. The easiest way to participate on IRC is
+#xep-core-dev channel on Freenode. The easiest way to participate on IRC is
 with the web client, [webchat.freenode.net](https://webchat.freenode.net/). Chat
 history logs can be found
-on [http://www.erisian.com.au/bitcoin-core-dev/](http://www.erisian.com.au/bitcoin-core-dev/)
-and [http://gnusha.org/bitcoin-core-dev/](http://gnusha.org/bitcoin-core-dev/).
+on [http://www.erisian.com.au/xep-core-dev/](http://www.erisian.com.au/xep-core-dev/)
+and [http://gnusha.org/xep-core-dev/](http://gnusha.org/xep-core-dev/).
 
 Discussion about code base improvements happens in GitHub issues and on pull
 requests.
 
 The developer
-[mailing list](https://lists.linuxfoundation.org/mailman/listinfo/bitcoin-dev)
+[mailing list](https://lists.linuxfoundation.org/mailman/listinfo/xep-dev)
 should be used to discuss complicated or controversial changes before working on
 a patch set.
 
@@ -81,7 +81,7 @@ the pull request affects. Valid areas as:
 
   - `consensus` for changes to consensus critical code
   - `doc` for changes to the documentation
-  - `qt` or `gui` for changes to bitcoin-qt
+  - `qt` or `gui` for changes to xep-qt
   - `log` for changes to log messages
   - `mining` for changes to the mining code
   - `net` or `p2p` for changes to the peer-to-peer network code
@@ -101,7 +101,7 @@ Examples:
     log: Fix typo in log message
 
 Note that translations should not be submitted as pull requests. Please see
-[Translation Process](https://github.com/bitcoin/bitcoin/blob/master/doc/translation_process.md)
+[Translation Process](https://github.com/xep/xep/blob/master/doc/translation_process.md)
 for more information on helping with translations.
 
 If a pull request is not to be considered for merging (yet), please
@@ -343,10 +343,10 @@ Rebased-From: <commit hash of the original commit>
 ```
 
 Have a look at [an example backport PR](
-https://github.com/bitcoin/bitcoin/pull/16189).
+https://github.com/xep/xep/pull/16189).
 
 Also see the [backport.py script](
-https://github.com/bitcoin-core/bitcoin-maintainer-tools#backport).
+https://github.com/xep-core/xep-maintainer-tools#backport).
 
 Release Policy
 --------------

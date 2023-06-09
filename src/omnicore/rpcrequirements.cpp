@@ -5,7 +5,7 @@
 #include <omnicore/omnicore.h>
 #include <omnicore/sp.h>
 #include <omnicore/nftdb.h>
-#include <omnicore/utilsbitcoin.h>
+#include <omnicore/utilsxep.h>
 
 #include <amount.h>
 #include <validation.h>

@@ -1,14 +1,14 @@
-// Copyright (c) 2011-2019 The Bitcoin Core developers
+// Copyright (c) 2011-2019 The Xep Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include <config/bitcoin-config.h>
+#include <config/xep-config.h>
 #endif
 
 #include <qt/paymentserver.h>
 
-#include <qt/bitcoinunits.h>
+#include <qt/xepunits.h>
 #include <qt/guiutil.h>
 #include <qt/optionsmodel.h>
 
@@ -38,7 +38,7 @@
 #include <QUrlQuery>
 
 const int XEP_IPC_CONNECT_TIMEOUT = 1000; // milliseconds
-const QString XEP_IPC_PREFIX("bitcoin:");
+const QString XEP_IPC_PREFIX("xep:");
 
 //
 // Create a name that is unique for:
@@ -82,11 +82,11 @@ void PaymentServer::ipcParseCommandLine(interfaces::Node& node, int argc, char* 
         if (arg.startsWith("-"))
             continue;
 
-        // If the bitcoin: URI contains a payment request, we are not able to detect the
+        // If the xep: URI contains a payment request, we are not able to detect the
         // network as that would require fetching and parsing the payment request.
         // That means clicking such an URI which contains a testnet payment request
         // will start a mainnet instance and throw a "wrong network" error.
-        if (arg.startsWith(XEP_IPC_PREFIX, Qt::CaseInsensitive)) // bitcoin: URI
+        if (arg.startsWith(XEP_IPC_PREFIX, Qt::CaseInsensitive)) // xep: URI
         {
             if (savedPaymentRequests.contains(arg)) continue;
             savedPaymentRequests.insert(arg);
@@ -155,7 +155,7 @@ PaymentServer::PaymentServer(QObject* parent, bool startLocalServer) :
     optionsModel(nullptr)
 {
     // Install global event filter to catch QFileOpenEvents
-    // on Mac: sent when you click bitcoin: links
+    // on Mac: sent when you click xep: links
     // other OSes: helpful when dealing with payment request files
     if (parent)
         parent->installEventFilter(this);
@@ -172,7 +172,7 @@ PaymentServer::PaymentServer(QObject* parent, bool startLocalServer) :
         if (!uriServer->listen(name)) {
             // constructor is called early in init, so don't use "Q_EMIT message()" here
             QMessageBox::critical(nullptr, tr("Payment request error"),
-                tr("Cannot start bitcoin: click-to-pay handler"));
+                tr("Cannot start xep: click-to-pay handler"));
         }
         else {
             connect(uriServer, &QLocalServer::newConnection, this, &PaymentServer::handleURIConnection);
@@ -185,7 +185,7 @@ PaymentServer::~PaymentServer()
 }
 
 //
-// OSX-specific way of handling bitcoin: URIs
+// OSX-specific way of handling xep: URIs
 //
 bool PaymentServer::eventFilter(QObject *object, QEvent *event)
 {
@@ -220,12 +220,12 @@ void PaymentServer::handleURIOrFile(const QString& s)
         return;
     }
 
-    if (s.startsWith("bitcoin://", Qt::CaseInsensitive))
+    if (s.startsWith("xep://", Qt::CaseInsensitive))
     {
-        Q_EMIT message(tr("URI handling"), tr("'bitcoin://' is not a valid URI. Use 'bitcoin:' instead."),
+        Q_EMIT message(tr("URI handling"), tr("'xep://' is not a valid URI. Use 'xep:' instead."),
             CClientUIInterface::MSG_ERROR);
     }
-    else if (s.startsWith(XEP_IPC_PREFIX, Qt::CaseInsensitive)) // bitcoin: URI
+    else if (s.startsWith(XEP_IPC_PREFIX, Qt::CaseInsensitive)) // xep: URI
     {
         QUrlQuery uri((QUrl(s)));
         // normal URI

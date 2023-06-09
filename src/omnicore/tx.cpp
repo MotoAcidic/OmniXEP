@@ -19,7 +19,7 @@
 #include <omnicore/sp.h>
 #include <omnicore/sto.h>
 #include <omnicore/nftdb.h>
-#include <omnicore/utilsbitcoin.h>
+#include <omnicore/utilsxep.h>
 #include <omnicore/version.h>
 
 #include <amount.h>
@@ -2604,7 +2604,7 @@ int CMPTransaction::logicMath_XepPayment()
     uint16_t linked_type = mp_obj.getType();
     uint16_t linked_version = mp_obj.getVersion();
     if (!IsXepPaymentAllowed(linked_type, linked_version)) {
-        PrintToLog("%s(): rejected: linked transaction %s doesn't support bitcoin payments\n",
+        PrintToLog("%s(): rejected: linked transaction %s doesn't support xep payments\n",
             __func__,
             linked_txid.GetHex());
         return (PKT_ERROR_TOKENS - 61);

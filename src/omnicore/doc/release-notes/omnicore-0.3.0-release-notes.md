@@ -16,7 +16,7 @@ Table of contents
 - [Upgrading and downgrading](#upgrading-and-downgrading)
   - [How to upgrade](#how-to-upgrade)
   - [Downgrading](#downgrading)
-  - [Compatibility with Xep Core](#compatibility-with-bitcoin-core)
+  - [Compatibility with Xep Core](#compatibility-with-xep-core)
 - [Consensus affecting changes](#consensus-affecting-changes)
     - [Freezing tokens for managed properties](#freezing-tokens-for-managed-properties)
 - [Notable changes](#notable-changes)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2017-2018 The Bitcoin Core developers
+# Copyright (c) 2017-2018 The Xep Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test Omni fee calculation."""
@@ -91,7 +91,7 @@ class OmniFeeCalculation(XepTestFramework):
 
         self.sync_blocks()
 
-        # Give buyer bitcoin to pay with, only fee left to pay
+        # Give buyer xep to pay with, only fee left to pay
         node0.sendtoaddress(address, 1)
         node0.generatetoaddress(1, coinbase_address)
 

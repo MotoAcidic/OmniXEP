@@ -1,6 +1,6 @@
 #include <omnicore/version.h>
 
-#include <config/bitcoin-config.h>
+#include <config/xep-config.h>
 #include <test/util/setup_common.h>
 
 #include <boost/test/unit_test.hpp>

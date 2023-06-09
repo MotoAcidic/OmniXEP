@@ -5,7 +5,7 @@ FAIL=0
 clear
 printf "Preparing a test environment...\n"
 printf "   * Starting a fresh regtest daemon\n"
-rm -r ~/.bitcoin/regtest
+rm -r ~/.xep/regtest
 ./src/omnicored --regtest --server --daemon --omniactivationallowsender=any --omni_debug=all >nul
 sleep 10
 printf "   * Preparing some mature testnet XEP\n"

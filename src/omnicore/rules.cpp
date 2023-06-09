@@ -12,7 +12,7 @@
 #include <omnicore/log.h>
 #include <omnicore/omnicore.h>
 #include <omnicore/notifications.h>
-#include <omnicore/utilsbitcoin.h>
+#include <omnicore/utilsxep.h>
 #include <omnicore/version.h>
 
 #include <chainparams.h>

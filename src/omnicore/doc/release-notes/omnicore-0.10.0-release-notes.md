@@ -21,9 +21,9 @@ Table of contents
 - [Upgrading and downgrading](#upgrading-and-downgrading)
   - [How to upgrade](#how-to-upgrade)
   - [Downgrading](#downgrading)
-  - [Compatibility with Xep Core](#compatibility-with-bitcoin-core)
+  - [Compatibility with Xep Core](#compatibility-with-xep-core)
 - [Improvements](#improvements)
-  - [Built on top of Xep Core 0.20.1](#built-on-top-of-bitcoin-core-0201)
+  - [Built on top of Xep Core 0.20.1](#built-on-top-of-xep-core-0201)
   - [Improved coin selection, when sending Omni Layer transactions](#improved-coin-selection-when-sending-omni-layer-transactions)
   - [Better recovery from hard shutdowns or crashes](#better-recovery-from-hard-shutdowns-or-crashes)
   - [Additional testing](#additional-testing)
@@ -66,10 +66,10 @@ The underlying base of Omni Core was upgraded from Xep Core 0.18.1 to Xep Core 0
 
 Please read the following release notes for further details very carefully:
 
-- [Release notes for Xep Core 0.19.0](https://github.com/bitcoin/bitcoin/blob/v0.20.1/doc/release-notes/release-notes-0.19.0.1.md)
-- [Release notes for Xep Core 0.19.1](https://github.com/bitcoin/bitcoin/blob/v0.20.1/doc/release-notes/release-notes-0.19.1.md)
-- [Release notes for Xep Core 0.20.0](https://github.com/bitcoin/bitcoin/blob/v0.20.0/doc/release-notes.md)
-- [Release notes for Xep Core 0.20.1](https://github.com/bitcoin/bitcoin/blob/v0.20.1/doc/release-notes.md)
+- [Release notes for Xep Core 0.19.0](https://github.com/xep/xep/blob/v0.20.1/doc/release-notes/release-notes-0.19.0.1.md)
+- [Release notes for Xep Core 0.19.1](https://github.com/xep/xep/blob/v0.20.1/doc/release-notes/release-notes-0.19.1.md)
+- [Release notes for Xep Core 0.20.0](https://github.com/xep/xep/blob/v0.20.0/doc/release-notes.md)
+- [Release notes for Xep Core 0.20.1](https://github.com/xep/xep/blob/v0.20.1/doc/release-notes.md)
 
 
 Improved coin selection, when sending Omni Layer transactions

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2017-2018 The Bitcoin Core developers
+# Copyright (c) 2017-2018 The Xep Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test DEx spec using free DEx."""
@@ -101,7 +101,7 @@ class OmniFreeDExSpec(XepTestFramework):
         assert_equal(offerTx['propertyid'], currencyOffered)
         assert_equal(offerTx['divisible'], True)
         assert_equal(offerTx['amount'], amountOffered)
-        assert_equal(offerTx['bitcoindesired'], desiredXEP)
+        assert_equal(offerTx['xepdesired'], desiredXEP)
         assert_equal(offerTx['timelimit'], stdBlockSpan)
         assert_equal(offerTx['feerequired'], stdCommitFee)
         assert_equal(offerTx['action'], "new")

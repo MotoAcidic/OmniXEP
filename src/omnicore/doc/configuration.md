@@ -6,15 +6,15 @@ Omni Core can be configured by providing one or more optional command-line argum
 $ omnicored -setting=value -setting=value
 ```
 
-All settings can alternatively also be configured via the `bitcoin.conf`.
+All settings can alternatively also be configured via the `xep.conf`.
 
 Depending on the operating system, the default locations for the configuration file are:
 
-- Unix systems: `$HOME/.bitcoin/bitcoin.conf`
-- Mac OS X: `$HOME/Library/Application Support/Xep/bitcoin.conf`
-- Microsoft Windows: `%APPDATA%/Xep/bitcoin.conf`
+- Unix systems: `$HOME/.xep/xep.conf`
+- Mac OS X: `$HOME/Library/Application Support/Xep/xep.conf`
+- Microsoft Windows: `%APPDATA%/Xep/xep.conf`
 
-A typical `bitcoin.conf` may include:
+A typical `xep.conf` may include:
 ```
 server=1
 rpcuser=omnicorerpc
@@ -33,7 +33,7 @@ omnidebug=pending
 
 To run and use Omni Core, no explicit configuration is necessary.
 
-More information about the general configuration and Xep Core specific options are available in the [Xep wiki](https://en.bitcoin.it/wiki/Running_Xep).
+More information about the general configuration and Xep Core specific options are available in the [Xep wiki](https://en.xep.it/wiki/Running_Xep).
 
 #### General options:
 

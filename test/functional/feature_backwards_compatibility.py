@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2018-2019 The Bitcoin Core developers
+# Copyright (c) 2018-2019 The Xep Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Backwards compatibility functional test
@@ -60,17 +60,17 @@ class BackwardsCompatibilityTest(XepTestFramework):
             180100,
             170100
         ], binary=[
-            self.options.bitcoind,
-            self.options.bitcoind,
-            releases_path + "/v0.19.0.1/bin/bitcoind",
-            releases_path + "/v0.18.1/bin/bitcoind",
-            releases_path + "/v0.17.1/bin/bitcoind"
+            self.options.xepd,
+            self.options.xepd,
+            releases_path + "/v0.19.0.1/bin/xepd",
+            releases_path + "/v0.18.1/bin/xepd",
+            releases_path + "/v0.17.1/bin/xepd"
         ], binary_cli=[
-            self.options.bitcoincli,
-            self.options.bitcoincli,
-            releases_path + "/v0.19.0.1/bin/bitcoin-cli",
-            releases_path + "/v0.18.1/bin/bitcoin-cli",
-            releases_path + "/v0.17.1/bin/bitcoin-cli"
+            self.options.xepcli,
+            self.options.xepcli,
+            releases_path + "/v0.19.0.1/bin/xep-cli",
+            releases_path + "/v0.18.1/bin/xep-cli",
+            releases_path + "/v0.17.1/bin/xep-cli"
         ])
 
         self.start_nodes()
@@ -306,7 +306,7 @@ class BackwardsCompatibilityTest(XepTestFramework):
         assert info['private_keys_enabled'] == False
         assert info['keypoolsize'] == 0
 
-        # RPC loadwallet failure causes bitcoind to exit, in addition to the RPC
+        # RPC loadwallet failure causes xepd to exit, in addition to the RPC
         # call failure, so the following test won't work:
         # assert_raises_rpc_error(-4, "Wallet loading failed.", node_v17.loadwallet, 'w3_v18')
 

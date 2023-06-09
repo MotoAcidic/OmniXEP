@@ -161,10 +161,10 @@ static int64_t calculateDesiredXEP(const int64_t amountOffered, const int64_t am
 }
 
 /**
- * Determines the amount of bitcoins desired, in case it needs to be recalculated.
+ * Determines the amount of xeps desired, in case it needs to be recalculated.
  *
  * TODO: don't expose it!
- * @return The amount of bitcoins desired
+ * @return The amount of xeps desired
  */
 int64_t calculateDesiredXEP(const int64_t amountOffered, const int64_t amountDesired, const int64_t amountAvailable)
 {

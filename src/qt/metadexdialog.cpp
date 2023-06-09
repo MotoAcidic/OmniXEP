@@ -22,7 +22,7 @@
 #include <omnicore/sp.h>
 #include <omnicore/tally.h>
 #include <omnicore/uint256_extensions.h>
-#include <omnicore/utilsbitcoin.h>
+#include <omnicore/utilsxep.h>
 #include <omnicore/wallettxbuilder.h>
 #include <omnicore/walletutils.h>
 

@@ -15,7 +15,7 @@
 #include <omnicore/rules.h>
 #include <omnicore/sp.h>
 #include <omnicore/tx.h>
-#include <omnicore/utilsbitcoin.h>
+#include <omnicore/utilsxep.h>
 #include <omnicore/wallettxbuilder.h>
 
 #include <interfaces/wallet.h>
@@ -47,7 +47,7 @@ static UniValue omni_funded_send(const JSONRPCRequest& request)
 
     RPCHelpMan{"omni_funded_send",
        "\nCreates and sends a funded simple send transaction.\n"
-       "\nAll bitcoins from the sender are consumed and if there are bitcoins missing, they are taken from the specified fee source. Change is sent to the fee source!\n",
+       "\nAll xeps from the sender are consumed and if there are xeps missing, they are taken from the specified fee source. Change is sent to the fee source!\n",
        {
            {"fromaddress", RPCArg::Type::STR, RPCArg::Optional::NO, "the address to send the tokens from"},
            {"toaddress", RPCArg::Type::STR, RPCArg::Optional::NO, "the address of the receiver"},
@@ -95,7 +95,7 @@ static UniValue omni_funded_sendall(const JSONRPCRequest& request)
 
     RPCHelpMan{"omni_funded_sendall",
        "\nCreates and sends a transaction that transfers all available tokens in the given ecosystem to the recipient.\n"
-       "\nAll bitcoins from the sender are consumed and if there are bitcoins missing, they are taken from the specified fee source. Change is sent to the fee source!\n",
+       "\nAll xeps from the sender are consumed and if there are xeps missing, they are taken from the specified fee source. Change is sent to the fee source!\n",
        {
            {"fromaddress", RPCArg::Type::STR, RPCArg::Optional::NO, "the address to the tokens send from\n"},
            {"toaddress", RPCArg::Type::STR, RPCArg::Optional::NO, "the address of the receiver\n"},
@@ -142,7 +142,7 @@ static UniValue omni_sendrawtx(const JSONRPCRequest& request)
            {"rawtransaction", RPCArg::Type::STR, RPCArg::Optional::NO, "the hex-encoded raw transaction"},
            {"referenceaddress", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "a reference address (none by default)\n"},
            {"redeemaddress", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "an address that can spent the transaction dust (sender by default)\n"},
-           {"referenceamount", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "a bitcoin amount that is sent to the receiver (minimal by default)\n"},
+           {"referenceamount", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "a xep amount that is sent to the receiver (minimal by default)\n"},
        },
        RPCResult{
            RPCResult::Type::STR_HEX, "hash", "the hex-encoded transaction hash"
@@ -189,7 +189,7 @@ static UniValue omni_send(const JSONRPCRequest& request)
            {"propertyid", RPCArg::Type::NUM, RPCArg::Optional::NO, "the identifier of the tokens to send\n"},
            {"amount", RPCArg::Type::STR, RPCArg::Optional::NO, "the amount to send\n"},
            {"redeemaddress", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "an address that can spend the transaction dust (sender by default)\n"},
-           {"referenceamount", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "a bitcoin amount that is sent to the receiver (minimal by default)\n"},
+           {"referenceamount", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "a xep amount that is sent to the receiver (minimal by default)\n"},
        },
        RPCResult{
            RPCResult::Type::STR_HEX, "hash", "the hex-encoded transaction hash"
@@ -299,7 +299,7 @@ static UniValue omni_sendall(const JSONRPCRequest& request)
            {"toaddress", RPCArg::Type::STR, RPCArg::Optional::NO, "the address of the receiver\n"},
            {"ecosystem", RPCArg::Type::NUM, RPCArg::Optional::NO, "the ecosystem of the tokens to send (1 for main ecosystem, 2 for test ecosystem)\n"},
            {"redeemaddress", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "an address that can spend the transaction dust (sender by default)\n"},
-           {"referenceamount", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "a bitcoin amount that is sent to the receiver (minimal by default)\n"},
+           {"referenceamount", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "a xep amount that is sent to the receiver (minimal by default)\n"},
        },
        RPCResult{
            RPCResult::Type::STR_HEX, "hash", "the hex-encoded transaction hash"
@@ -355,7 +355,7 @@ static UniValue omni_sendnonfungible(const JSONRPCRequest& request)
            {"tokenstart", RPCArg::Type::NUM, RPCArg::Optional::NO, "the first token in the range to send"},
            {"tokenend", RPCArg::Type::NUM, RPCArg::Optional::NO, "the last token in the range to send"},
            {"redeemaddress", RPCArg::Type::STR, RPCArg::Optional::OMITTED_NAMED_ARG, "an address that can spend the transaction dust (sender by default)"},
-           {"referenceamount", RPCArg::Type::STR, RPCArg::Optional::OMITTED_NAMED_ARG, "a bitcoin amount that is sent to the receiver (minimal by default)"},
+           {"referenceamount", RPCArg::Type::STR, RPCArg::Optional::OMITTED_NAMED_ARG, "a xep amount that is sent to the receiver (minimal by default)"},
        },
        RPCResult{
            RPCResult::Type::STR_HEX, "hash", "the hex-encoded transaction hash"
@@ -487,7 +487,7 @@ static UniValue omni_senddexsell(const JSONRPCRequest& request)
            {"fromaddress", RPCArg::Type::STR, RPCArg::Optional::NO, "the address to send from\n"},
            {"propertyidforsale", RPCArg::Type::NUM, RPCArg::Optional::NO, "the identifier of the tokens to list for sale\n"},
            {"amountforsale", RPCArg::Type::STR, RPCArg::Optional::NO, "the amount of tokens to list for sale\n"},
-           {"amountdesired", RPCArg::Type::STR, RPCArg::Optional::NO, "the amount of bitcoins desired\n"},
+           {"amountdesired", RPCArg::Type::STR, RPCArg::Optional::NO, "the amount of xeps desired\n"},
            {"paymentwindow", RPCArg::Type::NUM, RPCArg::Optional::NO, "a time limit in blocks a buyer has to pay following a successful accepting order\n"},
            {"minacceptfee", RPCArg::Type::STR, RPCArg::Optional::NO, "a minimum mining fee a buyer has to pay to accept the offer\n"},
            {"action", RPCArg::Type::NUM, RPCArg::Optional::NO, "the action to take (1 for new offers, 2 to update\", 3 to cancel)\n"},
@@ -646,7 +646,7 @@ static UniValue omni_sendnewdexorder(const JSONRPCRequest& request)
            {"fromaddress", RPCArg::Type::STR, RPCArg::Optional::NO, "the address to send from\n"},
            {"propertyidforsale", RPCArg::Type::NUM, RPCArg::Optional::NO, "the identifier of the tokens to list for sale\n"},
            {"amountforsale", RPCArg::Type::STR, RPCArg::Optional::NO, "the amount of tokens to list for sale\n"},
-           {"amountdesired", RPCArg::Type::STR, RPCArg::Optional::NO, "the amount of bitcoins desired\n"},
+           {"amountdesired", RPCArg::Type::STR, RPCArg::Optional::NO, "the amount of xeps desired\n"},
            {"paymentwindow", RPCArg::Type::NUM, RPCArg::Optional::NO, "a time limit in blocks a buyer has to pay following a successful accepting order\n"},
            {"minacceptfee", RPCArg::Type::STR, RPCArg::Optional::NO, "a minimum mining fee a buyer has to pay to accept the offer\n"},
        },
@@ -712,7 +712,7 @@ static UniValue omni_sendupdatedexorder(const JSONRPCRequest& request)
            {"fromaddress", RPCArg::Type::STR, RPCArg::Optional::NO, "the address to send from\n"},
            {"propertyidforsale", RPCArg::Type::NUM, RPCArg::Optional::NO, "the identifier of the tokens to update\n"},
            {"amountforsale", RPCArg::Type::STR, RPCArg::Optional::NO, "the new amount of tokens to list for sale\n"},
-           {"amountdesired", RPCArg::Type::STR, RPCArg::Optional::NO, "the new amount of bitcoins desired\n"},
+           {"amountdesired", RPCArg::Type::STR, RPCArg::Optional::NO, "the new amount of xeps desired\n"},
            {"paymentwindow", RPCArg::Type::NUM, RPCArg::Optional::NO, "a new time limit in blocks a buyer has to pay following a successful accepting order\n"},
            {"minacceptfee", RPCArg::Type::STR, RPCArg::Optional::NO, "a new minimum mining fee a buyer has to pay to accept the offer\n"},
        },

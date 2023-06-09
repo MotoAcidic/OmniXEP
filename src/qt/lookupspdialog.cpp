@@ -87,7 +87,7 @@ void LookupSPDialog::searchSP()
     catch(const boost::bad_lexical_cast &e) { }
     if (searchParamType == 1 && 0 >= searchPropertyId) searchParamType = 0; // we got a number but it's <=0
 
-    // next if not positive numerical, lets see if the string is a valid bitcoin address for issuer search
+    // next if not positive numerical, lets see if the string is a valid xep address for issuer search
     if (searchParamType == 0)
     {
         CTxDestination address = DecodeDestination(searchText); // no null check on searchText required we've already checked it's not empty above

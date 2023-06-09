@@ -14,7 +14,7 @@ Table of contents
 - [Upgrading and downgrading](#upgrading-and-downgrading)
   - [How to upgrade](#how-to-upgrade)
   - [Downgrading](#downgrading)
-  - [Compatibility with Xep Core](#compatibility-with-bitcoin-core)
+  - [Compatibility with Xep Core](#compatibility-with-xep-core)
 - [Notable changes](#notable-changes)
   - [Add new RPC: "omni_listblockstransactions"](#add-new-rpc-omni_listblockstransactions)
   - [Fix RPC edge case of not identifying crowdsale purchase](#fix-rpc-edge-case-of-not-identifying-crowdsale-purchase)

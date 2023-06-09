@@ -134,7 +134,7 @@ static UniValue omni_createpayload_dexsell(const JSONRPCRequest& request)
        {
            {"propertyidforsale", RPCArg::Type::NUM, RPCArg::Optional::NO, " the identifier of the tokens to list for sale (must be 1 for OMN or 2 for TOMN)\n"},
            {"amountforsale", RPCArg::Type::STR, RPCArg::Optional::NO, "the amount of tokens to list for sale\n"},
-           {"amountdesired", RPCArg::Type::STR, RPCArg::Optional::NO, "the amount of bitcoins desired\n"},
+           {"amountdesired", RPCArg::Type::STR, RPCArg::Optional::NO, "the amount of xeps desired\n"},
            {"paymentwindow", RPCArg::Type::NUM, RPCArg::Optional::NO, "a time limit in blocks a buyer has to pay following a successful accepting order\n"},
            {"minacceptfee", RPCArg::Type::STR, RPCArg::Optional::NO, "a minimum mining fee a buyer has to pay to accept the offer\n"},
            {"action", RPCArg::Type::NUM, RPCArg::Optional::NO, "the action to take (1 for new offers, 2 to update\", 3 to cancel)\n"},

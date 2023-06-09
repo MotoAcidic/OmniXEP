@@ -17,7 +17,7 @@ Table of contents
 - [Upgrading and downgrading](#upgrading-and-downgrading)
   - [How to upgrade](#how-to-upgrade)
   - [Downgrading](#downgrading)
-  - [Compatibility with Xep Core](#compatibility-with-bitcoin-core)
+  - [Compatibility with Xep Core](#compatibility-with-xep-core)
 - [Notable changes](#notable-changes)
   - [Fix startup issue of Omni Core](#fix-startup-issue-of-omni-core)
   - [Speed up RPC omni_listpendingtransactions](#speed-up-rpc-omni_listpendingtransactions)

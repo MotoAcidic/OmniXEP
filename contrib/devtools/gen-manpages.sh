@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copyright (c) 2016-2019 The Bitcoin Core developers
+# Copyright (c) 2016-2019 The Xep Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -10,11 +10,11 @@ BUILDDIR=${BUILDDIR:-$TOPDIR}
 BINDIR=${BINDIR:-$BUILDDIR/src}
 MANDIR=${MANDIR:-$TOPDIR/doc/man}
 
-XEPD=${XEPD:-$BINDIR/bitcoind}
-XEPCLI=${XEPCLI:-$BINDIR/bitcoin-cli}
-XEPTX=${XEPTX:-$BINDIR/bitcoin-tx}
-WALLET_TOOL=${WALLET_TOOL:-$BINDIR/bitcoin-wallet}
-XEPQT=${XEPQT:-$BINDIR/qt/bitcoin-qt}
+XEPD=${XEPD:-$BINDIR/xepd}
+XEPCLI=${XEPCLI:-$BINDIR/xep-cli}
+XEPTX=${XEPTX:-$BINDIR/xep-tx}
+WALLET_TOOL=${WALLET_TOOL:-$BINDIR/xep-wallet}
+XEPQT=${XEPQT:-$BINDIR/qt/xep-qt}
 
 [ ! -x $XEPD ] && echo "$XEPD not found or not executable." && exit 1
 
@@ -22,8 +22,8 @@ XEPQT=${XEPQT:-$BINDIR/qt/bitcoin-qt}
 read -r -a XEPVER <<< "$($XEPCLI --version | head -n1 | awk -F'[ -]' '{ print $6, $7 }')"
 
 # Create a footer file with copyright content.
-# This gets autodetected fine for bitcoind if --version-string is not set,
-# but has different outcomes for bitcoin-qt and bitcoin-cli.
+# This gets autodetected fine for xepd if --version-string is not set,
+# but has different outcomes for xep-qt and xep-cli.
 echo "[COPYRIGHT]" > footer.h2m
 $XEPD --version | sed -n '1!p' >> footer.h2m
 

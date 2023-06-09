@@ -1,7 +1,7 @@
 #include <omnicore/notifications.h>
 
 #include <omnicore/log.h>
-#include <omnicore/utilsbitcoin.h>
+#include <omnicore/utilsxep.h>
 #include <omnicore/version.h>
 
 #include <validation.h>

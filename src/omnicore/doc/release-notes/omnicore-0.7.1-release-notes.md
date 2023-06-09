@@ -17,9 +17,9 @@ Table of contents
 - [Upgrading and downgrading](#upgrading-and-downgrading)
   - [How to upgrade](#how-to-upgrade)
   - [Downgrading](#downgrading)
-  - [Compatibility with Xep Core](#compatibility-with-bitcoin-core)
+  - [Compatibility with Xep Core](#compatibility-with-xep-core)
 - [Imported changes and notes](#imported-changes-and-notes)
-  - [Allow any token to be traded for Xep](#allow-any-token-to-be-traded-for-bitcoin)
+  - [Allow any token to be traded for Xep](#allow-any-token-to-be-traded-for-xep)
   - [Updates to omni_senddexaccept to accept orders](#updates-to-omni_senddexaccept-to-accept-orders)
   - [New command omni_senddexpay to execute orders](#new-command-omni_senddexpay-to-execute-orders)
   - [rpcallowip option changes](#rpcallowip-option-changes)
@@ -154,8 +154,8 @@ Updates to the Omni Core logo
 
 To show the synergy between the Omni Layer protocol and Xep, the Omni Core logos were slightly changed to also include the Xep logo:
 
-- [Omni Core mainnet icon](https://github.com/OmniLayer/omnicore/blob/v0.7.1/src/qt/res/icons/bitcoin.png)
-- [Omni Core testnet icon](https://github.com/OmniLayer/omnicore/blob/v0.7.1/src/qt/res/icons/bitcoin_testnet.png)
+- [Omni Core mainnet icon](https://github.com/OmniLayer/omnicore/blob/v0.7.1/src/qt/res/icons/xep.png)
+- [Omni Core testnet icon](https://github.com/OmniLayer/omnicore/blob/v0.7.1/src/qt/res/icons/xep_testnet.png)
 
 
 Several stability and performance improvements

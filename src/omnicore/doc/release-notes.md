@@ -19,7 +19,7 @@ Table of contents
 - [Upgrading and downgrading](#upgrading-and-downgrading)
   - [How to upgrade](#how-to-upgrade)
   - [Downgrading](#downgrading)
-  - [Compatibility with Xep Core](#compatibility-with-bitcoin-core)
+  - [Compatibility with Xep Core](#compatibility-with-xep-core)
 - [Improvements](#improvements)
   - [Non-fungible tokens](#non-fungible-tokens)
   - [Delegate management of tokens](#delegate-management-of-tokens)

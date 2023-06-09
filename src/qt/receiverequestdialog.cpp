@@ -1,11 +1,11 @@
-// Copyright (c) 2011-2019 The Bitcoin Core developers
+// Copyright (c) 2011-2019 The Xep Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <qt/receiverequestdialog.h>
 #include <qt/forms/ui_receiverequestdialog.h>
 
-#include <qt/bitcoinunits.h>
+#include <qt/xepunits.h>
 #include <qt/guiutil.h>
 #include <qt/optionsmodel.h>
 #include <qt/walletmodel.h>
@@ -14,7 +14,7 @@
 #include <QPixmap>
 
 #if defined(HAVE_CONFIG_H)
-#include <config/bitcoin-config.h> /* for USE_QRCODE */
+#include <config/xep-config.h> /* for USE_QRCODE */
 #endif
 
 ReceiveRequestDialog::ReceiveRequestDialog(QWidget *parent) :

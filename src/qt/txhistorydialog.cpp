@@ -22,7 +22,7 @@
 #include <omnicore/rpctxobject.h>
 #include <omnicore/sp.h>
 #include <omnicore/tx.h>
-#include <omnicore/utilsbitcoin.h>
+#include <omnicore/utilsxep.h>
 #include <omnicore/walletcache.h>
 #include <omnicore/walletfetchtxs.h>
 #include <omnicore/walletutils.h>

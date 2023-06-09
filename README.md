@@ -16,15 +16,15 @@ Disclaimer, warning
 -------------------
 This software is EXPERIMENTAL software. USE ON MAINNET AT YOUR OWN RISK.
 
-By default this software will use your existing Xep wallet, including spending bitcoins contained therein (for example for transaction fees or trading).
+By default this software will use your existing Xep wallet, including spending xeps contained therein (for example for transaction fees or trading).
 The protocol and transaction processing rules for the Omni Layer are still under active development and are subject to change in future.
 Omni Core should be considered an alpha-level product, and you use it at your own risk. Neither the Omni Foundation nor the Omni Core developers assumes any responsibility for funds misplaced, mishandled, lost, or misallocated.
 
-Further, please note that this installation of Omni Core should be viewed as EXPERIMENTAL. Your wallet data, bitcoins and Omni Layer tokens may be lost, deleted, or corrupted, with or without warning due to bugs or glitches. Please take caution.
+Further, please note that this installation of Omni Core should be viewed as EXPERIMENTAL. Your wallet data, xeps and Omni Layer tokens may be lost, deleted, or corrupted, with or without warning due to bugs or glitches. Please take caution.
 
 This software is provided open-source at no cost. You are responsible for knowing the law in your country and determining if your use of this software contravenes any local laws.
 
-PLEASE DO NOT use wallet(s) with significant amounts of bitcoins or Omni Layer tokens while testing!
+PLEASE DO NOT use wallet(s) with significant amounts of xeps or Omni Layer tokens while testing!
 
 Testnet
 -------
@@ -73,15 +73,15 @@ cd src/
 ```
 And start Omni Core using `./omnicored` (or `./qt/omnicore-qt` if built with UI). The initial parse step for a first time run
 will take up to 60 minutes or more, during this time your client will scan the blockchain for Omni Layer transactions. You can view the
-output of the parsing at any time by viewing the log located in your datadir, by default: `~/.bitcoin/omnicore.log`.
+output of the parsing at any time by viewing the log located in your datadir, by default: `~/.xep/omnicore.log`.
 
-Omni Core requires the transaction index to be enabled. Add an entry to your bitcoin.conf file for `txindex=1` to enable it or Omni Core will refuse to start.
+Omni Core requires the transaction index to be enabled. Add an entry to your xep.conf file for `txindex=1` to enable it or Omni Core will refuse to start.
 
 If a message is returned asking you to reindex, pass the `-reindex` flag as startup option. The reindexing process can take several hours.
 
-To issue RPC commands to Omni Core you may add the `-server=1` CLI flag or add an entry to the bitcoin.conf file (located in `~/.bitcoin/` by default).
+To issue RPC commands to Omni Core you may add the `-server=1` CLI flag or add an entry to the xep.conf file (located in `~/.xep/` by default).
 
-In bitcoin.conf:
+In xep.conf:
 ```
 server=1
 ```

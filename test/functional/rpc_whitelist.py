@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2017-2019 The Bitcoin Core developers
+# Copyright (c) 2017-2019 The Xep Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """
@@ -55,7 +55,7 @@ class RPCWhitelistTest(XepTestFramework):
         ]
         # These commands shouldn't be allowed for any user to test failures
         self.never_allowed = ["getnetworkinfo"]
-        with open(os.path.join(get_datadir_path(self.options.tmpdir, 0), "bitcoin.conf"), 'a', encoding='utf8') as f:
+        with open(os.path.join(get_datadir_path(self.options.tmpdir, 0), "xep.conf"), 'a', encoding='utf8') as f:
             f.write("\nrpcwhitelistdefault=0\n")
             for user in self.users:
                 f.write("rpcauth=" + user[0] + ":" + user[1] + "\n")

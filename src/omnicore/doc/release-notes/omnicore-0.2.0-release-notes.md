@@ -16,9 +16,9 @@ Table of contents
 - [Upgrading and downgrading](#upgrading-and-downgrading)
   - [How to upgrade](#how-to-upgrade)
   - [Downgrading](#downgrading)
-  - [Compatibility with Xep Core](#compatibility-with-bitcoin-core)
+  - [Compatibility with Xep Core](#compatibility-with-xep-core)
 - [Imported changes and notes](#imported-changes-and-notes)
-  - [Upgrade to Xep Core 0.13.2](#upgrade-to-bitcoin-core-0132)
+  - [Upgrade to Xep Core 0.13.2](#upgrade-to-xep-core-0132)
   - [Important transaction fee behavior changes](#important-transaction-fee-behavior-changes)
   - [API changes](#api-changes)
   - [New project versioning scheme](#new-project-versioning-scheme)
@@ -69,14 +69,14 @@ The underlying base of Omni Core was upgraded from Xep Core 0.10.4 to Xep Core 0
 
 Please see the following release notes for further details:
 
-- [Release notes for Xep Core 0.11.0](https://github.com/bitcoin/bitcoin/blob/master/doc/release-notes/release-notes-0.11.0.md)
-- [Release notes for Xep Core 0.11.1](https://github.com/bitcoin/bitcoin/blob/master/doc/release-notes/release-notes-0.11.1.md)
-- [Release notes for Xep Core 0.11.2](https://github.com/bitcoin/bitcoin/blob/master/doc/release-notes/release-notes-0.11.2.md)
-- [Release notes for Xep Core 0.12.0](https://github.com/bitcoin/bitcoin/blob/master/doc/release-notes/release-notes-0.12.0.md)
-- [Release notes for Xep Core 0.12.1](https://github.com/bitcoin/bitcoin/blob/master/doc/release-notes/release-notes-0.12.1.md)
-- [Release notes for Xep Core 0.13.0](https://github.com/bitcoin/bitcoin/blob/master/doc/release-notes/release-notes-0.13.0.md)
-- [Release notes for Xep Core 0.13.1](https://github.com/bitcoin/bitcoin/blob/master/doc/release-notes/release-notes-0.13.1.md)
-- [Release notes for Xep Core 0.13.2](https://github.com/bitcoin/bitcoin/blob/master/doc/release-notes/release-notes-0.13.2.md)
+- [Release notes for Xep Core 0.11.0](https://github.com/xep/xep/blob/master/doc/release-notes/release-notes-0.11.0.md)
+- [Release notes for Xep Core 0.11.1](https://github.com/xep/xep/blob/master/doc/release-notes/release-notes-0.11.1.md)
+- [Release notes for Xep Core 0.11.2](https://github.com/xep/xep/blob/master/doc/release-notes/release-notes-0.11.2.md)
+- [Release notes for Xep Core 0.12.0](https://github.com/xep/xep/blob/master/doc/release-notes/release-notes-0.12.0.md)
+- [Release notes for Xep Core 0.12.1](https://github.com/xep/xep/blob/master/doc/release-notes/release-notes-0.12.1.md)
+- [Release notes for Xep Core 0.13.0](https://github.com/xep/xep/blob/master/doc/release-notes/release-notes-0.13.0.md)
+- [Release notes for Xep Core 0.13.1](https://github.com/xep/xep/blob/master/doc/release-notes/release-notes-0.13.1.md)
+- [Release notes for Xep Core 0.13.2](https://github.com/xep/xep/blob/master/doc/release-notes/release-notes-0.13.2.md)
 
 Important transaction fee behavior changes
 ------------------------------------------

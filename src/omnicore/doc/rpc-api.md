@@ -145,7 +145,7 @@ Create and broadcast a simple send transaction.
 | `propertyid`        | number  | required | the identifier of the tokens to send                                                         |
 | `amount`            | string  | required | the amount to send                                                                           |
 | `redeemaddress`     | string  | optional | an address that can spend the transaction dust (sender by default)                           |
-| `referenceamount`   | string  | optional | a bitcoin amount that is sent to the receiver (minimal by default)                           |
+| `referenceamount`   | string  | optional | a xep amount that is sent to the receiver (minimal by default)                           |
 
 **Result:**
 ```js
@@ -177,7 +177,7 @@ Place, update or cancel a sell offer on the distributed token/XEP exchange.
 | `fromaddress`       | string  | required | the address to send from                                                                     |
 | `propertyidforsale` | number  | required | the identifier of the tokens to list for sale                                                |
 | `amountforsale`     | string  | required | the amount of tokens to list for sale                                                        |
-| `amountdesired`     | string  | required | the amount of bitcoins desired                                                               |
+| `amountdesired`     | string  | required | the amount of xeps desired                                                               |
 | `paymentwindow`     | number  | required | a time limit in blocks a buyer has to pay following a successful accepting order             |
 | `minacceptfee`      | string  | required | a minimum mining fee a buyer has to pay to accept the offer                                  |
 | `action`            | number  | required | the action to take (`1` for new offers, `2` to update, `3` to cancel)                        |
@@ -206,7 +206,7 @@ Creates a new sell offer on the distributed token/XEP exchange.
 | `fromaddress`       | string  | required | the address to send from                                                                     |
 | `propertyidforsale` | number  | required | the identifier of the tokens to list for sale                                                |
 | `amountforsale`     | string  | required | the amount of tokens to list for sale                                                        |
-| `amountdesired`     | string  | required | the amount of bitcoins desired                                                               |
+| `amountdesired`     | string  | required | the amount of xeps desired                                                               |
 | `paymentwindow`     | number  | required | a time limit in blocks a buyer has to pay following a successful accepting order             |
 | `minacceptfee`      | string  | required | a minimum mining fee a buyer has to pay to accept the offer                                  |
 
@@ -234,7 +234,7 @@ Updates an existing sell offer on the distributed token/XEP exchange.
 | `fromaddress`       | string  | required | the address to send from                                                                     |
 | `propertyidforsale` | number  | required | the identifier of the tokens to update                                                       |
 | `amountforsale`     | string  | required | the new amount of tokens to list for sale                                                    |
-| `amountdesired`     | string  | required | the new amount of bitcoins desired                                                           |
+| `amountdesired`     | string  | required | the new amount of xeps desired                                                           |
 | `paymentwindow`     | number  | required | a new time limit in blocks a buyer has to pay following a successful accepting order         |
 | `minacceptfee`      | string  | required | a new minimum mining fee a buyer has to pay to accept the offer                              |
 
@@ -682,7 +682,7 @@ Transfers all available tokens in the given ecosystem to the recipient.
 | `toaddress  `       | string  | required | the address of the receiver                                                                  |
 | `ecosystem`         | number  | required | the ecosystem of the tokens to send (`1` for main ecosystem, `2` for test ecosystem)         |
 | `redeemaddress`     | string  | optional | an address that can spend the transaction dust (sender by default)                           |
-| `referenceamount`   | string  | optional | a bitcoin amount that is sent to the receiver (minimal by default)                           |
+| `referenceamount`   | string  | optional | a xep amount that is sent to the receiver (minimal by default)                           |
 
 **Result:**
 ```js
@@ -896,7 +896,7 @@ Broadcasts a raw Omni Layer transaction.
 | `rawtransaction`    | string  | required | the hex-encoded raw transaction                                                              |
 | `referenceaddress`  | string  | optional | a reference address (none by default)                                                        |
 | `redeemaddress`     | string  | optional | an address that can spend the transaction dust (sender by default)                           |
-| `referenceamount`   | string  | optional | a bitcoin amount that is sent to the receiver (minimal by default)                           |
+| `referenceamount`   | string  | optional | a xep amount that is sent to the receiver (minimal by default)                           |
 
 **Result:**
 ```js
@@ -917,7 +917,7 @@ $ omnicore-cli "omni_sendrawtx" \
 
 Creates and sends a funded simple send transaction.
 
-All bitcoins from the sender are consumed and if there are bitcoins missing, they are taken from the specified fee source. Change is sent to the fee source!
+All xeps from the sender are consumed and if there are xeps missing, they are taken from the specified fee source. Change is sent to the fee source!
 
 **Arguments:**
 
@@ -948,7 +948,7 @@ $ omnicore-cli "omni_funded_send" "1DFa5bT6KMEr6ta29QJouainsjaNBsJQhH" \
 
 Creates and sends a transaction that transfers all available tokens in the given ecosystem to the recipient.
 
-All bitcoins from the sender are consumed and if there are bitcoins missing, they are taken from the specified fee source. Change is sent to the fee source!
+All xeps from the sender are consumed and if there are xeps missing, they are taken from the specified fee source. Change is sent to the fee source!
 
 **Arguments:**
 
@@ -987,7 +987,7 @@ Create and broadcast a non-fungible send transaction.
 | `tokenstart`        | number  | required | the first token in the range to send                                                         |
 | `tokenend`          | number  | required | the last token in the range to send                                                          |
 | `redeemaddress`     | string  | optional | an address that can spend the transaction dust (sender by default)                           |
-| `referenceamount`   | string  | optional | a bitcoin amount that is sent to the receiver (minimal by default)                           |
+| `referenceamount`   | string  | optional | a xep amount that is sent to the receiver (minimal by default)                           |
 
 **Result:**
 ```js
@@ -1050,7 +1050,7 @@ Result:
   "omnicoreversion_int" : xxxxxxx,      // (number) client version as integer
   "omnicoreversion" : "x.x.x.x-xxx",    // (string) client version
   "mastercoreversion" : "x.x.x.x-xxx",  // (string) client version (DEPRECATED)
-  "bitcoincoreversion" : "x.x.x",       // (string) Xep Core version
+  "xepcoreversion" : "x.x.x",       // (string) Xep Core version
   "commitinfo" : "xxxxxxx",             // (string) build commit identifier
   "block" : nnnnnn,                     // (number) index of the last processed block
   "blocktime" : nnnnnnnnnn,             // (number) timestamp of the last processed block
@@ -1256,7 +1256,7 @@ Get detailed information about an Omni transaction.
   "referenceaddress" : "address",  // (string) a Xep address used as reference (if any)
   "ismine" : true|false,           // (boolean) whether the transaction involes an address in the wallet
   "confirmations" : nnnnnnnnnn,    // (number) the number of transaction confirmations
-  "fee" : "n.nnnnnnnn",            // (string) the transaction fee in bitcoins
+  "fee" : "n.nnnnnnnn",            // (string) the transaction fee in xeps
   "blocktime" : nnnnnnnnnn,        // (number) the timestamp of the block that contains the transaction
   "valid" : true|false,            // (boolean) whether the transaction is valid
   "positioninblock" : n,           // (number) the position (index) of the transaction within the block
@@ -1298,7 +1298,7 @@ List wallet transactions, optionally filtered by an address and block boundaries
     "referenceaddress" : "address",  // (string) a Xep address used as reference (if any)
     "ismine" : true|false,           // (boolean) whether the transaction involves an address in the wallet
     "confirmations" : nnnnnnnnnn,    // (number) the number of transaction confirmations
-    "fee" : "n.nnnnnnnn",            // (string) the transaction fee in bitcoins
+    "fee" : "n.nnnnnnnn",            // (string) the transaction fee in xeps
     "blocktime" : nnnnnnnnnn,        // (number) the timestamp of the block that contains the transaction
     "valid" : true|false,            // (boolean) whether the transaction is valid
     "positioninblock" : n,           // (number) the position (index) of the transaction within the block
@@ -1394,7 +1394,7 @@ Note: the validity of pending transactions is uncertain, and the state of the me
     "sendingaddress" : "address",    // (string) the Xep address of the sender
     "referenceaddress" : "address",  // (string) a Xep address used as reference (if any)
     "ismine" : true|false,           // (boolean) whether the transaction involes an address in the wallet
-    "fee" : "n.nnnnnnnn",            // (string) the transaction fee in bitcoins
+    "fee" : "n.nnnnnnnn",            // (string) the transaction fee in xeps
     "version" : n,                   // (number) the transaction version
     "type_int" : n,                  // (number) the transaction type as number
     "type" : "type",                 // (string) the transaction type as string
@@ -1430,7 +1430,7 @@ Returns currently active offers on the distributed exchange.
     "propertyid" : n,                  // (number) the identifier of the tokens for sale
     "seller" : "address",              // (string) the Xep address of the seller
     "amountavailable" : "n.nnnnnnnn",  // (string) the number of tokens still listed for sale and currently available
-    "bitcoindesired" : "n.nnnnnnnn",   // (string) the number of bitcoins desired in exchange
+    "xepdesired" : "n.nnnnnnnn",   // (string) the number of xeps desired in exchange
     "unitprice" : "n.nnnnnnnn" ,       // (string) the unit price (XEP/token)
     "timelimit" : nn,                  // (number) the time limit in blocks a buyer has to pay following a successful accept
     "minimumfee" : "n.nnnnnnnn",       // (string) the minimum mining fee a buyer has to pay to accept this offer
@@ -1441,7 +1441,7 @@ Returns currently active offers on the distributed exchange.
         "block" : nnnnnn,                  // (number) the index of the block that contains the "accept" order
         "blocksleft" : nn,                 // (number) the number of blocks left to pay
         "amount" : "n.nnnnnnnn"            // (string) the amount of tokens accepted and reserved
-        "amounttopay" : "n.nnnnnnnn"       // (string) the amount in bitcoins needed finalize the trade
+        "amounttopay" : "n.nnnnnnnn"       // (string) the amount in xeps needed finalize the trade
       },
       ...
     ]
@@ -1682,7 +1682,7 @@ Get information and recipients of a send-to-owners transaction.
   "sendingaddress" : "address",  // (string) the Xep address of the sender
   "ismine" : true|false,         // (boolean) whether the transaction involes an address in the wallet
   "confirmations" : nnnnnnnnnn,  // (number) the number of transaction confirmations
-  "fee" : "n.nnnnnnnn",          // (string) the transaction fee in bitcoins
+  "fee" : "n.nnnnnnnn",          // (string) the transaction fee in xeps
   "blocktime" : nnnnnnnnnn,      // (number) the timestamp of the block that contains the transaction
   "valid" : true|false,          // (boolean) whether the transaction is valid
   "positioninblock" : n,         // (number) the position (index) of the transaction within the block
@@ -1728,7 +1728,7 @@ Get detailed information and trade matches for orders on the distributed token e
   "sendingaddress" : "address",                 // (string) the Xep address of the trader
   "ismine" : true|false,                        // (boolean) whether the order involes an address in the wallet
   "confirmations" : nnnnnnnnnn,                 // (number) the number of transaction confirmations
-  "fee" : "n.nnnnnnnn",                         // (string) the transaction fee in bitcoins
+  "fee" : "n.nnnnnnnn",                         // (string) the transaction fee in xeps
   "blocktime" : nnnnnnnnnn,                     // (number) the timestamp of the block that contains the transaction
   "valid" : true|false,                         // (boolean) whether the transaction is valid
   "positioninblock" : n,                        // (number) the position (index) of the transaction within the block
@@ -1865,7 +1865,7 @@ Retrieves the history of orders on the distributed exchange for the supplied add
     "sendingaddress" : "address",                 // (string) the Xep address of the trader
     "ismine" : true|false,                        // (boolean) whether the order involes an address in the wallet
     "confirmations" : nnnnnnnnnn,                 // (number) the number of transaction confirmations
-    "fee" : "n.nnnnnnnn",                         // (string) the transaction fee in bitcoins
+    "fee" : "n.nnnnnnnn",                         // (string) the transaction fee in xeps
     "blocktime" : nnnnnnnnnn,                     // (number) the timestamp of the block that contains the transaction
     "valid" : true|false,                         // (boolean) whether the transaction is valid
     "positioninblock" : n,                        // (number) the position (index) of the transaction within the block
@@ -2397,7 +2397,7 @@ The format of `prevtxs` is as following:
 ```js
 {
   "txid" : "hash",                 // (string) the hex-encoded hash of the transaction
-  "fee" : "n.nnnnnnnn",            // (string) the transaction fee in bitcoins
+  "fee" : "n.nnnnnnnn",            // (string) the transaction fee in xeps
   "sendingaddress" : "address",    // (string) the Xep address of the sender
   "referenceaddress" : "address",  // (string) a Xep address used as reference (if any)
   "ismine" : true|false,           // (boolean) whether the transaction involes an address in the wallet
@@ -2660,7 +2660,7 @@ Create a payload to place, update or cancel a sell offer on the traditional dist
 |---------------------|---------|----------|----------------------------------------------------------------------------------------------|
 | `propertyidforsale` | number  | required | the identifier of the tokens to list for sale (must be 1 for OMN or 2 for TOMN)              |
 | `amountforsale`     | string  | required | the amount of tokens to list for sale                                                        |
-| `amountdesired`     | string  | required | the amount of bitcoins desired                                                               |
+| `amountdesired`     | string  | required | the amount of xeps desired                                                               |
 | `paymentwindow`     | number  | required | a time limit in blocks a buyer has to pay following a successful accepting order             |
 | `minacceptfee`      | string  | required | a minimum mining fee a buyer has to pay to accept the offer                                  |
 | `action`            | number  | required | the action to take (1 for new offers, 2 to update\", 3 to cancel)                            |

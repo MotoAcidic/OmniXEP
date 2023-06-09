@@ -11,7 +11,7 @@ SetCompressor /SOLID lzma
 !define URL http://www.omnilayer.org/
 
 # MUI Symbol Definitions
-!define MUI_ICON "@abs_top_srcdir@/share/pixmaps/bitcoin.ico"
+!define MUI_ICON "@abs_top_srcdir@/share/pixmaps/xep.ico"
 !define MUI_WELCOMEFINISHPAGE_BITMAP "@abs_top_srcdir@/share/pixmaps/nsis-wizard.bmp"
 !define MUI_HEADERIMAGE
 !define MUI_HEADERIMAGE_RIGHT
@@ -80,7 +80,7 @@ Section -Main SEC0000
     SetOutPath $INSTDIR
     WriteRegStr HKCU "${REGKEY}\Components" Main 1
 
-    # Remove old wxwidgets-based-bitcoin executable and locales:
+    # Remove old wxwidgets-based-xep executable and locales:
     Delete /REBOOTOK $INSTDIR\omnicore.exe
     RMDir /r /REBOOTOK $INSTDIR\locale
 SectionEnd
@@ -102,10 +102,10 @@ Section -post SEC0001
     WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" UninstallString $INSTDIR\uninstall.exe
     WriteRegDWORD HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" NoModify 1
     WriteRegDWORD HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" NoRepair 1
-    WriteRegStr HKCR "bitcoin" "URL Protocol" ""
-    WriteRegStr HKCR "bitcoin" "" "URL:Xep"
-    WriteRegStr HKCR "bitcoin\DefaultIcon" "" $INSTDIR\omnicore-qt.exe
-    WriteRegStr HKCR "bitcoin\shell\open\command" "" '"$INSTDIR\omnicore-qt.exe" "%1"'
+    WriteRegStr HKCR "xep" "URL Protocol" ""
+    WriteRegStr HKCR "xep" "" "URL:Xep"
+    WriteRegStr HKCR "xep\DefaultIcon" "" $INSTDIR\omnicore-qt.exe
+    WriteRegStr HKCR "xep\shell\open\command" "" '"$INSTDIR\omnicore-qt.exe" "%1"'
 SectionEnd
 
 # Macro for selecting uninstaller sections
@@ -144,7 +144,7 @@ Section -un.post UNSEC0001
     DeleteRegValue HKCU "${REGKEY}" Path
     DeleteRegKey /IfEmpty HKCU "${REGKEY}\Components"
     DeleteRegKey /IfEmpty HKCU "${REGKEY}"
-    DeleteRegKey HKCR "bitcoin"
+    DeleteRegKey HKCR "xep"
     RmDir /REBOOTOK $SMPROGRAMS\$StartMenuGroup
     RmDir /REBOOTOK $INSTDIR
     Push $R0

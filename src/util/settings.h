@@ -1,4 +1,4 @@
-// Copyright (c) 2019-2020 The Bitcoin Core developers
+// Copyright (c) 2019-2020 The Xep Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -21,10 +21,10 @@ namespace util {
 //!       get_int64(), get_bool(), isNum(), isBool(), isFalse(), isTrue() and
 //!       isNull() methods can be substituted if there's a need to move away
 //!       from UniValue. (An implementation with boost::variant was posted at
-//!       https://github.com/bitcoin/bitcoin/pull/15934/files#r337691812)
+//!       https://github.com/xep/xep/pull/15934/files#r337691812)
 using SettingsValue = UniValue;
 
-//! Stored bitcoin settings. This struct combines settings from the command line
+//! Stored xep settings. This struct combines settings from the command line
 //! and a read-only configuration file.
 struct Settings {
     //! Map of setting name to forced setting value.

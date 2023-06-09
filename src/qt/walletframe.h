@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2019 The Bitcoin Core developers
+// Copyright (c) 2011-2019 The Xep Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -74,7 +74,7 @@ public Q_SLOTS:
     void gotoHistoryPage();
     /** Switch directory to Omni tx history tab */
     void gotoOmniHistoryTab();
-    /** Switch directory to bitcoin tx history tab */
+    /** Switch directory to xep tx history tab */
     void gotoXepHistoryTab();
     /** Switch to utility page */
     void gotoToolboxPage();

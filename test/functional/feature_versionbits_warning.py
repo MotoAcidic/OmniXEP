@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2016-2019 The Bitcoin Core developers
+# Copyright (c) 2016-2019 The Xep Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test version bits warning system.
@@ -86,7 +86,7 @@ class VersionBitsWarningTest(XepTestFramework):
         # is cleared. This will move the versionbit state to ACTIVE.
         node.generatetoaddress(VB_PERIOD, node_deterministic_address)
 
-        # Stop-start the node. This is required because bitcoind will only warn once about unknown versions or unknown rules activating.
+        # Stop-start the node. This is required because xepd will only warn once about unknown versions or unknown rules activating.
         self.restart_node(0)
 
         # Generating one block guarantees that we'll get out of IBD

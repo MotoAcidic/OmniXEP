@@ -7,7 +7,7 @@
 #include <omnicore/notifications.h>
 #include <omnicore/omnicore.h>
 #include <omnicore/tx.h>
-#include <omnicore/utilsbitcoin.h>
+#include <omnicore/utilsxep.h>
 
 #include <chain.h>
 #include <chainparams.h>

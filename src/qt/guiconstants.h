@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2020 The Bitcoin Core developers
+// Copyright (c) 2011-2020 The Xep Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -43,7 +43,7 @@ static const int TOOLTIP_WRAP_THRESHOLD = 80;
 #define SPINNER_FRAMES 36
 
 #define QAPP_ORG_NAME "Xep"
-#define QAPP_ORG_DOMAIN "bitcoin.org"
+#define QAPP_ORG_DOMAIN "xep.org"
 #define QAPP_APP_NAME_DEFAULT "Xep-Qt"
 #define QAPP_APP_NAME_TESTNET "Xep-Qt-testnet"
 #define QAPP_APP_NAME_REGTEST "Xep-Qt-regtest"

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2017-2018 The Bitcoin Core developers
+# Copyright (c) 2017-2018 The Xep Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test DEx versions spec using free DEx."""
@@ -79,7 +79,7 @@ class OmniFreeDExVersionsSpec(XepTestFramework):
         #        "type_int": 20,
         #        "propertyid": 3,
         #        "amount": "0.40000000",currently
-        #        "bitcoindesired": "0.80000000",
+        #        "xepdesired": "0.80000000",
         #        "timelimit": 15,
         #        "feerequired": "0.00000100"
         #    }
@@ -107,7 +107,7 @@ class OmniFreeDExVersionsSpec(XepTestFramework):
         #        "type_int": 20,
         #        "propertyid": 3,
         #        "amount": "0.10000000",
-        #        "bitcoindesired": "0.10000000",
+        #        "xepdesired": "0.10000000",
         #        "timelimit": 20,
         #        "feerequired": "0.00000000",
         #        "action": 1
@@ -136,7 +136,7 @@ class OmniFreeDExVersionsSpec(XepTestFramework):
         #        "type_int": 20,
         #        "propertyid": 3,
         #        "amount": "0.30000000",
-        #        "bitcoindesired": "0.30000000",
+        #        "xepdesired": "0.30000000",
         #        "timelimit": 7,
         #        "feerequired": "0.00000050"
         #    }
@@ -167,7 +167,7 @@ class OmniFreeDExVersionsSpec(XepTestFramework):
         #        "type_int": 20,
         #        "propertyid": 3,
         #        "amount": "0.00000001",
-        #        "bitcoindesired": "0.00000001",
+        #        "xepdesired": "0.00000001",
         #        "timelimit": 255,
         #        "feerequired": "0.00000001",
         #        "action": 1

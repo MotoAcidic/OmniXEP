@@ -18,7 +18,7 @@ Table of contents
 - [Upgrading and downgrading](#upgrading-and-downgrading)
   - [How to upgrade](#how-to-upgrade)
   - [Downgrading](#downgrading)
-  - [Compatibility with Xep Core](#compatibility-with-bitcoin-core)
+  - [Compatibility with Xep Core](#compatibility-with-xep-core)
 - [Consensus affecting changes](#consensus-affecting-changes)
   - [Trading of all pairs on the Distributed Exchange](#trading-of-all-pairs-on-the-distributed-exchange)
   - [Fee distribution system on the Distributed Exchange](#fee-distribution-system-on-the-distributed-exchange)

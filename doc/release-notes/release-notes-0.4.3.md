@@ -1,15 +1,15 @@
-bitcoind version 0.4.3 is now available for download at:
-http://luke.dashjr.org/programs/bitcoin/files/bitcoind-0.4.3/ (until Gavin uploads to SourceForge)
+xepd version 0.4.3 is now available for download at:
+http://luke.dashjr.org/programs/xep/files/xepd-0.4.3/ (until Gavin uploads to SourceForge)
 
 This is a bugfix-only release based on 0.4.0.
 
 Please note that the wxXep GUI client is no longer maintained nor supported. If someone would like to step up to maintain this, they should contact Luke-Jr.
 
 Please report bugs for the daemon only using the issue tracker at github:
-https://github.com/bitcoin/bitcoin/issues
+https://github.com/xep/xep/issues
 
 Stable source code is hosted at Gitorious:
-http://gitorious.org/bitcoin/bitcoind-stable/archive-tarball/v0.4.3#.tar.gz
+http://gitorious.org/xep/xepd-stable/archive-tarball/v0.4.3#.tar.gz
 
 BUG FIXES
 

@@ -5,7 +5,7 @@ Setup
 ---------------------
 Xep Core is the original Xep client and it builds the backbone of the network. It downloads and, by default, stores the entire history of Xep transactions, which requires a few hundred gigabytes of disk space. Depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more.
 
-To download Xep Core, visit [bitcoincore.org](https://bitcoincore.org/en/download/).
+To download Xep Core, visit [xepcore.org](https://xepcore.org/en/download/).
 
 Running
 ---------------------
@@ -15,12 +15,12 @@ The following are some helpful notes on how to run Xep Core on your native platf
 
 Unpack the files into a directory and run:
 
-- `bin/bitcoin-qt` (GUI) or
-- `bin/bitcoind` (headless)
+- `bin/xep-qt` (GUI) or
+- `bin/xepd` (headless)
 
 ### Windows
 
-Unpack the files into a directory, and then run bitcoin-qt.exe.
+Unpack the files into a directory, and then run xep-qt.exe.
 
 ### macOS
 
@@ -28,10 +28,10 @@ Drag Xep Core to your applications folder, and then run Xep Core.
 
 ### Need Help?
 
-* See the documentation at the [Xep Wiki](https://en.bitcoin.it/wiki/Main_Page)
+* See the documentation at the [Xep Wiki](https://en.xep.it/wiki/Main_Page)
 for help and more information.
-* Ask for help on [#bitcoin](https://webchat.freenode.net/#bitcoin) on Freenode. If you don't have an IRC client, use [webchat here](https://webchat.freenode.net/#bitcoin).
-* Ask for help on the [XepTalk](https://bitcointalk.org/) forums, in the [Technical Support board](https://bitcointalk.org/index.php?board=4.0).
+* Ask for help on [#xep](https://webchat.freenode.net/#xep) on Freenode. If you don't have an IRC client, use [webchat here](https://webchat.freenode.net/#xep).
+* Ask for help on the [XepTalk](https://xeptalk.org/) forums, in the [Technical Support board](https://xeptalk.org/index.php?board=4.0).
 
 Building
 ---------------------
@@ -44,7 +44,7 @@ The following are developer notes on how to build Xep Core on your native platfo
 - [FreeBSD Build Notes](build-freebsd.md)
 - [OpenBSD Build Notes](build-openbsd.md)
 - [NetBSD Build Notes](build-netbsd.md)
-- [Gitian Building Guide (External Link)](https://github.com/bitcoin-core/docs/blob/master/gitian-building.md)
+- [Gitian Building Guide (External Link)](https://github.com/xep-core/docs/blob/master/gitian-building.md)
 
 Development
 ---------------------
@@ -54,7 +54,7 @@ The Xep repo's [root README](/README.md) contains relevant information on the de
 - [Productivity Notes](productivity.md)
 - [Release Notes](release-notes.md)
 - [Release Process](release-process.md)
-- [Source Code Documentation (External Link)](https://doxygen.bitcoincore.org/)
+- [Source Code Documentation (External Link)](https://doxygen.xepcore.org/)
 - [Translation Process](translation_process.md)
 - [Translation Strings Policy](translation_strings_policy.md)
 - [JSON-RPC Interface](JSON-RPC-interface.md)
@@ -65,13 +65,13 @@ The Xep repo's [root README](/README.md) contains relevant information on the de
 - [Benchmarking](benchmarking.md)
 
 ### Resources
-* Discuss on the [XepTalk](https://bitcointalk.org/) forums, in the [Development & Technical Discussion board](https://bitcointalk.org/index.php?board=6.0).
-* Discuss project-specific development on #bitcoin-core-dev on Freenode. If you don't have an IRC client, use [webchat here](https://webchat.freenode.net/#bitcoin-core-dev).
-* Discuss general Xep development on #bitcoin-dev on Freenode. If you don't have an IRC client, use [webchat here](https://webchat.freenode.net/#bitcoin-dev).
+* Discuss on the [XepTalk](https://xeptalk.org/) forums, in the [Development & Technical Discussion board](https://xeptalk.org/index.php?board=6.0).
+* Discuss project-specific development on #xep-core-dev on Freenode. If you don't have an IRC client, use [webchat here](https://webchat.freenode.net/#xep-core-dev).
+* Discuss general Xep development on #xep-dev on Freenode. If you don't have an IRC client, use [webchat here](https://webchat.freenode.net/#xep-dev).
 
 ### Miscellaneous
 - [Assets Attribution](assets-attribution.md)
-- [bitcoin.conf Configuration File](bitcoin-conf.md)
+- [xep.conf Configuration File](xep-conf.md)
 - [Files](files.md)
 - [Fuzz-testing](fuzzing.md)
 - [Reduce Memory](reduce-memory.md)

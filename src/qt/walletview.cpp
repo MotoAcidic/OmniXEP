@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2019 The Bitcoin Core developers
+// Copyright (c) 2011-2019 The Xep Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -53,7 +53,7 @@ WalletView::WalletView(const PlatformStyle *_platformStyle, QWidget *parent):
 
     // Transactions page, Omni transactions in first tab, XEP only transactions in second tab
     transactionsPage = new QWidget(this);
-    bitcoinTXTab = new QWidget(this);
+    xepTXTab = new QWidget(this);
     QVBoxLayout *vbox = new QVBoxLayout();
     QHBoxLayout *hbox_buttons = new QHBoxLayout();
     transactionView = new TransactionView(platformStyle, this);
@@ -66,13 +66,13 @@ WalletView::WalletView(const PlatformStyle *_platformStyle, QWidget *parent):
     hbox_buttons->addStretch();
     hbox_buttons->addWidget(exportButton);
     vbox->addLayout(hbox_buttons);
-    bitcoinTXTab->setLayout(vbox);
+    xepTXTab->setLayout(vbox);
     mpTXTab = new TXHistoryDialog;
     transactionsPage = new QWidget(this);
     QVBoxLayout *txvbox = new QVBoxLayout();
     txTabHolder = new QTabWidget();
     txTabHolder->addTab(mpTXTab,tr("Omni Layer"));
-    txTabHolder->addTab(bitcoinTXTab,tr("Xep"));
+    txTabHolder->addTab(xepTXTab,tr("Xep"));
     txvbox->addWidget(txTabHolder);
     transactionsPage->setLayout(txvbox);
 

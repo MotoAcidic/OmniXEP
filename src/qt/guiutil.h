@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2020 The Bitcoin Core developers
+// Copyright (c) 2011-2020 The Xep Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -50,7 +50,7 @@ namespace GUIUtil
     // Set up widget for address
     void setupAddressWidget(QValidatedLineEdit *widget, QWidget *parent);
 
-    // Parse "bitcoin:" URI into recipient object, return true on successful parsing
+    // Parse "xep:" URI into recipient object, return true on successful parsing
     bool parseXepURI(const QUrl &uri, SendCoinsRecipient *out);
     bool parseXepURI(QString uri, SendCoinsRecipient *out);
     QString formatXepURI(const SendCoinsRecipient &info);

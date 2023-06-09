@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2018 The Bitcoin Core developers
+// Copyright (c) 2009-2018 The Xep Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -7,7 +7,7 @@
 #define XEP_COMPAT_H
 
 #if defined(HAVE_CONFIG_H)
-#include <config/bitcoin-config.h>
+#include <config/xep-config.h>
 #endif
 
 #ifdef WIN32
@@ -90,7 +90,7 @@ typedef char* sockopt_arg_type;
 
 // Note these both should work with the current usage of poll, but best to be safe
 // WIN32 poll is broken https://daniel.haxx.se/blog/2012/10/10/wsapoll-is-broken/
-// __APPLE__ poll is broke https://github.com/bitcoin/bitcoin/pull/14336#issuecomment-437384408
+// __APPLE__ poll is broke https://github.com/xep/xep/pull/14336#issuecomment-437384408
 #if defined(__linux__)
 #define USE_POLL
 #endif

@@ -19,7 +19,7 @@
 #include <omnicore/pending.h>
 #include <omnicore/sp.h>
 #include <omnicore/tally.h>
-#include <omnicore/utilsbitcoin.h>
+#include <omnicore/utilsxep.h>
 #include <omnicore/wallettxbuilder.h>
 #include <omnicore/walletutils.h>
 

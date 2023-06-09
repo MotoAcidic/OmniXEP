@@ -1,7 +1,7 @@
 Omni Core v0.8.2
 ================
 
-v0.8.2 is a minor release and adds new RPCs to interact with the distributed exchange, which can be used to trade any tokens for bitcoins. It also incorporates significant performance improvements for the initial synchronization and upgrading from older versions of Omni Core.
+v0.8.2 is a minor release and adds new RPCs to interact with the distributed exchange, which can be used to trade any tokens for xeps. It also incorporates significant performance improvements for the initial synchronization and upgrading from older versions of Omni Core.
 
 Upgrading from 0.8.1 does not require a rescan and can be done very fast without interruption.
 
@@ -17,7 +17,7 @@ Table of contents
 - [Upgrading and downgrading](#upgrading-and-downgrading)
   - [How to upgrade](#how-to-upgrade)
   - [Downgrading](#downgrading)
-  - [Compatibility with Xep Core](#compatibility-with-bitcoin-core)
+  - [Compatibility with Xep Core](#compatibility-with-xep-core)
 - [Improvements](#improvements)
   - [New RPCs for the distributed exchange](#new-rpcs-for-the-distributed-exchange)
   - [Other RPC improvements](#other-rpc-improvements)
@@ -70,7 +70,7 @@ Creates a new sell offer on the distributed token/XEP exchange.
 | `fromaddress`       | string  | required | the address to send from                                                                     |
 | `propertyidforsale` | number  | required | the identifier of the tokens to list for sale                                                |
 | `amountforsale`     | string  | required | the amount of tokens to list for sale                                                        |
-| `amountdesired`     | string  | required | the amount of bitcoins desired                                                               |
+| `amountdesired`     | string  | required | the amount of xeps desired                                                               |
 | `paymentwindow`     | number  | required | a time limit in blocks a buyer has to pay following a successful accepting order             |
 | `minacceptfee`      | string  | required | a minimum mining fee a buyer has to pay to accept the offer                                  |
 
@@ -98,7 +98,7 @@ Updates an existing sell offer on the distributed token/XEP exchange.
 | `fromaddress`       | string  | required | the address to send from                                                                     |
 | `propertyidforsale` | number  | required | the identifier of the tokens to update                                                       |
 | `amountforsale`     | string  | required | the new amount of tokens to list for sale                                                    |
-| `amountdesired`     | string  | required | the new amount of bitcoins desired                                                           |
+| `amountdesired`     | string  | required | the new amount of xeps desired                                                           |
 | `paymentwindow`     | number  | required | a new time limit in blocks a buyer has to pay following a successful accepting order         |
 | `minacceptfee`      | string  | required | a new minimum mining fee a buyer has to pay to accept the offer                              |
 

@@ -4,7 +4,7 @@
 #include <omnicore/omnicore.h>
 #include <omnicore/rules.h>
 #include <omnicore/script.h>
-#include <omnicore/utilsbitcoin.h>
+#include <omnicore/utilsxep.h>
 
 #include <amount.h>
 #include <base58.h>

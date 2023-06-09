@@ -1,7 +1,7 @@
-Win32, Linux, MacOSX and source releases for bitcoin v0.3.23 have been uploaded to
-https://sourceforge.net/projects/bitcoin/files/Xep/bitcoin-0.3.23/
+Win32, Linux, MacOSX and source releases for xep v0.3.23 have been uploaded to
+https://sourceforge.net/projects/xep/files/Xep/xep-0.3.23/
 
-This is another quick bugfix release, trying to deal with the influx of new bitcoin users.
+This is another quick bugfix release, trying to deal with the influx of new xep users.
 
 Main items of note:
 

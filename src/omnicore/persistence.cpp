@@ -12,7 +12,7 @@
 #include <omnicore/rules.h>
 #include <omnicore/sp.h>
 #include <omnicore/tally.h>
-#include <omnicore/utilsbitcoin.h>
+#include <omnicore/utilsxep.h>
 
 #include <chain.h>
 #include <fs.h>
