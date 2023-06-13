@@ -22,13 +22,13 @@ The data directory is the default location where the Xep Core files are stored.
 
 Platform | Data directory path
 ---------|--------------------
-Linux    | `$HOME/.xep/`
-macOS    | `$HOME/Library/Application Support/Xep/`
+Linux    | `$HOME/.omnixep/`
+macOS    | `$HOME/Library/Application Support/omnixep/`
 Windows  | `%APPDATA%\Xep\` <sup>[\[1\]](#note1)</sup>
 
 2. The non-default data directory path can be specified by `-datadir` option.
 
-3. All content of the data directory, except for `xep.conf` file, is chain-specific. This means the actual data directory paths for non-mainnet cases differ:
+3. All content of the data directory, except for `omnixep.conf` file, is chain-specific. This means the actual data directory paths for non-mainnet cases differ:
 
 Chain option        | Data directory path
 --------------------|--------------------

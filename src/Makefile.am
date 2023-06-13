@@ -82,18 +82,18 @@ TESTS =
 BENCHMARKS =
 
 if BUILD_XEPD
-  bin_PROGRAMS += omnicored
+  bin_PROGRAMS += omnixepd
 endif
 
 if BUILD_XEP_CLI
-  bin_PROGRAMS += omnicore-cli
+  bin_PROGRAMS += omnixep-cli
 endif
 if BUILD_XEP_TX
-  bin_PROGRAMS += xep-tx
+  bin_PROGRAMS += omnixep-tx
 endif
 if ENABLE_WALLET
 if BUILD_XEP_WALLET
-  bin_PROGRAMS += xep-wallet
+  bin_PROGRAMS += omnixep-wallet
 endif
 endif
 
@@ -265,7 +265,7 @@ obj/build.h: FORCE
 	  "$(abs_top_srcdir)"
 libxep_util_a-clientversion.$(OBJEXT): obj/build.h
 
-# server: shared between xepd and xep-qt
+# server: shared between xepd and omnixep-qt
 # Contains code accessing mempool and chain state that is meant to be separated
 # from wallet and gui code (see node/README.md). Shared code should go in
 # libxep_common or libxep_util libraries, instead.
@@ -340,7 +340,7 @@ libxep_zmq_a_SOURCES = \
 endif
 
 
-# wallet: shared between xepd and xep-qt, but only linked
+# wallet: shared between xepd and omnixep-qt, but only linked
 # when wallet enabled
 libxep_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(XEP_INCLUDES)
 libxep_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
@@ -503,7 +503,7 @@ libxep_consensus_a_SOURCES = \
   util/strencodings.h \
   version.h
 
-# common: shared between xepd, and xep-qt and non-server tools
+# common: shared between xepd, and omnixep-qt and non-server tools
 libxep_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(XEP_INCLUDES)
 libxep_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libxep_common_a_SOURCES = \
@@ -582,7 +582,7 @@ libxep_util_a_SOURCES += compat/glibc_compat.cpp
 AM_LDFLAGS += $(COMPAT_LDFLAGS)
 endif
 
-# cli: shared between xep-cli and xep-qt
+# cli: shared between omnixep-cli and omnixep-qt
 libxep_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(XEP_INCLUDES)
 libxep_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libxep_cli_a_SOURCES = \
@@ -595,16 +595,16 @@ nodist_libxep_util_a_SOURCES = $(srcdir)/obj/build.h
 #
 
 # xepd binary #
-omnicored_SOURCES = xepd.cpp
-omnicored_CPPFLAGS = $(AM_CPPFLAGS) $(XEP_INCLUDES)
-omnicored_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-omnicored_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+omnixepd_SOURCES = omnixepd.cpp
+omnixepd_CPPFLAGS = $(AM_CPPFLAGS) $(XEP_INCLUDES)
+omnixepd_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+omnixepd_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-omnicored_SOURCES += xepd-res.rc
+omnixepd_SOURCES += omnixepd-res.rc
 endif
 
-omnicored_LDADD = \
+omnixepd_LDADD = \
   $(LIBXEP_SERVER) \
   $(LIBXEP_WALLET) \
   $(LIBXEP_COMMON) \
@@ -618,38 +618,38 @@ omnicored_LDADD = \
   $(LIBMEMENV) \
   $(LIBSECP256K1)
 
-omnicored_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS)
+omnixepd_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS)
 
-# xep-cli binary #
-omnicore_cli_SOURCES = xep-cli.cpp
-omnicore_cli_CPPFLAGS = $(AM_CPPFLAGS) $(XEP_INCLUDES) $(EVENT_CFLAGS)
-omnicore_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-omnicore_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+# omnixep-cli binary #
+omnixep_cli_SOURCES = omnixep-cli.cpp
+omnixep_cli_CPPFLAGS = $(AM_CPPFLAGS) $(XEP_INCLUDES) $(EVENT_CFLAGS)
+omnixep_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+omnixep_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-omnicore_cli_SOURCES += xep-cli-res.rc
+omnixep_cli_SOURCES += omnixep-cli-res.rc
 endif
 
-omnicore_cli_LDADD = \
+omnixep_cli_LDADD = \
   $(LIBXEP_CLI) \
   $(LIBUNIVALUE) \
   $(LIBXEP_UTIL) \
   $(LIBXEP_CRYPTO)
 
-omnicore_cli_LDADD += $(BOOST_LIBS) $(EVENT_LIBS)
+omnixep_cli_LDADD += $(BOOST_LIBS) $(EVENT_LIBS)
 #
 
-# xep-tx binary #
-xep_tx_SOURCES = xep-tx.cpp
-xep_tx_CPPFLAGS = $(AM_CPPFLAGS) $(XEP_INCLUDES)
-xep_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-xep_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+# omnixep-tx binary #
+omnixep_tx_SOURCES = omnixep-tx.cpp
+omnixep_tx_CPPFLAGS = $(AM_CPPFLAGS) $(XEP_INCLUDES)
+omnixep_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+omnixep_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-xep_tx_SOURCES += xep-tx-res.rc
+omnixep_tx_SOURCES += omnixep-tx-res.rc
 endif
 
-xep_tx_LDADD = \
+omnixep_tx_LDADD = \
   $(LIBUNIVALUE) \
   $(LIBXEP_COMMON) \
   $(LIBXEP_UTIL) \
@@ -657,20 +657,20 @@ xep_tx_LDADD = \
   $(LIBXEP_CRYPTO) \
   $(LIBSECP256K1)
 
-xep_tx_LDADD += $(BOOST_LIBS)
+omnixep_tx_LDADD += $(BOOST_LIBS)
 #
 
-# xep-wallet binary #
-xep_wallet_SOURCES = xep-wallet.cpp
-xep_wallet_CPPFLAGS = $(AM_CPPFLAGS) $(XEP_INCLUDES)
-xep_wallet_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-xep_wallet_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+# omnixep-wallet binary #
+omnixep_wallet_SOURCES = omnixep-wallet.cpp
+omnixep_wallet_CPPFLAGS = $(AM_CPPFLAGS) $(XEP_INCLUDES)
+omnixep_wallet_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+omnixep_wallet_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-xep_wallet_SOURCES += xep-wallet-res.rc
+omnixep_wallet_SOURCES += omnixep-wallet-res.rc
 endif
 
-xep_wallet_LDADD = \
+omnixep_wallet_LDADD = \
   $(LIBXEP_WALLET_TOOL) \
   $(LIBXEP_WALLET) \
   $(LIBXEP_COMMON) \
@@ -684,7 +684,7 @@ xep_wallet_LDADD = \
   $(LIBSECP256K1) \
   $(LIBUNIVALUE)
 
-xep_wallet_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(MINIUPNPC_LIBS) $(ZMQ_LIBS)
+omnixep_wallet_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(MINIUPNPC_LIBS) $(ZMQ_LIBS)
 #
 
 # xepconsensus library #
@@ -729,12 +729,12 @@ CLEANFILES += obj/build.h
 EXTRA_DIST = $(CTAES_DIST)
 
 
-config/xep-config.h: config/stamp-h1
+config/omnixep-config.h: config/stamp-h1
 	@$(MAKE) -C $(top_builddir) $(subdir)/$(@)
-config/stamp-h1: $(top_srcdir)/$(subdir)/config/xep-config.h.in $(top_builddir)/config.status
+config/stamp-h1: $(top_srcdir)/$(subdir)/config/omnixep-config.h.in $(top_builddir)/config.status
 	$(AM_V_at)$(MAKE) -C $(top_builddir) $(subdir)/$(@)
-$(top_srcdir)/$(subdir)/config/xep-config.h.in:  $(am__configure_deps)
-	$(AM_V_at)$(MAKE) -C $(top_srcdir) $(subdir)/config/xep-config.h.in
+$(top_srcdir)/$(subdir)/config/omnixep-config.h.in:  $(am__configure_deps)
+	$(AM_V_at)$(MAKE) -C $(top_srcdir) $(subdir)/config/omnixep-config.h.in
 
 clean-local:
 	-$(MAKE) -C secp256k1 clean

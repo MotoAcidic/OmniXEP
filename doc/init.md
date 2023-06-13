@@ -129,13 +129,13 @@ setting the XEPD and FLAGS environment variables in the file
 
 ### macOS
 
-Copy org.xep.xepd.plist into ~/Library/LaunchAgents. Load the launch agent by
-running `launchctl load ~/Library/LaunchAgents/org.xep.xepd.plist`.
+Copy org.xep.omnixepd.plist into ~/Library/LaunchAgents. Load the launch agent by
+running `launchctl load ~/Library/LaunchAgents/org.xep.omnixepd.plist`.
 
 This Launch Agent will cause xepd to start whenever the user logs in.
 
 NOTE: This approach is intended for those wanting to run xepd as the current user.
-You will need to modify org.xep.xepd.plist if you intend to use it as a
+You will need to modify org.xep.omnixepd.plist if you intend to use it as a
 Launch Daemon with a dedicated xep user.
 
 Auto-respawn

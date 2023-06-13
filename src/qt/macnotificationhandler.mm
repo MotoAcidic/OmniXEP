@@ -13,7 +13,7 @@
 - (NSString *)__bundleIdentifier
 {
     if (self == [NSBundle mainBundle]) {
-        return @"org.xepfoundation.Xep-Qt";
+        return @"org.xepfoundation.omnixep-Qt";
     } else {
         return [self __bundleIdentifier];
     }
