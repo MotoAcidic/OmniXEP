@@ -78,10 +78,10 @@ using namespace mastercore;
 RecursiveMutex cs_tally;
 
 //! Exodus address (changes based on network)
-static std::string exodus_address = "xJZ3d5F3Z7yT31wKu93ueLcvHA2j2YSh6B";
+static std::string exodus_address = "xAUBWnzkqfRWMFD15sn7XMsYnSAzDgdxvb";
 
 //! Mainnet Exodus address
-static const std::string exodus_mainnet = "xJZ3d5F3Z7yT31wKu93ueLcvHA2j2YSh6B";
+static const std::string exodus_mainnet = "xAUBWnzkqfRWMFD15sn7XMsYnSAzDgdxvb";
 //! Testnet Exodus address
 static const std::string exodus_testnet = "mpexoDuSkGGqvqrkrjiFng38QPkJQVFyqv";
 //! Testnet Exodus crowdsale address
@@ -2199,15 +2199,6 @@ const CTxDestination ExodusAddress()
 }
 
 /**
- * Returns the Exodus crowdsale address.
- *
- * Main network:
- *   1EXoDusjGwvnjZUyKkxZ4UHEf77z6A5S4P
- *
- * Test network:
- *   mpexoDuSkGGqvqrkrjiFng38QPkJQVFyqv (for blocks <  270775)
- *   moneyqMan7uh8FqdCA2BV5yZ8qVrc9ikLP (for blocks >= 270775)
- *
  * @return The Exodus fundraiser address
  */
 const CTxDestination ExodusCrowdsaleAddress(int nBlock)

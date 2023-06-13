@@ -149,8 +149,8 @@ CMPSPInfo::CMPSPInfo(const fs::path& path, bool fWipe)
     implied_omni.num_tokens = 700000;
     implied_omni.category = "N/A";
     implied_omni.subcategory = "N/A";
-    implied_omni.name = "Omni tokens";
-    implied_omni.url = "http://www.omnilayer.org";
+    implied_omni.name = "OmniXEP tokens";
+    implied_omni.url = "https://www.electraprotocol.com/g";
     implied_omni.data = "Omni tokens serve as the binding between Xep, smart properties and contracts created on the Omni Layer.";
 
     implied_tomni.issuer = EncodeDestination(ExodusAddress());
@@ -159,8 +159,8 @@ CMPSPInfo::CMPSPInfo(const fs::path& path, bool fWipe)
     implied_tomni.num_tokens = 700000;
     implied_tomni.category = "N/A";
     implied_tomni.subcategory = "N/A";
-    implied_tomni.name = "Test Omni tokens";
-    implied_tomni.url = "http://www.omnilayer.org";
+    implied_tomni.name = "Test OmniXEP tokens";
+    implied_tomni.url = "https://www.electraprotocol.com/";
     implied_tomni.data = "Test Omni tokens serve as the binding between Xep, smart properties and contracts created on the Omni Layer.";
 
     init();

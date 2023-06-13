@@ -19,11 +19,11 @@ AC_CONFIG_HEADERS([src/config/xep-config.h])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([build-aux/m4])
 
-XEP_DAEMON_NAME=omnicored
-XEP_GUI_NAME=omnicore-qt
-XEP_CLI_NAME=omnicore-cli
-XEP_TX_NAME=xep-tx
-XEP_WALLET_TOOL_NAME=xep-wallet
+XEP_DAEMON_NAME=omnixepd
+XEP_GUI_NAME=omnixep-qt
+XEP_CLI_NAME=omnixep-cli
+XEP_TX_NAME=omnixep-tx
+XEP_WALLET_TOOL_NAME=omnixep-wallet
 
 dnl Unless the user specified ARFLAGS, force it to be cr
 AC_ARG_VAR(ARFLAGS, [Flags for the archiver, defaults to <cr> if not set])
