@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_TEST_UTILS_TX_H
-#define BITCOIN_OMNICORE_TEST_UTILS_TX_H
+#ifndef XEP_OMNICORE_TEST_UTILS_TX_H
+#define XEP_OMNICORE_TEST_UTILS_TX_H
 
 class CTxOut;
 
@@ -20,4 +20,4 @@ CTxOut OpReturn_MultiSimpleSend();
 CTxOut NonStandardOutput();
 
 
-#endif // BITCOIN_OMNICORE_TEST_UTILS_TX_H
+#endif // XEP_OMNICORE_TEST_UTILS_TX_H

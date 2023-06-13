@@ -30,7 +30,7 @@
 #include <omnicore/tally.h>
 #include <omnicore/tx.h>
 #include <omnicore/nftdb.h>
-#include <omnicore/utilsbitcoin.h>
+#include <omnicore/utilsxep.h>
 #include <omnicore/version.h>
 #include <omnicore/walletfetchtxs.h>
 #include <omnicore/walletutils.h>
@@ -251,7 +251,7 @@ UniValue omni_getnonfungibletokendata(const JSONRPCRequest& request)
            {
                {RPCResult::Type::OBJ, "", "",
                {
-                   {RPCResult::Type::STR, "owner", "the Bitcoin address of the owner"},
+                   {RPCResult::Type::STR, "owner", "the Xep address of the owner"},
                    {RPCResult::Type::STR, "grantdata", "contents of the grant data field"},
                    {RPCResult::Type::STR, "issuerdata", "contents of the issuer data field"},
                    {RPCResult::Type::STR, "holderdata", "contents of the holder data field"},
@@ -1417,8 +1417,8 @@ static UniValue omni_getproperty(const JSONRPCRequest& request)
                {RPCResult::Type::STR, "data", "additional information or a description"},
                {RPCResult::Type::STR, "url", "a URI, for example pointing to a website"},
                {RPCResult::Type::BOOL, "divisible", "whether the tokens are divisible"},
-               {RPCResult::Type::STR, "issuer", "the Bitcoin address of the issuer on record"},
-               {RPCResult::Type::STR, "delegate", "the Bitcoin address of the issuance delegate, if there is one"},
+               {RPCResult::Type::STR, "issuer", "the Xep address of the issuer on record"},
+               {RPCResult::Type::STR, "delegate", "the Xep address of the issuance delegate, if there is one"},
                {RPCResult::Type::STR_HEX, "creationtxid", "the hex-encoded creation transaction hash"},
                {RPCResult::Type::BOOL, "fixedissuance", "whether the token supply is fixed"},
                {RPCResult::Type::BOOL, "managedissuance", "whether the token supply is managed"},
@@ -1478,7 +1478,7 @@ static UniValue omni_listproperties(const JSONRPCRequest& request)
                     {RPCResult::Type::STR, "data", "additional information or a description"},
                     {RPCResult::Type::STR, "url", "a URI, for example pointing to a website"},
                     {RPCResult::Type::BOOL, "divisible", "whether the tokens are divisible"},
-                    {RPCResult::Type::STR, "issuer", "the Bitcoin address of the issuer on record"},
+                    {RPCResult::Type::STR, "issuer", "the Xep address of the issuer on record"},
                     {RPCResult::Type::STR_HEX, "creationtxid", "the hex-encoded creation transaction hash"},
                     {RPCResult::Type::BOOL, "fixedissuance", "whether the token supply is fixed"},
                     {RPCResult::Type::BOOL, "managedissuance", "whether the token supply is managed"},
@@ -1536,7 +1536,7 @@ static UniValue omni_getcrowdsale(const JSONRPCRequest& request)
                {RPCResult::Type::NUM, "propertyid", "the identifier of the crowdsale"},
                {RPCResult::Type::STR, "name", "the name of the tokens issued via the crowdsale"},
                {RPCResult::Type::BOOL, "active", "whether the crowdsale is still active"},
-               {RPCResult::Type::STR, "issuer", "the Bitcoin address of the issuer on record"},
+               {RPCResult::Type::STR, "issuer", "the Xep address of the issuer on record"},
                {RPCResult::Type::NUM, "propertyiddesired", "the identifier of the tokens eligible to participate in the crowdsale"},
                {RPCResult::Type::STR_AMOUNT, "tokensperunit", "the amount of tokens granted per unit invested in the crowdsale"},
                {RPCResult::Type::NUM, "earlybonus", "an early bird bonus for participants in percent per week"},
@@ -1694,7 +1694,7 @@ static UniValue omni_getactivecrowdsales(const JSONRPCRequest& request)
                {
                    {RPCResult::Type::NUM, "propertyid", "the identifier of the crowdsale"},
                    {RPCResult::Type::STR, "name", "the name of the tokens issued via the crowdsale"},
-                   {RPCResult::Type::STR, "issuer", "the Bitcoin address of the issuer on record"},
+                   {RPCResult::Type::STR, "issuer", "the Xep address of the issuer on record"},
                    {RPCResult::Type::NUM, "propertyiddesired", "the identifier of the tokens eligible to participate in the crowdsale"},
                    {RPCResult::Type::STR_AMOUNT, "tokensperunit", "the amount of tokens granted per unit invested in the crowdsale"},
                    {RPCResult::Type::NUM, "earlybonus", "an early bird bonus for participants in percent per week"},
@@ -1773,7 +1773,7 @@ static UniValue omni_getgrants(const JSONRPCRequest& request)
            {
                {RPCResult::Type::NUM, "propertyid", "the identifier of the managed tokens"},
                {RPCResult::Type::STR, "name", "the name of the tokens"},
-               {RPCResult::Type::STR, "issuer", "the Bitcoin address of the issuer on record"},
+               {RPCResult::Type::STR, "issuer", "the Xep address of the issuer on record"},
                {RPCResult::Type::STR_HEX, "creationtxid", "the hex-encoded creation transaction hash"},
                {RPCResult::Type::STR_AMOUNT, "totaltokens", "the total number of tokens in existence"},
                {RPCResult::Type::ARR, "issuances", "",
@@ -1860,7 +1860,7 @@ static UniValue omni_getorderbook(const JSONRPCRequest& request)
            {
                {RPCResult::Type::OBJ, "", "",
                {
-                    {RPCResult::Type::STR, "address", "the Bitcoin address of the trader"},
+                    {RPCResult::Type::STR, "address", "the Xep address of the trader"},
                     {RPCResult::Type::STR_HEX, "txid", "the hex-encoded hash of the transaction of the order"},
                     {RPCResult::Type::STR, "ecosystem", "the ecosytem in which the order was made (if \"cancel-ecosystem\")"},
                     {RPCResult::Type::NUM, "propertyidforsale", "the identifier of the tokens put up for sale"},
@@ -1942,10 +1942,10 @@ static UniValue omni_gettradehistoryforaddress(const JSONRPCRequest& request)
                {RPCResult::Type::OBJ, "", "",
                {
                    {RPCResult::Type::STR_HEX, "txid", "the hex-encoded hash of the transaction of the order"},
-                   {RPCResult::Type::STR, "sendingaddress", "the Bitcoin address of the trader"},
+                   {RPCResult::Type::STR, "sendingaddress", "the Xep address of the trader"},
                    {RPCResult::Type::BOOL, "ismine", "whether the order involes an address in the wallet"},
                    {RPCResult::Type::NUM, "confirmations", "the number of transaction confirmations"},
-                   {RPCResult::Type::STR_AMOUNT, "fee", "the transaction fee in bitcoins"},
+                   {RPCResult::Type::STR_AMOUNT, "fee", "the transaction fee in xeps"},
                    {RPCResult::Type::NUM, "blocktime", "the timestamp of the block that contains the transaction"},
                    {RPCResult::Type::BOOL, "valid", "whether the transaction is valid"},
                    {RPCResult::Type::NUM, "version", "the transaction version"},
@@ -1966,7 +1966,7 @@ static UniValue omni_gettradehistoryforaddress(const JSONRPCRequest& request)
                        {
                            {RPCResult::Type::STR_HEX, "txid", "the hash of the transaction that was matched against"},
                            {RPCResult::Type::NUM, "block", "the index of the block that contains this transaction"},
-                           {RPCResult::Type::STR, "address", "the Bitcoin address of the other trader"},
+                           {RPCResult::Type::STR, "address", "the Xep address of the other trader"},
                            {RPCResult::Type::STR_AMOUNT, "amountsold", "the number of tokens sold in this trade"},
                            {RPCResult::Type::STR_AMOUNT, "amountreceived", "the number of tokens traded in exchange"},
                        }},
@@ -2030,11 +2030,11 @@ static UniValue omni_gettradehistoryforpair(const JSONRPCRequest& request)
                    {RPCResult::Type::STR_AMOUNT, "unitprice", "the unit price used to execute this trade (received/sold)"},
                    {RPCResult::Type::STR_AMOUNT, "inverseprice", "the inverse unit price (sold/received)"},
                    {RPCResult::Type::STR_HEX, "sellertxid", "the hash of the transaction of the seller"},
-                   {RPCResult::Type::STR, "address", "the Bitcoin address of the seller"},
+                   {RPCResult::Type::STR, "address", "the Xep address of the seller"},
                    {RPCResult::Type::STR_AMOUNT, "amountsold", "the number of tokens sold in this trade"},
                    {RPCResult::Type::STR_AMOUNT, "amountreceived", "the number of tokens traded in exchange"},
                    {RPCResult::Type::STR_HEX, "matchingtxid", "the hash of the transaction that was matched against"},
-                   {RPCResult::Type::STR, "matchingaddress", "the Bitcoin address of the other party of this trade"},
+                   {RPCResult::Type::STR, "matchingaddress", "the Xep address of the other party of this trade"},
                }},
            }
        },
@@ -2075,10 +2075,10 @@ static UniValue omni_getactivedexsells(const JSONRPCRequest& request)
                {
                    {RPCResult::Type::STR_HEX, "txid", "the hash of the transaction of this offer"},
                    {RPCResult::Type::NUM, "propertyid", "the identifier of the tokens for sale"},
-                   {RPCResult::Type::STR, "seller", "the Bitcoin address of the seller"},
+                   {RPCResult::Type::STR, "seller", "the Xep address of the seller"},
                    {RPCResult::Type::STR_AMOUNT, "amountavailable", "the number of tokens still listed for sale and currently available"},
-                   {RPCResult::Type::STR_AMOUNT, "bitcoindesired", "the number of bitcoins desired in exchange"},
-                   {RPCResult::Type::STR_AMOUNT, "unitprice", "the unit price (BTC/token)"},
+                   {RPCResult::Type::STR_AMOUNT, "xepdesired", "the number of xeps desired in exchange"},
+                   {RPCResult::Type::STR_AMOUNT, "unitprice", "the unit price (XEP/token)"},
                    {RPCResult::Type::NUM, "timelimit", "the time limit in blocks a buyer has to pay following a successful accept"},
                    {RPCResult::Type::STR_AMOUNT, "minimumfee", "the minimum mining fee a buyer has to pay to accept this offer"},
                    {RPCResult::Type::STR_AMOUNT, "amountaccepted", "the number of tokens currently reserved for pending \"accept\" orders"},
@@ -2086,11 +2086,11 @@ static UniValue omni_getactivedexsells(const JSONRPCRequest& request)
                    {
                        {RPCResult::Type::OBJ, "", "",
                        {
-                           {RPCResult::Type::STR, "buyer", "the Bitcoin address of the buyer"},
+                           {RPCResult::Type::STR, "buyer", "the Xep address of the buyer"},
                            {RPCResult::Type::NUM, "block", "the index of the block that contains the \"accept\" order"},
                            {RPCResult::Type::NUM, "blocksleft", "the number of blocks left to pay"},
                            {RPCResult::Type::STR_AMOUNT, "amount", "the amount of tokens accepted and reserved"},
-                           {RPCResult::Type::STR_AMOUNT, "amounttopay", "the amount in bitcoins needed finalize the trade"},
+                           {RPCResult::Type::STR_AMOUNT, "amounttopay", "the amount in xeps needed finalize the trade"},
                        }},
                    }},
                }},
@@ -2128,7 +2128,7 @@ static UniValue omni_getactivedexsells(const JSONRPCRequest& request)
         int64_t minFee = selloffer.getMinFee();
         uint8_t timeLimit = selloffer.getBlockTimeLimit();
         int64_t sellOfferAmount = selloffer.getOfferAmountOriginal(); //badly named - "Original" implies off the wire, but is amended amount
-        int64_t sellBitcoinDesired = selloffer.getBTCDesiredOriginal(); //badly named - "Original" implies off the wire, but is amended amount
+        int64_t sellXepDesired = selloffer.getXEPDesiredOriginal(); //badly named - "Original" implies off the wire, but is amended amount
         int64_t amountAvailable = GetTokenBalance(seller, propertyId, SELLOFFER_RESERVE);
         int64_t amountAccepted = GetTokenBalance(seller, propertyId, ACCEPT_RESERVE);
 
@@ -2136,23 +2136,23 @@ static UniValue omni_getactivedexsells(const JSONRPCRequest& request)
         // TODO: no math, and especially no rounding here (!)
         // TODO: no math, and especially no rounding here (!)
 
-        // calculate unit price and updated amount of bitcoin desired
+        // calculate unit price and updated amount of xep desired
         double unitPriceFloat = 0.0;
-        if ((sellOfferAmount > 0) && (sellBitcoinDesired > 0)) {
-            unitPriceFloat = (double) sellBitcoinDesired / (double) sellOfferAmount; // divide by zero protection
+        if ((sellOfferAmount > 0) && (sellXepDesired > 0)) {
+            unitPriceFloat = (double) sellXepDesired / (double) sellOfferAmount; // divide by zero protection
             if (!isPropertyDivisible(propertyId)) {
                 unitPriceFloat /= 100000000.0;
             }
         }
         int64_t unitPrice = rounduint64(unitPriceFloat * COIN);
-        int64_t bitcoinDesired = calculateDesiredBTC(sellOfferAmount, sellBitcoinDesired, amountAvailable);
+        int64_t xepDesired = calculateDesiredXEP(sellOfferAmount, sellXepDesired, amountAvailable);
 
         UniValue responseObj(UniValue::VOBJ);
         responseObj.pushKV("txid", txid);
         responseObj.pushKV("propertyid", (uint64_t) propertyId);
         responseObj.pushKV("seller", seller);
         responseObj.pushKV("amountavailable", FormatMP(propertyId, amountAvailable));
-        responseObj.pushKV("bitcoindesired", FormatDivisibleMP(bitcoinDesired));
+        responseObj.pushKV("xepdesired", FormatDivisibleMP(xepDesired));
         responseObj.pushKV("unitprice", FormatDivisibleMP(unitPrice));
         responseObj.pushKV("timelimit", timeLimit);
         responseObj.pushKV("minimumfee", FormatDivisibleMP(minFee));
@@ -2173,12 +2173,12 @@ static UniValue omni_getactivedexsells(const JSONRPCRequest& request)
                 int blocksLeftToPay = (blockOfAccept + selloffer.getBlockTimeLimit()) - curBlock;
                 int64_t amountAccepted = accept.getAcceptAmountRemaining();
                 // TODO: don't recalculate!
-                int64_t amountToPayInBTC = calculateDesiredBTC(accept.getOfferAmountOriginal(), accept.getBTCDesiredOriginal(), amountAccepted);
+                int64_t amountToPayInXEP = calculateDesiredXEP(accept.getOfferAmountOriginal(), accept.getXEPDesiredOriginal(), amountAccepted);
                 matchedAccept.pushKV("buyer", buyer);
                 matchedAccept.pushKV("block", blockOfAccept);
                 matchedAccept.pushKV("blocksleft", blocksLeftToPay);
                 matchedAccept.pushKV("amount", FormatMP(propertyId, amountAccepted));
-                matchedAccept.pushKV("amounttopay", FormatDivisibleMP(amountToPayInBTC));
+                matchedAccept.pushKV("amounttopay", FormatDivisibleMP(amountToPayInXEP));
                 acceptsMatched.push_back(matchedAccept);
             }
         }
@@ -2299,11 +2299,11 @@ static UniValue omni_gettransaction(const JSONRPCRequest& request)
            RPCResult::Type::OBJ, "", "",
            {
                {RPCResult::Type::STR_HEX, "txid", "the hex-encoded hash of the transaction"},
-               {RPCResult::Type::STR, "sendingaddress", "the Bitcoin address of the sender"},
-               {RPCResult::Type::STR, "referenceaddress", "a Bitcoin address used as reference (if any)"},
+               {RPCResult::Type::STR, "sendingaddress", "the Xep address of the sender"},
+               {RPCResult::Type::STR, "referenceaddress", "a Xep address used as reference (if any)"},
                {RPCResult::Type::BOOL, "ismine", "whether the transaction involes an address in the wallet"},
                {RPCResult::Type::NUM, "confirmations", "the number of transaction confirmations"},
-               {RPCResult::Type::STR_AMOUNT, "fee", "the transaction fee in bitcoins"},
+               {RPCResult::Type::STR_AMOUNT, "fee", "the transaction fee in xeps"},
                {RPCResult::Type::STR_AMOUNT, "blocktime", "the timestamp of the block that contains the transaction"},
                {RPCResult::Type::BOOL, "valid", "whether the transaction is valid"},
                {RPCResult::Type::STR, "invalidreason", "if a transaction is invalid, the reason"},
@@ -2349,11 +2349,11 @@ static UniValue omni_listtransactions(const JSONRPCRequest& request)
                {RPCResult::Type::OBJ, "", "",
                {
                    {RPCResult::Type::STR_HEX, "txid", "the hex-encoded hash of the transaction"},
-                   {RPCResult::Type::STR, "sendingaddress", "the Bitcoin address of the sender"},
-                   {RPCResult::Type::STR, "referenceaddress", "a Bitcoin address used as reference (if any)"},
+                   {RPCResult::Type::STR, "sendingaddress", "the Xep address of the sender"},
+                   {RPCResult::Type::STR, "referenceaddress", "a Xep address used as reference (if any)"},
                    {RPCResult::Type::BOOL, "ismine", "whether the transaction involes an address in the wallet"},
                    {RPCResult::Type::NUM, "confirmations", "the number of transaction confirmations"},
-                   {RPCResult::Type::STR_AMOUNT, "fee", "the transaction fee in bitcoins"},
+                   {RPCResult::Type::STR_AMOUNT, "fee", "the transaction fee in xeps"},
                    {RPCResult::Type::STR_AMOUNT, "blocktime", "the timestamp of the block that contains the transaction"},
                    {RPCResult::Type::BOOL, "valid", "whether the transaction is valid"},
                    {RPCResult::Type::NUM, "type_int", "the transaction type as number"},
@@ -2432,10 +2432,10 @@ static UniValue omni_listpendingtransactions(const JSONRPCRequest& request)
                {RPCResult::Type::OBJ, "", "",
                {
                    {RPCResult::Type::STR_HEX, "txid", "the hex-encoded hash of the transaction"},
-                   {RPCResult::Type::STR, "sendingaddress", "the Bitcoin address of the sender"},
-                   {RPCResult::Type::STR, "referenceaddress", "a Bitcoin address used as reference (if any)"},
+                   {RPCResult::Type::STR, "sendingaddress", "the Xep address of the sender"},
+                   {RPCResult::Type::STR, "referenceaddress", "a Xep address used as reference (if any)"},
                    {RPCResult::Type::BOOL, "ismine", "whether the transaction involes an address in the wallet"},
-                   {RPCResult::Type::STR_AMOUNT, "fee", "the transaction fee in bitcoins"},
+                   {RPCResult::Type::STR_AMOUNT, "fee", "the transaction fee in xeps"},
                    {RPCResult::Type::NUM, "version", "the transaction version"},
                    {RPCResult::Type::NUM, "type_int", "the transaction type as number"},
                    {RPCResult::Type::STR, "type", "the transaction type as string"},
@@ -2483,7 +2483,7 @@ static UniValue omni_getinfo(const JSONRPCRequest& request)
                {RPCResult::Type::NUM, "omnicoreversion_int", "client version as integer"},
                {RPCResult::Type::STR, "omnicoreversion", "client version"},
                {RPCResult::Type::STR, "mastercoreversion", "client version (DEPRECATED)"},
-               {RPCResult::Type::STR, "bitcoincoreversion", "Bitcoin Core version"},
+               {RPCResult::Type::STR, "xepcoreversion", "Xep Core version"},
                {RPCResult::Type::NUM, "block", "index of the last processed block"},
                {RPCResult::Type::NUM, "blocktime", "timestamp of the last processed block"},
                {RPCResult::Type::NUM, "blocktransactions", "Omni transactions found in the last processed block"},
@@ -2508,11 +2508,11 @@ static UniValue omni_getinfo(const JSONRPCRequest& request)
 
     UniValue infoResponse(UniValue::VOBJ);
 
-    // provide the mastercore and bitcoin version
+    // provide the mastercore and xep version
     infoResponse.pushKV("omnicoreversion_int", OMNICORE_VERSION);
     infoResponse.pushKV("omnicoreversion", OmniCoreVersion());
     infoResponse.pushKV("mastercoreversion", OmniCoreVersion());
-    infoResponse.pushKV("bitcoincoreversion", BitcoinCoreVersion());
+    infoResponse.pushKV("xepcoreversion", XepCoreVersion());
 
     // provide the current block details
     int block = GetHeight();
@@ -2646,10 +2646,10 @@ static UniValue omni_getsto(const JSONRPCRequest& request)
            RPCResult::Type::OBJ, "", "",
            {
                {RPCResult::Type::STR_HEX, "txid", "the hex-encoded hash of the transaction"},
-               {RPCResult::Type::STR, "sendingaddress", "the Bitcoin address of the sender"},
+               {RPCResult::Type::STR, "sendingaddress", "the Xep address of the sender"},
                {RPCResult::Type::BOOL, "ismine", "whether the transaction involes an address in the wallet"},
                {RPCResult::Type::NUM, "confirmations", "the number of transaction confirmations"},
-               {RPCResult::Type::STR_AMOUNT, "fee", "the transaction fee in bitcoins"},
+               {RPCResult::Type::STR_AMOUNT, "fee", "the transaction fee in xeps"},
                {RPCResult::Type::STR_AMOUNT, "blocktime", "the timestamp of the block that contains the transaction"},
                {RPCResult::Type::BOOL, "valid", "whether the transaction is valid"},
                {RPCResult::Type::NUM, "version", "the transaction version"},
@@ -2663,7 +2663,7 @@ static UniValue omni_getsto(const JSONRPCRequest& request)
                {
                    {RPCResult::Type::OBJ, "", "",
                    {
-                       {RPCResult::Type::STR, "address", "the Bitcoin address of the recipient"},
+                       {RPCResult::Type::STR, "address", "the Xep address of the recipient"},
                        {RPCResult::Type::STR_AMOUNT, "amount", "the number of tokens sent to this recipient"},
                    }},
                }},
@@ -2706,10 +2706,10 @@ static UniValue omni_gettrade(const JSONRPCRequest& request)
            RPCResult::Type::OBJ, "", "",
            {
                {RPCResult::Type::STR_HEX, "txid", "the hex-encoded hash of the transaction of the order"},
-               {RPCResult::Type::STR, "sendingaddress", "the Bitcoin address of the trader"},
+               {RPCResult::Type::STR, "sendingaddress", "the Xep address of the trader"},
                {RPCResult::Type::BOOL, "ismine", "whether the order involes an address in the wallet"},
                {RPCResult::Type::NUM, "confirmations", "the number of transaction confirmations"},
-               {RPCResult::Type::STR_AMOUNT, "fee", "the transaction fee in bitcoins"},
+               {RPCResult::Type::STR_AMOUNT, "fee", "the transaction fee in xeps"},
                {RPCResult::Type::NUM, "blocktime", "the timestamp of the block that contains the transaction"},
                {RPCResult::Type::BOOL, "valid", "whether the transaction is valid"},
                {RPCResult::Type::NUM, "version", "the transaction version"},
@@ -2730,7 +2730,7 @@ static UniValue omni_gettrade(const JSONRPCRequest& request)
                    {
                        {RPCResult::Type::STR_HEX, "txid", "the hash of the transaction that was matched against"},
                        {RPCResult::Type::NUM, "block", "the index of the block that contains this transaction"},
-                       {RPCResult::Type::STR, "address", "the Bitcoin address of the other trader"},
+                       {RPCResult::Type::STR, "address", "the Xep address of the other trader"},
                        {RPCResult::Type::STR_AMOUNT, "amountsold", "the number of tokens sold in this trade"},
                        {RPCResult::Type::STR_AMOUNT, "amountreceived", "the number of tokens traded in exchange"},
                    }},

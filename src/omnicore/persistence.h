@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_PERSISTENCE_H
-#define BITCOIN_OMNICORE_PERSISTENCE_H
+#ifndef XEP_OMNICORE_PERSISTENCE_H
+#define XEP_OMNICORE_PERSISTENCE_H
 
 #include <boost/filesystem.hpp>
 
@@ -18,4 +18,4 @@ int RestoreInMemoryState(const std::string& filename, int what, bool verifyHash 
 int LoadMostRelevantInMemoryState();
 
 
-#endif // BITCOIN_OMNICORE_PERSISTENCE_H
+#endif // XEP_OMNICORE_PERSISTENCE_H

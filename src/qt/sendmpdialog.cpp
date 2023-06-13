@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2014 The Bitcoin developers
+// Copyright (c) 2011-2014 The Xep developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -19,7 +19,7 @@
 #include <omnicore/pending.h>
 #include <omnicore/sp.h>
 #include <omnicore/tally.h>
-#include <omnicore/utilsbitcoin.h>
+#include <omnicore/utilsxep.h>
 #include <omnicore/wallettxbuilder.h>
 #include <omnicore/walletutils.h>
 
@@ -101,7 +101,7 @@ void SendMPDialog::setClientModel(ClientModel *model)
 
 void SendMPDialog::setWalletModel(WalletModel *model)
 {
-    // use wallet model to get visibility into BTC balance changes for fees
+    // use wallet model to get visibility into XEP balance changes for fees
     this->walletModel = model;
     if (model != nullptr) {
        connect(model, &WalletModel::balanceChanged, this, &SendMPDialog::updateFrom);
@@ -177,7 +177,7 @@ void SendMPDialog::updateFrom()
         if (CheckFee(walletModel->wallet(), currentSetFromAddress, 16)) {
             ui->feeWarningLabel->setVisible(false);
         } else {
-            ui->feeWarningLabel->setText("WARNING: The sending address is low on BTC for transaction fees. Please topup the BTC balance for the sending address to send Omni Layer transactions.");
+            ui->feeWarningLabel->setText("WARNING: The sending address is low on XEP for transaction fees. Please topup the XEP balance for the sending address to send Omni Layer transactions.");
             ui->feeWarningLabel->setVisible(true);
         }
     }
@@ -294,7 +294,7 @@ void SendMPDialog::sendMPTransaction()
     }
 
     // check if wallet is still syncing, as this will currently cause a lockup if we try to send - compare our chain to peers to see if we're up to date
-    // Bitcoin Core devs have removed GetNumBlocksOfPeers, switching to a time based best guess scenario
+    // Xep Core devs have removed GetNumBlocksOfPeers, switching to a time based best guess scenario
     uint32_t intBlockDate = GetLatestBlockTime();  // uint32, not using time_t for portability
     QDateTime currentDate = QDateTime::currentDateTime();
     int secs = QDateTime::fromTime_t(intBlockDate).secsTo(currentDate);

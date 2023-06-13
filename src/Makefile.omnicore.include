@@ -36,7 +36,7 @@ OMNICORE_H = \
   omnicore/tally.h \
   omnicore/tx.h \
   omnicore/uint256_extensions.h \
-  omnicore/utilsbitcoin.h \
+  omnicore/utilsxep.h \
   omnicore/utilsui.h \
   omnicore/version.h \
   omnicore/walletcache.h \
@@ -82,7 +82,7 @@ OMNICORE_CPP = \
   omnicore/sto.cpp \
   omnicore/tally.cpp \
   omnicore/tx.cpp \
-  omnicore/utilsbitcoin.cpp \
+  omnicore/utilsxep.cpp \
   omnicore/utilsui.cpp \
   omnicore/version.cpp \
   omnicore/walletcache.cpp \
@@ -94,11 +94,11 @@ if ENABLE_WALLET
 OMNICORE_CPP += omnicore/rpctx.cpp
 endif
 
-libbitcoin_server_a_SOURCES += \
+libxep_server_a_SOURCES += \
   $(OMNICORE_CPP) \
   $(OMNICORE_H)
 
-omnicore/libbitcoin_server_a-version.$(OBJEXT): obj/build.h # build info
+omnicore/libxep_server_a-version.$(OBJEXT): obj/build.h # build info
 
 CLEAN_OMNICORE = omnicore/*.gcda omnicore/*.gcno
 

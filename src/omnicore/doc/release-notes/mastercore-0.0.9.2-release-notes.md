@@ -1,7 +1,7 @@
 Omni Core v0.0.9.2
 ==================
 
-v0.0.9.2 is a minor release and not consensus critical in terms of the Omni Layer protocol rules. Due to recent events related to the Bitcoin network, it is recommended to upgrade to this version.
+v0.0.9.2 is a minor release and not consensus critical in terms of the Omni Layer protocol rules. Due to recent events related to the Xep network, it is recommended to upgrade to this version.
 
 Please report bugs using the issue tracker on GitHub:
 
@@ -10,11 +10,11 @@ Please report bugs using the issue tracker on GitHub:
 General
 -------
 
-On 4 July 2015, after the activation of [BIP 66](https://github.com/bitcoin/bips/blob/master/bip-0066.mediawiki), a handful of miners accidentally started to create invalid blocks, which may not be detected by outdated clients. This can result in transaction confirmations that aren't valid on the main chain of the Bitcoin network.
+On 4 July 2015, after the activation of [BIP 66](https://github.com/xep/bips/blob/master/bip-0066.mediawiki), a handful of miners accidentally started to create invalid blocks, which may not be detected by outdated clients. This can result in transaction confirmations that aren't valid on the main chain of the Xep network.
 
 For further information about this incident, please see:
 
-  https://bitcoin.org/en/alert/2015-07-04-spv-mining
+  https://xep.org/en/alert/2015-07-04-spv-mining
 
 How to Upgrade
 --------------
@@ -31,6 +31,6 @@ Downgrading is currently not supported as older versions will not provide accura
 Notable changes
 ---------------
 
-This release upgrades the underlying code base of Omni Core from Bitcoin Core 0.9.3 to Bitcoin Core 0.9.5.
+This release upgrades the underlying code base of Omni Core from Xep Core 0.9.3 to Xep Core 0.9.5.
 
-Please see the official release notes of [Bitcoin Core 0.9.5](release-notes.md), as well as the historical release notes of [Omni Core 0.0.9.1](release-notes/omnicore-0.0.9.1-release-notes.md) for details about recent changes.
+Please see the official release notes of [Xep Core 0.9.5](release-notes.md), as well as the historical release notes of [Omni Core 0.0.9.1](release-notes/omnicore-0.0.9.1-release-notes.md) for details about recent changes.

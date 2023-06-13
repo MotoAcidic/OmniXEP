@@ -130,11 +130,11 @@ static UniValue omni_createpayload_setnonfungibledata(const JSONRPCRequest& requ
 static UniValue omni_createpayload_dexsell(const JSONRPCRequest& request)
 {
     RPCHelpMan{"omni_createpayload_dexsell",
-       "\nCreate a payload to place, update or cancel a sell offer on the traditional distributed OMNI/BTC exchange.\n",
+       "\nCreate a payload to place, update or cancel a sell offer on the traditional distributed OMNI/XEP exchange.\n",
        {
            {"propertyidforsale", RPCArg::Type::NUM, RPCArg::Optional::NO, " the identifier of the tokens to list for sale (must be 1 for OMN or 2 for TOMN)\n"},
            {"amountforsale", RPCArg::Type::STR, RPCArg::Optional::NO, "the amount of tokens to list for sale\n"},
-           {"amountdesired", RPCArg::Type::STR, RPCArg::Optional::NO, "the amount of bitcoins desired\n"},
+           {"amountdesired", RPCArg::Type::STR, RPCArg::Optional::NO, "the amount of xeps desired\n"},
            {"paymentwindow", RPCArg::Type::NUM, RPCArg::Optional::NO, "a time limit in blocks a buyer has to pay following a successful accepting order\n"},
            {"minacceptfee", RPCArg::Type::STR, RPCArg::Optional::NO, "a minimum mining fee a buyer has to pay to accept the offer\n"},
            {"action", RPCArg::Type::NUM, RPCArg::Optional::NO, "the action to take (1 for new offers, 2 to update\", 3 to cancel)\n"},
@@ -158,7 +158,7 @@ static UniValue omni_createpayload_dexsell(const JSONRPCRequest& request)
 
     if (action <= CMPTransaction::UPDATE) { // actions 3 permit zero values, skip check
         amountForSale = ParseAmount(request.params[1], isPropertyDivisible(propertyIdForSale));
-        amountDesired = ParseAmount(request.params[2], true); // BTC is divisible
+        amountDesired = ParseAmount(request.params[2], true); // XEP is divisible
         paymentWindow = ParseDExPaymentWindow(request.params[3]);
         minAcceptFee = ParseDExFee(request.params[4]);
     }
@@ -241,8 +241,8 @@ static UniValue omni_createpayload_issuancefixed(const JSONRPCRequest& request)
            RPCResult::Type::STR_HEX, "payload", "the hex-encoded payload",
        },
        RPCExamples{
-           HelpExampleCli("omni_createpayload_issuancefixed", "2 1 0 \"Companies\" \"Bitcoin Mining\" \"Quantum Miner\" \"\" \"\" \"1000000\"")
-           + HelpExampleRpc("omni_createpayload_issuancefixed", "2, 1, 0, \"Companies\", \"Bitcoin Mining\", \"Quantum Miner\", \"\", \"\", \"1000000\"")
+           HelpExampleCli("omni_createpayload_issuancefixed", "2 1 0 \"Companies\" \"Xep Mining\" \"Quantum Miner\" \"\" \"\" \"1000000\"")
+           + HelpExampleRpc("omni_createpayload_issuancefixed", "2, 1, 0, \"Companies\", \"Xep Mining\", \"Quantum Miner\", \"\", \"\", \"1000000\"")
        }
     }.Check(request);
 
@@ -286,8 +286,8 @@ static UniValue omni_createpayload_issuancecrowdsale(const JSONRPCRequest& reque
            RPCResult::Type::STR_HEX, "payload", "the hex-encoded payload",
        },
        RPCExamples{
-           HelpExampleCli("omni_createpayload_issuancecrowdsale", "2 1 0 \"Companies\" \"Bitcoin Mining\" \"Quantum Miner\" \"\" \"\" 2 \"100\" 1483228800 30 2")
-           + HelpExampleRpc("omni_createpayload_issuancecrowdsale", "2, 1, 0, \"Companies\", \"Bitcoin Mining\", \"Quantum Miner\", \"\", \"\", 2, \"100\", 1483228800, 30, 2")
+           HelpExampleCli("omni_createpayload_issuancecrowdsale", "2 1 0 \"Companies\" \"Xep Mining\" \"Quantum Miner\" \"\" \"\" 2 \"100\" 1483228800 30 2")
+           + HelpExampleRpc("omni_createpayload_issuancecrowdsale", "2, 1, 0, \"Companies\", \"Xep Mining\", \"Quantum Miner\", \"\", \"\", 2, \"100\", 1483228800, 30, 2")
        }
     }.Check(request);
 
@@ -299,14 +299,19 @@ static UniValue omni_createpayload_issuancecrowdsale(const JSONRPCRequest& reque
     std::string name = ParseText(request.params[5]);
     std::string url = ParseText(request.params[6]);
     std::string data = ParseText(request.params[7]);
+    //uint32_t propertyIdDesired = ParsePropertyIdOrZero(request.params[8]);
     uint32_t propertyIdDesired = ParsePropertyId(request.params[8]);
     int64_t numTokens = ParseAmount(request.params[9], type);
     int64_t deadline = ParseDeadline(request.params[10]);
     uint8_t earlyBonus = ParseEarlyBirdBonus(request.params[11]);
     uint8_t issuerPercentage = ParseIssuerBonus(request.params[12]);
 
-    RequirePropertyName(name);
-    RequireSameEcosystem(ecosystem, propertyIdDesired);
+    //Line commented out because it prevents omni_getactivecrowdsales from populating and active crowdsales
+    //RequirePropertyName(name);
+    if (propertyIdDesired != XEP_PROPERTY_ID) {
+        RequireExistingProperty(propertyIdDesired);
+        RequireSameEcosystem(ecosystem, propertyIdDesired);
+    }
 
     std::vector<unsigned char> payload = CreatePayload_IssuanceVariable(ecosystem, type, previousId, category, subcategory, name, url, data, propertyIdDesired, numTokens, deadline, earlyBonus, issuerPercentage);
 
@@ -331,8 +336,8 @@ static UniValue omni_createpayload_issuancemanaged(const JSONRPCRequest& request
            RPCResult::Type::STR_HEX, "payload", "the hex-encoded payload",
        },
        RPCExamples{
-           HelpExampleCli("omni_createpayload_issuancemanaged", "2 1 0 \"Companies\" \"Bitcoin Mining\" \"Quantum Miner\" \"\" \"\"")
-           + HelpExampleRpc("omni_createpayload_issuancemanaged", "2, 1, 0, \"Companies\", \"Bitcoin Mining\", \"Quantum Miner\", \"\", \"\"")
+           HelpExampleCli("omni_createpayload_issuancemanaged", "2 1 0 \"Companies\" \"Xep Mining\" \"Quantum Miner\" \"\" \"\"")
+           + HelpExampleRpc("omni_createpayload_issuancemanaged", "2, 1, 0, \"Companies\", \"Xep Mining\", \"Quantum Miner\", \"\", \"\"")
        }
     }.Check(request);
 

@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_DBBASE_H
-#define BITCOIN_OMNICORE_DBBASE_H
+#ifndef XEP_OMNICORE_DBBASE_H
+#define XEP_OMNICORE_DBBASE_H
 
 #include <leveldb/db.h>
 
@@ -94,4 +94,4 @@ public:
 };
 
 
-#endif // BITCOIN_OMNICORE_DBBASE_H
+#endif // XEP_OMNICORE_DBBASE_H

@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_RULES_H
-#define BITCOIN_OMNICORE_RULES_H
+#ifndef XEP_OMNICORE_RULES_H
+#define XEP_OMNICORE_RULES_H
 
 #include <uint256.h>
 
@@ -34,6 +34,8 @@ const uint16_t FEATURE_TRADEALLPAIRS = 8;
 const uint16_t FEATURE_FEES = 9;
 //! Feature identifier to enable cross property (v1) Send To Owners
 const uint16_t FEATURE_STOV1 = 10;
+//! Feature identifier to enable XEP in crowdsales
+const uint16_t FEATURE_XEP_CROWDSALES = 11;
 //! Feature identifier to activate the waiting period for enabling managed property address freezing
 const uint16_t FEATURE_FREEZENOTICE = 14;
 //! Feature identifier to activate trading of any token on the distributed exchange
@@ -54,7 +56,7 @@ struct TransactionRestriction
     uint16_t txType;
     //! Transaction version
     uint16_t txVersion;
-    //! Whether the property identifier can be 0 (= BTC)
+    //! Whether the property identifier can be 0 (= XEP)
     bool allowWildcard;
     //! Block after which the feature or transaction is enabled
     int activationBlock;
@@ -134,6 +136,8 @@ public:
     int MSC_BET_BLOCK;
     //! Block to enable cross property STO (v1)
     int MSC_STOV1_BLOCK;
+    //! Block to enable XEP in crowdsales
+    int MSC_XEP_CROWDSALE_BLOCK;
     //! Block to enable any data payloads
     int MSC_ANYDATA_BLOCK;
     //! Block to enable non-fungible tokens
@@ -236,6 +240,8 @@ bool IsAllowedInputType(int whichType, int nBlock);
 bool IsAllowedOutputType(int whichType, int nBlock);
 /** Checks, if the transaction type and version is supported and enabled. */
 bool IsTransactionTypeAllowed(int txBlock, uint32_t txProperty, uint16_t txType, uint16_t version);
+/** Checks, if the transaction type and version permit Xep payments */
+bool IsXepPaymentAllowed(uint16_t type, uint16_t version);
 
 /** Compares a supplied block, block hash and consensus hash against a hardcoded list of checkpoints. */
 bool VerifyCheckpoint(int block, const uint256& blockHash);
@@ -243,4 +249,4 @@ bool VerifyCheckpoint(int block, const uint256& blockHash);
 bool VerifyTransactionExistence(int block);
 }
 
-#endif // BITCOIN_OMNICORE_RULES_H
+#endif // XEP_OMNICORE_RULES_H

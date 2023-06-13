@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-# Copyright (c) 2017-2018 The Bitcoin Core developers
+# Copyright (c) 2017-2018 The Xep Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test meta dex phase 3."""
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import XepTestFramework
 from test_framework.util import assert_equal
 
-class OmniMetaDexPhase3(BitcoinTestFramework):
+class OmniMetaDexPhase3(XepTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
         self.setup_clean_chain = True
@@ -16,14 +16,14 @@ class OmniMetaDexPhase3(BitcoinTestFramework):
     def run_test(self):
         self.log.info("test meta dex phase 3")
 
-        # Preparing some mature Bitcoins
+        # Preparing some mature Xeps
         coinbase_address = self.nodes[0].getnewaddress()
         self.nodes[0].generatetoaddress(101, coinbase_address)
 
         # Obtaining a master address to work with
         address = self.nodes[0].getnewaddress()
 
-        # Funding the address with some testnet BTC for fees
+        # Funding the address with some testnet XEP for fees
         self.nodes[0].sendtoaddress(address, 20)
         self.nodes[0].generatetoaddress(1, coinbase_address)
 

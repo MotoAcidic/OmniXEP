@@ -62,9 +62,9 @@ static UniValue omni_decodetransaction(const JSONRPCRequest& request)
            RPCResult::Type::ARR, "", "",
            {
                {RPCResult::Type::STR_HEX, "txid", "the hex-encoded hash of the transaction"},
-               {RPCResult::Type::STR_AMOUNT, "fee", "the transaction fee in bitcoins"},
-               {RPCResult::Type::STR, "sendingaddress", "the Bitcoin address of the sender"},
-               {RPCResult::Type::STR, "referenceaddress", "a Bitcoin address used as reference (if any)"},
+               {RPCResult::Type::STR_AMOUNT, "fee", "the transaction fee in xeps"},
+               {RPCResult::Type::STR, "sendingaddress", "the Xep address of the sender"},
+               {RPCResult::Type::STR, "referenceaddress", "a Xep address used as reference (if any)"},
                {RPCResult::Type::BOOL, "ismine", "whether the transaction involes an address in the wallet"},
                {RPCResult::Type::NUM, "version", "the transaction version"},
                {RPCResult::Type::NUM, "type_int", "the transaction type as number"},

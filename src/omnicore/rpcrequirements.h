@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_RPCREQUIREMENTS_H
-#define BITCOIN_OMNICORE_RPCREQUIREMENTS_H
+#ifndef XEP_OMNICORE_RPCREQUIREMENTS_H
+#define XEP_OMNICORE_RPCREQUIREMENTS_H
 
 #include <stdint.h>
 #include <string>
@@ -34,4 +34,4 @@ void RequireNonFungibleTokenOwner(const std::string& address, uint32_t propertyI
 // Checks for MetaDEx orders for cancel operations
 
 
-#endif // BITCOIN_OMNICORE_RPCREQUIREMENTS_H
+#endif // XEP_OMNICORE_RPCREQUIREMENTS_H

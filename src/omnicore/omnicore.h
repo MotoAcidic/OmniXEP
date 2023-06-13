@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_OMNICORE_H
-#define BITCOIN_OMNICORE_OMNICORE_H
+#ifndef XEP_OMNICORE_OMNICORE_H
+#define XEP_OMNICORE_OMNICORE_H
 
 class CBlockIndex;
 class CCoinsView;
@@ -37,6 +37,8 @@ int const DONT_STORE_MAINNET_STATE_UNTIL = 622000;
 
 #define TEST_ECO_PROPERTY_1 (0x80000003UL)
 
+#define XEP_PROPERTY_ID 0
+
 // increment this value to force a refresh of the state (similar to --startclean)
 #define DB_VERSION 8
 
@@ -50,6 +52,7 @@ int const DONT_STORE_MAINNET_STATE_UNTIL = 622000;
 // Omni Layer Transaction (Packet) Version
 #define MP_TX_PKT_V0  0
 #define MP_TX_PKT_V1  1
+#define MP_TX_PKT_V2  2
 
 
 // Transaction types, from the spec
@@ -64,7 +67,7 @@ enum TransactionType {
   MSC_TYPE_RATELIMITED_MARK           = 12,
   MSC_TYPE_AUTOMATIC_DISPENSARY       = 15,
   MSC_TYPE_TRADE_OFFER                = 20,
-  MSC_TYPE_ACCEPT_OFFER_BTC           = 22,
+  MSC_TYPE_ACCEPT_OFFER_XEP           = 22,
   MSC_TYPE_METADEX_TRADE              = 25,
   MSC_TYPE_METADEX_CANCEL_PRICE       = 26,
   MSC_TYPE_METADEX_CANCEL_PAIR        = 27,
@@ -83,6 +86,7 @@ enum TransactionType {
   MSC_TYPE_DISABLE_FREEZING           = 72,
   MSC_TYPE_ADD_DELEGATE               = 73,
   MSC_TYPE_REMOVE_DELEGATE            = 74,
+  MSC_TYPE_XEP_PAYMENT            = 80,
   MSC_TYPE_FREEZE_PROPERTY_TOKENS     = 185,
   MSC_TYPE_UNFREEZE_PROPERTY_TOKENS   = 186,
   MSC_TYPE_ANYDATA                    = 200,
@@ -119,7 +123,7 @@ enum TransactionType {
 #define PKT_ERROR_SEND_ALL    (-83000)
 #define PKT_ERROR_ANYDATA     (-84000)
 
-#define OMNI_PROPERTY_BTC   0
+#define OMNI_PROPERTY_XEP   0
 #define OMNI_PROPERTY_MSC   1
 #define OMNI_PROPERTY_TMSC  2
 
@@ -184,6 +188,8 @@ void CheckWalletUpdate(bool forceUpdate = false);
 /** Used to notify that the number of tokens for a property has changed. */
 void NotifyTotalTokensChanged(uint32_t propertyId, int block);
 
+int64_t GetXepPaymentAmount(const uint256& txid, const std::string& recipient);
+
 namespace mastercore
 {
 //! In-memory collection of all amounts for all addresses for all properties
@@ -236,4 +242,4 @@ void PrintFreezeState();
 
 }
 
-#endif // BITCOIN_OMNICORE_OMNICORE_H
+#endif // XEP_OMNICORE_OMNICORE_H

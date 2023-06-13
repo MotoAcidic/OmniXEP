@@ -1,7 +1,7 @@
 Omni Core v0.8.2
 ================
 
-v0.8.2 is a minor release and adds new RPCs to interact with the distributed exchange, which can be used to trade any tokens for bitcoins. It also incorporates significant performance improvements for the initial synchronization and upgrading from older versions of Omni Core.
+v0.8.2 is a minor release and adds new RPCs to interact with the distributed exchange, which can be used to trade any tokens for xeps. It also incorporates significant performance improvements for the initial synchronization and upgrading from older versions of Omni Core.
 
 Upgrading from 0.8.1 does not require a rescan and can be done very fast without interruption.
 
@@ -17,7 +17,7 @@ Table of contents
 - [Upgrading and downgrading](#upgrading-and-downgrading)
   - [How to upgrade](#how-to-upgrade)
   - [Downgrading](#downgrading)
-  - [Compatibility with Bitcoin Core](#compatibility-with-bitcoin-core)
+  - [Compatibility with Xep Core](#compatibility-with-xep-core)
 - [Improvements](#improvements)
   - [New RPCs for the distributed exchange](#new-rpcs-for-the-distributed-exchange)
   - [Other RPC improvements](#other-rpc-improvements)
@@ -32,7 +32,7 @@ Upgrading and downgrading
 How to upgrade
 --------------
 
-If you are running Bitcoin Core or an older version of Omni Core, shut it down. Wait until it has completely shut down, then copy the new version of `omnicored`, `omnicore-cli` and `omnicore-qt`. On Microsoft Windows the setup routine can be used to automate these steps.
+If you are running Xep Core or an older version of Omni Core, shut it down. Wait until it has completely shut down, then copy the new version of `omnicored`, `omnicore-cli` and `omnicore-qt`. On Microsoft Windows the setup routine can be used to automate these steps.
 
 When upgrading from an older version than 0.8.0, the database of Omni Core is reconstructed, which can easily consume several hours. During the first startup historical Omni Layer transactions are reprocessed and Omni Core will not be usable for several hours up to more than a day. The progress of the initial scan is reported on the console, the GUI and written to the `debug.log`. The scan may be interrupted and can be resumed.
 
@@ -43,12 +43,12 @@ Downgrading
 
 Downgrading to an Omni Core version prior to 0.8.0 is not supported.
 
-Compatibility with Bitcoin Core
+Compatibility with Xep Core
 -------------------------------
 
-Omni Core is based on Bitcoin Core 0.18.1 and can be used as replacement for Bitcoin Core. Switching between Omni Core and Bitcoin Core may be supported.
+Omni Core is based on Xep Core 0.18.1 and can be used as replacement for Xep Core. Switching between Omni Core and Xep Core may be supported.
 
-However, it is not advised to upgrade or downgrade to versions other than Bitcoin Core 0.18. When switching to Omni Core, it may be necessary to reprocess Omni Layer transactions.
+However, it is not advised to upgrade or downgrade to versions other than Xep Core 0.18. When switching to Omni Core, it may be necessary to reprocess Omni Layer transactions.
 
 
 Improvements
@@ -61,7 +61,7 @@ Three new RPCs were added to create, update and cancel orders on the distributed
 
 ### omni_sendnewdexorder
 
-Creates a new sell offer on the distributed token/BTC exchange.
+Creates a new sell offer on the distributed token/XEP exchange.
 
 **Arguments:**
 
@@ -70,7 +70,7 @@ Creates a new sell offer on the distributed token/BTC exchange.
 | `fromaddress`       | string  | required | the address to send from                                                                     |
 | `propertyidforsale` | number  | required | the identifier of the tokens to list for sale                                                |
 | `amountforsale`     | string  | required | the amount of tokens to list for sale                                                        |
-| `amountdesired`     | string  | required | the amount of bitcoins desired                                                               |
+| `amountdesired`     | string  | required | the amount of xeps desired                                                               |
 | `paymentwindow`     | number  | required | a time limit in blocks a buyer has to pay following a successful accepting order             |
 | `minacceptfee`      | string  | required | a minimum mining fee a buyer has to pay to accept the offer                                  |
 
@@ -89,7 +89,7 @@ $ omnicore-cli "omni_sendnewdexorder" "37FaKponF7zqoMLUjEiko25pDiuVH5YLEa" 1 "1.
 
 ### omni_sendupdatedexorder
 
-Updates an existing sell offer on the distributed token/BTC exchange.
+Updates an existing sell offer on the distributed token/XEP exchange.
 
 **Arguments:**
 
@@ -98,7 +98,7 @@ Updates an existing sell offer on the distributed token/BTC exchange.
 | `fromaddress`       | string  | required | the address to send from                                                                     |
 | `propertyidforsale` | number  | required | the identifier of the tokens to update                                                       |
 | `amountforsale`     | string  | required | the new amount of tokens to list for sale                                                    |
-| `amountdesired`     | string  | required | the new amount of bitcoins desired                                                           |
+| `amountdesired`     | string  | required | the new amount of xeps desired                                                           |
 | `paymentwindow`     | number  | required | a new time limit in blocks a buyer has to pay following a successful accepting order         |
 | `minacceptfee`      | string  | required | a new minimum mining fee a buyer has to pay to accept the offer                              |
 
@@ -117,7 +117,7 @@ $ omnicore-cli "omni_sendupdatedexorder" "37FaKponF7zqoMLUjEiko25pDiuVH5YLEa" 1 
 
 ### omni_sendcanceldexorder
 
-Cancels existing sell offer on the distributed token/BTC exchange.
+Cancels existing sell offer on the distributed token/XEP exchange.
 
 **Arguments:**
 
@@ -153,7 +153,7 @@ Partial purchases are not possible and the whole accepted amount must be paid.
 | `fromaddress`       | string  | required | the address to send from                                                                     |
 | `toaddress`         | string  | required | the address of the seller                                                                    |
 | `propertyid`        | number  | required | the identifier of the token to purchase                                                      |
-| `amount`            | string  | required | the Bitcoin amount to send                                                                   |
+| `amount`            | string  | required | the Xep amount to send                                                                   |
 
 **Result:**
 ```js

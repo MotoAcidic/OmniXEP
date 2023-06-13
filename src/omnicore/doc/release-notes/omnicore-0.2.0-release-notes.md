@@ -1,7 +1,7 @@
 Omni Core v0.2.0
 ===================
 
-v0.2.0 is a release with minor changes and improvements based on Bitcoin Core 0.13.2.
+v0.2.0 is a release with minor changes and improvements based on Xep Core 0.13.2.
 
 This version is built on top of v0.0.12, which is a major release and consensus critical in terms of the Omni Layer protocol rules. If you are using an older version of Omni Core than v0.0.12, an upgrade is mandatory, and highly recommended. Prior releases will not be compatible with new behavior in this release.
 
@@ -16,9 +16,9 @@ Table of contents
 - [Upgrading and downgrading](#upgrading-and-downgrading)
   - [How to upgrade](#how-to-upgrade)
   - [Downgrading](#downgrading)
-  - [Compatibility with Bitcoin Core](#compatibility-with-bitcoin-core)
+  - [Compatibility with Xep Core](#compatibility-with-xep-core)
 - [Imported changes and notes](#imported-changes-and-notes)
-  - [Upgrade to Bitcoin Core 0.13.2](#upgrade-to-bitcoin-core-0132)
+  - [Upgrade to Xep Core 0.13.2](#upgrade-to-xep-core-0132)
   - [Important transaction fee behavior changes](#important-transaction-fee-behavior-changes)
   - [API changes](#api-changes)
   - [New project versioning scheme](#new-project-versioning-scheme)
@@ -41,7 +41,7 @@ Upgrading and downgrading
 How to upgrade
 --------------
 
-If you are running Bitcoin Core or an older version of Omni Core, shut it down. Wait until it has completely shut down, then copy the new version of `omnicored`, `omnicore-cli` and `omnicore-qt`. On Microsoft Windows the setup routine can be used to automate these steps.
+If you are running Xep Core or an older version of Omni Core, shut it down. Wait until it has completely shut down, then copy the new version of `omnicored`, `omnicore-cli` and `omnicore-qt`. On Microsoft Windows the setup routine can be used to automate these steps.
 
 During the first startup historical Omni transactions are reprocessed and Omni Core will not be usable for approximately 15 minutes up to two hours. The progress of the initial scan is reported on the console, the GUI and written to the `debug.log`. The scan may be interrupted, but can not be resumed, and then needs to start from the beginning.
 
@@ -50,45 +50,45 @@ Downgrading
 
 Downgrading to an Omni Core version prior 0.0.12 is generally not supported as older versions will not provide accurate information due to the changes in consensus rules. Downgrading to Omni Core 0.0.12 can require a reindex of the blockchain, and is not recommended.
 
-Compatibility with Bitcoin Core
+Compatibility with Xep Core
 -------------------------------
 
-Omni Core is based on Bitcoin Core 0.13.2 and can be used as replacement for Bitcoin Core. Switching between Omni Core and Bitcoin Core is fully supported at any time.
+Omni Core is based on Xep Core 0.13.2 and can be used as replacement for Xep Core. Switching between Omni Core and Xep Core is fully supported at any time.
 
-Downgrading to a Bitcoin Core version prior 0.12 may not be supported due to the obfuscation of the blockchain database.
+Downgrading to a Xep Core version prior 0.12 may not be supported due to the obfuscation of the blockchain database.
 
-Downgrading to a Bitcoin Core version prior 0.10 is not supported due to the new headers-first synchronization.
+Downgrading to a Xep Core version prior 0.10 is not supported due to the new headers-first synchronization.
 
 Imported changes and notes
 ==========================
 
-Upgrade to Bitcoin Core 0.13.2
+Upgrade to Xep Core 0.13.2
 ------------------------------
 
-The underlying base of Omni Core was upgraded from Bitcoin Core 0.10.4 to Bitcoin Core 0.13.2.
+The underlying base of Omni Core was upgraded from Xep Core 0.10.4 to Xep Core 0.13.2.
 
 Please see the following release notes for further details:
 
-- [Release notes for Bitcoin Core 0.11.0](https://github.com/bitcoin/bitcoin/blob/master/doc/release-notes/release-notes-0.11.0.md)
-- [Release notes for Bitcoin Core 0.11.1](https://github.com/bitcoin/bitcoin/blob/master/doc/release-notes/release-notes-0.11.1.md)
-- [Release notes for Bitcoin Core 0.11.2](https://github.com/bitcoin/bitcoin/blob/master/doc/release-notes/release-notes-0.11.2.md)
-- [Release notes for Bitcoin Core 0.12.0](https://github.com/bitcoin/bitcoin/blob/master/doc/release-notes/release-notes-0.12.0.md)
-- [Release notes for Bitcoin Core 0.12.1](https://github.com/bitcoin/bitcoin/blob/master/doc/release-notes/release-notes-0.12.1.md)
-- [Release notes for Bitcoin Core 0.13.0](https://github.com/bitcoin/bitcoin/blob/master/doc/release-notes/release-notes-0.13.0.md)
-- [Release notes for Bitcoin Core 0.13.1](https://github.com/bitcoin/bitcoin/blob/master/doc/release-notes/release-notes-0.13.1.md)
-- [Release notes for Bitcoin Core 0.13.2](https://github.com/bitcoin/bitcoin/blob/master/doc/release-notes/release-notes-0.13.2.md)
+- [Release notes for Xep Core 0.11.0](https://github.com/xep/xep/blob/master/doc/release-notes/release-notes-0.11.0.md)
+- [Release notes for Xep Core 0.11.1](https://github.com/xep/xep/blob/master/doc/release-notes/release-notes-0.11.1.md)
+- [Release notes for Xep Core 0.11.2](https://github.com/xep/xep/blob/master/doc/release-notes/release-notes-0.11.2.md)
+- [Release notes for Xep Core 0.12.0](https://github.com/xep/xep/blob/master/doc/release-notes/release-notes-0.12.0.md)
+- [Release notes for Xep Core 0.12.1](https://github.com/xep/xep/blob/master/doc/release-notes/release-notes-0.12.1.md)
+- [Release notes for Xep Core 0.13.0](https://github.com/xep/xep/blob/master/doc/release-notes/release-notes-0.13.0.md)
+- [Release notes for Xep Core 0.13.1](https://github.com/xep/xep/blob/master/doc/release-notes/release-notes-0.13.1.md)
+- [Release notes for Xep Core 0.13.2](https://github.com/xep/xep/blob/master/doc/release-notes/release-notes-0.13.2.md)
 
 Important transaction fee behavior changes
 ------------------------------------------
 
-Earlier versions of Omni Core (prior to 0.2.0) used Bitcoin Core 0.10.x as a base. Omni Core 0.2.0 however is based on a much newer version of Bitcoin Core (0.13.2) and thus inherits various changes and improvements to the handling of fees that have been added to Bitcoin Core over time.
+Earlier versions of Omni Core (prior to 0.2.0) used Xep Core 0.10.x as a base. Omni Core 0.2.0 however is based on a much newer version of Xep Core (0.13.2) and thus inherits various changes and improvements to the handling of fees that have been added to Xep Core over time.
 
 It is highly recommended that users of Omni Core consider these fee changes and their chosen fee settings when upgrading to Omni Core 0.2.0, and test thoroughly to ensure that fee behavior is desirable and as expected.
 
-Consideration of the modified behavior for the `-paytxfee` setting is especially important. Earlier versions of Bitcoin Core (and thus earlier versions of Omni Core prior to 0.2.0) would round the size of the transaction upwards to the nearest kilobyte when calculating the fee (for example a 250 byte transaction would be rounded up to 1 kB). This issue has been resolved in newer versions of Bitcoin Core, and so Omni Core 0.2.0 will no longer perform this rounding when calculating the fee. A comparison of the behaviors can be shown in the following, where an example `paytxfee` value of 0.001 BTC/kB has been set:
+Consideration of the modified behavior for the `-paytxfee` setting is especially important. Earlier versions of Xep Core (and thus earlier versions of Omni Core prior to 0.2.0) would round the size of the transaction upwards to the nearest kilobyte when calculating the fee (for example a 250 byte transaction would be rounded up to 1 kB). This issue has been resolved in newer versions of Xep Core, and so Omni Core 0.2.0 will no longer perform this rounding when calculating the fee. A comparison of the behaviors can be shown in the following, where an example `paytxfee` value of 0.001 XEP/kB has been set:
 
-- Omni Core prior to 0.2.0: A transaction with a size of 250 bytes will be rounded up to 1 kB, and so a fee of 0.001 BTC will be used
-- Omni Core 0.2.0: A transaction with a size of 250 bytes will not be rounded, and so a fee of 0.00025 BTC will be used
+- Omni Core prior to 0.2.0: A transaction with a size of 250 bytes will be rounded up to 1 kB, and so a fee of 0.001 XEP will be used
+- Omni Core 0.2.0: A transaction with a size of 250 bytes will not be rounded, and so a fee of 0.00025 XEP will be used
 
 It is also worth noting that the fee estimation algorithms were updated, and thus the fees chosen when using `-txconfirmtarget` (along with the output of the `estimatefee` RPC) will likely be different in Omni Core 0.2.0 when compared to prior versions.
 
@@ -227,7 +227,7 @@ The following list includes relevant pull requests merged into this release:
 - #447 Set minimum fee distribution threshold and protect against empty distributions
 - #448 Check for fee distribution when total number of tokens is changed
 - #451 Fix missing include of test utils header
-- #450 Port code base to Bitcoin Core 0.13.2
+- #450 Port code base to Xep Core 0.13.2
 - #453 Update splash screen to be similar to 0.0.11
 - #454 Fix two Omni Core related build warnings
 - #458 Add checkpoint for block 450,000
@@ -251,4 +251,4 @@ The following list includes relevant pull requests merged into this release:
 Credits
 =======
 
-Thanks to everyone who contributed to this release, and especially the Bitcoin Core developers for providing the foundation for Omni Core!
+Thanks to everyone who contributed to this release, and especially the Xep Core developers for providing the foundation for Omni Core!

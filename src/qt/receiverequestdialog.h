@@ -1,9 +1,9 @@
-// Copyright (c) 2011-2019 The Bitcoin Core developers
+// Copyright (c) 2011-2019 The Xep Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_QT_RECEIVEREQUESTDIALOG_H
-#define BITCOIN_QT_RECEIVEREQUESTDIALOG_H
+#ifndef XEP_QT_RECEIVEREQUESTDIALOG_H
+#define XEP_QT_RECEIVEREQUESTDIALOG_H
 
 #include <qt/sendcoinsrecipient.h>
 
@@ -38,4 +38,4 @@ private:
     SendCoinsRecipient info;
 };
 
-#endif // BITCOIN_QT_RECEIVEREQUESTDIALOG_H
+#endif // XEP_QT_RECEIVEREQUESTDIALOG_H

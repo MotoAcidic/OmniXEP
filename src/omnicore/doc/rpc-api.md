@@ -1,9 +1,9 @@
 JSON-RPC API
 ============
 
-Omni Core is a fork of Bitcoin Core, with Omni Protocol feature support added as a new layer of functionality on top. As such interacting with the API is done in the same manner (JSON-RPC) as Bitcoin Core, simply with additional RPCs available for utilizing Omni Protocol features.
+Omni Core is a fork of Xep Core, with Omni Protocol feature support added as a new layer of functionality on top. As such interacting with the API is done in the same manner (JSON-RPC) as Xep Core, simply with additional RPCs available for utilizing Omni Protocol features.
 
-As all existing Bitcoin Core functionality is inherent to Omni Core, the RPC port by default remains as `8332` as per Bitcoin Core.  If you wish to run Omni Core in tandem with Bitcoin Core (eg. via a separate datadir) you may utilize the `-rpcport<port>` option to nominate an alternative port number.
+As all existing Xep Core functionality is inherent to Omni Core, the RPC port by default remains as `8332` as per Xep Core.  If you wish to run Omni Core in tandem with Xep Core (eg. via a separate datadir) you may utilize the `-rpcport<port>` option to nominate an alternative port number.
 
 All available commands can be listed with `"help"`, and information about a specific command can be retrieved with `"help <command>"`.
 
@@ -145,7 +145,7 @@ Create and broadcast a simple send transaction.
 | `propertyid`        | number  | required | the identifier of the tokens to send                                                         |
 | `amount`            | string  | required | the amount to send                                                                           |
 | `redeemaddress`     | string  | optional | an address that can spend the transaction dust (sender by default)                           |
-| `referenceamount`   | string  | optional | a bitcoin amount that is sent to the receiver (minimal by default)                           |
+| `referenceamount`   | string  | optional | a xep amount that is sent to the receiver (minimal by default)                           |
 
 **Result:**
 ```js
@@ -162,7 +162,7 @@ $ omnicore-cli "omni_send" "3M9qvHKtgARhqcMtM5cRT9VaiDJ5PSfQGY" "37FaKponF7zqoML
 
 ### omni_senddexsell
 
-Place, update or cancel a sell offer on the distributed token/BTC exchange.
+Place, update or cancel a sell offer on the distributed token/XEP exchange.
 
 **Please note: this RPC is replaced by:**
 
@@ -177,7 +177,7 @@ Place, update or cancel a sell offer on the distributed token/BTC exchange.
 | `fromaddress`       | string  | required | the address to send from                                                                     |
 | `propertyidforsale` | number  | required | the identifier of the tokens to list for sale                                                |
 | `amountforsale`     | string  | required | the amount of tokens to list for sale                                                        |
-| `amountdesired`     | string  | required | the amount of bitcoins desired                                                               |
+| `amountdesired`     | string  | required | the amount of xeps desired                                                               |
 | `paymentwindow`     | number  | required | a time limit in blocks a buyer has to pay following a successful accepting order             |
 | `minacceptfee`      | string  | required | a minimum mining fee a buyer has to pay to accept the offer                                  |
 | `action`            | number  | required | the action to take (`1` for new offers, `2` to update, `3` to cancel)                        |
@@ -197,7 +197,7 @@ $ omnicore-cli "omni_senddexsell" "37FaKponF7zqoMLUjEiko25pDiuVH5YLEa" 1 "1.5" "
 
 ### omni_sendnewdexorder
 
-Creates a new sell offer on the distributed token/BTC exchange.
+Creates a new sell offer on the distributed token/XEP exchange.
 
 **Arguments:**
 
@@ -206,7 +206,7 @@ Creates a new sell offer on the distributed token/BTC exchange.
 | `fromaddress`       | string  | required | the address to send from                                                                     |
 | `propertyidforsale` | number  | required | the identifier of the tokens to list for sale                                                |
 | `amountforsale`     | string  | required | the amount of tokens to list for sale                                                        |
-| `amountdesired`     | string  | required | the amount of bitcoins desired                                                               |
+| `amountdesired`     | string  | required | the amount of xeps desired                                                               |
 | `paymentwindow`     | number  | required | a time limit in blocks a buyer has to pay following a successful accepting order             |
 | `minacceptfee`      | string  | required | a minimum mining fee a buyer has to pay to accept the offer                                  |
 
@@ -225,7 +225,7 @@ $ omnicore-cli "omni_sendnewdexorder" "37FaKponF7zqoMLUjEiko25pDiuVH5YLEa" 1 "1.
 
 ### omni_sendupdatedexorder
 
-Updates an existing sell offer on the distributed token/BTC exchange.
+Updates an existing sell offer on the distributed token/XEP exchange.
 
 **Arguments:**
 
@@ -234,7 +234,7 @@ Updates an existing sell offer on the distributed token/BTC exchange.
 | `fromaddress`       | string  | required | the address to send from                                                                     |
 | `propertyidforsale` | number  | required | the identifier of the tokens to update                                                       |
 | `amountforsale`     | string  | required | the new amount of tokens to list for sale                                                    |
-| `amountdesired`     | string  | required | the new amount of bitcoins desired                                                           |
+| `amountdesired`     | string  | required | the new amount of xeps desired                                                           |
 | `paymentwindow`     | number  | required | a new time limit in blocks a buyer has to pay following a successful accepting order         |
 | `minacceptfee`      | string  | required | a new minimum mining fee a buyer has to pay to accept the offer                              |
 
@@ -253,7 +253,7 @@ $ omnicore-cli "omni_sendupdatedexorder" "37FaKponF7zqoMLUjEiko25pDiuVH5YLEa" 1 
 
 ### omni_sendcanceldexorder
 
-Cancels existing sell offer on the distributed token/BTC exchange.
+Cancels existing sell offer on the distributed token/XEP exchange.
 
 **Arguments:**
 
@@ -316,7 +316,7 @@ Partial purchases are not possible and the whole accepted amount must be paid.
 | `fromaddress`       | string  | required | the address to send from                                                                     |
 | `toaddress`         | string  | required | the address of the seller                                                                    |
 | `propertyid`        | number  | required | the identifier of the token to purchase                                                      |
-| `amount`            | string  | required | the Bitcoin amount to send                                                                   |
+| `amount`            | string  | required | the Xep amount to send                                                                   |
 
 **Result:**
 ```js
@@ -364,7 +364,7 @@ Create new tokens as crowdsale.
 
 ```bash
 $ omnicore-cli "omni_sendissuancecrowdsale" \
-    "3JYd75REX3HXn1vAU83YuGfmiPXW7BpYXo" 2 1 0 "Companies" "Bitcoin Mining" \
+    "3JYd75REX3HXn1vAU83YuGfmiPXW7BpYXo" 2 1 0 "Companies" "Xep Mining" \
     "Quantum Miner" "" "" 2 "100" 1483228800 30 2
 ```
 
@@ -398,7 +398,7 @@ Create new tokens with fixed supply.
 
 ```bash
 $ omnicore-cli "omni_sendissuancefixed" \
-    "3Ck2kEGLJtZw9ENj2tameMCtS3HB7uRar3" 2 1 0 "Companies" "Bitcoin Mining" \
+    "3Ck2kEGLJtZw9ENj2tameMCtS3HB7uRar3" 2 1 0 "Companies" "Xep Mining" \
     "Quantum Miner" "" "" "1000000"
 ```
 
@@ -431,7 +431,7 @@ Create new tokens with manageable supply.
 
 ```bash
 $ omnicore-cli "omni_sendissuancemanaged" \
-    "3HsJvhr9qzgRe3ss97b1QHs38rmaLExLcH" 2 1 0 "Companies" "Bitcoin Mining" "Quantum Miner" "" ""
+    "3HsJvhr9qzgRe3ss97b1QHs38rmaLExLcH" 2 1 0 "Companies" "Xep Mining" "Quantum Miner" "" ""
 ```
 
 ---
@@ -682,7 +682,7 @@ Transfers all available tokens in the given ecosystem to the recipient.
 | `toaddress  `       | string  | required | the address of the receiver                                                                  |
 | `ecosystem`         | number  | required | the ecosystem of the tokens to send (`1` for main ecosystem, `2` for test ecosystem)         |
 | `redeemaddress`     | string  | optional | an address that can spend the transaction dust (sender by default)                           |
-| `referenceamount`   | string  | optional | a bitcoin amount that is sent to the receiver (minimal by default)                           |
+| `referenceamount`   | string  | optional | a xep amount that is sent to the receiver (minimal by default)                           |
 
 **Result:**
 ```js
@@ -896,7 +896,7 @@ Broadcasts a raw Omni Layer transaction.
 | `rawtransaction`    | string  | required | the hex-encoded raw transaction                                                              |
 | `referenceaddress`  | string  | optional | a reference address (none by default)                                                        |
 | `redeemaddress`     | string  | optional | an address that can spend the transaction dust (sender by default)                           |
-| `referenceamount`   | string  | optional | a bitcoin amount that is sent to the receiver (minimal by default)                           |
+| `referenceamount`   | string  | optional | a xep amount that is sent to the receiver (minimal by default)                           |
 
 **Result:**
 ```js
@@ -917,7 +917,7 @@ $ omnicore-cli "omni_sendrawtx" \
 
 Creates and sends a funded simple send transaction.
 
-All bitcoins from the sender are consumed and if there are bitcoins missing, they are taken from the specified fee source. Change is sent to the fee source!
+All xeps from the sender are consumed and if there are xeps missing, they are taken from the specified fee source. Change is sent to the fee source!
 
 **Arguments:**
 
@@ -948,7 +948,7 @@ $ omnicore-cli "omni_funded_send" "1DFa5bT6KMEr6ta29QJouainsjaNBsJQhH" \
 
 Creates and sends a transaction that transfers all available tokens in the given ecosystem to the recipient.
 
-All bitcoins from the sender are consumed and if there are bitcoins missing, they are taken from the specified fee source. Change is sent to the fee source!
+All xeps from the sender are consumed and if there are xeps missing, they are taken from the specified fee source. Change is sent to the fee source!
 
 **Arguments:**
 
@@ -987,7 +987,7 @@ Create and broadcast a non-fungible send transaction.
 | `tokenstart`        | number  | required | the first token in the range to send                                                         |
 | `tokenend`          | number  | required | the last token in the range to send                                                          |
 | `redeemaddress`     | string  | optional | an address that can spend the transaction dust (sender by default)                           |
-| `referenceamount`   | string  | optional | a bitcoin amount that is sent to the receiver (minimal by default)                           |
+| `referenceamount`   | string  | optional | a xep amount that is sent to the receiver (minimal by default)                           |
 
 **Result:**
 ```js
@@ -1050,7 +1050,7 @@ Result:
   "omnicoreversion_int" : xxxxxxx,      // (number) client version as integer
   "omnicoreversion" : "x.x.x.x-xxx",    // (string) client version
   "mastercoreversion" : "x.x.x.x-xxx",  // (string) client version (DEPRECATED)
-  "bitcoincoreversion" : "x.x.x",       // (string) Bitcoin Core version
+  "xepcoreversion" : "x.x.x",       // (string) Xep Core version
   "commitinfo" : "xxxxxxx",             // (string) build commit identifier
   "block" : nnnnnn,                     // (number) index of the last processed block
   "blocktime" : nnnnnnnnnn,             // (number) timestamp of the last processed block
@@ -1252,11 +1252,11 @@ Get detailed information about an Omni transaction.
 ```js
 {
   "txid" : "hash",                 // (string) the hex-encoded hash of the transaction
-  "sendingaddress" : "address",    // (string) the Bitcoin address of the sender
-  "referenceaddress" : "address",  // (string) a Bitcoin address used as reference (if any)
+  "sendingaddress" : "address",    // (string) the Xep address of the sender
+  "referenceaddress" : "address",  // (string) a Xep address used as reference (if any)
   "ismine" : true|false,           // (boolean) whether the transaction involes an address in the wallet
   "confirmations" : nnnnnnnnnn,    // (number) the number of transaction confirmations
-  "fee" : "n.nnnnnnnn",            // (string) the transaction fee in bitcoins
+  "fee" : "n.nnnnnnnn",            // (string) the transaction fee in xeps
   "blocktime" : nnnnnnnnnn,        // (number) the timestamp of the block that contains the transaction
   "valid" : true|false,            // (boolean) whether the transaction is valid
   "positioninblock" : n,           // (number) the position (index) of the transaction within the block
@@ -1294,11 +1294,11 @@ List wallet transactions, optionally filtered by an address and block boundaries
 [                                // (array of JSON objects)
   {
     "txid" : "hash",                 // (string) the hex-encoded hash of the transaction
-    "sendingaddress" : "address",    // (string) the Bitcoin address of the sender
-    "referenceaddress" : "address",  // (string) a Bitcoin address used as reference (if any)
+    "sendingaddress" : "address",    // (string) the Xep address of the sender
+    "referenceaddress" : "address",  // (string) a Xep address used as reference (if any)
     "ismine" : true|false,           // (boolean) whether the transaction involves an address in the wallet
     "confirmations" : nnnnnnnnnn,    // (number) the number of transaction confirmations
-    "fee" : "n.nnnnnnnn",            // (string) the transaction fee in bitcoins
+    "fee" : "n.nnnnnnnn",            // (string) the transaction fee in xeps
     "blocktime" : nnnnnnnnnn,        // (number) the timestamp of the block that contains the transaction
     "valid" : true|false,            // (boolean) whether the transaction is valid
     "positioninblock" : n,           // (number) the position (index) of the transaction within the block
@@ -1391,10 +1391,10 @@ Note: the validity of pending transactions is uncertain, and the state of the me
 [                                // (array of JSON objects)
   {
     "txid" : "hash",                 // (string) the hex-encoded hash of the transaction
-    "sendingaddress" : "address",    // (string) the Bitcoin address of the sender
-    "referenceaddress" : "address",  // (string) a Bitcoin address used as reference (if any)
+    "sendingaddress" : "address",    // (string) the Xep address of the sender
+    "referenceaddress" : "address",  // (string) a Xep address used as reference (if any)
     "ismine" : true|false,           // (boolean) whether the transaction involes an address in the wallet
-    "fee" : "n.nnnnnnnn",            // (string) the transaction fee in bitcoins
+    "fee" : "n.nnnnnnnn",            // (string) the transaction fee in xeps
     "version" : n,                   // (number) the transaction version
     "type_int" : n,                  // (number) the transaction type as number
     "type" : "type",                 // (string) the transaction type as string
@@ -1428,20 +1428,20 @@ Returns currently active offers on the distributed exchange.
   {
     "txid" : "hash",                   // (string) the hash of the transaction of this offer
     "propertyid" : n,                  // (number) the identifier of the tokens for sale
-    "seller" : "address",              // (string) the Bitcoin address of the seller
+    "seller" : "address",              // (string) the Xep address of the seller
     "amountavailable" : "n.nnnnnnnn",  // (string) the number of tokens still listed for sale and currently available
-    "bitcoindesired" : "n.nnnnnnnn",   // (string) the number of bitcoins desired in exchange
-    "unitprice" : "n.nnnnnnnn" ,       // (string) the unit price (BTC/token)
+    "xepdesired" : "n.nnnnnnnn",   // (string) the number of xeps desired in exchange
+    "unitprice" : "n.nnnnnnnn" ,       // (string) the unit price (XEP/token)
     "timelimit" : nn,                  // (number) the time limit in blocks a buyer has to pay following a successful accept
     "minimumfee" : "n.nnnnnnnn",       // (string) the minimum mining fee a buyer has to pay to accept this offer
     "amountaccepted" : "n.nnnnnnnn",   // (string) the number of tokens currently reserved for pending "accept" orders
     "accepts": [                       // (array of JSON objects) a list of pending "accept" orders
       {
-        "buyer" : "address",               // (string) the Bitcoin address of the buyer
+        "buyer" : "address",               // (string) the Xep address of the buyer
         "block" : nnnnnn,                  // (number) the index of the block that contains the "accept" order
         "blocksleft" : nn,                 // (number) the number of blocks left to pay
         "amount" : "n.nnnnnnnn"            // (string) the amount of tokens accepted and reserved
-        "amounttopay" : "n.nnnnnnnn"       // (string) the amount in bitcoins needed finalize the trade
+        "amounttopay" : "n.nnnnnnnn"       // (string) the amount in xeps needed finalize the trade
       },
       ...
     ]
@@ -1479,7 +1479,7 @@ To get the total number of tokens, please use omni_getproperty.
     "data" : "information",         // (string) additional information or a description
     "url" : "uri",                  // (string) an URI, for example pointing to a website
     "divisible" : true|false        // (boolean) whether the tokens are divisible
-    "issuer" : "address",           // (string) the Bitcoin address of the issuer on record
+    "issuer" : "address",           // (string) the Xep address of the issuer on record
     "creationtxid" : "hash",        // (string) the hex-encoded creation transaction hash
     "fixedissuance" : true|false,   // (boolean) whether the token supply is fixed
     "managedissuance" : true|false, // (boolean) whether the token supply is managed by the issuer
@@ -1516,8 +1516,8 @@ Returns details for about the tokens or smart property to lookup.
   "data" : "information",         // (string) additional information or a description
   "url" : "uri",                  // (string) an URI, for example pointing to a website
   "divisible" : true|false,       // (boolean) whether the tokens are divisible
-  "issuer" : "address",           // (string) the Bitcoin address of the issuer on record
-  "delegate" : "address",         // (string) the Bitcoin address of the issuance delegate, if there is one
+  "issuer" : "address",           // (string) the Xep address of the issuer on record
+  "delegate" : "address",         // (string) the Xep address of the issuance delegate, if there is one
   "creationtxid" : "hash",        // (string) the hex-encoded creation transaction hash
   "fixedissuance" : true|false,   // (boolean) whether the token supply is fixed
   "managedissuance" : true|false, // (boolean) whether the token supply is managed by the issuer
@@ -1548,7 +1548,7 @@ Lists currently active crowdsales.
   {
     "propertyid" : n,                // (number) the identifier of the crowdsale
     "name" : "name",                 // (string) the name of the tokens issued via the crowdsale
-    "issuer" : "address",            // (string) the Bitcoin address of the issuer on record
+    "issuer" : "address",            // (string) the Xep address of the issuer on record
     "propertyiddesired" : n,         // (number) the identifier of the tokens eligible to participate in the crowdsale
     "tokensperunit" : "n.nnnnnnnn",  // (string) the amount of tokens granted per unit invested in the crowdsale
     "earlybonus" : n,                // (number) an early bird bonus for participants in percent per week
@@ -1585,7 +1585,7 @@ Returns information about a crowdsale.
   "propertyid" : n,                    // (number) the identifier of the crowdsale
   "name" : "name",                     // (string) the name of the tokens issued via the crowdsale
   "active" : true|false,               // (boolean) whether the crowdsale is still active
-  "issuer" : "address",                // (string) the Bitcoin address of the issuer on record
+  "issuer" : "address",                // (string) the Xep address of the issuer on record
   "propertyiddesired" : n,             // (number) the identifier of the tokens eligible to participate in the crowdsale
   "tokensperunit" : "n.nnnnnnnn",      // (string) the amount of tokens granted per unit invested in the crowdsale
   "earlybonus" : n,                    // (number) an early bird bonus for participants in percent per week
@@ -1633,7 +1633,7 @@ Returns information about granted and revoked units of managed tokens.
 {
   "propertyid" : n,              // (number) the identifier of the managed tokens
   "name" : "name",               // (string) the name of the tokens
-  "issuer" : "address",          // (string) the Bitcoin address of the issuer on record
+  "issuer" : "address",          // (string) the Xep address of the issuer on record
   "creationtxid" : "hash",       // (string) the hex-encoded creation transaction hash
   "totaltokens" : "n.nnnnnnnn",  // (string) the total number of tokens in existence
   "issuances": [                 // (array of JSON objects) a list of the granted and revoked tokens
@@ -1679,10 +1679,10 @@ Get information and recipients of a send-to-owners transaction.
 ```js
 {
   "txid" : "hash",               // (string) the hex-encoded hash of the transaction
-  "sendingaddress" : "address",  // (string) the Bitcoin address of the sender
+  "sendingaddress" : "address",  // (string) the Xep address of the sender
   "ismine" : true|false,         // (boolean) whether the transaction involes an address in the wallet
   "confirmations" : nnnnnnnnnn,  // (number) the number of transaction confirmations
-  "fee" : "n.nnnnnnnn",          // (string) the transaction fee in bitcoins
+  "fee" : "n.nnnnnnnn",          // (string) the transaction fee in xeps
   "blocktime" : nnnnnnnnnn,      // (number) the timestamp of the block that contains the transaction
   "valid" : true|false,          // (boolean) whether the transaction is valid
   "positioninblock" : n,         // (number) the position (index) of the transaction within the block
@@ -1695,7 +1695,7 @@ Get information and recipients of a send-to-owners transaction.
   "totalstofee" : "n.nnnnnnnn",  // (string) the fee paid by the sender, nominated in OMN or TOMN
   "recipients": [                // (array of JSON objects) a list of recipients
     {
-      "address" : "address",         // (string) the Bitcoin address of the recipient
+      "address" : "address",         // (string) the Xep address of the recipient
       "amount" : "n.nnnnnnnn"        // (string) the number of tokens sent to this recipient
     },
     ...
@@ -1725,10 +1725,10 @@ Get detailed information and trade matches for orders on the distributed token e
 ```js
 {
   "txid" : "hash",                              // (string) the hex-encoded hash of the transaction of the order
-  "sendingaddress" : "address",                 // (string) the Bitcoin address of the trader
+  "sendingaddress" : "address",                 // (string) the Xep address of the trader
   "ismine" : true|false,                        // (boolean) whether the order involes an address in the wallet
   "confirmations" : nnnnnnnnnn,                 // (number) the number of transaction confirmations
-  "fee" : "n.nnnnnnnn",                         // (string) the transaction fee in bitcoins
+  "fee" : "n.nnnnnnnn",                         // (string) the transaction fee in xeps
   "blocktime" : nnnnnnnnnn,                     // (number) the timestamp of the block that contains the transaction
   "valid" : true|false,                         // (boolean) whether the transaction is valid
   "positioninblock" : n,                        // (number) the position (index) of the transaction within the block
@@ -1748,7 +1748,7 @@ Get detailed information and trade matches for orders on the distributed token e
     {
       "txid" : "hash",                              // (string) the hash of the transaction that was matched against
       "block" : nnnnnn,                             // (number) the index of the block that contains this transaction
-      "address" : "address",                        // (string) the Bitcoin address of the other trader
+      "address" : "address",                        // (string) the Xep address of the other trader
       "amountsold" : "n.nnnnnnnn",                  // (string) the number of tokens sold in this trade
       "amountreceived" : "n.nnnnnnnn"               // (string) the number of tokens traded in exchange
     },
@@ -1780,7 +1780,7 @@ List active offers on the distributed token exchange.
 ```js
 [                                             // (array of JSON objects)
   {
-    "address" : "address",                        // (string) the Bitcoin address of the trader
+    "address" : "address",                        // (string) the Xep address of the trader
     "txid" : "hash",                              // (string) the hex-encoded hash of the transaction of the order
     "ecosystem" : "main"|"test",                  // (string) the ecosytem in which the order was made (if "cancel-ecosystem")
     "propertyidforsale" : n,                      // (number) the identifier of the tokens put up for sale
@@ -1827,11 +1827,11 @@ Retrieves the history of trades on the distributed token exchange for the specif
     "unitprice" : "n.nnnnnnnnnnn..." ,    // (string) the unit price used to execute this trade (received/sold)
     "inverseprice" : "n.nnnnnnnnnnn...",  // (string) the inverse unit price (sold/received)
     "sellertxid" : "hash",                // (string) the hash of the transaction of the seller
-    "address" : "address",                // (string) the Bitcoin address of the seller
+    "address" : "address",                // (string) the Xep address of the seller
     "amountsold" : "n.nnnnnnnn",          // (string) the number of tokens sold in this trade
     "amountreceived" : "n.nnnnnnnn",      // (string) the number of tokens traded in exchange
     "matchingtxid" : "hash",              // (string) the hash of the transaction that was matched against
-    "matchingaddress" : "address"         // (string) the Bitcoin address of the other party of this trade
+    "matchingaddress" : "address"         // (string) the Xep address of the other party of this trade
   },
   ...
 ]
@@ -1862,10 +1862,10 @@ Retrieves the history of orders on the distributed exchange for the supplied add
 [                                             // (array of JSON objects)
   {
     "txid" : "hash",                              // (string) the hex-encoded hash of the transaction of the order
-    "sendingaddress" : "address",                 // (string) the Bitcoin address of the trader
+    "sendingaddress" : "address",                 // (string) the Xep address of the trader
     "ismine" : true|false,                        // (boolean) whether the order involes an address in the wallet
     "confirmations" : nnnnnnnnnn,                 // (number) the number of transaction confirmations
-    "fee" : "n.nnnnnnnn",                         // (string) the transaction fee in bitcoins
+    "fee" : "n.nnnnnnnn",                         // (string) the transaction fee in xeps
     "blocktime" : nnnnnnnnnn,                     // (number) the timestamp of the block that contains the transaction
     "valid" : true|false,                         // (boolean) whether the transaction is valid
     "positioninblock" : n,                        // (number) the position (index) of the transaction within the block
@@ -1885,7 +1885,7 @@ Retrieves the history of orders on the distributed exchange for the supplied add
       {
         "txid" : "hash",                              // (string) the hash of the transaction that was matched against
         "block" : nnnnnn,                             // (number) the index of the block that contains this transaction
-        "address" : "address",                        // (string) the Bitcoin address of the other trader
+        "address" : "address",                        // (string) the Xep address of the other trader
         "amountsold" : "n.nnnnnnnn",                  // (string) the number of tokens sold in this trade
         "amountreceived" : "n.nnnnnnnn"               // (string) the number of tokens traded in exchange
       },
@@ -2071,7 +2071,7 @@ Returns owner and all data set in a non-fungible token.
 ```js
 {
   "index" : n,                  // (number) the unique index of the token
-  "owner" : "owner",            // (string) the Bitcoin address of the owner
+  "owner" : "owner",            // (string) the Xep address of the owner
   "grantdata" : "grantdata",    // (string) contents of the grant data field
   "issuerdata" : "issuerdata",  // (string) contents of the issuer data field
   "holderdata" : "holderdata",  // (string) contents of the holder data field
@@ -2397,9 +2397,9 @@ The format of `prevtxs` is as following:
 ```js
 {
   "txid" : "hash",                 // (string) the hex-encoded hash of the transaction
-  "fee" : "n.nnnnnnnn",            // (string) the transaction fee in bitcoins
-  "sendingaddress" : "address",    // (string) the Bitcoin address of the sender
-  "referenceaddress" : "address",  // (string) a Bitcoin address used as reference (if any)
+  "fee" : "n.nnnnnnnn",            // (string) the transaction fee in xeps
+  "sendingaddress" : "address",    // (string) the Xep address of the sender
+  "referenceaddress" : "address",  // (string) a Xep address used as reference (if any)
   "ismine" : true|false,           // (boolean) whether the transaction involes an address in the wallet
   "version" : n,                   // (number) the transaction version
   "type_int" : n,                  // (number) the transaction type as number
@@ -2652,7 +2652,7 @@ $ omnicore-cli "omni_createpayload_sendall" 2
 
 ### omni_createpayload_dexsell
 
-Create a payload to place, update or cancel a sell offer on the traditional distributed OMNI/BTC exchange.
+Create a payload to place, update or cancel a sell offer on the traditional distributed OMNI/XEP exchange.
 
 **Arguments:**
 
@@ -2660,7 +2660,7 @@ Create a payload to place, update or cancel a sell offer on the traditional dist
 |---------------------|---------|----------|----------------------------------------------------------------------------------------------|
 | `propertyidforsale` | number  | required | the identifier of the tokens to list for sale (must be 1 for OMN or 2 for TOMN)              |
 | `amountforsale`     | string  | required | the amount of tokens to list for sale                                                        |
-| `amountdesired`     | string  | required | the amount of bitcoins desired                                                               |
+| `amountdesired`     | string  | required | the amount of xeps desired                                                               |
 | `paymentwindow`     | number  | required | a time limit in blocks a buyer has to pay following a successful accepting order             |
 | `minacceptfee`      | string  | required | a minimum mining fee a buyer has to pay to accept the offer                                  |
 | `action`            | number  | required | the action to take (1 for new offers, 2 to update\", 3 to cancel)                            |
@@ -2757,7 +2757,7 @@ Creates the payload for a new tokens issuance with fixed supply.
 **Example:**
 
 ```bash
-$ omnicore-cli "omni_createpayload_issuancefixed" 2 1 0 "Companies" "Bitcoin Mining" "Quantum Miner" "" "" "1000000"
+$ omnicore-cli "omni_createpayload_issuancefixed" 2 1 0 "Companies" "Xep Mining" "Quantum Miner" "" "" "1000000"
 ```
 
 ---
@@ -2792,7 +2792,7 @@ Creates the payload for a new tokens issuance with crowdsale.
 **Example:**
 
 ```bash
-$ omnicore-cli "omni_createpayload_issuancecrowdsale" 2 1 0 "Companies" "Bitcoin Mining" "Quantum Miner" "" "" 2 "100" 1483228800 30 2
+$ omnicore-cli "omni_createpayload_issuancecrowdsale" 2 1 0 "Companies" "Xep Mining" "Quantum Miner" "" "" 2 "100" 1483228800 30 2
 ```
 
 ---
@@ -2822,7 +2822,7 @@ Creates the payload for a new tokens issuance with manageable supply.
 **Example:**
 
 ```bash
-$ omnicore-cli "omni_createpayload_issuancemanaged" 2 1 0 "Companies" "Bitcoin Mining" "Quantum Miner" "" ""
+$ omnicore-cli "omni_createpayload_issuancemanaged" 2 1 0 "Companies" "Xep Mining" "Quantum Miner" "" ""
 ```
 
 ---

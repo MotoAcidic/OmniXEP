@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2019 The Bitcoin Core developers
+// Copyright (c) 2011-2019 The Xep Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -51,9 +51,9 @@ WalletView::WalletView(const PlatformStyle *_platformStyle, QWidget *parent):
     // Create tabs
     overviewPage = new OverviewPage(platformStyle);
 
-    // Transactions page, Omni transactions in first tab, BTC only transactions in second tab
+    // Transactions page, Omni transactions in first tab, XEP only transactions in second tab
     transactionsPage = new QWidget(this);
-    bitcoinTXTab = new QWidget(this);
+    xepTXTab = new QWidget(this);
     QVBoxLayout *vbox = new QVBoxLayout();
     QHBoxLayout *hbox_buttons = new QHBoxLayout();
     transactionView = new TransactionView(platformStyle, this);
@@ -66,13 +66,13 @@ WalletView::WalletView(const PlatformStyle *_platformStyle, QWidget *parent):
     hbox_buttons->addStretch();
     hbox_buttons->addWidget(exportButton);
     vbox->addLayout(hbox_buttons);
-    bitcoinTXTab->setLayout(vbox);
+    xepTXTab->setLayout(vbox);
     mpTXTab = new TXHistoryDialog;
     transactionsPage = new QWidget(this);
     QVBoxLayout *txvbox = new QVBoxLayout();
     txTabHolder = new QTabWidget();
     txTabHolder->addTab(mpTXTab,tr("Omni Layer"));
-    txTabHolder->addTab(bitcoinTXTab,tr("Bitcoin"));
+    txTabHolder->addTab(xepTXTab,tr("Xep"));
     txvbox->addWidget(txTabHolder);
     transactionsPage->setLayout(txvbox);
 
@@ -89,7 +89,7 @@ WalletView::WalletView(const PlatformStyle *_platformStyle, QWidget *parent):
     sendMPTab = new SendMPDialog(platformStyle);
     sendTabHolder = new QTabWidget();
     sendTabHolder->addTab(sendMPTab,tr("Omni Layer"));
-    sendTabHolder->addTab(sendCoinsTab,tr("Bitcoin"));
+    sendTabHolder->addTab(sendCoinsTab,tr("Xep"));
     svbox->addWidget(sendTabHolder);
     sendCoinsPage->setLayout(svbox);
 
@@ -102,7 +102,7 @@ WalletView::WalletView(const PlatformStyle *_platformStyle, QWidget *parent):
     cancelTab = new MetaDExCancelDialog();
     QTabWidget *exTabHolder = new QTabWidget();
     tradeHistoryTab = new TradeHistoryDialog;
-    // exTabHolder->addTab(new QWidget(),tr("Trade Bitcoin/Mastercoin")); not yet implemented
+    // exTabHolder->addTab(new QWidget(),tr("Trade Xep/Mastercoin")); not yet implemented
     exTabHolder->addTab(metaDExTab,tr("Trade Omni Layer Properties"));
     exTabHolder->addTab(tradeHistoryTab,tr("Trade History"));
     exTabHolder->addTab(cancelTab,tr("Cancel Orders"));
@@ -241,7 +241,7 @@ void WalletView::gotoHistoryPage()
     setCurrentWidget(transactionsPage);
 }
 
-void WalletView::gotoBitcoinHistoryTab()
+void WalletView::gotoXepHistoryTab()
 {
     setCurrentWidget(transactionsPage);
     txTabHolder->setCurrentIndex(1);

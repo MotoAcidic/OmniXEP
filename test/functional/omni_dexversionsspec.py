@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-# Copyright (c) 2017-2018 The Bitcoin Core developers
+# Copyright (c) 2017-2018 The Xep Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test DEx versions spec using free DEx."""
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import XepTestFramework
 from test_framework.util import assert_equal
 from test_framework.authproxy import JSONRPCException
 
@@ -14,7 +14,7 @@ from test_framework.authproxy import JSONRPCException
 # based on the global state, whereby transactions with version 1 have an
 # explicit action value. Other versions are currently not valid.
 
-class OmniFreeDExVersionsSpec(BitcoinTestFramework):
+class OmniFreeDExVersionsSpec(XepTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
         self.setup_clean_chain = True
@@ -23,14 +23,14 @@ class OmniFreeDExVersionsSpec(BitcoinTestFramework):
     def run_test(self):
         self.log.info("test dex versions spec using free dex")
 
-        # Preparing some mature Bitcoins
+        # Preparing some mature Xeps
         coinbase_address = self.nodes[0].getnewaddress()
         self.nodes[0].generatetoaddress(110, coinbase_address)
 
         # Obtaining a master address to work with
         address = self.nodes[0].getnewaddress()
 
-        # Funding the address with some testnet BTC for fees
+        # Funding the address with some testnet XEP for fees
         self.nodes[0].sendtoaddress(address, 10)
         self.nodes[0].sendtoaddress(address, 10)
         self.nodes[0].generatetoaddress(1, coinbase_address)
@@ -79,7 +79,7 @@ class OmniFreeDExVersionsSpec(BitcoinTestFramework):
         #        "type_int": 20,
         #        "propertyid": 3,
         #        "amount": "0.40000000",currently
-        #        "bitcoindesired": "0.80000000",
+        #        "xepdesired": "0.80000000",
         #        "timelimit": 15,
         #        "feerequired": "0.00000100"
         #    }
@@ -107,7 +107,7 @@ class OmniFreeDExVersionsSpec(BitcoinTestFramework):
         #        "type_int": 20,
         #        "propertyid": 3,
         #        "amount": "0.10000000",
-        #        "bitcoindesired": "0.10000000",
+        #        "xepdesired": "0.10000000",
         #        "timelimit": 20,
         #        "feerequired": "0.00000000",
         #        "action": 1
@@ -136,7 +136,7 @@ class OmniFreeDExVersionsSpec(BitcoinTestFramework):
         #        "type_int": 20,
         #        "propertyid": 3,
         #        "amount": "0.30000000",
-        #        "bitcoindesired": "0.30000000",
+        #        "xepdesired": "0.30000000",
         #        "timelimit": 7,
         #        "feerequired": "0.00000050"
         #    }
@@ -167,7 +167,7 @@ class OmniFreeDExVersionsSpec(BitcoinTestFramework):
         #        "type_int": 20,
         #        "propertyid": 3,
         #        "amount": "0.00000001",
-        #        "bitcoindesired": "0.00000001",
+        #        "xepdesired": "0.00000001",
         #        "timelimit": 255,
         #        "feerequired": "0.00000001",
         #        "action": 1

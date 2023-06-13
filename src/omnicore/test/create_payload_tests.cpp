@@ -54,11 +54,11 @@ BOOST_AUTO_TEST_CASE(payload_send_all)
 
 BOOST_AUTO_TEST_CASE(payload_dex_offer)
 {
-    // Sell tokens for bitcoins [type 20, version 1]
+    // Sell tokens for xeps [type 20, version 1]
     std::vector<unsigned char> vch = CreatePayload_DExSell(
         static_cast<uint32_t>(1),         // property: MSC
         static_cast<int64_t>(100000000),  // amount to transfer: 1.0 MSC (in willets)
-        static_cast<int64_t>(20000000),   // amount desired: 0.2 BTC (in satoshis)
+        static_cast<int64_t>(20000000),   // amount desired: 0.2 XEP (in satoshis)
         static_cast<uint8_t>(10),         // payment window in blocks
         static_cast<int64_t>(10000),      // commitment fee in satoshis
         static_cast<uint8_t>(1));         // sub-action: new offer
@@ -116,7 +116,7 @@ BOOST_AUTO_TEST_CASE(payload_meta_dex_cancel_ecosystem)
 
 BOOST_AUTO_TEST_CASE(payload_accept_dex_offer)
 {
-    // Purchase tokens with bitcoins [type 22, version 0]
+    // Purchase tokens with xeps [type 22, version 0]
     std::vector<unsigned char> vch = CreatePayload_DExAccept(
         static_cast<uint32_t>(1),          // property: MSC
         static_cast<int64_t>(130000000));  // amount to transfer: 1.3 MSC (in willets)
@@ -132,7 +132,7 @@ BOOST_AUTO_TEST_CASE(payload_create_property)
         static_cast<uint16_t>(1),            // property type: indivisible tokens
         static_cast<uint32_t>(0),            // previous property: none
         std::string("Companies"),            // category
-        std::string("Bitcoin Mining"),       // subcategory
+        std::string("Xep Mining"),       // subcategory
         std::string("Quantum Miner"),        // label
         std::string("builder.bitwatch.co"),  // website
         std::string(""),                     // additional information
@@ -186,7 +186,7 @@ BOOST_AUTO_TEST_CASE(payload_create_crowdsale)
         static_cast<uint16_t>(1),            // property type: indivisible tokens
         static_cast<uint32_t>(0),            // previous property: none
         std::string("Companies"),            // category
-        std::string("Bitcoin Mining"),       // subcategory
+        std::string("Xep Mining"),       // subcategory
         std::string("Quantum Miner"),        // label
         std::string("builder.bitwatch.co"),  // website
         std::string(""),                     // additional information
@@ -261,7 +261,7 @@ BOOST_AUTO_TEST_CASE(payload_create_managed_property)
         static_cast<uint16_t>(1),            // property type: indivisible tokens
         static_cast<uint32_t>(0),            // previous property: none
         std::string("Companies"),            // category
-        std::string("Bitcoin Mining"),       // subcategory
+        std::string("Xep Mining"),       // subcategory
         std::string("Quantum Miner"),        // label
         std::string("builder.bitwatch.co"),  // website
         std::string(""));                    // additional information

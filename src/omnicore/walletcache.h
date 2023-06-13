@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_WALLETCACHE_H
-#define BITCOIN_OMNICORE_WALLETCACHE_H
+#ifndef XEP_OMNICORE_WALLETCACHE_H
+#define XEP_OMNICORE_WALLETCACHE_H
 
 class uint256;
 
@@ -11,4 +11,4 @@ namespace mastercore
 int WalletCacheUpdate();
 }
 
-#endif // BITCOIN_OMNICORE_WALLETCACHE_H
+#endif // XEP_OMNICORE_WALLETCACHE_H

@@ -16,7 +16,7 @@ Table of contents
 - [Upgrading and downgrading](#upgrading-and-downgrading)
   - [How to upgrade](#how-to-upgrade)
   - [Downgrading](#downgrading)
-  - [Compatibility with Bitcoin Core](#compatibility-with-bitcoin-core)
+  - [Compatibility with Xep Core](#compatibility-with-xep-core)
 - [Notable changes](#notable-changes)
   - [Wiki for guiding new users and developers](#wiki-for-guiding-new-users-and-developers)
   - [Support for offline creation of raw Omni transactions](#support-for-offline-creation-of-raw-omni-transactions)
@@ -44,7 +44,7 @@ Upgrading and downgrading
 How to upgrade
 --------------
 
-If you are running Bitcoin Core or an older version of Omni Core, shut it down. Wait until it has completely shut down, then copy the new version of `omnicored`, `omnicore-cli` and `omnicore-qt`. On Microsoft Windows the setup routine can be used to automate these steps.
+If you are running Xep Core or an older version of Omni Core, shut it down. Wait until it has completely shut down, then copy the new version of `omnicored`, `omnicore-cli` and `omnicore-qt`. On Microsoft Windows the setup routine can be used to automate these steps.
 
 During the first startup historical Omni transactions are reprocessed and Omni Core will not be usable for approximately 15 minutes up to two hours. The progress of the initial scan is reported on the console, the GUI and written to the `debug.log`. The scan may be interrupted, but can not be resumed, and then needs to start from the beginning.
 
@@ -53,16 +53,16 @@ Downgrading
 
 Downgrading to an Omni Core version prior to 0.3.0 is generally not supported as older versions will not provide accurate information due to the changes in consensus rules.
 
-Compatibility with Bitcoin Core
+Compatibility with Xep Core
 -------------------------------
 
-Omni Core is based on Bitcoin Core 0.13.2 and can be used as replacement for Bitcoin Core. Switching between Omni Core and Bitcoin Core may be supported.
+Omni Core is based on Xep Core 0.13.2 and can be used as replacement for Xep Core. Switching between Omni Core and Xep Core may be supported.
 
-Upgrading to a higher Bitcoin Core version is generally supported, but when downgrading from Bitcoin Core 0.15, Omni Core needs to be started with `-reindex-chainstate` flag, to rebuild the chainstate data structures in a compatible format.
+Upgrading to a higher Xep Core version is generally supported, but when downgrading from Xep Core 0.15, Omni Core needs to be started with `-reindex-chainstate` flag, to rebuild the chainstate data structures in a compatible format.
 
-Downgrading to a Bitcoin Core version prior to 0.12 may not be supported due to the obfuscation of the blockchain database. In this case the database also needs to be rebuilt by starting Omni Core with `-reindex-chainstate` flag.
+Downgrading to a Xep Core version prior to 0.12 may not be supported due to the obfuscation of the blockchain database. In this case the database also needs to be rebuilt by starting Omni Core with `-reindex-chainstate` flag.
 
-Downgrading to a Bitcoin Core version prior to 0.10 is not supported due to the new headers-first synchronization.
+Downgrading to a Xep Core version prior to 0.10 is not supported due to the new headers-first synchronization.
 
 Notable changes
 ===============
@@ -94,7 +94,7 @@ This can be used to pay for transaction fees, when the sender only has a tiny fr
 
 Creates and sends a funded simple send transaction.
 
-All bitcoins from the sender are consumed and if there are bitcoins missing, they are taken from the specified fee source. Change is sent to the fee source!
+All xeps from the sender are consumed and if there are xeps missing, they are taken from the specified fee source. Change is sent to the fee source!
 
 **Arguments:**
 
@@ -125,7 +125,7 @@ $ omnicore-cli "omni_funded_send" "1DFa5bT6KMEr6ta29QJouainsjaNBsJQhH" \
 
 Creates and sends a transaction that transfers all available tokens in the given ecosystem to the recipient.
 
-All bitcoins from the sender are consumed and if there are bitcoins missing, they are taken from the specified fee source. Change is sent to the fee source!
+All xeps from the sender are consumed and if there are xeps missing, they are taken from the specified fee source. Change is sent to the fee source!
 
 **Arguments:**
 
@@ -349,7 +349,7 @@ The following list includes relevant pull requests merged into this release:
 - #727 Fix skipping balances, when using omni_getallbalancesforaddress
 - #728 Sign and broadcast funded transactions in one go
 - #741 Remove old reference to renamed file
-- #744 Clarify that bitcoins are meant in funded RPCs
+- #744 Clarify that xeps are meant in funded RPCs
 - #631 Bump version to Omni Core 0.3.1
 - #632 Add release notes for Omni Core 0.3.1
 - #746 Fix typo in release notes

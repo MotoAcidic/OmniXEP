@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Copyright (c) 2019 The Bitcoin Core developers
+# Copyright (c) 2019 The Xep Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -16,4 +16,4 @@ export RUN_OMNIJ_TESTS="true"
 export RUN_FUNCTIONAL_TESTS="true"
 export GOAL="install"
 export TEST_PREVIOUS_RELEASES=true
-export BITCOIN_CONFIG="--with-gui=no"
+export XEP_CONFIG="--with-gui=no"

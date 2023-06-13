@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_DEX_H
-#define BITCOIN_OMNICORE_DEX_H
+#ifndef XEP_OMNICORE_DEX_H
+#define XEP_OMNICORE_DEX_H
 
 #include <omnicore/log.h>
 #include <omnicore/omnicore.h>
@@ -47,8 +47,8 @@ private:
     //! amount of MSC for sale specified when the offer was placed
     int64_t offer_amount_original;
     uint32_t property;
-    //! amount desired, in BTC
-    int64_t BTC_desired_original;
+    //! amount desired, in XEP
+    int64_t XEP_desired_original;
     int64_t min_fee;
     uint8_t blocktimelimit;
     uint256 txid;
@@ -62,10 +62,10 @@ public:
     uint8_t getSubaction() const { return subaction; }
 
     int64_t getOfferAmountOriginal() const { return offer_amount_original; }
-    int64_t getBTCDesiredOriginal() const { return BTC_desired_original; }
+    int64_t getXEPDesiredOriginal() const { return XEP_desired_original; }
 
     CMPOffer()
-      : offerBlock(0), offer_amount_original(0), property(0), BTC_desired_original(0), min_fee(0),
+      : offerBlock(0), offer_amount_original(0), property(0), XEP_desired_original(0), min_fee(0),
         blocktimelimit(0), subaction(0)
     {
     }
@@ -73,7 +73,7 @@ public:
     CMPOffer(int block, int64_t amountOffered, uint32_t propertyId, int64_t amountDesired,
              int64_t minAcceptFee, uint8_t paymentWindow, const uint256& tx)
       : offerBlock(block), offer_amount_original(amountOffered), property(propertyId),
-        BTC_desired_original(amountDesired), min_fee(minAcceptFee), blocktimelimit(paymentWindow),
+        XEP_desired_original(amountDesired), min_fee(minAcceptFee), blocktimelimit(paymentWindow),
         txid(tx), subaction(0)
     {
         if (msc_debug_dex) PrintToLog("%s(%d): %s\n", __func__, amountOffered, txid.GetHex());
@@ -81,7 +81,7 @@ public:
 
     CMPOffer(const CMPTransaction& tx)
       : offerBlock(tx.block), offer_amount_original(tx.nValue), property(tx.property),
-        BTC_desired_original(tx.amount_desired), min_fee(tx.min_fee),
+        XEP_desired_original(tx.amount_desired), min_fee(tx.min_fee),
         blocktimelimit(tx.blocktimelimit), subaction(tx.subaction)
     {
     }
@@ -93,8 +93,8 @@ public:
                 offerBlock,
                 offer_amount_original,
                 property,
-                BTC_desired_original,
-                (OMNI_PROPERTY_BTC),
+                XEP_desired_original,
+                (OMNI_PROPERTY_XEP),
                 min_fee,
                 blocktimelimit,
                 txid.ToString()
@@ -122,7 +122,7 @@ private:
     uint32_t property;                 // copied from the offer during creation
 
     int64_t offer_amount_original;     // copied from the Offer during Accept's creation
-    int64_t BTC_desired_original;      // copied from the Offer during Accept's creation
+    int64_t XEP_desired_original;      // copied from the Offer during Accept's creation
 
     // the original offers TXIDs, needed to match Accept to the Offer during Accept's destruction, etc.
     uint256 offer_txid;
@@ -133,7 +133,7 @@ public:
     uint256 getHash() const { return offer_txid; }
 
     int64_t getOfferAmountOriginal() const { return offer_amount_original; }
-    int64_t getBTCDesiredOriginal() const { return BTC_desired_original; }
+    int64_t getXEPDesiredOriginal() const { return XEP_desired_original; }
 
     int64_t getAcceptAmount() const { return accept_amount_original; }
 
@@ -146,7 +146,7 @@ public:
               int64_t offerAmountOriginal, int64_t amountDesired, const uint256& txid)
       : accept_amount_remaining(amountAccepted), blocktimelimit(paymentWindow),
         property(propertyId), offer_amount_original(offerAmountOriginal),
-        BTC_desired_original(amountDesired), offer_txid(txid), block(blockIn)
+        XEP_desired_original(amountDesired), offer_txid(txid), block(blockIn)
     {
         accept_amount_original = accept_amount_remaining;
         PrintToLog("%s(%d): %s\n", __func__, amountAccepted, txid.GetHex());
@@ -158,7 +158,7 @@ public:
       : accept_amount_original(acceptAmountOriginal),
         accept_amount_remaining(acceptAmountRemaining), blocktimelimit(paymentWindow),
         property(propertyId), offer_amount_original(offerAmountOriginal),
-        BTC_desired_original(amountDesired), offer_txid(txid), block(blockIn)
+        XEP_desired_original(amountDesired), offer_txid(txid), block(blockIn)
     {
         PrintToLog("%s(%d[%d]): %s\n", __func__, acceptAmountRemaining, acceptAmountOriginal, txid.GetHex());
     }
@@ -205,7 +205,7 @@ public:
                 accept_amount_original,
                 blocktimelimit,
                 offer_amount_original,
-                BTC_desired_original,
+                XEP_desired_original,
                 offer_txid.ToString());
 
         // add the line to the hash
@@ -226,8 +226,8 @@ extern OfferMap my_offers;
 //! In-memory collection of DEx accepts
 extern AcceptMap my_accepts;
 
-/** Determines the amount of bitcoins desired, in case it needs to be recalculated. TODO: don't expose! */
-int64_t calculateDesiredBTC(const int64_t amountOffered, const int64_t amountDesired, const int64_t amountAvailable);
+/** Determines the amount of xeps desired, in case it needs to be recalculated. TODO: don't expose! */
+int64_t calculateDesiredXEP(const int64_t amountOffered, const int64_t amountDesired, const int64_t amountAvailable);
 
 bool DEx_offerExists(const std::string& addressSeller, uint32_t propertyId);
 bool DEx_hasOffer(const std::string& addressSeller);
@@ -247,4 +247,4 @@ unsigned int eraseExpiredAccepts(int block);
 }
 
 
-#endif // BITCOIN_OMNICORE_DEX_H
+#endif // XEP_OMNICORE_DEX_H

@@ -63,7 +63,7 @@ std::string GenerateConsensusString(const CMPOffer& offerObj, const std::string&
 {
     return strprintf("%s|%s|%d|%d|%d|%d|%d",
             offerObj.getHash().GetHex(), address, offerObj.getProperty(), offerObj.getOfferAmountOriginal(),
-            offerObj.getBTCDesiredOriginal(), offerObj.getMinFee(), offerObj.getBlockTimeLimit());
+            offerObj.getXEPDesiredOriginal(), offerObj.getMinFee(), offerObj.getBlockTimeLimit());
 }
 
 // Generates a consensus string for hashing based on a DEx accept object
@@ -113,7 +113,7 @@ std::string GenerateConsensusString(const uint32_t propertyId, const std::string
  *
  * ---STAGE 2 - DEX SELL OFFERS---
  * Format specifiers & placeholders:
- *   "%s|%s|%d|%d|%d|%d|%d" - "txid|address|propertyid|offeramount|btcdesired|minfee|timelimit"
+ *   "%s|%s|%d|%d|%d|%d|%d" - "txid|address|propertyid|offeramount|xepdesired|minfee|timelimit"
  *
  * Note: ordered ascending by txid.
  *
@@ -174,7 +174,7 @@ uint256 GetConsensusHash()
     }
 
     // DEx sell offers - loop through the DEx and add each sell offer to the consensus hash (ordered by txid)
-    // Placeholders: "txid|address|propertyid|offeramount|btcdesired|minfee|timelimit"
+    // Placeholders: "txid|address|propertyid|offeramount|xepdesired|minfee|timelimit"
     std::vector<std::pair<arith_uint256, std::string> > vecDExOffers;
     for (OfferMap::iterator it = my_offers.begin(); it != my_offers.end(); ++it) {
         const CMPOffer& selloffer = it->second;

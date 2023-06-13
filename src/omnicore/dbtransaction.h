@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_DBTRANSACTION_H
-#define BITCOIN_OMNICORE_DBTRANSACTION_H
+#ifndef XEP_OMNICORE_DBTRANSACTION_H
+#define XEP_OMNICORE_DBTRANSACTION_H
 
 #include <omnicore/dbbase.h>
 
@@ -39,5 +39,5 @@ namespace mastercore
     extern COmniTransactionDB* pDbTransaction;
 }
 
-#endif // BITCOIN_OMNICORE_DBTRANSACTION_H
+#endif // XEP_OMNICORE_DBTRANSACTION_H
 

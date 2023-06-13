@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2014 The Bitcoin developers
+// Copyright (c) 2011-2014 The Xep developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -22,7 +22,7 @@
 #include <omnicore/sp.h>
 #include <omnicore/tally.h>
 #include <omnicore/uint256_extensions.h>
-#include <omnicore/utilsbitcoin.h>
+#include <omnicore/utilsxep.h>
 #include <omnicore/wallettxbuilder.h>
 #include <omnicore/walletutils.h>
 
@@ -125,7 +125,7 @@ void MetaDExDialog::setClientModel(ClientModel *model)
 
 void MetaDExDialog::setWalletModel(WalletModel *model)
 {
-    // use wallet model to get visibility into BTC balance changes for fees
+    // use wallet model to get visibility into XEP balance changes for fees
     this->walletModel = model;
 }
 
@@ -219,7 +219,7 @@ void MetaDExDialog::UpdateBalance()
         if (CheckFee(walletModel->wallet(), currentSetAddress.toStdString(), 28)) {
             ui->lblFeeWarning->setVisible(false);
         } else {
-            ui->lblFeeWarning->setText("WARNING: The address is low on BTC for transaction fees.");
+            ui->lblFeeWarning->setText("WARNING: The address is low on XEP for transaction fees.");
             ui->lblFeeWarning->setVisible(true);
         }
     }
@@ -501,7 +501,7 @@ void MetaDExDialog::sendTrade()
     }
 
     // check if wallet is still syncing, as this will currently cause a lockup if we try to send - compare our chain to peers to see if we're up to date
-    // Bitcoin Core devs have removed GetNumBlocksOfPeers, switching to a time based best guess scenario
+    // Xep Core devs have removed GetNumBlocksOfPeers, switching to a time based best guess scenario
     uint32_t intBlockDate = GetLatestBlockTime();  // uint32, not using time_t for portability
     QDateTime currentDate = QDateTime::currentDateTime();
     int secs = QDateTime::fromTime_t(intBlockDate).secsTo(currentDate);

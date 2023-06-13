@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2014 The Bitcoin developers
+// Copyright (c) 2011-2014 The Xep developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -36,7 +36,7 @@
 #include <QWidget>
 
 #if defined(HAVE_CONFIG_H)
-#include <bitcoin-config.h> /* for USE_QRCODE */
+#include <xep-config.h> /* for USE_QRCODE */
 #endif
 
 #ifdef USE_QRCODE
@@ -151,7 +151,7 @@ void LookupAddressDialog::searchAddress()
     // first let's check if we have a searchText, if not do nothing
     if (searchText.empty()) return;
 
-    // lets see if the string is a valid bitcoin address
+    // lets see if the string is a valid xep address
     CTxDestination address = DecodeDestination(searchText); // no null check on searchText required we've already checked it's not empty above
     if (IsValidDestination(address)) //do what?
     {

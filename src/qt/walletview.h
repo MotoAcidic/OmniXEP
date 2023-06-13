@@ -1,9 +1,9 @@
-// Copyright (c) 2011-2019 The Bitcoin Core developers
+// Copyright (c) 2011-2019 The Xep Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_QT_WALLETVIEW_H
-#define BITCOIN_QT_WALLETVIEW_H
+#ifndef XEP_QT_WALLETVIEW_H
+#define XEP_QT_WALLETVIEW_H
 
 #include <amount.h>
 
@@ -54,7 +54,7 @@ public:
     void setClientModel(ClientModel *clientModel);
     WalletModel *getWalletModel() { return walletModel; }
     /** Set the wallet model.
-        The wallet model represents a bitcoin wallet, and offers access to the list of transactions, address book and sending
+        The wallet model represents a xep wallet, and offers access to the list of transactions, address book and sending
         functionality.
     */
     void setWalletModel(WalletModel *walletModel);
@@ -87,7 +87,7 @@ private:
     MetaDExCancelDialog *cancelTab;
     TransactionView *transactionView;
     TXHistoryDialog *mpTXTab;
-    QWidget *bitcoinTXTab;
+    QWidget *xepTXTab;
 
     QProgressDialog* progressDialog{nullptr};
     const PlatformStyle *platformStyle;
@@ -110,8 +110,8 @@ public Q_SLOTS:
     void gotoSendCoinsPage(QString addr = "");
     /** Switch specifically to omni tx history tab */
     void gotoOmniHistoryTab();
-    /** Switch specifically to bitcoin tx history tab */
-    void gotoBitcoinHistoryTab();
+    /** Switch specifically to xep tx history tab */
+    void gotoXepHistoryTab();
     /** Switch to utility page */
     void gotoToolboxPage();
 
@@ -165,4 +165,4 @@ Q_SIGNALS:
     void outOfSyncWarningClicked();
 };
 
-#endif // BITCOIN_QT_WALLETVIEW_H
+#endif // XEP_QT_WALLETVIEW_H

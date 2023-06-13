@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_MDEX_H
-#define BITCOIN_OMNICORE_MDEX_H
+#ifndef XEP_OMNICORE_MDEX_H
+#define XEP_OMNICORE_MDEX_H
 
 #include <omnicore/tx.h>
 
@@ -143,4 +143,4 @@ const CMPMetaDEx* MetaDEx_RetrieveTrade(const uint256& txid);
 }
 
 
-#endif // BITCOIN_OMNICORE_MDEX_H
+#endif // XEP_OMNICORE_MDEX_H

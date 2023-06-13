@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_TX_H
-#define BITCOIN_OMNICORE_TX_H
+#ifndef XEP_OMNICORE_TX_H
+#define XEP_OMNICORE_TX_H
 
 class CMPMetaDEx;
 class CMPOffer;
@@ -44,12 +44,12 @@ private:
     unsigned int type;
     unsigned short version; // = MP_TX_PKT_V0;
 
-    // SimpleSend, SendToOwners, TradeOffer, MetaDEx, AcceptOfferBTC,
+    // SimpleSend, SendToOwners, TradeOffer, MetaDEx, AcceptOfferXEP,
     // CreatePropertyFixed, CreatePropertyVariable, GrantTokens, RevokeTokens
     uint64_t nValue;
     uint64_t nNewValue;
 
-    // SimpleSend, SendToOwners, TradeOffer, MetaDEx, AcceptOfferBTC,
+    // SimpleSend, SendToOwners, TradeOffer, MetaDEx, AcceptOfferXEP,
     // CreatePropertyFixed, CreatePropertyVariable, CloseCrowdsale,
     // CreatePropertyMananged, GrantTokens, RevokeTokens, ChangeIssuer
     unsigned int property;
@@ -99,6 +99,9 @@ private:
     uint32_t activation_block;
     uint32_t min_client_version;
 
+    // Xep Payment
+    uint256 linked_txid;
+
     // Indicates whether the transaction can be used to execute logic
     bool rpcOnly;
 
@@ -118,7 +121,7 @@ private:
     bool interpret_MetaDExCancelPrice();
     bool interpret_MetaDExCancelPair();
     bool interpret_MetaDExCancelEcosystem();
-    bool interpret_AcceptOfferBTC();
+    bool interpret_AcceptOfferXEP();
     bool interpret_CreatePropertyFixed();
     bool interpret_CreatePropertyVariable();
     bool interpret_CloseCrowdsale();
@@ -126,6 +129,7 @@ private:
     bool interpret_GrantTokens();
     bool interpret_RevokeTokens();
     bool interpret_ChangeIssuer();
+    bool interpret_XepPayment();
     bool interpret_EnableFreezing();
     bool interpret_DisableFreezing();
     bool interpret_FreezeTokens();
@@ -146,7 +150,7 @@ private:
     int logicMath_SendAll();
     int logicMath_SendNonFungible();
     int logicMath_TradeOffer();
-    int logicMath_AcceptOffer_BTC();
+    int logicMath_AcceptOffer_XEP();
     int logicMath_MetaDExTrade();
     int logicMath_MetaDExCancelPrice();
     int logicMath_MetaDExCancelPair();
@@ -158,6 +162,7 @@ private:
     int logicMath_GrantTokens(CBlockIndex* pindex, uint256 &blockHash);
     int logicMath_RevokeTokens(CBlockIndex *pindex);
     int logicMath_ChangeIssuer(CBlockIndex *pindex);
+    int logicMath_XepPayment();
     int logicMath_EnableFreezing(CBlockIndex *pindex);
     int logicMath_DisableFreezing(CBlockIndex *pindex);
     int logicMath_FreezeTokens(CBlockIndex *pindex);
@@ -227,6 +232,7 @@ public:
     uint32_t getMinClientVersion() const { return min_client_version; }
     unsigned int getIndexInBlock() const { return tx_idx; }
     uint32_t getDistributionProperty() const { return distribution_property; }
+    uint256 getLinkedTXID() const { return linked_txid; }
     uint64_t getNonFungibleTokenStart() const { return nonfungible_token_start; }
     uint64_t getNonFungibleTokenEnd() const { return nonfungible_token_end; }
     uint64_t getNonFungibleDataType() const { return nonfungible_data_type; }
@@ -331,4 +337,4 @@ public:
 };
 
 
-#endif // BITCOIN_OMNICORE_TX_H
+#endif // XEP_OMNICORE_TX_H

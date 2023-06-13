@@ -19,7 +19,7 @@ Table of contents
 - [Upgrading and downgrading](#upgrading-and-downgrading)
   - [How to upgrade](#how-to-upgrade)
   - [Downgrading](#downgrading)
-  - [Compatibility with Bitcoin Core](#compatibility-with-bitcoin-core)
+  - [Compatibility with Xep Core](#compatibility-with-xep-core)
 - [Improvements](#improvements)
   - [Non-fungible tokens](#non-fungible-tokens)
   - [Delegate management of tokens](#delegate-management-of-tokens)
@@ -34,7 +34,7 @@ Upgrading and downgrading
 How to upgrade
 --------------
 
-If you are running Bitcoin Core or an older version of Omni Core, shut it down. Wait until it has completely shut down, then copy the new version of `omnicored`, `omnicore-cli` and `omnicore-qt`. On Microsoft Windows the setup routine can be used to automate these steps.
+If you are running Xep Core or an older version of Omni Core, shut it down. Wait until it has completely shut down, then copy the new version of `omnicored`, `omnicore-cli` and `omnicore-qt`. On Microsoft Windows the setup routine can be used to automate these steps.
 
 When upgrading from a version older than 0.8.0, the database of Omni Core is reconstructed, which can easily consume several hours. During the first startup historical Omni Layer transactions are reprocessed and Omni Core will not be usable for several hours up to more than a day. The progress of the initial scan is reported on the console, the GUI and written to the `debug.log`. The scan may be interrupted and can be resumed.
 
@@ -45,12 +45,12 @@ Downgrading
 
 Downgrading to an Omni Core version prior to 0.11.0 is not supported.
 
-Compatibility with Bitcoin Core
+Compatibility with Xep Core
 -------------------------------
 
-Omni Core is based on Bitcoin Core 0.20.1 and can be used as replacement for Bitcoin Core. Switching between Omni Core and Bitcoin Core may be supported.
+Omni Core is based on Xep Core 0.20.1 and can be used as replacement for Xep Core. Switching between Omni Core and Xep Core may be supported.
 
-However, it is not advised to upgrade or downgrade to versions other than Bitcoin Core 0.18. When switching to Omni Core, it may be necessary to reprocess Omni Layer transactions.
+However, it is not advised to upgrade or downgrade to versions other than Xep Core 0.18. When switching to Omni Core, it may be necessary to reprocess Omni Layer transactions.
 
 
 Improvements

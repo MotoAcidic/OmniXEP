@@ -1,10 +1,10 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2018 The Bitcoin Core developers
+// Copyright (c) 2009-2018 The Xep Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_HASH_H
-#define BITCOIN_HASH_H
+#ifndef XEP_HASH_H
+#define XEP_HASH_H
 
 #include <arith_uint256.h>
 #include <attributes.h>
@@ -42,8 +42,8 @@
 
 typedef uint256 ChainCode;
 
-/* ----------- Bitcoin Hash ------------------------------------------------- */
-/** A hasher class for Bitcoin's 256-bit hash (double SHA-256). */
+/* ----------- Xep Hash ------------------------------------------------- */
+/** A hasher class for Xep's 256-bit hash (double SHA-256). */
 class CHash256
 {
 private:
@@ -78,7 +78,7 @@ public:
     }
 };
 
-/** A hasher class for Bitcoin's 160-bit hash (SHA-256 + RIPEMD-160). */
+/** A hasher class for Xep's 160-bit hash (SHA-256 + RIPEMD-160). */
 class CHash160
 {
 private:
@@ -113,7 +113,7 @@ public:
     }
 };
 
-/** A hasher class for Bitcoin's 160-bit hash (double SHA-1). */
+/** A hasher class for Xep's 160-bit hash (double SHA-1). */
 class CHash1
 {
 private:
@@ -655,4 +655,4 @@ inline uint256 HashScryptSquared(const T1& in1)
     return result;
 }
 
-#endif // BITCOIN_HASH_H
+#endif // XEP_HASH_H

@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_ENCODING_H
-#define BITCOIN_OMNICORE_ENCODING_H
+#ifndef XEP_OMNICORE_ENCODING_H
+#define XEP_OMNICORE_ENCODING_H
 
 class CPubKey;
 class CTxOut;
@@ -20,4 +20,4 @@ bool OmniCore_Encode_ClassB(const std::string& senderAddress, const CPubKey& red
 bool OmniCore_Encode_ClassC(const std::vector<unsigned char>& vecPayload, std::vector<std::pair<CScript, int64_t> >& vecOutputs);
 
 
-#endif // BITCOIN_OMNICORE_ENCODING_H
+#endif // XEP_OMNICORE_ENCODING_H

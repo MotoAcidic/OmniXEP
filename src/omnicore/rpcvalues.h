@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_RPCVALUES_H
-#define BITCOIN_OMNICORE_RPCVALUES_H
+#ifndef XEP_OMNICORE_RPCVALUES_H
+#define XEP_OMNICORE_RPCVALUES_H
 
 class CPubKey;
 class CTransaction;
@@ -21,6 +21,8 @@ std::string ParseAddress(const UniValue& value);
 std::string ParseAddressOrEmpty(const UniValue& value);
 std::string ParseAddressOrWildcard(const UniValue& value);
 uint32_t ParsePropertyId(const UniValue& value);
+uint32_t ParsePropertyId(const UniValue& value);
+//uint32_t ParsePropertyIdOrZero(const UniValue& value);
 int64_t ParseAmount(const UniValue& value, bool isDivisible);
 int64_t ParseAmount(const UniValue& value, int propertyType);
 uint8_t ParseDExPaymentWindow(const UniValue& value);
@@ -43,4 +45,4 @@ uint32_t ParseOutputIndex(const UniValue& value);
 std::vector<PrevTxsEntry> ParsePrevTxs(const UniValue& value);
 
 
-#endif // BITCOIN_OMNICORE_RPCVALUES_H
+#endif // XEP_OMNICORE_RPCVALUES_H

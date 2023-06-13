@@ -103,7 +103,7 @@ CMPCrowd* mastercore::getCrowd(const std::string& address)
 
 bool mastercore::IsPropertyIdValid(uint32_t propertyId)
 {
-    if (propertyId == 0) return false;
+    //if (propertyId == 0) return false;
 
     uint32_t nextId = 0;
 
@@ -235,7 +235,7 @@ void mastercore::calculateFundraiser(bool inflateAmount, int64_t amtTransfer, ui
     // Weeks in seconds
     arith_uint256 weeks_sec_ = ConvertTo256(604800);
 
-    // Precision for all non-bitcoin values (bonus percentages, for example)
+    // Precision for all non-xep values (bonus percentages, for example)
     arith_uint256 precision_ = ConvertTo256(1000000000000LL);
 
     // Precision for all percentages (10/100 = 10%)
@@ -264,7 +264,7 @@ void mastercore::calculateFundraiser(bool inflateAmount, int64_t amtTransfer, ui
     issuerPercentage_ *= precision_;
     issuerPercentage_ /= percentage_precision;
 
-    // Precision for bitcoin amounts (satoshi)
+    // Precision for xep amounts (satoshi)
     arith_uint256 satoshi_precision_ = ConvertTo256(100000000L);
 
     // Total tokens including remainders

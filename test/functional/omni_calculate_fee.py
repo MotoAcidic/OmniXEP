@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-# Copyright (c) 2017-2018 The Bitcoin Core developers
+# Copyright (c) 2017-2018 The Xep Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test Omni fee calculation."""
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import XepTestFramework
 from test_framework.util import assert_equal
 
-class OmniFeeCalculation(BitcoinTestFramework):
+class OmniFeeCalculation(XepTestFramework):
     def set_test_params(self):
         self.num_nodes = 2
         self.setup_clean_chain = True
@@ -19,7 +19,7 @@ class OmniFeeCalculation(BitcoinTestFramework):
         node0 = self.nodes[0]
         node1 = self.nodes[1]
 
-        # Preparing some mature Bitcoins
+        # Preparing some mature Xeps
         coinbase_address = node0.getnewaddress()
         node0.generatetoaddress(130, coinbase_address)
 
@@ -91,7 +91,7 @@ class OmniFeeCalculation(BitcoinTestFramework):
 
         self.sync_blocks()
 
-        # Give buyer bitcoin to pay with, only fee left to pay
+        # Give buyer xep to pay with, only fee left to pay
         node0.sendtoaddress(address, 1)
         node0.generatetoaddress(1, coinbase_address)
 

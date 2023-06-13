@@ -1,5 +1,5 @@
-#ifndef BITCOIN_QT_OMNICORE_QTUTILS_H
-#define BITCOIN_QT_OMNICORE_QTUTILS_H
+#ifndef XEP_QT_OMNICORE_QTUTILS_H
+#define XEP_QT_OMNICORE_QTUTILS_H
 
 #include <string>
 
@@ -32,4 +32,4 @@ namespace mastercore
     std::string ReplaceStr(const std::string& findText, const std::string& replaceText, const std::string& inputStr);
 }
 
-#endif // BITCOIN_QT_OMNICORE_QTUTILS_H
+#endif // XEP_QT_OMNICORE_QTUTILS_H

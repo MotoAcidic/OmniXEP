@@ -20,7 +20,7 @@
 #include <omnicore/sp.h>
 #include <omnicore/sto.h>
 #include <omnicore/tx.h>
-#include <omnicore/utilsbitcoin.h>
+#include <omnicore/utilsxep.h>
 #include <omnicore/walletutils.h>
 
 #include <chainparams.h>
@@ -102,7 +102,7 @@ int populateRPCTransactionObject(const CTransaction& tx, const uint256& blockHas
 
     const uint256& txid = tx.GetHash();
 
-    // DEx BTC payment needs special handling since it's not actually an Omni message - handle and return
+    // DEx XEP payment needs special handling since it's not actually an Omni message - handle and return
     if (parseRC > 0) {
         if (confirmations <= 0) {
             // only confirmed DEx payments are currently supported
@@ -208,7 +208,7 @@ void populateRPCTypeInfo(CMPTransaction& mp_obj, UniValue& txobj, uint32_t txTyp
         case MSC_TYPE_METADEX_CANCEL_ECOSYSTEM:
             populateRPCTypeMetaDExCancelEcosystem(mp_obj, txobj, extendedDetails);
             break;
-        case MSC_TYPE_ACCEPT_OFFER_BTC:
+        case MSC_TYPE_ACCEPT_OFFER_XEP:
             populateRPCTypeAcceptOffer(mp_obj, txobj);
             break;
         case MSC_TYPE_CREATE_PROPERTY_FIXED:
@@ -231,6 +231,9 @@ void populateRPCTypeInfo(CMPTransaction& mp_obj, UniValue& txobj, uint32_t txTyp
             break;
         case MSC_TYPE_CHANGE_ISSUER_ADDRESS:
             populateRPCTypeChangeIssuer(mp_obj, txobj);
+            break;
+        case MSC_TYPE_XEP_PAYMENT:
+            populateRPCTypeXepPayment(mp_obj, txobj);
             break;
         case MSC_TYPE_ENABLE_FREEZING:
             populateRPCTypeEnableFreezing(mp_obj, txobj);
@@ -277,7 +280,7 @@ bool showRefForTx(uint32_t txType)
         case MSC_TYPE_METADEX_CANCEL_PRICE: return false;
         case MSC_TYPE_METADEX_CANCEL_PAIR: return false;
         case MSC_TYPE_METADEX_CANCEL_ECOSYSTEM: return false;
-        case MSC_TYPE_ACCEPT_OFFER_BTC: return true;
+        case MSC_TYPE_ACCEPT_OFFER_XEP: return true;
         case MSC_TYPE_CREATE_PROPERTY_FIXED: return false;
         case MSC_TYPE_CREATE_PROPERTY_VARIABLE: return false;
         case MSC_TYPE_CREATE_PROPERTY_MANUAL: return false;
@@ -286,6 +289,7 @@ bool showRefForTx(uint32_t txType)
         case MSC_TYPE_REVOKE_PROPERTY_TOKENS: return false;
         case MSC_TYPE_CHANGE_ISSUER_ADDRESS: return true;
         case MSC_TYPE_SEND_ALL: return true;
+        case MSC_TYPE_XEP_PAYMENT: return false;
         case MSC_TYPE_ENABLE_FREEZING: return false;
         case MSC_TYPE_DISABLE_FREEZING: return false;
         case MSC_TYPE_FREEZE_PROPERTY_TOKENS: return true;
@@ -358,7 +362,7 @@ void populateRPCTypeTradeOffer(CMPTransaction& omniObj, UniValue& txobj)
     CMPOffer temp_offer(omniObj);
     uint32_t propertyId = omniObj.getProperty();
     int64_t amountOffered = omniObj.getAmount();
-    int64_t amountDesired = temp_offer.getBTCDesiredOriginal();
+    int64_t amountDesired = temp_offer.getXEPDesiredOriginal();
     uint8_t sellSubAction = temp_offer.getSubaction();
 
     {
@@ -377,7 +381,7 @@ void populateRPCTypeTradeOffer(CMPTransaction& omniObj, UniValue& txobj)
         LOCK(cs_tally);
         bool tmpValid = pDbTransactionList->getValidMPTX(omniObj.getHash(), &tmpblock, &tmptype, &amountNew);
         if (tmpValid && amountNew > 0) {
-            amountDesired = calculateDesiredBTC(amountOffered, amountDesired, amountNew);
+            amountDesired = calculateDesiredXEP(amountOffered, amountDesired, amountNew);
             amountOffered = amountNew;
         }
     }
@@ -386,7 +390,7 @@ void populateRPCTypeTradeOffer(CMPTransaction& omniObj, UniValue& txobj)
     txobj.pushKV("propertyid", (uint64_t)propertyId);
     txobj.pushKV("divisible", isPropertyDivisible(propertyId));
     txobj.pushKV("amount", FormatMP(propertyId, amountOffered));
-    txobj.pushKV("bitcoindesired", FormatDivisibleMP(amountDesired));
+    txobj.pushKV("xepdesired", FormatDivisibleMP(amountDesired));
     txobj.pushKV("timelimit",  temp_offer.getBlockTimeLimit());
     txobj.pushKV("feerequired", FormatDivisibleMP(temp_offer.getMinFee()));
     if (sellSubAction == 1) txobj.pushKV("action", "new");
@@ -612,6 +616,7 @@ void populateRPCTypeDisableFreezing(CMPTransaction& omniObj, UniValue& txobj)
 {
     txobj.pushKV("propertyid", (uint64_t) omniObj.getProperty());
 }
+
 void populateRPCTypeFreezeTokens(CMPTransaction& omniObj, UniValue& txobj)
 {
     txobj.pushKV("propertyid", (uint64_t) omniObj.getProperty());
@@ -635,6 +640,39 @@ void populateRPCTypeRemoveDelegate(CMPTransaction& omniObj, UniValue& txobj)
 void populateRPCTypeAnyData(CMPTransaction& omniObj, UniValue& txobj)
 {
     txobj.pushKV("data", omniObj.getPayloadData());
+}
+
+void populateRPCTypeXepPayment(CMPTransaction& omniObj, UniValue& txobj)
+{
+    uint256 linked_txid = omniObj.getLinkedTXID();
+    txobj.pushKV("linkedtxid", linked_txid.GetHex());
+
+    CTransactionRef linked_tx;
+    uint256 blockHash;    
+    int linked_blockHeight = 0;
+    int linked_blockTime = 0;
+    if (GetTransaction(linked_txid, linked_tx, Params().GetConsensus() , blockHash)) {
+        arith_uint256 linked_blockHash = UintToArith256(blockHash);
+        if (linked_blockHash != 0) {
+            CBlockIndex* pBlockIndex = GetBlockIndex(blockHash);
+            if (NULL != pBlockIndex) {
+                linked_blockHeight = pBlockIndex->nHeight;
+                linked_blockTime = pBlockIndex->nTime;
+            }
+
+            CMPTransaction mp_obj;
+            int parseRC = ParseTransaction(*linked_tx, linked_blockHeight, 0, mp_obj, linked_blockTime);
+            if (parseRC >= 0) {
+                if (mp_obj.interpret_Transaction()) {
+                    txobj.pushKV("linkedtxtype", mp_obj.getTypeString());
+                    txobj.pushKV("paymentrecipient", mp_obj.getSender());
+                    txobj.pushKV("paymentamount", FormatDivisibleMP(GetXepPaymentAmount(omniObj.getHash(), mp_obj.getSender())));
+                }
+            }
+        }
+    }
+
+    // TODO: what about details about what this payment did (eg crowdsale purchase, paid accept etc)?
 }
 
 void populateRPCExtendedTypeSendToOwners(const uint256 txid, std::string extendedDetailsFilter, UniValue& txobj, uint16_t version, interfaces::Wallet *iWallet)
@@ -772,7 +810,7 @@ int populateRPCDExPurchases(const CTransaction& wtx, UniValue& purchases, std::s
         purchaseObj.pushKV("referenceaddress", seller);
         purchaseObj.pushKV("propertyid", propertyId);
         purchaseObj.pushKV("amountbought", FormatMP(propertyId, nValue));
-        purchaseObj.pushKV("valid", true); //only valid purchases are stored, anything else is regular BTC tx
+        purchaseObj.pushKV("valid", true); //only valid purchases are stored, anything else is regular XEP tx
         purchases.push_back(purchaseObj);
     }
     return purchases.size();

@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_ACTIVATION_H
-#define BITCOIN_OMNICORE_ACTIVATION_H
+#ifndef XEP_OMNICORE_ACTIVATION_H
+#define XEP_OMNICORE_ACTIVATION_H
 
 #include <stdint.h>
 #include <string>
@@ -33,4 +33,4 @@ void CheckLiveActivations(int blockHeight);
 void AddPendingActivation(uint16_t featureId, int activationBlock, uint32_t minClientVersion, const std::string& featureName);
 }
 
-#endif // BITCOIN_OMNICORE_ACTIVATION_H
+#endif // XEP_OMNICORE_ACTIVATION_H

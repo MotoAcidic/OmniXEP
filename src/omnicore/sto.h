@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_STO_H
-#define BITCOIN_OMNICORE_STO_H
+#ifndef XEP_OMNICORE_STO_H
+#define XEP_OMNICORE_STO_H
 
 #include <stdint.h>
 #include <set>
@@ -26,4 +26,4 @@ OwnerAddrType STO_GetReceivers(const std::string& sender, uint32_t property, int
 }
 
 
-#endif // BITCOIN_OMNICORE_STO_H
+#endif // XEP_OMNICORE_STO_H

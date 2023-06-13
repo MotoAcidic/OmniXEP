@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-# Copyright (c) 2017-2018 The Bitcoin Core developers
+# Copyright (c) 2017-2018 The Xep Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test freeze."""
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import XepTestFramework
 from test_framework.util import assert_equal
 
 def rollback_chain(node, address):
@@ -24,7 +24,7 @@ def rollback_chain(node, address):
         if blockhash == new_blockhash:
             raise AssertionError("Block hashes should differ after reorg")
 
-class OmniFreeze(BitcoinTestFramework):
+class OmniFreeze(XepTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
         self.setup_clean_chain = True
@@ -40,10 +40,10 @@ class OmniFreeze(BitcoinTestFramework):
         freeze_address = node.getnewaddress()
         coinbase_address = node.getnewaddress()
 
-        # Preparing some mature Bitcoins
+        # Preparing some mature Xeps
         node.generatetoaddress(105, coinbase_address)
 
-        # Funding the addresses with some testnet BTC for fees
+        # Funding the addresses with some testnet XEP for fees
         node.sendmany("", {address: 5, freeze_address: 4})
         node.sendtoaddress(address, 6)
         node.sendtoaddress(address, 7)

@@ -19,14 +19,14 @@ FAIL=0
 clear
 printf "Preparing a test environment...\\n"
 printf "   * Starting a fresh regtest daemon\\n"
-rm -r ~/.bitcoin/regtest
+rm -r ~/.xep/regtest
 $SRCDIR/omnicored --regtest --server --daemon --omniactivationallowsender=any >$NUL
 sleep 3
-printf "   * Preparing some mature testnet BTC\\n"
+printf "   * Preparing some mature testnet XEP\\n"
 $SRCDIR/omnicore-cli --regtest setgenerate true 102 >$NUL
 printf "   * Obtaining a master address to work with\\n"
 ADDR=$($SRCDIR/omnicore-cli --regtest getnewaddress OMNIAccount)
-printf "   * Funding the address with some testnet BTC for fees\\n"
+printf "   * Funding the address with some testnet XEP for fees\\n"
 $SRCDIR/omnicore-cli --regtest sendtoaddress $ADDR 20 >$NUL
 $SRCDIR/omnicore-cli --regtest setgenerate true 1 >$NUL
 printf "   * Participating in the Exodus crowdsale to obtain some OMNI\\n"

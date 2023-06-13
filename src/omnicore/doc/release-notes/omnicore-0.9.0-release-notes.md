@@ -1,7 +1,7 @@
 Omni Core v0.9.0
 ================
 
-v0.9.0 is a major release and uses Segregated Witness wrapped in P2SH for newly generated addresses per default. It also adds two new transaction types to anchor arbitrary data in the blockchain. As an experimental feature, several new commands were added to support querying any Bitcoin balance.
+v0.9.0 is a major release and uses Segregated Witness wrapped in P2SH for newly generated addresses per default. It also adds two new transaction types to anchor arbitrary data in the blockchain. As an experimental feature, several new commands were added to support querying any Xep balance.
 
 While this release is not mandatory and doesn't change the consensus rules of the Omni Layer protocol, an upgrade is nevertheless recommended.
 
@@ -19,11 +19,11 @@ Table of contents
 - [Upgrading and downgrading](#upgrading-and-downgrading)
   - [How to upgrade](#how-to-upgrade)
   - [Downgrading](#downgrading)
-  - [Compatibility with Bitcoin Core](#compatibility-with-bitcoin-core)
+  - [Compatibility with Xep Core](#compatibility-with-xep-core)
 - [Improvements](#improvements)
   - [Use wrapped Segrated Witness scripts for new addresses](#use-wrapped-segrated-witness-scripts-for-new-addresses)
   - [New transactions to anchor arbitrary data](#new-transactions-to-anchor-arbitrary-data)
-  - [Experimental querying of any Bitcoin balance](#experimental-querying-of-any-bitcoin-balance)
+  - [Experimental querying of any Xep balance](#experimental-querying-of-any-xep-balance)
   - [Several test and under the hood improvements](#several-test-and-under-the-hood-improvements)
 - [Change log](#change-log)
 - [Credits](#credits)
@@ -35,7 +35,7 @@ Upgrading and downgrading
 How to upgrade
 --------------
 
-If you are running Bitcoin Core or an older version of Omni Core, shut it down. Wait until it has completely shut down, then copy the new version of `omnicored`, `omnicore-cli` and `omnicore-qt`. On Microsoft Windows the setup routine can be used to automate these steps.
+If you are running Xep Core or an older version of Omni Core, shut it down. Wait until it has completely shut down, then copy the new version of `omnicored`, `omnicore-cli` and `omnicore-qt`. On Microsoft Windows the setup routine can be used to automate these steps.
 
 When upgrading from an older version than 0.8.0, the database of Omni Core is reconstructed, which can easily consume several hours. During the first startup historical Omni Layer transactions are reprocessed and Omni Core will not be usable for several hours up to more than a day. The progress of the initial scan is reported on the console, the GUI and written to the `debug.log`. The scan may be interrupted and can be resumed.
 
@@ -46,12 +46,12 @@ Downgrading
 
 Downgrading to an Omni Core version prior to 0.8.0 is not supported.
 
-Compatibility with Bitcoin Core
+Compatibility with Xep Core
 -------------------------------
 
-Omni Core is based on Bitcoin Core 0.18.1 and can be used as replacement for Bitcoin Core. Switching between Omni Core and Bitcoin Core may be supported.
+Omni Core is based on Xep Core 0.18.1 and can be used as replacement for Xep Core. Switching between Omni Core and Xep Core may be supported.
 
-However, it is not advised to upgrade or downgrade to versions other than Bitcoin Core 0.18. When switching to Omni Core, it may be necessary to reprocess Omni Layer transactions.
+However, it is not advised to upgrade or downgrade to versions other than Xep Core 0.18. When switching to Omni Core, it may be necessary to reprocess Omni Layer transactions.
 
 
 Improvements
@@ -111,12 +111,12 @@ For more details, please see the descriptions of the new RPCs:
 - [omni_createpayload_anydata](https://github.com/OmniLayer/omnicore/blob/master/src/omnicore/doc/rpc-api.md#omni_createpayload_anydata)
 
 
-Experimental querying of any Bitcoin balance
+Experimental querying of any Xep balance
 --------------------------------------------
 
-A new optional database was added, which allows the user to query any Bitcoin balance or list transactions of any addresses. Please note, this feature is experimental and not enabled per default. To enable the new database, restart Omni Core with `experimental-btc-balances=1` configuration option.
+A new optional database was added, which allows the user to query any Xep balance or list transactions of any addresses. Please note, this feature is experimental and not enabled per default. To enable the new database, restart Omni Core with `experimental-xep-balances=1` configuration option.
 
-**When enabling both of these options, Omni Core creates a new database for Bitcoin balances. This step can take a very long time of up to multiple days on mainnet. More than 300 GB of additional disk space are required!**
+**When enabling both of these options, Omni Core creates a new database for Xep balances. This step can take a very long time of up to multiple days on mainnet. More than 300 GB of additional disk space are required!**
 
 Please see the descriptions of the new RPCs for more details:
 
@@ -134,7 +134,7 @@ Please see the descriptions of the new RPCs for more details:
 Several test and under the hood improvements
 --------------------------------------------
 
-To prepare Omni Core for Bitcoin Core 0.20+, OpenSSL was removed and replaced. OmniJ related tests were upgraded to use JDK 11. New tests for funded transactions were added and old bash tests were converted to the newer functional test framework. Additional checks and safe guards were implemented.
+To prepare Omni Core for Xep Core 0.20+, OpenSSL was removed and replaced. OmniJ related tests were upgraded to use JDK 11. New tests for funded transactions were added and old bash tests were converted to the newer functional test framework. Additional checks and safe guards were implemented.
 
 These changes improve the robustness and reliability of Omni Core.
 
@@ -156,7 +156,7 @@ The following list includes relevant pull requests merged into this release:
 - #1169 Avoid overflow on reindex with debug enabled
 - #1165 Add bitcore indexing
 - #1173 Bump version to 0.9.0
-- #1175 Add description for -experimental-btc-balances
+- #1175 Add description for -experimental-xep-balances
 - #1179 Move lock to blockOnchainActive
 - #1177 Add documentation for address index RPCs
 - #1181 Return error, when using bitcore RPCs without addrindex

@@ -1,11 +1,11 @@
-// Copyright (c) 2011-2019 The Bitcoin Core developers
+// Copyright (c) 2011-2019 The Xep Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <qt/overviewpage.h>
 #include <qt/forms/ui_overviewpage.h>
 
-#include <qt/bitcoinunits.h>
+#include <qt/xepunits.h>
 #include <qt/clientmodel.h>
 #include <qt/guiconstants.h>
 #include <qt/guiutil.h>
@@ -25,7 +25,7 @@
 #include <omnicore/tx.h>
 #include <omnicore/parsing.h>
 #include <omnicore/pending.h>
-#include <omnicore/utilsbitcoin.h>
+#include <omnicore/utilsxep.h>
 #include <omnicore/walletutils.h>
 
 #include <chainparams.h>
@@ -84,7 +84,7 @@ public:
     explicit TxViewDelegate(const PlatformStyle *_platformStyle, QObject *parent=nullptr):
         QAbstractItemDelegate(parent),
         walletModel(nullptr),
-        unit(BitcoinUnits::BTC),
+        unit(XepUnits::XEP),
         platformStyle(_platformStyle)
     {
 
@@ -282,7 +282,7 @@ public:
         painter->setPen(foreground);
         QString amountText;
         if (!omniOverride) {
-            amountText = BitcoinUnits::formatWithUnit(unit, amount, true, BitcoinUnits::separatorAlways);
+            amountText = XepUnits::formatWithUnit(unit, amount, true, XepUnits::separatorAlways);
         } else {
             amountText = omniAmountStr;
         }
@@ -338,7 +338,7 @@ OverviewPage::OverviewPage(const PlatformStyle *platformStyle, QWidget *parent) 
     ui->labelWalletStatus->setText("(" + tr("out of sync") + ")");
     ui->labelTransactionsStatus->setText("(" + tr("out of sync") + ")");
 
-    // make sure BTC is always first in the list by adding it first
+    // make sure XEP is always first in the list by adding it first
     UpdatePropertyBalance(0,0,0);
 
     updateOmni();
@@ -409,7 +409,7 @@ void OverviewPage::UpdatePropertyBalance(unsigned int propertyId, uint64_t avail
     // property label
     std::string spName;
     if (propertyId == 0) {// Override for Overpageview init during GUI tests
-        spName = "Bitcoin";
+        spName = "Xep";
     } else {
         spName = getPropertyName(propertyId).c_str();
     }
@@ -419,9 +419,9 @@ void OverviewPage::UpdatePropertyBalance(unsigned int propertyId, uint64_t avail
     propLabel->setStyleSheet("QLabel { font-weight:bold; }");
     vlayout->addWidget(propLabel);
 
-    if (propertyId == 0) { // override for bitcoin
+    if (propertyId == 0) { // override for xep
         divisible = true;
-        tokenStr = " BTC";
+        tokenStr = " XEP";
     } else {
         divisible = isPropertyDivisible(propertyId);
         tokenStr = getTokenLabel(propertyId);
@@ -430,7 +430,7 @@ void OverviewPage::UpdatePropertyBalance(unsigned int propertyId, uint64_t avail
     // Left Panel
     QVBoxLayout *vlayoutleft = new QVBoxLayout();
     QLabel *balReservedLabel = new QLabel;
-    if(propertyId != 0) { balReservedLabel->setText("Reserved:"); } else { balReservedLabel->setText("Pending:"); propLabel->setText("Bitcoin"); } // override for bitcoin
+    if(propertyId != 0) { balReservedLabel->setText("Reserved:"); } else { balReservedLabel->setText("Pending:"); propLabel->setText("Xep"); } // override for xep
     QLabel *balAvailableLabel = new QLabel("Available:");
     QLabel *balTotalLabel = new QLabel("Total:");
     vlayoutleft->addWidget(balReservedLabel);
@@ -594,7 +594,7 @@ void OverviewPage::setWalletModel(WalletModel *model)
         });
     }
 
-    // update the display unit, to not use the default ("BTC")
+    // update the display unit, to not use the default ("XEP")
     updateDisplayUnit();
 }
 
@@ -620,7 +620,7 @@ void OverviewPage::updateOmniAlerts()
 
 void OverviewPage::updateAlerts(const QString &warnings)
 {
-    QString alertString = warnings; // get current bitcoin alert/warning directly
+    QString alertString = warnings; // get current xep alert/warning directly
 
     // get alert messages
     std::vector<std::string> omniAlerts = GetOmniCoreAlertMessages();

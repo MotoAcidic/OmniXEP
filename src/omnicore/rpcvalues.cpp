@@ -50,7 +50,7 @@ std::string ParseAddressOrWildcard(const UniValue& value)
 uint32_t ParsePropertyId(const UniValue& value)
 {
     int64_t propertyId = value.get_int64();
-    if (propertyId < 1 || 4294967295LL < propertyId) {
+    if (propertyId != 0 && (propertyId < 1 || 4294967295LL < propertyId)) {
         throw JSONRPCError(RPC_INVALID_PARAMETER, "Property identifier is out of range");
     }
     return static_cast<uint32_t>(propertyId);
@@ -63,6 +63,15 @@ int64_t ParseAmount(const UniValue& value, bool isDivisible)
         throw JSONRPCError(RPC_TYPE_ERROR, "Invalid amount");
     }
     return amount;
+}
+
+uint32_t ParsePropertyIdOrZero(const UniValue& value)
+{
+    int64_t propertyId = value.get_int64();
+    if (propertyId != 0 && (propertyId < 1 || 4294967295LL < propertyId)) {
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "Property identifier is out of range");
+    }
+    return static_cast<uint32_t>(propertyId);
 }
 
 int64_t ParseAmount(const UniValue& value, int propertyType)
@@ -82,7 +91,7 @@ uint8_t ParseDExPaymentWindow(const UniValue& value)
 
 int64_t ParseDExFee(const UniValue& value)
 {
-    int64_t fee = StrToInt64(value.get_str(), true);  // BTC is divisible
+    int64_t fee = StrToInt64(value.get_str(), true);  // XEP is divisible
     if (fee < 0) {
         throw JSONRPCError(RPC_TYPE_ERROR, "Mininmum accept fee must be positive");
     }

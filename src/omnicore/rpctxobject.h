@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_RPCTXOBJECT_H
-#define BITCOIN_OMNICORE_RPCTXOBJECT_H
+#ifndef XEP_OMNICORE_RPCTXOBJECT_H
+#define XEP_OMNICORE_RPCTXOBJECT_H
 
 #include <univalue.h>
 
@@ -36,6 +36,7 @@ void populateRPCTypeRevoke(CMPTransaction& omniOobj, UniValue& txobj);
 void populateRPCTypeSendNonFungible(CMPTransaction& omniObj, UniValue& txobj);
 void populateRPCTypeSetNonFungibleData(CMPTransaction& omniObj, UniValue& txobj);
 void populateRPCTypeChangeIssuer(CMPTransaction& omniObj, UniValue& txobj);
+void populateRPCTypeXepPayment(CMPTransaction& omniObj, UniValue& txobj);
 void populateRPCTypeActivation(CMPTransaction& omniObj, UniValue& txobj);
 void populateRPCTypeEnableFreezing(CMPTransaction& omniObj, UniValue& txobj);
 void populateRPCTypeDisableFreezing(CMPTransaction& omniObj, UniValue& txobj);
@@ -55,4 +56,4 @@ int populateRPCSendAllSubSends(const uint256& txid, UniValue& subSends);
 
 bool showRefForTx(uint32_t txType);
 
-#endif // BITCOIN_OMNICORE_RPCTXOBJECT_H
+#endif // XEP_OMNICORE_RPCTXOBJECT_H

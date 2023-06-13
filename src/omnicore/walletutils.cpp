@@ -4,7 +4,7 @@
 #include <omnicore/omnicore.h>
 #include <omnicore/rules.h>
 #include <omnicore/script.h>
-#include <omnicore/utilsbitcoin.h>
+#include <omnicore/utilsxep.h>
 
 #include <amount.h>
 #include <base58.h>
@@ -38,7 +38,7 @@ namespace mastercore
 bool AddressToPubKey(interfaces::Wallet* iWallet, const std::string& key, CPubKey& pubKey)
 {
 #ifdef ENABLE_WALLET
-    // Case 1: Bitcoin address and the key is in the wallet
+    // Case 1: Xep address and the key is in the wallet
     CTxDestination dest = DecodeDestination(key);
     if (IsValidDestination(dest)) {
         CKeyID keyID = iWallet->getKeyForDestination(dest);
@@ -171,7 +171,7 @@ int IsMyAddressAllWallets(const std::string& address, const bool matchAny, const
 CAmount GetEstimatedFeePerKb(interfaces::Wallet& iWallet)
 {
     // Need to look over this to see if we need to increase for XEP
-    CAmount nFee = 50000; // 0.0005 BTC;
+    CAmount nFee = 50000; // 0.0005 XEP;
 
 #ifdef ENABLE_WALLET
     CCoinControl coinControl;

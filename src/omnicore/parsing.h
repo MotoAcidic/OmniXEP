@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_PARSING_H
-#define BITCOIN_OMNICORE_PARSING_H
+#ifndef XEP_OMNICORE_PARSING_H
+#define XEP_OMNICORE_PARSING_H
 
 #include <string>
 #include <vector>
@@ -28,7 +28,7 @@ void SwapByteOrder16(uint16_t&);
 void SwapByteOrder32(uint32_t&);
 void SwapByteOrder64(uint64_t&);
 
-/** Determines the Bitcoin address associated with a given hash and version. */
+/** Determines the Xep address associated with a given hash and version. */
 std::string HashToAddress(unsigned char version, const uint160& hash);
 
 /** Generates hashes used for obfuscation via ToUpper(HexStr(SHA256(x))). */
@@ -38,4 +38,4 @@ void PrepareObfuscatedHashes(const std::string& strSeed, int hashCount, std::str
 int ParseTransaction(const CTransaction& tx, int nBlock, unsigned int idx, CMPTransaction& mptx, unsigned int nTime=0);
 
 
-#endif // BITCOIN_OMNICORE_PARSING_H
+#endif // XEP_OMNICORE_PARSING_H

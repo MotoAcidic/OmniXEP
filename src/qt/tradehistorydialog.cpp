@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2014 The Bitcoin developers
+// Copyright (c) 2011-2014 The Xep developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -23,7 +23,7 @@
 #include <omnicore/rpctxobject.h>
 #include <omnicore/sp.h>
 #include <omnicore/tx.h>
-#include <omnicore/utilsbitcoin.h>
+#include <omnicore/utilsxep.h>
 #include <omnicore/walletcache.h>
 #include <omnicore/walletfetchtxs.h>
 #include <omnicore/walletutils.h>
@@ -318,7 +318,7 @@ int TradeHistoryDialog::PopulateTradeHistoryMap()
     for (std::map<std::string,uint256>::reverse_iterator it = walletTransactions.rbegin(); it != walletTransactions.rend(); it++) {
         uint256 hash = it->second;
 
-        // use levelDB to perform a fast check on whether it's a bitcoin or Omni tx and whether it's a trade
+        // use levelDB to perform a fast check on whether it's a xep or Omni tx and whether it's a trade
         std::string tempStrValue;
         {
             LOCK(cs_tally);

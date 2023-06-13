@@ -119,7 +119,7 @@ int WalletTxBuilder(
             return MP_INPUTS_INVALID;
         }
 
-        // Ask the wallet to create the transaction (note mining fee determined by Bitcoin Core params)
+        // Ask the wallet to create the transaction (note mining fee determined by Xep Core params)
         int nChangePosInOut = -1;
         wtxNew = iWallet->createTransaction(vecRecipients, coinControl, true /* sign */, nChangePosInOut, nFeeRet, strFailReason, false, minFee);
 

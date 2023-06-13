@@ -1,5 +1,5 @@
-#ifndef BITCOIN_OMNICORE_TALLY_H
-#define BITCOIN_OMNICORE_TALLY_H
+#ifndef XEP_OMNICORE_TALLY_H
+#define XEP_OMNICORE_TALLY_H
 
 #include <stdint.h>
 #include <map>
@@ -63,4 +63,4 @@ public:
 };
 
 
-#endif // BITCOIN_OMNICORE_TALLY_H
+#endif // XEP_OMNICORE_TALLY_H

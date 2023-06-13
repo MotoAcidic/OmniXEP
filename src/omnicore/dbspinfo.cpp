@@ -151,7 +151,7 @@ CMPSPInfo::CMPSPInfo(const fs::path& path, bool fWipe)
     implied_omni.subcategory = "N/A";
     implied_omni.name = "Omni tokens";
     implied_omni.url = "http://www.omnilayer.org";
-    implied_omni.data = "Omni tokens serve as the binding between Bitcoin, smart properties and contracts created on the Omni Layer.";
+    implied_omni.data = "Omni tokens serve as the binding between Xep, smart properties and contracts created on the Omni Layer.";
 
     implied_tomni.issuer = EncodeDestination(ExodusAddress());
     implied_tomni.updateIssuer(0, 0, implied_tomni.issuer);
@@ -161,7 +161,7 @@ CMPSPInfo::CMPSPInfo(const fs::path& path, bool fWipe)
     implied_tomni.subcategory = "N/A";
     implied_tomni.name = "Test Omni tokens";
     implied_tomni.url = "http://www.omnilayer.org";
-    implied_tomni.data = "Test Omni tokens serve as the binding between Bitcoin, smart properties and contracts created on the Omni Layer.";
+    implied_tomni.data = "Test Omni tokens serve as the binding between Xep, smart properties and contracts created on the Omni Layer.";
 
     init();
 }

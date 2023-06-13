@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_CRYPTO_PBKDF2_HMAC_H
-#define BITCOIN_CRYPTO_PBKDF2_HMAC_H
+#ifndef XEP_CRYPTO_PBKDF2_HMAC_H
+#define XEP_CRYPTO_PBKDF2_HMAC_H
 
 #include <stdint.h>
 
@@ -103,4 +103,4 @@ int pbkdf2_hmac_ripemd160_time_check(const unsigned char* password,
 }
 #endif
 
-#endif // BITCOIN_CRYPTO_PBKDF2_HMAC_H
+#endif // XEP_CRYPTO_PBKDF2_HMAC_H

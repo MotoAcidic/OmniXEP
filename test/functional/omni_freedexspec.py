@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-# Copyright (c) 2017-2018 The Bitcoin Core developers
+# Copyright (c) 2017-2018 The Xep Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test DEx spec using free DEx."""
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import XepTestFramework
 from test_framework.util import assert_equal
 
-class OmniFreeDExSpec(BitcoinTestFramework):
+class OmniFreeDExSpec(XepTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
         self.setup_clean_chain = True
@@ -23,14 +23,14 @@ class OmniFreeDExSpec(BitcoinTestFramework):
         actionUpdate = 2
         actionCancel = 3
 
-        # Preparing some mature Bitcoins
+        # Preparing some mature Xeps
         coinbase_address = self.nodes[0].getnewaddress()
         self.nodes[0].generatetoaddress(110, coinbase_address)
 
         # Obtaining a master address to work with
         address = self.nodes[0].getnewaddress()
 
-        # Funding the address with some testnet BTC for fees
+        # Funding the address with some testnet XEP for fees
         self.nodes[0].sendtoaddress(address, 10)
         self.nodes[0].sendtoaddress(address, 10)
         self.nodes[0].generatetoaddress(1, coinbase_address)
@@ -68,14 +68,14 @@ class OmniFreeDExSpec(BitcoinTestFramework):
 
         # A new sell offer can be created with action = 1 (new)
         activeOffersAtTheStart = self.nodes[0].omni_getactivedexsells()
-        startBTC = 0.1
+        startXEP = 0.1
         startMSC = "2.5"
         amountOffered = "1.00000000"
-        desiredBTC = "0.20000000"
+        desiredXEP = "0.20000000"
 
         # Created funded address for test
         fundedAddress = self.nodes[0].getnewaddress()
-        self.nodes[0].sendtoaddress(fundedAddress, startBTC)
+        self.nodes[0].sendtoaddress(fundedAddress, startXEP)
         txid = self.nodes[0].omni_send(address, fundedAddress, currencyOffered, startMSC)
         self.nodes[0].generatetoaddress(1, coinbase_address)
 
@@ -84,7 +84,7 @@ class OmniFreeDExSpec(BitcoinTestFramework):
         assert_equal(result['valid'], True)
 
         # creating an offer with action = 1
-        txid = self.nodes[0].omni_senddexsell(fundedAddress, currencyOffered, amountOffered, desiredBTC, stdBlockSpan, stdCommitFee, actionNew)
+        txid = self.nodes[0].omni_senddexsell(fundedAddress, currencyOffered, amountOffered, desiredXEP, stdBlockSpan, stdCommitFee, actionNew)
         self.nodes[0].generatetoaddress(1, coinbase_address)
 
         # Checking the transaction was valid...
@@ -101,7 +101,7 @@ class OmniFreeDExSpec(BitcoinTestFramework):
         assert_equal(offerTx['propertyid'], currencyOffered)
         assert_equal(offerTx['divisible'], True)
         assert_equal(offerTx['amount'], amountOffered)
-        assert_equal(offerTx['bitcoindesired'], desiredBTC)
+        assert_equal(offerTx['xepdesired'], desiredXEP)
         assert_equal(offerTx['timelimit'], stdBlockSpan)
         assert_equal(offerTx['feerequired'], stdCommitFee)
         assert_equal(offerTx['action'], "new")
@@ -115,7 +115,7 @@ class OmniFreeDExSpec(BitcoinTestFramework):
 
         # Created new funded address for test
         fundedAddress = self.nodes[0].getnewaddress()
-        self.nodes[0].sendtoaddress(fundedAddress, startBTC)
+        self.nodes[0].sendtoaddress(fundedAddress, startXEP)
         txid = self.nodes[0].omni_send(address, fundedAddress, currencyOffered, startMSC)
         self.nodes[0].generatetoaddress(1, coinbase_address)
 
@@ -126,10 +126,10 @@ class OmniFreeDExSpec(BitcoinTestFramework):
         # Setup variables
         amountAvailableAtStart = self.nodes[0].omni_getbalance(fundedAddress, currencyOffered)['balance']
         amountOffered = float(amountAvailableAtStart) + 100
-        desiredBTC = "50.00000000"
+        desiredXEP = "50.00000000"
 
         # the amount offered for sale exceeds the sending address's available balance
-        payload = self.nodes[0].omni_createpayload_dexsell(currencyOffered, str(amountOffered), desiredBTC, stdBlockSpan, stdCommitFee, actionNew)
+        payload = self.nodes[0].omni_createpayload_dexsell(currencyOffered, str(amountOffered), desiredXEP, stdBlockSpan, stdCommitFee, actionNew)
         offerTxid = self.nodes[0].omni_sendrawtx(fundedAddress, payload)
         self.nodes[0].generatetoaddress(1, coinbase_address)
 
@@ -149,14 +149,14 @@ class OmniFreeDExSpec(BitcoinTestFramework):
         # The amount offered for sale is reserved from the available balance
 
         # Setup variables
-        startBTC = 0.1
+        startXEP = 0.1
         startMSC = "100"
         amountOffered = "90.00000000"
-        desiredBTC = "45.00000000"
+        desiredXEP = "45.00000000"
 
         # Created new funded address for test
         fundedAddress = self.nodes[0].getnewaddress()
-        self.nodes[0].sendtoaddress(fundedAddress, startBTC)
+        self.nodes[0].sendtoaddress(fundedAddress, startXEP)
         txid = self.nodes[0].omni_send(address, fundedAddress, currencyOffered, startMSC)
         self.nodes[0].generatetoaddress(1, coinbase_address)
 
@@ -168,7 +168,7 @@ class OmniFreeDExSpec(BitcoinTestFramework):
         balanceAtStart = self.nodes[0].omni_getbalance(fundedAddress, currencyOffered)
 
         # an amount is offered for sale
-        txid = self.nodes[0].omni_senddexsell(fundedAddress, currencyOffered, amountOffered, desiredBTC, stdBlockSpan, stdCommitFee, actionNew)
+        txid = self.nodes[0].omni_senddexsell(fundedAddress, currencyOffered, amountOffered, desiredXEP, stdBlockSpan, stdCommitFee, actionNew)
         self.nodes[0].generatetoaddress(1, coinbase_address)
 
         # Checking the transaction was valid...
@@ -186,16 +186,16 @@ class OmniFreeDExSpec(BitcoinTestFramework):
         # Receiving tokens doesn't increase the offered amount of a published offer
 
         # Setup variables
-        startBTC = 0.1
+        startXEP = 0.1
         startMSC = "2.5"
         offerMSC = "90.00000000"
-        desiredBTC = "45.00000000"
+        desiredXEP = "45.00000000"
         startOtherMSC = "10"
         additionalMSC = "10"
 
         # Created new funded address for test
         fundedAddress = self.nodes[0].getnewaddress()
-        self.nodes[0].sendtoaddress(fundedAddress, startBTC)
+        self.nodes[0].sendtoaddress(fundedAddress, startXEP)
         txid = self.nodes[0].omni_send(address, fundedAddress, currencyOffered, startMSC)
         self.nodes[0].generatetoaddress(1, coinbase_address)
 
@@ -204,7 +204,7 @@ class OmniFreeDExSpec(BitcoinTestFramework):
         assert_equal(result['valid'], True)
 
         # the sell offer is published
-        payload = self.nodes[0].omni_createpayload_dexsell(currencyOffered, offerMSC, desiredBTC, stdBlockSpan, stdCommitFee, actionNew)
+        payload = self.nodes[0].omni_createpayload_dexsell(currencyOffered, offerMSC, desiredXEP, stdBlockSpan, stdCommitFee, actionNew)
         offerTxid = self.nodes[0].omni_sendrawtx(fundedAddress, payload)
         self.nodes[0].generatetoaddress(1, coinbase_address)
 
@@ -217,7 +217,7 @@ class OmniFreeDExSpec(BitcoinTestFramework):
 
         # Created new funded other address for test
         otherAddress = self.nodes[0].getnewaddress()
-        self.nodes[0].sendtoaddress(otherAddress, startBTC)
+        self.nodes[0].sendtoaddress(otherAddress, startXEP)
         txid = self.nodes[0].omni_send(address, otherAddress, currencyOffered, startOtherMSC)
         self.nodes[0].generatetoaddress(1, coinbase_address)
 
@@ -244,19 +244,19 @@ class OmniFreeDExSpec(BitcoinTestFramework):
         assert_equal(offerNow['amount'], offerBeforeReceivingMore['amount'])
         assert_equal(balanceNow['reserved'], balanceBeforeReceivingMore['reserved'])
 
-        # There can be only one active offer that accepts BTC
+        # There can be only one active offer that accepts XEP
 
         # Setup variables
-        startBTC = 0.1
+        startXEP = 0.1
         startMSC = "2.5"
         firstOfferMSC = "1"
-        firstOfferBTC = "0.2"
+        firstOfferXEP = "0.2"
         secondOfferMSC = "1.5"
-        secondOfferBTC = "0.3"
+        secondOfferXEP = "0.3"
 
         # Created new funded address for test
         fundedAddress = self.nodes[0].getnewaddress()
-        self.nodes[0].sendtoaddress(fundedAddress, startBTC)
+        self.nodes[0].sendtoaddress(fundedAddress, startXEP)
         txid = self.nodes[0].omni_send(address, fundedAddress, currencyOffered, startMSC)
         self.nodes[0].generatetoaddress(1, coinbase_address)
 
@@ -264,16 +264,16 @@ class OmniFreeDExSpec(BitcoinTestFramework):
         result = self.nodes[0].omni_gettransaction(txid)
         assert_equal(result['valid'], True)
 
-        # there is already an active offer accepting BTC
-        txid = self.nodes[0].omni_senddexsell(fundedAddress, currencyOffered, firstOfferMSC, firstOfferBTC, stdBlockSpan, stdCommitFee, actionNew)
+        # there is already an active offer accepting XEP
+        txid = self.nodes[0].omni_senddexsell(fundedAddress, currencyOffered, firstOfferMSC, firstOfferXEP, stdBlockSpan, stdCommitFee, actionNew)
         self.nodes[0].generatetoaddress(1, coinbase_address)
 
         # Checking the transaction was valid...
         result = self.nodes[0].omni_gettransaction(txid)
         assert_equal(result['valid'], True)
 
-        # and another offer accepting BTC is made
-        payload = self.nodes[0].omni_createpayload_dexsell(currencyOffered, secondOfferMSC, secondOfferBTC, stdBlockSpan, stdCommitFee, actionNew)
+        # and another offer accepting XEP is made
+        payload = self.nodes[0].omni_createpayload_dexsell(currencyOffered, secondOfferMSC, secondOfferXEP, stdBlockSpan, stdCommitFee, actionNew)
         txid = self.nodes[0].omni_sendrawtx(fundedAddress, payload)
         self.nodes[0].generatetoaddress(1, coinbase_address)
 
@@ -284,16 +284,16 @@ class OmniFreeDExSpec(BitcoinTestFramework):
         # An offer can be updated with action = 2 (update), and cancelled with action = 3 (cancel)
 
         # Setup variables
-        startBTC = 0.1
+        startXEP = 0.1
         startMSC = "1.0"
         offeredMSC = "0.50000000"
-        desiredBTC = "0.5"
+        desiredXEP = "0.5"
         updatedMSC = "1.00000000"
-        updatedBTC = "2.0"
+        updatedXEP = "2.0"
 
         # Created new funded address for test
         fundedAddress = self.nodes[0].getnewaddress()
-        self.nodes[0].sendtoaddress(fundedAddress, startBTC)
+        self.nodes[0].sendtoaddress(fundedAddress, startXEP)
         txid = self.nodes[0].omni_send(address, fundedAddress, currencyOffered, startMSC)
         self.nodes[0].generatetoaddress(1, coinbase_address)
 
@@ -308,7 +308,7 @@ class OmniFreeDExSpec(BitcoinTestFramework):
         offersAtStart = self.nodes[0].omni_getactivedexsells()
 
         # creating an offer with action 1
-        txid = self.nodes[0].omni_senddexsell(fundedAddress, currencyOffered, offeredMSC, desiredBTC, stdBlockSpan, stdCommitFee, actionNew)
+        txid = self.nodes[0].omni_senddexsell(fundedAddress, currencyOffered, offeredMSC, desiredXEP, stdBlockSpan, stdCommitFee, actionNew)
         self.nodes[0].generatetoaddress(1, coinbase_address)
 
         # Checking the transaction was valid...
@@ -321,7 +321,7 @@ class OmniFreeDExSpec(BitcoinTestFramework):
         assert_equal(len(self.nodes[0].omni_getactivedexsells()), len(offersAtStart) + 1)
 
         # updating an offer with action = 2
-        payload = self.nodes[0].omni_createpayload_dexsell(currencyOffered, updatedMSC, updatedBTC, stdBlockSpan, stdCommitFee, actionUpdate)
+        payload = self.nodes[0].omni_createpayload_dexsell(currencyOffered, updatedMSC, updatedXEP, stdBlockSpan, stdCommitFee, actionUpdate)
         txid = self.nodes[0].omni_sendrawtx(fundedAddress, payload)
         self.nodes[0].generatetoaddress(1, coinbase_address)
 
@@ -350,14 +350,14 @@ class OmniFreeDExSpec(BitcoinTestFramework):
         # An offer can be accepted with an accept transaction of type 22
 
         # Setup variables
-        startBTC = 0.1
+        startXEP = 0.1
         startMSC = "0.1"
         offeredMSC = "0.05000000"
-        desiredBTC = "0.07"
+        desiredXEP = "0.07"
 
         # Created new funded address for test
         actorA = self.nodes[0].getnewaddress()
-        self.nodes[0].sendtoaddress(actorA, startBTC)
+        self.nodes[0].sendtoaddress(actorA, startXEP)
         txid = self.nodes[0].omni_send(address, actorA, currencyOffered, startMSC)
         self.nodes[0].generatetoaddress(1, coinbase_address)
 
@@ -366,7 +366,7 @@ class OmniFreeDExSpec(BitcoinTestFramework):
         assert_equal(result['valid'], True)
 
         # A offers MSC
-        txid = self.nodes[0].omni_senddexsell(actorA, currencyOffered, offeredMSC, desiredBTC, stdBlockSpan, stdCommitFee, actionNew)
+        txid = self.nodes[0].omni_senddexsell(actorA, currencyOffered, offeredMSC, desiredXEP, stdBlockSpan, stdCommitFee, actionNew)
         self.nodes[0].generatetoaddress(1, coinbase_address)
 
         # Checking the transaction was valid...
@@ -374,7 +374,7 @@ class OmniFreeDExSpec(BitcoinTestFramework):
         assert_equal(result['valid'], True)
 
         actorB = self.nodes[0].getnewaddress()
-        self.nodes[0].sendtoaddress(actorB, startBTC)
+        self.nodes[0].sendtoaddress(actorB, startXEP)
         self.nodes[0].generatetoaddress(1, coinbase_address)
 
         # B accepts the offer

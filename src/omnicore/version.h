@@ -1,8 +1,8 @@
-#ifndef BITCOIN_OMNICORE_VERSION_H
-#define BITCOIN_OMNICORE_VERSION_H
+#ifndef XEP_OMNICORE_VERSION_H
+#define XEP_OMNICORE_VERSION_H
 
 #if defined(HAVE_CONFIG_H)
-#include <config/bitcoin-config.h>
+#include <config/xep-config.h>
 #else
 
 //
@@ -53,10 +53,10 @@ extern const std::string OMNI_CLIENT_NAME;
 //! Returns formatted Omni Core version, e.g. "1.2.0"
 const std::string OmniCoreVersion();
 
-//! Returns formatted Bitcoin Core version, e.g. "0.10", "0.9.3"
-const std::string BitcoinCoreVersion();
+//! Returns formatted Xep Core version, e.g. "0.10", "0.9.3"
+const std::string XepCoreVersion();
 
 
 #endif // WINDRES_PREPROC
 
-#endif // BITCOIN_OMNICORE_VERSION_H
+#endif // XEP_OMNICORE_VERSION_H

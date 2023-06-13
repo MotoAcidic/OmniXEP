@@ -1,9 +1,9 @@
 Omni Core v0.6.0
 ================
 
-v0.6.0 is a major release and changes the code base of Omni Core from Bitcoin Core 0.13.2 to Bitcoin Core 0.18.1. No Omni Layer consensus rules were changed and the consensus behavior of this version is identidcal with Omni Core v0.5.0. An upgrade is **not required**, but recommended in an experimental environment.
+v0.6.0 is a major release and changes the code base of Omni Core from Xep Core 0.13.2 to Xep Core 0.18.1. No Omni Layer consensus rules were changed and the consensus behavior of this version is identidcal with Omni Core v0.5.0. An upgrade is **not required**, but recommended in an experimental environment.
 
-**Due to the upgrade from Bitcoin Core 0.13.2 to 0.18.1, this version incorporates many changes, so please take your time to read through all release notes carefully. The first time you run this version, all the database is reconstructed, which can easily consume several hours.**
+**Due to the upgrade from Xep Core 0.13.2 to 0.18.1, this version incorporates many changes, so please take your time to read through all release notes carefully. The first time you run this version, all the database is reconstructed, which can easily consume several hours.**
 
 To avoid downtime of your system, running both versions on two instances is recommended and once v0.6.0 is up-to-date and it's behavior was confirmed to work, a hot swap may be done.
 
@@ -21,9 +21,9 @@ Table of contents
 - [Upgrading and downgrading](#upgrading-and-downgrading)
   - [How to upgrade](#how-to-upgrade)
   - [Downgrading](#downgrading)
-  - [Compatibility with Bitcoin Core](#compatibility-with-bitcoin-core)
+  - [Compatibility with Xep Core](#compatibility-with-xep-core)
 - [Imported changes and notes](#imported-changes-and-notes)
-  - [Upgrade to Bitcoin Core 0.18.2](#upgrade-to-bitcoin-core-0182)
+  - [Upgrade to Xep Core 0.18.2](#upgrade-to-xep-core-0182)
   - [getinfo deprecated](#getinfo-deprecated)
   - [Fee estimation improvements](#fee-estimation-improvements)
   - [Transaction index changes](#transaction-index-changes)
@@ -39,7 +39,7 @@ Upgrading and downgrading
 How to upgrade
 --------------
 
-If you are running Bitcoin Core or an older version of Omni Core, shut it down. Wait until it has completely shut down, then copy the new version of `omnicored`, `omnicore-cli` and `omnicore-qt`. On Microsoft Windows the setup routine can be used to automate these steps.
+If you are running Xep Core or an older version of Omni Core, shut it down. Wait until it has completely shut down, then copy the new version of `omnicored`, `omnicore-cli` and `omnicore-qt`. On Microsoft Windows the setup routine can be used to automate these steps.
 
 When upgrading from an older version, the database is reconstructed, which can easily consume several hours.
 
@@ -50,41 +50,41 @@ Downgrading
 
 Downgrading to an Omni Core version prior to 0.6.0 is not supported.
 
-Compatibility with Bitcoin Core
+Compatibility with Xep Core
 -------------------------------
 
-Omni Core is based on Bitcoin Core 0.18.2 and can be used as replacement for Bitcoin Core. Switching between Omni Core and Bitcoin Core may be supported.
+Omni Core is based on Xep Core 0.18.2 and can be used as replacement for Xep Core. Switching between Omni Core and Xep Core may be supported.
 
-However, it is not advised to upgrade or downgrade to versions other than Bitcoin Core 0.18. When switching to Omni Core, it may be necessary to reprocess Omni Layer transactions.
+However, it is not advised to upgrade or downgrade to versions other than Xep Core 0.18. When switching to Omni Core, it may be necessary to reprocess Omni Layer transactions.
 
 
 Imported changes and notes
 ==========================
 
-Upgrade to Bitcoin Core 0.18.2
+Upgrade to Xep Core 0.18.2
 ------------------------------
 
-The underlying base of Omni Core was upgraded from Bitcoin Core 0.13.2 to Bitcoin Core 0.18.2.
+The underlying base of Omni Core was upgraded from Xep Core 0.13.2 to Xep Core 0.18.2.
 
 Please read the following release notes for further details very carefully:
 
-- [Release notes for Bitcoin Core 0.14.0](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.14.0.md)
-- [Release notes for Bitcoin Core 0.14.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.14.1.md)
-- [Release notes for Bitcoin Core 0.14.2](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.14.2.md)
-- [Release notes for Bitcoin Core 0.14.3](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.14.3.md)
-- [Release notes for Bitcoin Core 0.15.0](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.15.0.md)
-- [Release notes for Bitcoin Core 0.15.0.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.15.0.1.md)
-- [Release notes for Bitcoin Core 0.15.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.15.1.md)
-- [Release notes for Bitcoin Core 0.15.2](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.15.2.md)
-- [Release notes for Bitcoin Core 0.16.0](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.16.0.md)
-- [Release notes for Bitcoin Core 0.16.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.16.1.md)
-- [Release notes for Bitcoin Core 0.16.2](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.16.2.md)
-- [Release notes for Bitcoin Core 0.16.3](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.16.3.md)
-- [Release notes for Bitcoin Core 0.17.0](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.17.0.md)
-- [Release notes for Bitcoin Core 0.17.0.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.17.0.1.md)
-- [Release notes for Bitcoin Core 0.17.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes/release-notes-0.17.1.md)
-- [Release notes for Bitcoin Core 0.18.0](https://github.com/bitcoin/bitcoin/blob/v0.18.0/doc/release-notes.md)
-- [Release notes for Bitcoin Core 0.18.1](https://github.com/bitcoin/bitcoin/blob/v0.18.1/doc/release-notes.md)
+- [Release notes for Xep Core 0.14.0](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.14.0.md)
+- [Release notes for Xep Core 0.14.1](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.14.1.md)
+- [Release notes for Xep Core 0.14.2](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.14.2.md)
+- [Release notes for Xep Core 0.14.3](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.14.3.md)
+- [Release notes for Xep Core 0.15.0](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.15.0.md)
+- [Release notes for Xep Core 0.15.0.1](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.15.0.1.md)
+- [Release notes for Xep Core 0.15.1](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.15.1.md)
+- [Release notes for Xep Core 0.15.2](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.15.2.md)
+- [Release notes for Xep Core 0.16.0](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.16.0.md)
+- [Release notes for Xep Core 0.16.1](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.16.1.md)
+- [Release notes for Xep Core 0.16.2](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.16.2.md)
+- [Release notes for Xep Core 0.16.3](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.16.3.md)
+- [Release notes for Xep Core 0.17.0](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.17.0.md)
+- [Release notes for Xep Core 0.17.0.1](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.17.0.1.md)
+- [Release notes for Xep Core 0.17.1](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes/release-notes-0.17.1.md)
+- [Release notes for Xep Core 0.18.0](https://github.com/xep/xep/blob/v0.18.0/doc/release-notes.md)
+- [Release notes for Xep Core 0.18.1](https://github.com/xep/xep/blob/v0.18.1/doc/release-notes.md)
 
 
 `getinfo` deprecated
@@ -118,13 +118,13 @@ shows where each field has been moved to:
 Fee estimation improvements
 ---------------------------
 
-Fee estimation has been significantly improved with Bitcoin Core 0.15, with more accurate fee estimates used by the wallet and a wider range of options for advanced users of the `estimatesmartfee` and `estimaterawfee` RPCs (See [PR 10199](https://github.com/bitcoin/bitcoin/pull/10199)).
+Fee estimation has been significantly improved with Xep Core 0.15, with more accurate fee estimates used by the wallet and a wider range of options for advanced users of the `estimatesmartfee` and `estimaterawfee` RPCs (See [PR 10199](https://github.com/xep/xep/pull/10199)).
 
 ### Changes to internal logic and wallet behavior
 
 - Internally, estimates are now tracked on three different time horizons. This allows for longer targets and means estimates adjust more quickly to changes in conditions.
 - Estimates can now be *conservative* or *economical*. *Conservative* estimates use longer time horizons to produce an estimate which is less susceptible to rapid changes in fee conditions. *Economical* estimates use shorter time horizons and will be more affected by short-term changes in fee conditions. Economical estimates may be considerably lower during periods of low transaction activity (for example over weekends), but may result in transactions being unconfirmed if prevailing fees increase rapidly.
-- By default, the wallet will use conservative fee estimates to increase the reliability of transactions being confirmed within the desired target. For transactions that are marked as replaceable, the wallet will use an economical estimate by default, since the fee can be 'bumped' if the fee conditions change rapidly (See [PR 10589](https://github.com/bitcoin/bitcoin/pull/10589)).
+- By default, the wallet will use conservative fee estimates to increase the reliability of transactions being confirmed within the desired target. For transactions that are marked as replaceable, the wallet will use an economical estimate by default, since the fee can be 'bumped' if the fee conditions change rapidly (See [PR 10589](https://github.com/xep/xep/pull/10589)).
 - Estimates can now be made for confirmation targets up to 1008 blocks (one week).
 - More data on historical fee rates is stored, leading to more precise fee estimates.
 - Transactions which leave the mempool due to eviction or other non-confirmed reasons are now taken into account by the fee estimation logic, leading to more accurate fee estimates.
@@ -133,11 +133,11 @@ Fee estimation has been significantly improved with Bitcoin Core 0.15, with more
 ### Changes to fee estimate RPCs
 
 - The `estimatefee` RPC is now deprecated in favor of using only `estimatesmartfee` (which is the implementation used by the GUI)
-- The `estimatesmartfee` RPC interface has been changed (See [PR 10707](https://github.com/bitcoin/bitcoin/pull/10707)):
+- The `estimatesmartfee` RPC interface has been changed (See [PR 10707](https://github.com/xep/xep/pull/10707)):
     - The `nblocks` argument has been renamed to `conf_target` (to be consistent with other RPC methods).
     - An `estimate_mode` argument has been added. This argument takes one of the following strings: `CONSERVATIVE`, `ECONOMICAL` or `UNSET` (which defaults to `CONSERVATIVE`).
     - The RPC return object now contains an `errors` member, which returns errors encountered during processing.
-    - If Bitcoin Core has not been running for long enough and has not seen enough blocks or transactions to produce an accurate fee estimation, an error will be returned (previously a value of -1 was used to indicate an error, which could be confused for a feerate).
+    - If Xep Core has not been running for long enough and has not seen enough blocks or transactions to produce an accurate fee estimation, an error will be returned (previously a value of -1 was used to indicate an error, which could be confused for a feerate).
 - A new `estimaterawfee` RPC is added to provide raw fee data. External clients can query and use this data in their own fee estimation logic.
 
 
@@ -210,7 +210,7 @@ The following list includes relevant pull requests merged into this release:
 - #946 Update version to 0.5.0.99 to indicate development
 - #957 fixed omni_listblocktransactions cmd typo
 - #964 depends: Update fontconfig
-- #981 Rebase Omni Core on Bitcoin Core 0.18
+- #981 Rebase Omni Core on Xep Core 0.18
 - #985 rpc: Use RPCHelpMan with Omni RPC calls
 - #987 Update Gitian build for Omni
 - #988 Omni Core 0.18.1
@@ -225,4 +225,4 @@ The following list includes relevant pull requests merged into this release:
 Credits
 =======
 
-Thanks to everyone who contributed to this release, especially to Peter Bushnell and all Bitcoin Core developers.
+Thanks to everyone who contributed to this release, especially to Peter Bushnell and all Xep Core developers.

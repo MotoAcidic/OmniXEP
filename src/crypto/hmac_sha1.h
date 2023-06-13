@@ -1,9 +1,9 @@
-// Copyright (c) 2014-2018 The Bitcoin Core developers
+// Copyright (c) 2014-2018 The Xep Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_CRYPTO_HMAC_SHA1_H
-#define BITCOIN_CRYPTO_HMAC_SHA1_H
+#ifndef XEP_CRYPTO_HMAC_SHA1_H
+#define XEP_CRYPTO_HMAC_SHA1_H
 
 #include <crypto/sha1.h>
 
@@ -29,4 +29,4 @@ public:
     void Finalize(unsigned char hash[OUTPUT_SIZE]);
 };
 
-#endif // BITCOIN_CRYPTO_HMAC_SHA1_H
+#endif // XEP_CRYPTO_HMAC_SHA1_H

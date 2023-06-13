@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2014 The Bitcoin developers
+// Copyright (c) 2011-2014 The Xep developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -22,7 +22,7 @@
 #include <omnicore/rpctxobject.h>
 #include <omnicore/sp.h>
 #include <omnicore/tx.h>
-#include <omnicore/utilsbitcoin.h>
+#include <omnicore/utilsxep.h>
 #include <omnicore/walletcache.h>
 #include <omnicore/walletfetchtxs.h>
 #include <omnicore/walletutils.h>
@@ -521,7 +521,7 @@ std::string TXHistoryDialog::shrinkTxType(int txType, bool *fundsMoved)
         case MSC_TYPE_RATELIMITED_MARK: displayType = "Rate Limit"; break;
         case MSC_TYPE_AUTOMATIC_DISPENSARY: displayType = "Auto Dispense"; break;
         case MSC_TYPE_TRADE_OFFER: displayType = "DEx Trade"; *fundsMoved = false; break;
-        case MSC_TYPE_ACCEPT_OFFER_BTC: displayType = "DEx Accept"; *fundsMoved = false; break;
+        case MSC_TYPE_ACCEPT_OFFER_XEP: displayType = "DEx Accept"; *fundsMoved = false; break;
         case MSC_TYPE_METADEX_TRADE: displayType = "MetaDEx Trade"; *fundsMoved = false; break;
         case MSC_TYPE_METADEX_CANCEL_PRICE:
         case MSC_TYPE_METADEX_CANCEL_PAIR:

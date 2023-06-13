@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-# Copyright (c) 2017-2018 The Bitcoin Core developers
+# Copyright (c) 2017-2018 The Xep Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test Omni fee cache."""
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import XepTestFramework
 from test_framework.util import assert_equal
 
-class OmniFeeCache(BitcoinTestFramework):
+class OmniFeeCache(XepTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
         self.setup_clean_chain = True
@@ -18,14 +18,14 @@ class OmniFeeCache(BitcoinTestFramework):
 
         node = self.nodes[0]
 
-        # Preparing some mature Bitcoins
+        # Preparing some mature Xeps
         coinbase_address = node.getnewaddress()
         node.generatetoaddress(102, coinbase_address)
 
         # Obtaining a master address to work with
         address = node.getnewaddress()
 
-        # Funding the address with some testnet BTC for fees
+        # Funding the address with some testnet XEP for fees
         node.sendtoaddress(address, 20)
         node.sendtoaddress(address, 20)
         node.sendtoaddress(address, 20)

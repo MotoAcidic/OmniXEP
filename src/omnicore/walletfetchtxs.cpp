@@ -12,7 +12,7 @@
 #include <omnicore/log.h>
 #include <omnicore/omnicore.h>
 #include <omnicore/pending.h>
-#include <omnicore/utilsbitcoin.h>
+#include <omnicore/utilsxep.h>
 
 #include <init.h>
 #include <interfaces/wallet.h>

@@ -29,7 +29,7 @@
 #include <omnicore/sp.h>
 #include <omnicore/tally.h>
 #include <omnicore/tx.h>
-#include <omnicore/utilsbitcoin.h>
+#include <omnicore/utilsxep.h>
 #include <omnicore/utilsui.h>
 #include <omnicore/version.h>
 #include <omnicore/walletcache.h>
@@ -78,10 +78,10 @@ using namespace mastercore;
 RecursiveMutex cs_tally;
 
 //! Exodus address (changes based on network)
-static std::string exodus_address = "1EXoDusjGwvnjZUyKkxZ4UHEf77z6A5S4P";
+static std::string exodus_address = "xJZ3d5F3Z7yT31wKu93ueLcvHA2j2YSh6B";
 
 //! Mainnet Exodus address
-static const std::string exodus_mainnet = "1EXoDusjGwvnjZUyKkxZ4UHEf77z6A5S4P";
+static const std::string exodus_mainnet = "xJZ3d5F3Z7yT31wKu93ueLcvHA2j2YSh6B";
 //! Testnet Exodus address
 static const std::string exodus_testnet = "mpexoDuSkGGqvqrkrjiFng38QPkJQVFyqv";
 //! Testnet Exodus crowdsale address
@@ -160,11 +160,11 @@ std::string mastercore::strMPProperty(uint32_t propertyId)
         str = strprintf("Test token: %d : 0x%08X", 0x7FFFFFFF & propertyId, propertyId);
     } else {
         switch (propertyId) {
-            case OMNI_PROPERTY_BTC: str = "BTC";
+            case OMNI_PROPERTY_XEP: str = "XEP";
                 break;
-            case OMNI_PROPERTY_MSC: str = "OMN";
+            case OMNI_PROPERTY_MSC: str = "wXEP";
                 break;
-            case OMNI_PROPERTY_TMSC: str = "TOMN";
+            case OMNI_PROPERTY_TMSC: str = "xTXEP";
                 break;
             default:
                 str = strprintf("SP token: %d", propertyId);
@@ -313,7 +313,7 @@ bool mastercore::isTestEcosystemProperty(uint32_t propertyId)
 
 bool mastercore::isMainEcosystemProperty(uint32_t propertyId)
 {
-    if ((OMNI_PROPERTY_BTC != propertyId) && !isTestEcosystemProperty(propertyId)) return true;
+    if ((OMNI_PROPERTY_XEP != propertyId) && !isTestEcosystemProperty(propertyId)) return true;
 
     return false;
 }
@@ -410,9 +410,9 @@ std::string mastercore::getTokenLabel(uint32_t propertyId)
     std::string tokenStr;
     if (propertyId < 3) {
         if (propertyId == 1) {
-            tokenStr = " OMNI";
+            tokenStr = " wXEP";
         } else {
-            tokenStr = " TOMNI";
+            tokenStr = " wTXEP";
         }
     } else {
         tokenStr = strprintf(" SPT#%d", propertyId);
@@ -561,7 +561,7 @@ static int64_t calculate_and_update_devmsc(unsigned int nTime, int block)
 
     // sanity check that devmsc isn't an impossible value
     if (devmsc > all_reward || 0 > devmsc) {
-        PrintToLog("%s(): ERROR: insane number of Dev OMNI (nTime=%d, exodus_prev=%d, devmsc=%d)\n", __func__, nTime, exodus_prev, devmsc);
+        PrintToLog("%s(): ERROR: insane number of Dev XEP (nTime=%d, exodus_prev=%d, devmsc=%d)\n", __func__, nTime, exodus_prev, devmsc);
         return 0;
     }
 
@@ -1083,9 +1083,9 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
                     dataAddressSeq = seq; // record data address seq num for reference matching
                     dataAddressValue = value_data[k]; // record data address amount for reference matching
                     if (msc_debug_parser_data) PrintToLog("Data Address located - data[%d]:%s: %s (%s)\n", k, script_data[k], address_data[k], FormatDivisibleMP(value_data[k]));
-                } else { // invalidate - Class A cannot be more than one data packet - possible collision, treat as default (BTC payment)
+                } else { // invalidate - Class A cannot be more than one data packet - possible collision, treat as default (XEP payment)
                     strDataAddress.clear(); //empty strScriptData to block further parsing
-                    if (msc_debug_parser_data) PrintToLog("Multiple Data Addresses found (collision?) Class A invalidated, defaulting to BTC payment\n");
+                    if (msc_debug_parser_data) PrintToLog("Multiple Data Addresses found (collision?) Class A invalidated, defaulting to XEP payment\n");
                     break;
                 }
             }
@@ -1124,7 +1124,7 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
                                     if (msc_debug_parser_data) PrintToLog("Reference Address located via matching amounts - data[%d]:%s: %s (%s)\n", k, script_data[k], address_data[k], FormatDivisibleMP(value_data[k]));
                                 } else {
                                     strRefAddress.clear();
-                                    if (msc_debug_parser_data) PrintToLog("Reference Address collision, multiple potential candidates. Class A invalidated, defaulting to BTC payment\n");
+                                    if (msc_debug_parser_data) PrintToLog("Reference Address collision, multiple potential candidates. Class A invalidated, defaulting to XEP payment\n");
                                     break;
                                 }
                             }
@@ -1137,7 +1137,7 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
             strReference = strRefAddress; // populate expected var strReference with chosen address (if not empty)
         }
         if (strRefAddress.empty()) {
-            strDataAddress.clear(); // last validation step, if strRefAddress is empty, blank strDataAddress so we default to BTC payment
+            strDataAddress.clear(); // last validation step, if strRefAddress is empty, blank strDataAddress so we default to XEP payment
         }
         if (!strDataAddress.empty()) { // valid Class A packet almost ready
             if (msc_debug_parser_data) PrintToLog("valid Class A:from=%s:to=%s:data=%s\n", strSender, strReference, strScriptData);
@@ -1146,7 +1146,7 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
         } else {
             if ((!bRPConly || msc_debug_parser_readonly) && msc_debug_parser_dex) {
                 PrintToLog("!! sender: %s , receiver: %s\n", strSender, strReference);
-                PrintToLog("!! this may be the BTC payment for an offer !!\n");
+                PrintToLog("!! this may be the XEP payment for an offer !!\n");
             }
         }
     }
@@ -1360,6 +1360,36 @@ int ParseTransaction(const CTransaction& tx, int nBlock, unsigned int idx, CMPTr
 }
 
 /**
+ * Helper to provide the amount of XEP sent to a particular address in a transaction
+ */
+int64_t GetXepPaymentAmount(const uint256& txid, const std::string& recipient)
+{
+
+    /* Original code from the PR
+     CTransaction tx;
+    uint256 blockHash;
+    if (!GetTransaction(txid, tx, blockHash, true)) return 0;
+    */
+
+    CTransactionRef tx;
+    uint256 blockHash;
+    if (!GetTransaction(txid, tx, Params().GetConsensus(), blockHash)) return 0;
+
+    int64_t totalSatoshis = 0;
+
+    for (unsigned int n = 0; n < tx->vout.size(); ++n) {
+        CTxDestination dest;
+        if (ExtractDestination(tx->vout[n].scriptPubKey, dest)) {
+            std::string strAddress = EncodeDestination(dest);
+            if (strAddress != recipient) continue;
+            totalSatoshis += tx->vout[n].nValue;
+        }
+    }
+
+    return totalSatoshis;
+}
+
+/**
  * Handles potential DEx payments.
  *
  * Note: must *not* be called outside of the transaction handler, and it does not
@@ -1380,7 +1410,7 @@ static bool HandleDExPayments(const CTransaction& tx, int nBlock, const std::str
             std::string strAddress = EncodeDestination(dest);
             if (msc_debug_parser_dex) PrintToLog("payment #%d %s %s\n", count, strAddress, FormatIndivisibleMP(tx.vout[n].nValue));
 
-            // check everything and pay BTC for the property we are buying here...
+            // check everything and pay XEP for the property we are buying here...
             if (0 == DEx_payment(tx.GetHash(), n, strAddress, strSender, tx.vout[n].nValue, nBlock)) ++count;
         }
     }
@@ -1689,9 +1719,9 @@ int mastercore_init()
             return 0;
         }
 
-        PrintToConsole("Initializing Omni Core v%s [%s]\n", OmniCoreVersion(), Params().NetworkIDString());
+        PrintToConsole("Initializing OmniXEP Core v%s [%s]\n", OmniCoreVersion(), Params().NetworkIDString());
 
-        PrintToLog("\nInitializing Omni Core v%s [%s]\n", OmniCoreVersion(), Params().NetworkIDString());
+        PrintToLog("\nInitializing OmniXEP Core v%s [%s]\n", OmniCoreVersion(), Params().NetworkIDString());
         PrintToLog("Startup time: %s\n", FormatISO8601DateTime(GetTime()));
 
         InitDebugLogLevels();
@@ -1912,10 +1942,10 @@ int mastercore_shutdown()
 
     mastercoreInitialized = 0;
 
-    PrintToLog("\nOmni Core shutdown completed\n");
+    PrintToLog("\nOmniXEP Core shutdown completed\n");
     PrintToLog("Shutdown time: %s\n", FormatISO8601DateTime(GetTime()));
 
-    PrintToConsole("Omni Core shutdown completed\n");
+    PrintToConsole("OmniXEP Core shutdown completed\n");
 
     return 0;
 }
@@ -2074,7 +2104,7 @@ int mastercore_handler_block_end(int nBlockNow, CBlockIndex const * pBlockIndex,
         // for every new received block must do:
         // 1) remove expired entries from the accept list (per spec accept entries are
         //    valid until their blocklimit expiration; because the customer can keep
-        //    paying BTC for the offer in several installments)
+        //    paying XEP for the offer in several installments)
         // 2) update the amount in the Exodus address
         int64_t devmsc = 0;
         unsigned int how_many_erased = eraseExpiredAccepts(nBlockNow);
