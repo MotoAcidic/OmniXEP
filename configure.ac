@@ -20,7 +20,7 @@ AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([build-aux/m4])
 
 XEP_DAEMON_NAME=omnixepd
-XEP_GUI_NAME=omnixep-qt
+XEP_GUI_NAME=omnicore-qt
 XEP_CLI_NAME=omnixep-cli
 XEP_TX_NAME=omnixep-tx
 XEP_WALLET_TOOL_NAME=omnixep-wallet

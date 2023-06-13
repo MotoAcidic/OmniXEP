@@ -326,8 +326,8 @@ void BIP32Hash(const ChainCode& chainCode, unsigned int nChild, unsigned char he
  * then calling CHashWriter::GetSHA256().
  */
 CHashWriter TaggedHash(const std::string& tag);
-
-/* ----------- Quark Hash ------------------------------------------------- */
+/*
+// ----------- Quark Hash ------------------------------------------------- 
 template <typename T1>
 inline uint256 HashQuark(const T1& in1)
 {
@@ -414,7 +414,7 @@ inline uint256 HashQuark(const T1& in1)
     return result;
 }
 
-/* ----------- Xevan Hash ------------------------------------------------- */
+// ----------- Xevan Hash ------------------------------------------------- 
 template <typename T1>
 inline uint256 HashXevan(const T1& in1)
 {
@@ -588,7 +588,7 @@ inline uint256 HashXevan(const T1& in1)
     return result;
 }
 
-/* ----------- Nist5 Hash ------------------------------------------------- */
+// ----------- Nist5 Hash ------------------------------------------------- 
 template <typename T1>
 inline uint256 HashNist5(const T1& in1)
 {
@@ -633,7 +633,7 @@ inline uint256 HashNist5(const T1& in1)
     return result;
 }
 
-/* ----------- Scrypt Hash ------------------------------------------------- */
+// ----------- Scrypt Hash ------------------------------------------------- 
 template <typename T1>
 inline uint256 HashScrypt(const T1& in1)
 {
@@ -644,7 +644,7 @@ inline uint256 HashScrypt(const T1& in1)
     return result;
 }
 
-/* ----------- Scrypt² Hash ------------------------------------------------- */
+// ----------- Scrypt² Hash ------------------------------------------------- 
 template <typename T1>
 inline uint256 HashScryptSquared(const T1& in1)
 {
@@ -654,5 +654,6 @@ inline uint256 HashScryptSquared(const T1& in1)
     scrypt_N_1_1_256(input.data(), input.size(), static_cast<void*>(&result), 1048576);
     return result;
 }
+*/
 
 #endif // XEP_HASH_H
