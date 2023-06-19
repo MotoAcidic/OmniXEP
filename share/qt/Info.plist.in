@@ -29,16 +29,16 @@
   <string>????</string>
 
   <key>CFBundleExecutable</key>
-  <string>OmniCore-Qt</string>
+  <string>OmniXEP-Qt</string>
   
   <key>CFBundleName</key>
-  <string>OmniCore-Qt</string>
+  <string>OmniXEP-Qt</string>
 
   <key>LSHasLocalizedDisplayName</key>
   <true/>
 
   <key>CFBundleIdentifier</key>
-  <string>org.omnilayer.OmniCore-Qt</string>
+  <string>org.omnilayer.OmniXEP-Qt</string>
 
   <key>CFBundleURLTypes</key>
   <array>

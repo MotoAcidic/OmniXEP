@@ -348,7 +348,7 @@ QT_FORMS_H=$(join $(dir $(QT_FORMS_UI)),$(addprefix ui_, $(notdir $(QT_FORMS_UI:
 $(QT_MOC): $(QT_FORMS_H)
 $(qt_libxepqt_a_OBJECTS) $(qt_omnicore_qt_OBJECTS) : | $(QT_MOC)
 
-# xep-qt binary #
+# omnixep-qt binary #
 qt_omnicore_qt_CPPFLAGS = $(AM_CPPFLAGS) $(XEP_INCLUDES) $(XEP_QT_INCLUDES) \
   $(QT_INCLUDES) $(QR_CFLAGS)
 qt_omnicore_qt_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)

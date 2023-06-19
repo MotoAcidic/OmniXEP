@@ -2,26 +2,26 @@
 
 # backward compatibility for existing gentoo layout 
 #
-if [ -d "/var/lib/xep/.xep" ]; then
-	XEPD_DEFAULT_DATADIR="/var/lib/xep/.xep"
+if [ -d "/var/lib/xep/.omnixep" ]; then
+	XEPD_DEFAULT_DATADIR="/var/lib/xep/.omnixep"
 else
-	XEPD_DEFAULT_DATADIR="/var/lib/xepd"
+	XEPD_DEFAULT_DATADIR="/var/lib/omnixepd"
 fi
 
-XEPD_CONFIGFILE=${XEPD_CONFIGFILE:-/etc/xep/xep.conf}
-XEPD_PIDDIR=${XEPD_PIDDIR:-/var/run/xepd}
+XEPD_CONFIGFILE=${XEPD_CONFIGFILE:-/etc/omnixep/omnixep.conf}
+XEPD_PIDDIR=${XEPD_PIDDIR:-/var/run/omnixepd}
 XEPD_PIDFILE=${XEPD_PIDFILE:-${XEPD_PIDDIR}/xepd.pid}
 XEPD_DATADIR=${XEPD_DATADIR:-${XEPD_DEFAULT_DATADIR}}
 XEPD_USER=${XEPD_USER:-${XEP_USER:-xep}}
 XEPD_GROUP=${XEPD_GROUP:-xep}
-XEPD_BIN=${XEPD_BIN:-/usr/bin/xepd}
+XEPD_BIN=${XEPD_BIN:-/usr/bin/omnixepd}
 XEPD_NICE=${XEPD_NICE:-${NICELEVEL:-0}}
 XEPD_OPTS="${XEPD_OPTS:-${XEP_OPTS}}"
 
-name="Xep Core Daemon"
-description="Xep cryptocurrency P2P network daemon"
+name="OmniXEP Core Daemon"
+description="OmniXEP cryptocurrency P2P network daemon"
 
-command="/usr/bin/xepd"
+command="/usr/bin/omnixepd"
 command_args="-pid=\"${XEPD_PIDFILE}\" \
 		-conf=\"${XEPD_CONFIGFILE}\" \
 		-datadir=\"${XEPD_DATADIR}\" \
@@ -71,7 +71,7 @@ checkconfig()
 {
 	if ! grep -qs '^rpcpassword=' "${XEPD_CONFIGFILE}" ; then
 		eerror ""
-		eerror "ERROR: You must set a secure rpcpassword to run xepd."
+		eerror "ERROR: You must set a secure rpcpassword to run omnixepd."
 		eerror "The setting must appear in ${XEPD_CONFIGFILE}"
 		eerror ""
 		eerror "This password is security critical to securing wallets "
@@ -84,7 +84,7 @@ checkconfig()
 		eerror "It is recommended that you also set alertnotify so you are "
 		eerror "notified of problems:"
 		eerror ""
-		eerror "ie: alertnotify=echo %%s | mail -s \"Xep Alert\"" \
+		eerror "ie: alertnotify=echo %%s | mail -s \"OmniXep Alert\"" \
 			"admin@foo.com"
 		eerror ""
 		return 1

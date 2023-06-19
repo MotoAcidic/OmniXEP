@@ -8,9 +8,9 @@ export LC_ALL=C.UTF-8
 
 # Make sure default datadir does not exist and is never read by creating a dummy file
 if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-  echo > $HOME/Library/Application\ Support/Xep
+  echo > $HOME/Library/Application\ Support/omnixep
 else
-  DOCKER_EXEC echo \> \$HOME/.xep
+  DOCKER_EXEC echo \> \$HOME/.omnixep
 fi
 
 DOCKER_EXEC mkdir -p ${DEPENDS_DIR}/SDKs ${DEPENDS_DIR}/sdk-sources

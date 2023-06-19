@@ -11,10 +11,12 @@ src/test/fuzz
 !src/test/fuzz/*.*
 src/test/test_bitcoin
 src/qt/test/test_bitcoin-qt
-src/omnicored
-src/omnicore-cli
-src/test/test_omnicore
-src/qt/test/test_omnicore-qt
+src/omnixepd
+src/omnixep-cli
+src/omnixep-tx
+src/omnixep-wallet
+src/test/test_omnixep
+src/qt/test/test_omnixep-qt
 
 # autoreconf
 Makefile.in

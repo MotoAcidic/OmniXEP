@@ -26,13 +26,6 @@ Unpack the files into a directory, and then run xep-qt.exe.
 
 Drag Xep Core to your applications folder, and then run Xep Core.
 
-### Need Help?
-
-* See the documentation at the [Xep Wiki](https://en.xep.it/wiki/Main_Page)
-for help and more information.
-* Ask for help on [#xep](https://webchat.freenode.net/#xep) on Freenode. If you don't have an IRC client, use [webchat here](https://webchat.freenode.net/#xep).
-* Ask for help on the [XepTalk](https://xeptalk.org/) forums, in the [Technical Support board](https://xeptalk.org/index.php?board=4.0).
-
 Building
 ---------------------
 The following are developer notes on how to build Xep Core on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
@@ -54,7 +47,6 @@ The Xep repo's [root README](/README.md) contains relevant information on the de
 - [Productivity Notes](productivity.md)
 - [Release Notes](release-notes.md)
 - [Release Process](release-process.md)
-- [Source Code Documentation (External Link)](https://doxygen.xepcore.org/)
 - [Translation Process](translation_process.md)
 - [Translation Strings Policy](translation_strings_policy.md)
 - [JSON-RPC Interface](JSON-RPC-interface.md)
@@ -64,14 +56,9 @@ The Xep repo's [root README](/README.md) contains relevant information on the de
 - [Dnsseed Policy](dnsseed-policy.md)
 - [Benchmarking](benchmarking.md)
 
-### Resources
-* Discuss on the [XepTalk](https://xeptalk.org/) forums, in the [Development & Technical Discussion board](https://xeptalk.org/index.php?board=6.0).
-* Discuss project-specific development on #xep-core-dev on Freenode. If you don't have an IRC client, use [webchat here](https://webchat.freenode.net/#xep-core-dev).
-* Discuss general Xep development on #xep-dev on Freenode. If you don't have an IRC client, use [webchat here](https://webchat.freenode.net/#xep-dev).
-
 ### Miscellaneous
 - [Assets Attribution](assets-attribution.md)
-- [xep.conf Configuration File](xep-conf.md)
+- [omnixep.conf Configuration File](xep-conf.md)
 - [Files](files.md)
 - [Fuzz-testing](fuzzing.md)
 - [Reduce Memory](reduce-memory.md)

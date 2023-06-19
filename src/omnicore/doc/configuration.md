@@ -10,17 +10,17 @@ All settings can alternatively also be configured via the `xep.conf`.
 
 Depending on the operating system, the default locations for the configuration file are:
 
-- Unix systems: `$HOME/.xep/xep.conf`
-- Mac OS X: `$HOME/Library/Application Support/Xep/xep.conf`
-- Microsoft Windows: `%APPDATA%/Xep/xep.conf`
+- Unix systems: `$HOME/.omnixep/omnixep.conf`
+- Mac OS X: `$HOME/Library/Application Support/omnixep/omnixep.conf`
+- Microsoft Windows: `%APPDATA%/omnixep/omnixep.conf`
 
-A typical `xep.conf` may include:
+A typical `omnixep.conf` may include:
 ```
 server=1
-rpcuser=omnicorerpc
+rpcuser=omnixeprpc
 rpcpassword=5hMTZI9iBGFqKxsWfOUF
 rpcallowip=127.0.0.1
-rpcport=8332
+rpcport=16817
 txindex=1
 datacarriersize=80
 logtimestamps=1
@@ -32,8 +32,6 @@ omnidebug=pending
 ## Optional settings
 
 To run and use Omni Core, no explicit configuration is necessary.
-
-More information about the general configuration and Xep Core specific options are available in the [Xep wiki](https://en.xep.it/wiki/Running_Xep).
 
 #### General options:
 

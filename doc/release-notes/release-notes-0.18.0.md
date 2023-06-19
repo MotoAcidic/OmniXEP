@@ -53,10 +53,10 @@ platform.
 
 If you are using the `systemd` unit configuration file located at
 `contrib/init/xepd.service`, it has been changed to use
-`/var/lib/xepd` as the data directory instead of
-`~xep/.xep`. When switching over to the new configuration file,
-please make sure that the filesystem on which `/var/lib/xepd` will
-exist has enough space (check using `df -h /var/lib/xepd`), and
+`/var/lib/omnixepd` as the data directory instead of
+`~xep/.omnixep`. When switching over to the new configuration file,
+please make sure that the filesystem on which `/var/lib/omnixepd` will
+exist has enough space (check using `df -h /var/lib/omnixepd`), and
 optionally copy over your existing data directory. See the [systemd init
 file section](#systemd-init-file) for more details.
 

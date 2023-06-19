@@ -26,15 +26,6 @@ This software is provided open-source at no cost. You are responsible for knowin
 
 PLEASE DO NOT use wallet(s) with significant amounts of xeps or Omni Layer tokens while testing!
 
-Testnet
--------
-
-Testnet mode allows Omni Core to be run on the Xep testnet blockchain for safe testing.
-
-1. To run Omni Core in testnet mode, run Omni Core with the following option in place: `-testnet`.
-
-2. To receive OMN (and TOMN) on testnet please send TXEP to `moneyqMan7uh8FqdCA2BV5yZ8qVrc9ikLP`. For each 1 TXEP you will receive 100 OMN and 100 TOMN.
-
 Dependencies
 ------------
 Boost >= 1.53
@@ -55,8 +46,8 @@ sudo apt-get install pkg-config
 Clone the Omni Core repository:
 
 ```
-git clone https://github.com/OmniLayer/omnicore.git
-cd omnicore/
+git clone https://github.com/Jenova7/omnixep.git
+cd omnixep/
 ```
 
 Then, run:
@@ -71,22 +62,22 @@ Once complete:
 ```
 cd src/
 ```
-And start Omni Core using `./omnicored` (or `./qt/omnicore-qt` if built with UI). The initial parse step for a first time run
+And start Omni Core using `./omnixepd` (or `./qt/omnixep-qt` if built with UI). The initial parse step for a first time run
 will take up to 60 minutes or more, during this time your client will scan the blockchain for Omni Layer transactions. You can view the
-output of the parsing at any time by viewing the log located in your datadir, by default: `~/.xep/omnicore.log`.
+output of the parsing at any time by viewing the log located in your datadir, by default: `~/.omnixep/omnixep.log`.
 
 Omni Core requires the transaction index to be enabled. Add an entry to your xep.conf file for `txindex=1` to enable it or Omni Core will refuse to start.
 
 If a message is returned asking you to reindex, pass the `-reindex` flag as startup option. The reindexing process can take several hours.
 
-To issue RPC commands to Omni Core you may add the `-server=1` CLI flag or add an entry to the xep.conf file (located in `~/.xep/` by default).
+To issue RPC commands to Omni Core you may add the `-server=1` CLI flag or add an entry to the xep.conf file (located in `~/.omnixep/` by default).
 
 In xep.conf:
 ```
 server=1
 ```
 
-After this step completes, check that the installation went smoothly by issuing the following command `./omnicore-cli omni_getinfo` which should return the `omnicoreversion` as well as some
+After this step completes, check that the installation went smoothly by issuing the following command `./omnixep-cli omni_getinfo` which should return the `omnicoreversion` as well as some
 additional information related to the client.
 
 The documentation for the RPC interface and command-line is located in [src/omnicore/doc/rpc-api.md] (src/omnicore/doc/rpc-api.md).
@@ -126,16 +117,3 @@ Current feature set:
 
 * Creation of raw transactions with non-wallet inputs
 
-Related projects:
------------------
-
-* https://github.com/OmniLayer/OmniJ
-
-* https://github.com/OmniLayer/omniwallet
-
-* https://github.com/OmniLayer/spec
-
-Support:
---------
-
-* Please open a [GitHub issue] (https://github.com/OmniLayer/omnicore/issues) to file a bug submission.

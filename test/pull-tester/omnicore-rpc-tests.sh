@@ -9,14 +9,14 @@ CURDIR=$(cd $(dirname "$0") || exit; pwd)
 
 if [ -z "$BUILDDIR" ]; then
   BUILDDIR="$CURDIR";
-  TESTDIR="$CURDIR/test/tmp/omnicore-rpc-tests";
+  TESTDIR="$CURDIR/test/tmp/omnixep-rpc-tests";
 else
-  TESTDIR="$BUILDDIR/test/tmp/omnicore-rpc-tests"
+  TESTDIR="$BUILDDIR/test/tmp/omnixep-rpc-tests"
 fi
 
-OMNICORED="$BUILDDIR/src/omnicored$EXEEXT"
-OMNICORECLI="$BUILDDIR/src/omnicore-cli$EXEEXT"
-DATADIR="$TESTDIR/.xep"
+OMNICORED="$BUILDDIR/src/omnixepd$EXEEXT"
+OMNICORECLI="$BUILDDIR/src/omnixep-cli$EXEEXT"
+DATADIR="$TESTDIR/.omnixep"
 
 # Start clean
 rm -rf "$BUILDDIR/test/tmp"
@@ -41,7 +41,7 @@ STATUS=$?
 $OMNICORECLI -datadir="$DATADIR" -regtest -rpcuser=xeprpc -rpcpassword=pass -rpcwait stop
 
 # If $STATUS is not 0, the test failed.
-if [ $STATUS -ne 0 ]; then tail -100 $DATADIR/regtest/omnicore.log; fi
+if [ $STATUS -ne 0 ]; then tail -100 $DATADIR/regtest/omnixep.log; fi
 
 
 exit $STATUS

@@ -148,7 +148,7 @@ CMainConsensusParams::CMainConsensusParams()
     exodusBonusPerWeek = 0;   //No bonus
     exodusDeadline = 1698809526; // Wed Nov 01 2023 03:32:06 GMT+0000
     exodusReward = 1;         // 1:1 ratio
-    GENESIS_BLOCK = 916326;
+    GENESIS_BLOCK = 970900;
     LAST_EXODUS_BLOCK = std::numeric_limits<int>::max(); // No end so far
     // Notice range for feature activations:
     MIN_ACTIVATION_BLOCKS = 2048;  // ~2 weeks
