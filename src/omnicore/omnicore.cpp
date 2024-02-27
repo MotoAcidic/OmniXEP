@@ -1364,25 +1364,19 @@ int ParseTransaction(const CTransaction& tx, int nBlock, unsigned int idx, CMPTr
  */
 int64_t GetXepPaymentAmount(const uint256& txid, const std::string& recipient)
 {
-
-    /* Original code from the PR
-     CTransaction tx;
+    CTransaction tx;
     uint256 blockHash;
     if (!GetTransaction(txid, tx, blockHash, true)) return 0;
-    */
-
-    CTransactionRef tx;
-    uint256 blockHash;
-    if (!GetTransaction(txid, tx, Params().GetConsensus(), blockHash)) return 0;
 
     int64_t totalSatoshis = 0;
 
-    for (unsigned int n = 0; n < tx->vout.size(); ++n) {
+    for (unsigned int n = 0; n < tx.vout.size(); ++n) {
         CTxDestination dest;
-        if (ExtractDestination(tx->vout[n].scriptPubKey, dest)) {
-            std::string strAddress = EncodeDestination(dest);
+        if (ExtractDestination(tx.vout[n].scriptPubKey, dest)) {
+            CBitcoinAddress address(dest);
+            std::string strAddress = address.ToString();
             if (strAddress != recipient) continue;
-            totalSatoshis += tx->vout[n].nValue;
+            totalSatoshis += tx.vout[n].nValue;
         }
     }
 

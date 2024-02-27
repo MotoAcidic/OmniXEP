@@ -2528,8 +2528,7 @@ int CMPTransaction::logicMath_XepPayment()
     {
         LOCK(cs_main);
 
-        //CBlockIndex* pindex = chainActive[block];
-        CBlockIndex* pindex = ChainActive().Tip();
+        CBlockIndex* pindex = chainActive[block];
         if (pindex == NULL) {
             PrintToLog("%s(): ERROR: block %d not in the active chain\n", __func__, block);
             return (PKT_ERROR_TOKENS - 20);
@@ -2547,19 +2546,18 @@ int CMPTransaction::logicMath_XepPayment()
         return (PKT_ERROR_TOKENS - 22);
     }
 
-    CTransactionRef linked_tx;
-    uint256 uint_linked_blockHash; 
+    CTransaction linked_tx;
+    uint256 linked_blockHash = 0;
     int linked_blockHeight = 0;
     int linked_blockTime = 0;
 
-    if (!GetTransaction(linked_txid, linked_tx, Params().GetConsensus(), uint_linked_blockHash)) {
+    if (!GetTransaction(linked_txid, linked_tx, linked_blockHash, true)) {
         PrintToLog("%s(): rejected: linked transaction %s does not exist\n",
             __func__,
             linked_txid.GetHex());
         return MP_TX_NOT_FOUND;
     }
 
-    arith_uint256 linked_blockHash = UintToArith256(uint_linked_blockHash);
     if (linked_blockHash == 0) { // linked transaction is unconfirmed (and thus not yet added to state), cannot process payment
         PrintToLog("%s(): rejected: linked transaction %s does not exist (unconfirmed)\n",
             __func__,
@@ -2567,44 +2565,44 @@ int CMPTransaction::logicMath_XepPayment()
         return MP_TX_NOT_FOUND;
     }
 
-    CBlockIndex* pBlockIndex = GetBlockIndex(uint_linked_blockHash);
+    CBlockIndex* pBlockIndex = GetBlockIndex(linked_blockHash);
     if (NULL != pBlockIndex) {
         linked_blockHeight = pBlockIndex->nHeight;
         linked_blockTime = pBlockIndex->nTime;
     }
 
     CMPTransaction mp_obj;
-    int parseRC = ParseTransaction(*linked_tx, linked_blockHeight, 0, mp_obj, linked_blockTime);
+    int parseRC = ParseTransaction(linked_tx, linked_blockHeight, 0, mp_obj, linked_blockTime);
     if (parseRC < 0) {
         PrintToLog("%s(): rejected: linked transaction %s is not an Omni layer transaction\n",
             __func__,
             linked_txid.GetHex());
-        return MP_TX_IS_NOT_OMNI_PROTOCOL;
+        return MP_TX_IS_NOT_MASTER_PROTOCOL;
     }
 
     if (!mp_obj.interpret_Transaction()) {
         PrintToLog("%s(): rejected: linked transaction %s is not an Omni layer transaction\n",
             __func__,
             linked_txid.GetHex());
-        return MP_TX_IS_NOT_OMNI_PROTOCOL;
+        return MP_TX_IS_NOT_MASTER_PROTOCOL;
     }
 
     bool linked_valid = false;
     {
         LOCK(cs_tally);
-        linked_valid = pDbTransactionList->getValidMPTX(linked_txid);
+        linked_valid = getValidMPTX(linked_txid);
     }
     if (!linked_valid) {
         PrintToLog("%s(): rejected: linked transaction %s is an invalid transaction\n",
             __func__,
             linked_txid.GetHex());
-        return MP_TX_IS_NOT_OMNI_PROTOCOL - 101;
+        return MP_TX_IS_NOT_MASTER_PROTOCOL - 101;
     }
 
     uint16_t linked_type = mp_obj.getType();
     uint16_t linked_version = mp_obj.getVersion();
     if (!IsXepPaymentAllowed(linked_type, linked_version)) {
-        PrintToLog("%s(): rejected: linked transaction %s doesn't support xep payments\n",
+        PrintToLog("%s(): rejected: linked transaction %s doesn't support bitcoin payments\n",
             __func__,
             linked_txid.GetHex());
         return (PKT_ERROR_TOKENS - 61);
@@ -2635,15 +2633,13 @@ int CMPTransaction::logicMath_XepPayment()
         // confirm the crowdsale that the receiver has open now is the same as the transaction referenced in the payment
         // CMPCrowd class doesn't contain txid, work around by comparing propid for current crowdsale & propid for linked crowdsale
         uint32_t crowdPropertyId = pcrowdsale->getPropertyId();
-        //uint32_t linkPropertyId = _my_sps->findSPByTX(linked_txid); // TODO: Is this safe to lookup the crowdsale this way??
-        //uint32_t linkPropertyId = _mm_set_ps->findSPByTX(linked_txid); // TODO: Is this safe to lookup the crowdsale this way??
-        uint32_t linkPropertyId = pDbSpInfo->findSPByTX(linked_txid); // TODO: Is this safe to lookup the crowdsale this way??        
+        uint32_t linkPropertyId = _my_sps->findSPByTX(linked_txid); // TODO: Is this safe to lookup the crowdsale this way??
         if (linkPropertyId != crowdPropertyId) {
             PrintToLog("%s(): rejected: active crowdsale for receiver %s did not originate from linked txid\n", __func__, receiver);
             return (PKT_ERROR_TOKENS - 48);
         }
 
-        logicHelper_CrowdsaleParticipation(blockHash);
+        logicHelper_CrowdsaleParticipation();
     }
 
     return 0;

@@ -49,10 +49,10 @@ std::vector<TransactionRestriction> CConsensusParams::GetRestrictions() const
         { MSC_TYPE_CREATE_PROPERTY_FIXED,     MP_TX_PKT_V0,  false,   MSC_SP_BLOCK              },
         { MSC_TYPE_CREATE_PROPERTY_VARIABLE,  MP_TX_PKT_V0,  false,   MSC_SP_BLOCK              },
         { MSC_TYPE_CREATE_PROPERTY_VARIABLE,  MP_TX_PKT_V1,  false,   MSC_SP_BLOCK              },
-        { MSC_TYPE_CREATE_PROPERTY_VARIABLE,  MP_TX_PKT_V2,  false,   MSC_XEP_CROWDSALE_BLOCK   },
+        { MSC_TYPE_CREATE_PROPERTY_VARIABLE,  MP_TX_PKT_V2,  true,    MSC_XEP_CROWDSALE_BLOCK   },
         { MSC_TYPE_CLOSE_CROWDSALE,           MP_TX_PKT_V0,  false,   MSC_SP_BLOCK              },
 
-        { MSC_TYPE_XEP_PAYMENT,           MP_TX_PKT_V0,   true,   MSC_XEP_CROWDSALE_BLOCK   },
+        { MSC_TYPE_XEP_PAYMENT,               MP_TX_PKT_V0,   true,   MSC_XEP_CROWDSALE_BLOCK   },
 
         { MSC_TYPE_CREATE_PROPERTY_MANUAL,    MP_TX_PKT_V0,  false,   MSC_MANUALSP_BLOCK        },
         { MSC_TYPE_GRANT_PROPERTY_TOKENS,     MP_TX_PKT_V0,  false,   MSC_MANUALSP_BLOCK        },
@@ -451,6 +451,9 @@ bool ActivateFeature(uint16_t featureId, int activationBlock, uint32_t minClient
         case FEATURE_STOV1:
             MutableConsensusParams().MSC_STOV1_BLOCK = activationBlock;
         break;
+        case FEATURE_XEP_CROWDSALES:
+            MutableConsensusParams().MSC_XEP_CROWDSALE_BLOCK = activationBlock;
+            break;
         case FEATURE_FREEZENOTICE:
             MutableConsensusParams().FREEZENOTICE_FEATURE_BLOCK = activationBlock;
         break;
@@ -530,6 +533,9 @@ bool DeactivateFeature(uint16_t featureId, int transactionBlock)
         break;
         case FEATURE_STOV1:
             MutableConsensusParams().MSC_STOV1_BLOCK = std::numeric_limits<int>::max();
+        break;
+        case FEATURE_XEP_CROWDSALES:
+            MutableConsensusParams().FEES_FEATURE_BLOCK = std::numeric_limits<int>::max();
         break;
         case FEATURE_FREEZENOTICE:
             MutableConsensusParams().FREEZENOTICE_FEATURE_BLOCK = std::numeric_limits<int>::max();
