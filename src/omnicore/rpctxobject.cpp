@@ -647,7 +647,7 @@ void populateRPCTypeXepPayment(CMPTransaction& omniObj, UniValue& txobj)
     uint256 linked_txid = omniObj.getLinkedTXID();
     txobj.push_back(Pair("linkedtxid", linked_txid.GetHex()));
 
-    CTransaction linked_tx;
+    CTransactionRef linked_tx;
     uint256 linked_blockHash = 0;
     int linked_blockHeight = 0;
     int linked_blockTime = 0;

@@ -1364,7 +1364,7 @@ int ParseTransaction(const CTransaction& tx, int nBlock, unsigned int idx, CMPTr
  */
 int64_t GetXepPaymentAmount(const uint256& txid, const std::string& recipient)
 {
-    CTransaction tx;
+    CTransactionRef tx;
     uint256 blockHash;
     if (!GetTransaction(txid, tx, blockHash, true)) return 0;
 
