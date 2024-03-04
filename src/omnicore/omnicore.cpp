@@ -1366,7 +1366,7 @@ int64_t GetXepPaymentAmount(const uint256& txid, const std::string& recipient)
 {
     CTransactionRef tx;
     uint256 blockHash;
-    if (!GetTransaction(txid, tx, Params().GetConsensus(), blockHash, true)) return 0;
+    if (!GetTransaction(txid, tx, Params().GetConsensus(), blockHash)) return 0;
 
     int64_t totalSatoshis = 0;
 
