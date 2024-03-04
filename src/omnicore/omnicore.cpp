@@ -1373,8 +1373,7 @@ int64_t GetXepPaymentAmount(const uint256& txid, const std::string& recipient)
     for (unsigned int n = 0; n < tx->vout.size(); ++n) {
         CTxDestination dest;
         if (ExtractDestination(tx->vout[n].scriptPubKey, dest)) {
-            CBitcoinAddress address(dest);
-            std::string strAddress = address.ToString();
+            std::string strAddress = EncodeDestination(dest);
             if (strAddress != recipient) continue;
             totalSatoshis += tx->vout[n].nValue;
         }
