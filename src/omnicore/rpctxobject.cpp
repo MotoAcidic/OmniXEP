@@ -645,15 +645,16 @@ void populateRPCTypeAnyData(CMPTransaction& omniObj, UniValue& txobj)
 void populateRPCTypeXepPayment(CMPTransaction& omniObj, UniValue& txobj)
 {
     uint256 linked_txid = omniObj.getLinkedTXID();
-    txobj.push_back(Pair("linkedtxid", linked_txid.GetHex()));
+    txobj.pushKV("linkedtxid", linked_txid.GetHex());
 
     CTransactionRef linked_tx;
-    uint256 linked_blockHash = 0;
+    uint256 blockHash;
     int linked_blockHeight = 0;
     int linked_blockTime = 0;
-    if (GetTransaction(linked_txid, linked_tx, linked_blockHash, true)) {
+    if (GetTransaction(linked_txid, linked_tx, Params().GetConsensus(), blockHash)) {
+        arith_uint256 linked_blockHash = UintToArith256(blockHash);
         if (linked_blockHash != 0) {
-            CBlockIndex* pBlockIndex = GetBlockIndex(linked_blockHash);
+            CBlockIndex* pBlockIndex = GetBlockIndex(blockHash);
             if (NULL != pBlockIndex) {
                 linked_blockHeight = pBlockIndex->nHeight;
                 linked_blockTime = pBlockIndex->nTime;
@@ -662,9 +663,9 @@ void populateRPCTypeXepPayment(CMPTransaction& omniObj, UniValue& txobj)
             int parseRC = ParseTransaction(linked_tx, linked_blockHeight, 0, mp_obj, linked_blockTime);
             if (parseRC >= 0) {
                 if (mp_obj.interpret_Transaction()) {
-                    txobj.push_back(Pair("linkedtxtype", mp_obj.getTypeString()));
-                    txobj.push_back(Pair("paymentrecipient", mp_obj.getSender()));
-                    txobj.push_back(Pair("paymentamount", FormatDivisibleMP(GetXepPaymentAmount(omniObj.getHash(), mp_obj.getSender()))));
+                    txobj.pushKV("linkedtxtype", mp_obj.getTypeString());
+                    txobj.pushKV("paymentrecipient", mp_obj.getSender());
+                    txobj.pushKV("paymentamount", FormatDivisibleMP(GetXepPaymentAmount(omniObj.getHash(), mp_obj.getSender())));
                 }
             }
         }
