@@ -2634,7 +2634,7 @@ int CMPTransaction::logicMath_XepPayment()
         // confirm the crowdsale that the receiver has open now is the same as the transaction referenced in the payment
         // CMPCrowd class doesn't contain txid, work around by comparing propid for current crowdsale & propid for linked crowdsale
         uint32_t crowdPropertyId = pcrowdsale->getPropertyId();
-        uint32_t linkPropertyId = _my_sps->findSPByTX(linked_txid); // TODO: Is this safe to lookup the crowdsale this way??
+        uint32_t linkPropertyId = pDbSpInfo->findSPByTX(linked_txid); // TODO: Is this safe to lookup the crowdsale this way??
         if (linkPropertyId != crowdPropertyId) {
             PrintToLog("%s(): rejected: active crowdsale for receiver %s did not originate from linked txid\n", __func__, receiver);
             return (PKT_ERROR_TOKENS - 48);
