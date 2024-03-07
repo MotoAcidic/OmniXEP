@@ -660,7 +660,7 @@ void populateRPCTypeXepPayment(CMPTransaction& omniObj, UniValue& txobj)
                 linked_blockTime = pBlockIndex->nTime;
             }
             CMPTransaction mp_obj;
-            int parseRC = ParseTransaction(linked_tx, linked_blockHeight, 0, mp_obj, linked_blockTime);
+            int parseRC = ParseTransaction(*linked_tx, linked_blockHeight, 0, mp_obj, linked_blockTime);
             if (parseRC >= 0) {
                 if (mp_obj.interpret_Transaction()) {
                     txobj.pushKV("linkedtxtype", mp_obj.getTypeString());
