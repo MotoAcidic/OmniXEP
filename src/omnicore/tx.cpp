@@ -2547,7 +2547,7 @@ int CMPTransaction::logicMath_XepPayment()
     }
 
     CTransactionRef linked_tx;
-    uint256 uint_linked_blockHash = 0;
+    uint256 uint_linked_blockHash;
     int linked_blockHeight = 0;
     int linked_blockTime = 0;
 
