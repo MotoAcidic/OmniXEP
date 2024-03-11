@@ -235,31 +235,32 @@ static UniValue omni_send(const JSONRPCRequest& request)
 }
 
 // omni_sendxeppayment - send a XEP payment
-Value omni_sendxeppayment(const Array& params, bool fHelp)
+static UniValue omni_sendxeppayment(const JSONRPCRequest& request)
 {
-    if (fHelp || params.size() != 4)
-        throw runtime_error(
-            "omni_sendbtcpayment \"fromaddress\" \"toaddress\" \"linkedtxid\" \"amount\"\n"
+    std::shared_ptr<CWallet> const wallet = GetWalletForJSONRPCRequest(request);
+    std::unique_ptr<interfaces::Wallet> pwallet = interfaces::MakeWallet(wallet);
 
-            "\nCreate and broadcast a BTC payment transaction.\n"
+    RPCHelpMan{"omni_sendxeppayment",
+        "\nCreate and broadcast a XEP payment transaction.\n",
+        {
+            {"fromaddress", RPCArg::Type::STR, RPCArg::Optional::NO, "the address to send from\n"},
+            {"toaddress", RPCArg::Type::STR, RPCArg::Optional::NO, "crowdsale issuer address from omni_getactivecrowdsales"},
+            {"linkedtxid", RPCArg::Type::STR, RPCArg::Optional::NO, "the creationtxid of the crowdsale\n"},
+            {"amount", RPCArg::Type::STR, RPCArg::Optional::NO, "amount to send to crowdsale\n"},
+        },
+        RPCResult{
+            RPCResult::Type::STR_HEX, "hash", "the hex-encoded transaction hash"},
+        RPCExamples{
+            HelpExampleCli("omni_sendxeppayment", "\"3M9qvHKtgARhqcMtM5cRT9VaiDJ5PSfQGY\" \"37FaKponF7zqoMLUjEiko25pDiuVH5YLEa\" \"txid\" \"0.01\"") + HelpExampleRpc("omni_sendxeppayment", "\"3M9qvHKtgARhqcMtM5cRT9VaiDJ5PSfQGY\", \"37FaKponF7zqoMLUjEiko25pDiuVH5YLEa\", \"txid\", \"0.01\"")
 
-            "\nArguments:\n"
-            "1. fromaddress          (string, required) the address to send from\n"
-            "2. toaddress            (string, required) the address of the receiver\n"
-            "3. linkedtxid           (string, required) the transaction ID of the linked transaction\n"
-            "4. amount               (string, required) the amount of Bitcoin to send\n"
-
-            "\nResult:\n"
-            "\"hash\"                  (string) the hex-encoded transaction hash\n"
-
-            "\nExamples:\n" +
-            HelpExampleCli("omni_sendxeppayment", "\"3M9qvHKtgARhqcMtM5cRT9VaiDJ5PSfQGY\" \"37FaKponF7zqoMLUjEiko25pDiuVH5YLEa\" \"txid\" \"0.01\"") + HelpExampleRpc("omni_sendbtcpayment", "\"3M9qvHKtgARhqcMtM5cRT9VaiDJ5PSfQGY\", \"37FaKponF7zqoMLUjEiko25pDiuVH5YLEa\", \"txid\", \"0.01\""));
+        }}
+        .Check(request);
 
     // obtain parameters & info
-    std::string fromAddress = ParseAddress(params[0]);
-    std::string toAddress = ParseAddress(params[1]);
-    uint256 linkedtxid = ParseHashV(params[2], "txid");
-    int64_t referenceAmount = ParseAmount(params[3], true);
+    std::string fromAddress = ParseAddress(request.params[0]);
+    std::string toAddress = ParseAddress(request.params[1]);
+    uint256 linkedtxid = ParseHashV(request.params[2], "txid");
+    int64_t referenceAmount = ParseAmount(request.params[3], true);
 
     // create a payload for the transaction
     std::vector<unsigned char> payload = CreatePayload_XepPayment(linkedtxid);
@@ -267,10 +268,11 @@ Value omni_sendxeppayment(const Array& params, bool fHelp)
     // request the wallet build the transaction (and if needed commit it)
     uint256 txid;
     std::string rawHex;
-    int result = WalletTxBuilder(fromAddress, toAddress, fromAddress, referenceAmount, payload, txid, rawHex, autoCommit);
+    int result = WalletTxBuilder(fromAddress, toAddress, fromAddress, referenceAmount, payload, txid, rawHex, autoCommit, pwallet.get());
 
     // check error and return the txid (or raw hex depending on autocommit)
     if (result != 0) {
+        printf("Wallet Result", result);
         throw JSONRPCError(result, error_str(result));
     } else {
         if (!autoCommit) {
